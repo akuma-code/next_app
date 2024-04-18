@@ -9,13 +9,21 @@ import { getQueryClient } from "../providers";
 import { useEffect, useState } from "react";
 
 async function StpDataListPage() {
-    const q = await getData()
+    const [q] = await getData() as [StpData[], number, number]
+
     // const f = q.fetchQuery({ queryKey: ['fetch_stp_data'], queryFn: () => getData() })
     return (
         <Box>
             <ol>
-                success:
-                NO DATA
+                {
+                    q.map(s =>
+
+                        <li key={ s.id }>
+                            { s.name }
+                        </li>
+
+                    ) }
+
             </ol>
         </Box>
     );
