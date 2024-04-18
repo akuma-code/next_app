@@ -1,6 +1,7 @@
-import { StpData } from "../StpTableView/StpDataTable"
+
+import { StpData, StpItem, StpTag } from "@/Types/StpInterfaces"
 import { parseStpName } from "./FormulaParser"
-import { StpItem, StpTag } from "./TableObjects"
+
 
 type TagType = {
     tag: StpTag

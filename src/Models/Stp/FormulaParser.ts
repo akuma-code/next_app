@@ -1,7 +1,7 @@
 import { _log } from "../../Helpers/helpersFns"
 
-import { StpNameProperties } from "./TableObjects"
-import { GlassDescription, StpNamePropertyDescription } from "./TerminsDesc"
+
+
 
 console.clear()
 // const regGls = /\d\.\d\.\d|\d+|\w+\b/gu
@@ -34,30 +34,26 @@ export const getPropsFromRegExp = (parsed_data: RegExpMatchArray[][]) => {
 
 
 
-export const findTags = (formula: string, tags: StpNameProperties[]) => {
-
-    return tags.filter(tag => formula.includes(tag))
-}
 
 
 
-export const nameDescriptor = (name_parts: RegExpMatchArray[]) => {
-    const splitted = name_parts.map((p, idx) => {
-        // if (!p) return ""
-        const [width, prop, prop2] = p
-        const glstxt = GlassDescription.gls(width)
-        const ramtxt = GlassDescription.ramka(width)
-        const propTxt1 = prop ? StpNamePropertyDescription[prop.toLowerCase() as StpNameProperties] : ""
-        const propTxt2 = prop2 ? StpNamePropertyDescription[prop2.toLowerCase() as StpNameProperties] : ""
-        const propTxt = [propTxt1, propTxt2].join(" ")
-        if (idx % 2 === 0) {
-            return `${glstxt} ${propTxt}`
-        }
-        else return `${ramtxt}${propTxt === "" ? "" : propTxt1}`
-    })
+// export const nameDescriptor = (name_parts: RegExpMatchArray[]) => {
+//     const splitted = name_parts.map((p, idx) => {
+//         // if (!p) return ""
+//         const [width, prop, prop2] = p
+//         const glstxt = GlassDescription.gls(width)
+//         const ramtxt = GlassDescription.ramka(width)
+//         const propTxt1 = prop ? StpNamePropertyDescription[prop.toLowerCase() as StpNameProperties] : ""
+//         const propTxt2 = prop2 ? StpNamePropertyDescription[prop2.toLowerCase() as StpNameProperties] : ""
+//         const propTxt = [propTxt1, propTxt2].join(" ")
+//         if (idx % 2 === 0) {
+//             return `${glstxt} ${propTxt}`
+//         }
+//         else return `${ramtxt}${propTxt === "" ? "" : propTxt1}`
+//     })
 
-    return splitted
+//     return splitted
 
-}
+// }
 
 

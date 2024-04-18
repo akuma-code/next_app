@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../theme';
 import "./globals.css";
-
+import Providers from "./providers";
+import { AppHeader } from '../Components/Nav/AppHeaderNavbar'
+import { Container } from "@mui/material";
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = {
@@ -20,12 +19,13 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={ inter.className }>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={ theme }>
+        <Providers>
+          <AppHeader />
+          <Container sx={ { border: '1px solid black', h: '100%' } } fixed>
 
             { children }
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+          </Container>
+        </Providers>
       </body>
     </html>
   );

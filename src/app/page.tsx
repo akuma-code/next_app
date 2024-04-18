@@ -3,13 +3,10 @@ import Link from "next/link";
 
 function HomePage() {
     return (
-        <Container>
+        <Box>
             Home Page
-            <Box>
 
-                <Link href={ '/about' }>About</Link>
-            </Box>
-        </Container>
+        </Box>
     );
 }
 
