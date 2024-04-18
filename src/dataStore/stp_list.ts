@@ -1,6 +1,12 @@
+import { split_data } from "@/Helpers/split_data";
 import { StpData } from "@/Types/StpInterfaces";
 
-const datalist = [
+type SplitReturn = ReturnType<typeof split_data<StpData>>
+export async function getDataList(limit?: number, cursor?: number): Promise<SplitReturn> {
+    if (!limit) return { sliced: datalist, prevCursor: 0, nextCursor: -1 }
+    return split_data<StpData>(datalist, limit, cursor)
+}
+const datalist: StpData[] = [
     {
         "cams": 1,
         "depth": 24,

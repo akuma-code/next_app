@@ -14,3 +14,5 @@ export const _styleSet = (...args: string[]): string => {
 
 export const _promptVar = (msg: string) => prompt(msg) ?? ""
 export const _isArr = (obj: any): obj is any[] => Array.isArray(obj)
+
+

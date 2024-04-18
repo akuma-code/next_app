@@ -44,11 +44,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     return (
         <ThemeProvider theme={ theme }>
 
-            <QueryClientProvider client={ queryClient }>
-                <AppRouterCacheProvider>
+            <AppRouterCacheProvider>
+                <QueryClientProvider client={ queryClient }>
                     { children }
-                </AppRouterCacheProvider>
-            </QueryClientProvider>
+                </QueryClientProvider>
+            </AppRouterCacheProvider>
         </ThemeProvider>
     )
 }

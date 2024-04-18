@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Providers from "./providers";
+import Providers, { getQueryClient } from "./providers";
 import { AppHeader } from '../Components/Nav/AppHeaderNavbar'
 import { Container } from "@mui/material";
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
@@ -16,6 +16,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="ru">
       <body className={ inter.className }>

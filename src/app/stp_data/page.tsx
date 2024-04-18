@@ -9,7 +9,8 @@ import { getQueryClient } from "../providers";
 import { useEffect, useState } from "react";
 
 async function StpDataListPage() {
-
+    const q = await getData()
+    // const f = q.fetchQuery({ queryKey: ['fetch_stp_data'], queryFn: () => getData() })
     return (
         <Box>
             <ol>
@@ -32,15 +33,14 @@ async function getData() {
     return res.json()
 }
 
-async function getQueryData() {
-    const query_client = new QueryClient()
-    const context = await query_client.prefetchQuery({
-        queryKey: ['fetch_stp_data'],
-        queryFn: async () => fetch('http://localhost:3000/api/stp_data'),
-        gcTime: 1000 * 10
-    })
+// async function getQueryData() {
+//     const query_client =  getQueryClient()
+//     await query_client.ensureQueryData({
+//         queryKey: ['fetch_stp_data'],
+//         queryFn: () => fetch('http://localhost:3000/api/stp_data'),
+//         gcTime: 1000 * 10
+//     })
 
 
-
-    return context
-}
+//     return query_client
+// }
