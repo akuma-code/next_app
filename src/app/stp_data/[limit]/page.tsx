@@ -1,17 +1,11 @@
 
-import { _isArr, _log, _toJSON } from "@/Helpers/helpersFns";
 import { StpData } from "@/Types/StpInterfaces";
-import stp_list from "@/dataStore/stp_list";
 import { Box } from "@mui/material";
-import { QueryClient, useQuery } from "@tanstack/react-query";
-import { GetStaticProps } from "next";
-import { getQueryClient } from "../providers";
-import { Suspense, useEffect, useState } from "react";
 
 async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 
 
-    const response = await getData(10)
+    const response = await getData(params?.limit || 0)
     const data = response[0]
 
     return (

@@ -4,7 +4,15 @@ import Link from "next/link";
 function HomePage() {
     return (
         <Box>
-            Home Page
+            <code>
+                /
+                <br />
+                /api
+                <br />
+                /auth
+                <br />
+                /table
+            </code>
 
         </Box>
     );
