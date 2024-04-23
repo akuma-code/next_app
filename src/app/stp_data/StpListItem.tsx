@@ -7,13 +7,13 @@ import { createDbItem } from "../actions";
 
 type StpListItemProps = {
     stp: StpData
-    onClickFn?: (item: StpData) => void
+    onClickFn?: Function
 }
 export function StpListItem({ stp, onClickFn }: StpListItemProps) {
 
 
-    return <li key={ stp.id } className="list-decimal list-inside">
-        <Button type="submit" name={ stp.name }>
+    return <li className="list-decimal list-inside">
+        <Button type="submit" name={ stp.name } onClick={ () => fetch('/api/db') }>
 
             { stp.name }
         </Button>

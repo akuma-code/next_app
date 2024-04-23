@@ -21,7 +21,7 @@ export default function RootLayout({
 
   return (
     <html lang="ru">
-      <body className={ inter.className }>
+      <body className={ inter.className + " bg-red-50" } >
         <Providers>
           <AppHeader />
           <Container sx={ { border: '1px solid black', h: '100%' } } fixed>

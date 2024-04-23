@@ -19,7 +19,11 @@ const routes = [
     {
         to: '/stp_data',
         text: 'Data list'
-    }
+    },
+    {
+        to: '/api/admin',
+        text: 'admin'
+    },
 ]
 
 export const AppHeader: React.FC<AppHeaderProps> = () => {
