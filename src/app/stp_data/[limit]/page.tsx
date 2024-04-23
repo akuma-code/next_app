@@ -1,6 +1,7 @@
 
 import { StpData } from "@/Types/StpInterfaces";
 import { Box } from "@mui/material";
+import { createStp } from "../../../../prisma/controllers/stpService";
 
 async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 

@@ -1,10 +1,11 @@
+import { Container } from "@mui/material";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { AppHeader } from '../Components/Nav/AppHeaderNavbar';
 import "./globals.css";
-import Providers, { getQueryClient } from "./providers";
-import { AppHeader } from '../Components/Nav/AppHeaderNavbar'
-import { Container } from "@mui/material";
+import Providers from "./providers";
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,6 +17,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
 
   return (
     <html lang="ru">

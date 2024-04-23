@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,29 +8,43 @@ datasource db {
 }
 
 model Stp {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
-  stp_prop_id String    @unique @map("prop_id")
-  StpProps    StpProps?
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  StpProps StpProp?
 
   @@map("stps")
 }
 
-model StpProps {
-  id     String @id @default(uuid())
-  Ro     Int
-  Rw     Int
-  Lt     Int
-  Lr     Int
-  Ra     Int
-  Det    Int
-  Er     Int
-  Ea     Int
-  Sf     Int
-  S      Int
-  weight Int
-  stp_id String @unique
-  stp    Stp    @relation(fields: [stp_id], references: [stp_prop_id])
+model StpProp {
+  id      Int    @id @default(autoincrement())
+  stp     Stp    @relation(fields: [stpName], references: [name])
+  stpName String @unique
+  Ro      Int
+  Rw      Int
+  Lt      Int
+  Lr      Int
+  Ra      Int
+  Det     Int
+  Er      Int
+  Ea      Int
+  Sf      Int
+  S       Int
+  weight  Int
 
   @@map("stp-props")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  nickname String    @unique
+  password String
+  role     UserRoles @default(guest)
+
+  @@map("users")
+}
+
+enum UserRoles {
+  guest
+  user
+  admin
 }

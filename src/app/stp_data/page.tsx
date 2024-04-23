@@ -8,6 +8,7 @@ import { GetStaticProps } from "next";
 import { getQueryClient } from "../providers";
 import { Suspense, useEffect, useState } from "react";
 
+
 async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 
 
