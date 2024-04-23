@@ -13,7 +13,7 @@ export function StpListItem({ stp, onClickFn }: StpListItemProps) {
 
 
     return <li key={ stp.id } className="list-decimal list-inside">
-        <Button type="submit" name={ stp.name } >
+        <Button type="submit" name={ stp.name }>
 
             { stp.name }
         </Button>
