@@ -2,6 +2,7 @@ import { type StpProp } from "@prisma/client";
 import prisma from "../client/client";
 import { _log } from "@/Helpers/helpersFns";
 import { StpData } from "@/Types/StpInterfaces";
+import { PrismaClient } from "@prisma/client/extension";
 
 
 export type StpCreateParams = {
@@ -72,3 +73,30 @@ const stp1: StpCreateParams = {
     }
 
 }
+
+class StpControl<T> {
+    db: PrismaClient
+    constructor(prisma_client: T) {
+        this.db = prisma_client
+    }
+    static async create(name: string, props?: Required<StpCreateParams['props']>) {
+        const stp = await prisma.stp.create({
+            data: {
+                name: name
+            }
+        })
+
+        if (props) {
+            const { Det, ...rest } = props
+            const numprops = await prisma.stpProp.create({
+                data: { ...rest, Det, stpName: stp.name }
+            })
+            await prisma.stp.update({ data: { StpProps: { update: { data: numprops } } }, where: { id: stp.id } })
+
+        }
+
+        return stp
+    }
+}
+
+const sc = new StpControl(prisma)
