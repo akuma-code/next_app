@@ -18,8 +18,8 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: NextRequest) {
-    const db = await prisma.stp.findMany()
-    // const fd = await request.formData()
-    _log(db)
-    return Response.json(JSON.stringify(db))
+    const db = await prisma.user.findFirst()
+
+    _log("db: ", db)
+    return Response.json(db)
 }
