@@ -7,11 +7,20 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import { GetStaticProps } from "next";
 import { getQueryClient } from "../providers";
 import { Suspense, useEffect, useState } from "react";
+import { _toDb, createStpFromStpData } from "../../../prisma/controllers/stpService";
+import { StpListItem } from "./StpListItem";
+import { createDbItem } from "../actions";
 
 
 async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 
-
+    const add = (stpitem: StpData) => {
+        const [name, props] = _toDb(stpitem)
+        const fd = new FormData()
+        fd.set('name', name)
+        fd.set('props', JSON.stringify(props))
+        createStpFromStpData.bind(null, stpitem)
+    }
     const response = await getData(10)
     const data = response[0]
 
@@ -24,9 +33,7 @@ async function StpDataListPage({ params }: { params?: { limit?: number } }) {
                 { data &&
                     data.map(s =>
 
-                        <li key={ s.id } className="list-decimal list-inside">
-                            { s.name }
-                        </li>
+                        <StpListItem key={ s.id } stp={ s } />
 
                     )
                 }

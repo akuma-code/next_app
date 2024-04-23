@@ -1,6 +1,7 @@
 import { type StpProp } from "@prisma/client";
 import prisma from "../client/client";
 import { _log } from "@/Helpers/helpersFns";
+import { StpData } from "@/Types/StpInterfaces";
 
 
 export type StpCreateParams = {
@@ -35,6 +36,19 @@ export async function createStp(name: string, props?: StpCreateParams['props']) 
         _log(e)
         throw new Error("Create stp error")
     }
+}
+
+export async function createStpFromStpData(stp: StpData) {
+    const [name, props] = _toDb(stp)
+    const stp_db = await createStp(name, props)
+    _log(stp_db)
+    return stp_db
+
+}
+export const _toDb = <T extends StpData>(item: T) => {
+    let { name, id, tags, secure, cams, depth, ...props } = item
+    props = { ...props, stpName: name }
+    return [name, props] as const
 }
 
 const stp1: StpCreateParams = {
