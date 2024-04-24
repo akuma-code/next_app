@@ -36,6 +36,6 @@ export async function GET(request: NextRequest) {
     }
     const [db] = await getDataList()
 
-    _log("db: ", db)
+    _log("db: ", db.length)
     return Response.json(db)
 }

@@ -1,10 +1,8 @@
-import { Box, Button, Divider, Stack } from "@mui/material";
-import { StpControl } from "../../../../prisma/controllers/stpService";
-import { Stp } from "@prisma/client";
-import { FormCreate } from "./FormCreate";
-import StpListView from "./StpList";
-import DtoStpList from "./DtoListView";
+import { Box, Divider } from "@mui/material";
 import { FormEvent, Suspense } from "react";
+import DtoStpList from "./DtoListView";
+import { FormCreate } from "./FormCreate";
+import { SeedDbForm } from "./SeedDbForm";
 
 
 function AministratorPage() {
@@ -13,12 +11,7 @@ function AministratorPage() {
     }
     return (
         <Box>
-            <form target="/api/db/saved" method="POST" onSubmit={ handleSubmit }>
-                <input type="hidden" name="limit" />
-                <button type="submit" formAction="/api/db/saved">
-                    Seed db
-                </button>
-            </form>
+            <SeedDbForm />
             <Suspense fallback={ <div>Loading...</div> }>
 
                 <FormCreate />
@@ -31,3 +24,5 @@ function AministratorPage() {
 
 
 export default AministratorPage;
+
+
