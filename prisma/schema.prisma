@@ -7,31 +7,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Stp {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  StpProps StpProp?
+// model Stp {
+//   id       Int      @id @default(autoincrement())
+//   name     String   @unique
+//   StpProps StpProp?
 
-  @@map("stps")
+//   @@map("stps")
+// }
+
+// model StpProp {
+//   id      Int    @id @default(autoincrement())
+//   stp     Stp    @relation(fields: [stpName], references: [name])
+//   stpName String @unique
+//   Ro      Int
+//   Rw      Int
+//   Lt      Int
+//   Lr      Int
+//   Ra      Int
+//   Det     Int
+//   Er      Int
+//   Ea      Int
+//   Sf      Int
+//   S       Int
+//   weight  Int
+
+//   @@map("stp-props")
+// }
+
+model StpNumProp {
+  id Int @id @default(autoincrement())
+
+  stpName String @unique
+  stp     Stp?   @relation(fields: [stpName], references: [name])
+
+  Ro     Int
+  Rw     Int
+  Lt     Int
+  Lr     Int
+  Ra     Int
+  Det    Int
+  Er     Int
+  Ea     Int
+  Sf     Int
+  S      Int
+  weight Int
+
+  @@map("stp-numprops")
 }
 
-model StpProp {
-  id      Int    @id @default(autoincrement())
-  stp     Stp    @relation(fields: [stpName], references: [name])
-  stpName String @unique
-  Ro      Int
-  Rw      Int
-  Lt      Int
-  Lr      Int
-  Ra      Int
-  Det     Int
-  Er      Int
-  Ea      Int
-  Sf      Int
-  S       Int
-  weight  Int
+model StpParam {
+  id      Int           @id @default(autoincrement())
+  stpName String        @unique
+  stp     Stp           @relation(fields: [stpName], references: [name])
+  cams    Int
+  depth   Int
+  secure  StpSecureType
 
-  @@map("stp-props")
+  @@map("stp-params")
+}
+
+model Stp {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  paramId      Int? @unique
+  stpNumPropId Int? @unique
+
+  StpParam   StpParam?
+  StpNumProp StpNumProp?
+
+  @@map("StpCombined")
 }
 
 model User {
@@ -47,4 +92,23 @@ enum UserRoles {
   guest
   user
   admin
+}
+
+enum StpTagType {
+  simple
+  energy
+  standart
+  hitproof
+  soundproof
+  solarproof
+  multi
+
+  @@map("StpTagType")
+}
+
+enum StpSecureType {
+  P2A
+  none
+  CM2
+  CM3
 }
