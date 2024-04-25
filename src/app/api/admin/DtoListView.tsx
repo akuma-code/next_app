@@ -20,7 +20,7 @@ const DtoStpList: React.FC<DtoStpListProps> = () => {
     const add = (n: StpData) => {
         const fd = new FormData()
         fd.append('stp', JSON.stringify(n))
-        fetch('/api/db/stp', { body: fd, method: 'POST' })
+        fetch('/api/db/stp', { method: 'POST' })
 
 
     }

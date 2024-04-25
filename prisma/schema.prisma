@@ -7,40 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Stp {
-//   id       Int      @id @default(autoincrement())
-//   name     String   @unique
-//   StpProps StpProp?
-
-//   @@map("stps")
-// }
-
-// model StpProp {
-//   id      Int    @id @default(autoincrement())
-//   stp     Stp    @relation(fields: [stpName], references: [name])
-//   stpName String @unique
-//   Ro      Int
-//   Rw      Int
-//   Lt      Int
-//   Lr      Int
-//   Ra      Int
-//   Det     Int
-//   Er      Int
-//   Ea      Int
-//   Sf      Int
-//   S       Int
-//   weight  Int
-
-//   @@map("stp-props")
-// }
-
 model StpNumProp {
   id Int @id @default(autoincrement())
 
   stpName String @unique
-  stp     Stp?   @relation(fields: [stpName], references: [name])
+  stp     Stp?   @relation(fields: [stpName], references: [name], onDelete: Cascade, onUpdate: Cascade)
 
-  Ro     Int
+  Ro     Float
   Rw     Int
   Lt     Int
   Lr     Int
@@ -49,16 +22,16 @@ model StpNumProp {
   Er     Int
   Ea     Int
   Sf     Int
-  S      Int
+  S      Float
   weight Int
 
-  @@map("stp-numprops")
+  @@map("num-props")
 }
 
 model StpParam {
   id      Int           @id @default(autoincrement())
   stpName String        @unique
-  stp     Stp           @relation(fields: [stpName], references: [name])
+  stp     Stp           @relation(fields: [stpName], references: [name], onDelete: Cascade, onUpdate: Cascade)
   cams    Int
   depth   Int
   secure  StpSecureType
@@ -76,7 +49,7 @@ model Stp {
   StpParam   StpParam?
   StpNumProp StpNumProp?
 
-  @@map("StpCombined")
+  @@map("stps")
 }
 
 model User {

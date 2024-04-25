@@ -5,10 +5,7 @@ import { createAction } from "@/app/actions";
 import { useEffect } from "react";
 
 type InitState = {
-    // id: number | null;
     name: string;
-    // paramId: number | null;
-    // stpNumPropId: number | null;
 }
 const initFormState: InitState = { name: "" }
 export function FormCreate() {

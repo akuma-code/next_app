@@ -1,27 +1,13 @@
 
-import { _isArr, _log, _toJSON } from "@/Helpers/helpersFns";
 import { StpData } from "@/Types/StpInterfaces";
-import stp_list from "@/dataStore/stp_list";
 import { Box } from "@mui/material";
-import { QueryClient, useQuery } from "@tanstack/react-query";
-import { GetStaticProps } from "next";
-import { getQueryClient } from "../providers";
-import { Suspense, useEffect, useState } from "react";
-import { _toDb, createStpFromStpData } from "../../../prisma/controllers/stpService";
 import { StpListItem } from "./StpListItem";
-import { createDbItem } from "../actions";
 
 
 async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 
-    const add = (stpitem: StpData) => {
-        const [name, props] = _toDb(stpitem)
-        const fd = new FormData()
-        fd.set('name', name)
-        fd.set('props', JSON.stringify(props))
-        createStpFromStpData.bind(null, stpitem)
-    }
-    const response = await getData(10)
+
+    const response = await getData(15)
     const data = response[0]
 
     return (
@@ -44,7 +30,7 @@ async function StpDataListPage({ params }: { params?: { limit?: number } }) {
     );
 }
 
-const fetcher = (url: string) => fetch(url).then(res => res.json())
+
 export async function getData(limit = 2): Promise<[StpData[], number, number]> {
 
     try {

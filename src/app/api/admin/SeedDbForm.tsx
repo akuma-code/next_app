@@ -1,17 +1,28 @@
 'use client';
 import { useFormState } from "react-dom";
-import { stpCreate } from "../db/saved/actions";
+import { stpCreate, stpNumPropsCreate } from "../db/saved/actions";
 import { Button } from "@mui/material";
+import { FormEvent } from "react";
+import { _log } from "@/Helpers/helpersFns";
 
 export function SeedDbForm() {
-    const [state, formAction] = useFormState(stpCreate, undefined);
 
 
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const f = new FormData(e.currentTarget)
+        const c = f.get('name')
 
-    return <form method="POST">
-        <input type="hidden" name="name" />
-        <Button type="submit" formAction={ formAction }>
-            Seed db
+        const ff = await fetch(`/api/db/saved?name=${c}&cursor=777`, { method: 'PATCH' })
+
+        return ff
+    }
+
+
+    return <form onSubmit={ handleSubmit }>
+        <input name="name" type="string" defaultValue={ "" } />
+        <Button type="submit" variant="contained" color="info"  >
+            Seed db num props
         </Button>
     </form>;
 }
