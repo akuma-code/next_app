@@ -12,8 +12,8 @@ export function SeedDbForm() {
         e.preventDefault()
         const f = new FormData(e.currentTarget)
         const c = f.get('name')
-
-        const ff = await fetch(`/api/db/saved?name=${c}&cursor=777`, { method: 'PATCH' })
+        const method = 'PATCH'
+        const ff = await fetch(`/api/db/seed`, { method })
 
         return ff
     }
