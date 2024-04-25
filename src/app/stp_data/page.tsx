@@ -7,25 +7,9 @@ import { StpListItem } from "./StpListItem";
 async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 
 
-    const response = await getData(15)
-    const data = response[0]
-
     return (
         <Box>
-            <ul>
-
-
-
-                { data &&
-                    data.map(s =>
-
-                        <StpListItem key={ s.id } stp={ s } />
-
-                    )
-                }
-
-
-            </ul>
+            NO DATA
         </Box>
     );
 }
@@ -34,7 +18,7 @@ async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 export async function getData(limit = 2): Promise<[StpData[], number, number]> {
 
     try {
-        const tu = `http://localhost:3000/api/stp_data?limit=${limit}`
+        const tu = `/api/db/saved`
         const res = await fetch(tu)
         if (!res.ok) {
             throw new Error("Fetch data error")
@@ -42,7 +26,7 @@ export async function getData(limit = 2): Promise<[StpData[], number, number]> {
 
         return res.json()
     } catch (error) {
-        console.log(error)
+
         throw new Error("get data error!")
     }
 

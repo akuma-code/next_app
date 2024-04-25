@@ -6,24 +6,13 @@ import { createStp } from "../../../../prisma/controllers/stpService";
 async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 
 
-    const response = await getData(params?.limit || 0)
-    const data = response[0]
 
     return (
         <Box>
             <ul>
 
 
-
-                { data &&
-                    data.map(s =>
-
-                        <li key={ s.id } className="list-decimal list-inside">
-                            { s.name }
-                        </li>
-
-                    )
-                }
+                no data
 
 
             </ul>
@@ -35,7 +24,7 @@ const fetcher = (url: string) => fetch(url).then(res => res.json())
 export async function getData(limit = 2): Promise<[StpData[], number, number]> {
 
     try {
-        const tu = `http://localhost:3000/api/stp_data?limit=${limit}`
+        const tu = `http://localhost:3000/api/db/saved`
         const res = await fetch(tu)
         if (!res.ok) {
             throw new Error("Fetch data error")
