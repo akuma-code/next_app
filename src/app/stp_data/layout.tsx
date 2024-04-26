@@ -6,7 +6,10 @@ interface ContainerLayoutProps {
 
 const StpLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
     return (
-        <Box>
+        <Box
+            sx={ { background: 'url(../assets/wh40k icons/adeptus-mechanicus.png)' } }
+        >
+            <img src="../../assets/wh40k icons/adeptus-mechanicus.png" alt="img" />
             { children }
         </Box>
     );
