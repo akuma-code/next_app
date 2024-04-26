@@ -2,7 +2,7 @@
 import { getDataList } from "@/dataStore/stp_list";
 import { Box, Button } from "@mui/material";
 import React, { Suspense, useState } from "react";
-import { StpControl } from "../../../../prisma/controllers/stpService";
+import { StpControl } from "../../../prisma/controllers/stpService";
 import { useQuery } from "@tanstack/react-query";
 import { StpData } from "@/Types/StpInterfaces";
 
@@ -16,11 +16,11 @@ const DtoStpList: React.FC<DtoStpListProps> = () => {
         queryKey: ['saved_stps'],
         queryFn: () => getDataList()
     })
-    const data = query.isSuccess ? query.data : []
+
     const add = (n: StpData) => {
         const fd = new FormData()
         fd.append('stp', JSON.stringify(n))
-        fetch('/api/db/stp', { method: 'POST' })
+
 
 
     }
@@ -43,9 +43,3 @@ const DtoStpList: React.FC<DtoStpListProps> = () => {
 
 export default DtoStpList;
 
-function await_data() {
-    const d = getDataList()
-    const res = []
-    d.then(d => res.push(d))
-
-}

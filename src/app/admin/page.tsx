@@ -4,7 +4,7 @@ import { FormEvent, Suspense } from "react";
 import DtoStpList from "./DtoListView";
 import { FormCreate } from "./FormCreate";
 import { SeedDbForm } from "./SeedDbForm";
-import { DTO_numProps } from "../../../../prisma/controllers/DTOController";
+import { DTO_numProps } from "../../../prisma/controllers/DTOController";
 
 
 function AministratorPage() {

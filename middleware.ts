@@ -1,6 +1,9 @@
+import NextAuth from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
+import { authConfig } from './auth.config'
 
-const allowedOrigins = ['http://localhost:3000', '//prodnyan:3000']
+
+const allowedOrigins = ['localhost', 'prodnyan']
 
 const corsOptions = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -36,7 +39,7 @@ export function middleware(request: NextRequest) {
 
     return response
 }
-
+export default NextAuth(authConfig).auth
 export const config = {
-    matcher: '/api/:path*',
+    matcher: ['/api/:path*', '/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 }

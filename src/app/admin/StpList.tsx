@@ -1,6 +1,6 @@
 
 import { Box } from "@mui/material";
-import prisma from "../../../../prisma/client/client";
+import prisma from "../../../prisma/client/client";
 
 async function StpListView() {
     const stps = await prisma.stp.findMany()

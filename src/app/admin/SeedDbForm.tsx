@@ -1,9 +1,7 @@
 'use client';
-import { useFormState } from "react-dom";
-import { stpCreate, stpNumPropsCreate } from "../db/saved/actions";
+import { apiUrl } from "@/paths";
 import { Button } from "@mui/material";
 import { FormEvent } from "react";
-import { _log } from "@/Helpers/helpersFns";
 
 export function SeedDbForm() {
 
@@ -12,8 +10,8 @@ export function SeedDbForm() {
         e.preventDefault()
         const f = new FormData(e.currentTarget)
         const c = f.get('name')
-        const method = 'PATCH'
-        const ff = await fetch(`/api/db/seed`, { method })
+        const method = 'GET'
+        const ff = await fetch(apiUrl.db + '/saved', { method })
 
         return ff
     }

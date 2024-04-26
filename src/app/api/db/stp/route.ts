@@ -1,9 +1,9 @@
-import { StpData } from "@/Types/StpInterfaces";
-import { NextRequest } from "next/server";
 import { _log } from "@/Helpers/helpersFns";
+import parseSearch from "@/Helpers/parseSearch";
+import { StpData } from "@/Types/StpInterfaces";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../../prisma/client/client";
 import { StpControl } from "../../../../../prisma/controllers/stpService";
-import { redirect } from "next/navigation";
 
 
 
@@ -17,8 +17,19 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: NextRequest) {
-    const db = await prisma.stp.findMany()
 
-    _log("db: ", db)
-    return Response.json(db)
+    const s = parseSearch(request)
+    _log(s)
+
+    const db = await prisma.stp.findMany({
+        include: {
+            StpNumProp: true,
+            StpParam: true
+        }
+    })
+
+    _log("db: ", db.length)
+    const res = NextResponse.json(db)
+    return res
 }
+
