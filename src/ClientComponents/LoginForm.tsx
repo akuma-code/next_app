@@ -78,8 +78,8 @@ function LoginButton() {
     const { pending } = useFormStatus();
 
     return (
-        <Button className="mt-4 w-full" aria-disabled={ pending }>
-            Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+        <Button aria-disabled={ pending } variant='contained' color='success' sx={ { py: 1, m: 2 } }>
+            Log in
         </Button>
     );
 }
