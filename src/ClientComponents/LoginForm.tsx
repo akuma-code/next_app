@@ -15,8 +15,10 @@ export default function LoginForm() {
         <form action={ dispatch } className="space-y-3" name='loginform'>
 
             <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
+                <SvgIcon sx={ { transform: 'scale(2)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon>
                 <h1 className={ ` mb-3 text-2xl` }>
-                    Please log in to continue.
+                    Введите имя и пароль
+                    <br />
                 </h1>
                 <div className="w-full flex flex-col space-y-2">
                     <div className='flex gap-2 mb-2'>
@@ -38,7 +40,7 @@ export default function LoginForm() {
                         >
                             Email
                         </label>
-                        <SvgIcon sx={ { transform: 'scale(2)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon>
+
                     </div>
                     <div className="mt-4 flex gap-2">
 
