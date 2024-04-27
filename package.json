@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.0.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -20,6 +21,7 @@
     "@mui/x-date-pickers": "^7.2.0",
     "@prisma/client": "^5.13.0",
     "@tanstack/react-query": "^5.32.0",
+    "jose": "^5.2.4",
     "material-react-table": "^2.13.0",
     "next": "14.2.2",
     "next-auth": "^5.0.0-beta.17",

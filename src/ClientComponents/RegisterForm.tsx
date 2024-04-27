@@ -1,28 +1,31 @@
 'use client';
 
 
-import { authenticate } from '@/app/lib/actions';
+import { authenticate, register } from '@/app/lib/actions';
 import { Button, Divider, InputLabel, SvgIcon, TextField } from '@mui/material';
 import { useFormState, useFormStatus } from 'react-dom';
 
 import MemoAdeptusMechanicus from '../../public/assets/AdeptusMechanicus';
-
-import { apiUrl, pageUrl } from '@/paths';
-import { redirect } from 'next/dist/server/api-utils';
+import { UserRoles } from '@prisma/client';
 
 
 type FormState = {
     nickname: string
     password: string
     error?: string | null
+    role?: UserRoles
+    id?: string
 }
 
 const initalState: FormState = {
     nickname: "",
     password: "",
+    // id?: "",
+    error: null,
+    role: 'guest'
 }
-export default function LoginForm() {
-    const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+export default function RegisterForm() {
+    const [state, dispatch] = useFormState(register, undefined);
 
     return (
         <form action={ dispatch } className="space-y-3" name='loginform'>
@@ -32,7 +35,7 @@ export default function LoginForm() {
 
                     <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon>
                     <h1 className={ ` mb-3 text-2xl text-center` }>
-                        Авторизация
+                        Регистрация
 
                     </h1>
                     <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon>
@@ -106,27 +109,36 @@ export default function LoginForm() {
                     aria-live="polite"
                     aria-atomic="true"
                 >
-                    { errorMessage && errorMessage instanceof Error && (
+                    { state && typeof state === 'string' &&
                         <>
                             {/* <ExclamationCircleIcon className="h-5 w-5 text-red-500" /> */ }
-                            <p className="text-sm text-red-500">{ errorMessage.message }</p>
+                            <p className="text-sm text-red-500">{ state }</p>
                         </>
-                    ) }
+                    }
                 </div>
 
-                <LoginButton />
-                <RegisterButton />
+                <SubmitButton />
+                <ResetButton />
             </div>
         </form>
     );
 }
 
-function LoginButton() {
+function SubmitButton() {
     const { pending } = useFormStatus();
 
     return (
         <Button aria-disabled={ pending } variant='contained' color={ pending ? 'info' : 'success' } sx={ { py: 1, m: 2 } } type='submit' disabled={ pending }>
-            Log in
+            Submit
+        </Button>
+    );
+}
+function ResetButton() {
+    const { pending } = useFormStatus();
+
+    return (
+        <Button aria-disabled={ pending } variant='contained' color={ pending ? 'info' : 'warning' } sx={ { py: 1, m: 2 } } type='reset' disabled={ pending }>
+            Reset
         </Button>
     );
 }
@@ -134,12 +146,7 @@ function RegisterButton() {
     const { pending } = useFormStatus();
 
     return (
-        <Button aria-disabled={ pending }
-            variant='contained'
-            color='secondary'
-            sx={ { py: 1, m: 2 } }
-            disabled={ pending }
-        >
+        <Button aria-disabled={ pending } variant='contained' color='secondary' sx={ { py: 1, m: 2 } } disabled={ pending }>
             Register
         </Button>
     );

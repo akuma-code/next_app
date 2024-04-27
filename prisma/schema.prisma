@@ -53,12 +53,19 @@ model Stp {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  nickname String    @unique
-  password String
-  role     UserRoles @default(guest)
+  id          String        @id @default(uuid())
+  nickname    String        @unique
+  password    String
+  role        UserRoles     @default(guest)
+  UserSession UserSession[]
 
   @@map("users")
+}
+
+model UserSession {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 enum UserRoles {

@@ -1,7 +1,8 @@
 import { paths } from '@/paths';
-import { AppBar, Box, Breadcrumbs, Paper, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Breadcrumbs, Button, Paper, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
+import { auth, signOut } from '../../../auth';
 
 
 interface AppHeaderProps {
@@ -25,7 +26,11 @@ const routes = [
 
 ]
 
-export const AppHeader: React.FC<AppHeaderProps> = () => {
+export const AppHeader: React.FC<AppHeaderProps> = async () => {
+    const user = await auth()
+    console.log(user)
+
+
     return (
         <AppBar position='static' color='primary' >
             <Toolbar variant='dense' >
@@ -46,6 +51,20 @@ export const AppHeader: React.FC<AppHeaderProps> = () => {
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ apiUrl.auth }> Авторизиция </Link>
                     </Typography>
+                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
+                        <Link href={ apiUrl.register }> Регистрация </Link>
+                    </Typography>
+                    <form
+                        action={ async () => {
+                            'use server'
+                            console.log("signing out")
+                            await signOut({ redirectTo: pageUrl.root })
+                        } }
+                    >
+                        <Button
+                            variant='contained' color='info' type='submit'
+                        >SignOut</Button>
+                    </form>
                 </Breadcrumbs>
             </Toolbar>
         </AppBar>

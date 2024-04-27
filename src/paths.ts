@@ -12,6 +12,7 @@ export const apiUrl = {
     api: '/api' as const,
     db: '/api/db' as const,
     auth: '/api/auth' as const,
+    register: '/api/auth/register' as const,
 }
 
 

@@ -1,9 +1,13 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
-import Credentials from 'next-auth/providers/credentials';
+import Credentials, { type CredentialInput } from 'next-auth/providers/credentials';
 import { User } from '@prisma/client';
 import prisma from './prisma/client/client';
-export const { auth, signIn, signOut } = NextAuth({
+import { createSession } from '@/app/lib/session';
+import { redirect } from 'next/navigation';
+import { pageUrl } from '@/paths';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+export const { auth, signIn, signOut, handlers } = NextAuth({
     ...authConfig,
     providers: [
         Credentials({
@@ -13,15 +17,23 @@ export const { auth, signIn, signOut } = NextAuth({
 
                     const user = await getUser(nickname)
                     if (!user) return null
-                    if (password === user?.password) return user
+                    if (user.password) {
+                        const s = await createSession(user.id)
+                        // redirect(pageUrl.users)
+                        return user
+                    }
+
                     return null
+                } else {
+                    console.log('Invalid credentials');
+                    throw new Error('Credential failure')
+                    // return null
                 }
-                console.log('Invalid credentials');
-                return null
             }
         }),
 
     ],
+    // adapter: PrismaAdapter(prisma),
 });
 
 async function getUser(nick: string): Promise<User | null> {
