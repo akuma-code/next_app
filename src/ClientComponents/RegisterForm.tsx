@@ -2,11 +2,12 @@
 
 
 import { authenticate, register } from '@/app/lib/actions';
-import { Button, Divider, InputLabel, SvgIcon, TextField } from '@mui/material';
+import { Button, Divider, InputLabel, MenuItem, Select, SvgIcon, TextField } from '@mui/material';
 import { useFormState, useFormStatus } from 'react-dom';
 
 import MemoAdeptusMechanicus from '../../public/assets/AdeptusMechanicus';
 import { UserRoles } from '@prisma/client';
+import { useState } from 'react';
 
 
 type FormState = {
@@ -22,11 +23,18 @@ const initalState: FormState = {
     password: "",
     // id?: "",
     error: null,
-    role: 'guest'
+
+}
+
+const roles = ['user', 'guest', 'admin'] as UserRoles[]
+export const roleEnum: Record<UserRoles, string> = {
+    admin: 'Админ',
+    guest: "Гость",
+    user: "Юзер"
 }
 export default function RegisterForm() {
     const [state, dispatch] = useFormState(register, undefined);
-
+    const [ur, setRole] = useState('guest')
     return (
         <form action={ dispatch } className="space-y-3" name='loginform'>
 
@@ -98,6 +106,48 @@ export default function RegisterForm() {
                             } }
                         >
                             Пароль
+                        </InputLabel>
+
+                    </div>
+                    <div className="mt-4 flex ">
+
+                        {/* <TextField
+                            sx={ { flexGrow: 1, maxWidth: '60%', color: 'white' } }
+                            defaultValue={ "" }
+                            name='password'
+                            color='warning'
+                            id='roleinput'
+                            type='url'
+                            autoComplete='on'
+                            size='small'
+                            placeholder='введите пароль'
+                            required
+                        /> */}
+
+                        <Select
+                            name='role'
+                            value={ ur }
+                            onChange={ (e) => setRole(e.target.value) }
+
+                        // defaultValue={ 'guest' }
+                        >
+                            { roles.map(role =>
+                                <MenuItem key={ role } value={ role }>{ roleEnum[role] }</MenuItem>
+                            )
+                            }
+                        </Select>
+                        <InputLabel htmlFor='roleinput'
+                            sx={ {
+                                alignSelf: 'center',
+                                textTransform: 'capitalize',
+                                fontSize: 15,
+                                flexGrow: 1,
+                                textAlign: 'right',
+                                px: 3,
+                                color: 'white'
+                            } }
+                        >
+                            Уровень доступа
                         </InputLabel>
 
                     </div>

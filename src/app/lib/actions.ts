@@ -1,11 +1,7 @@
 'use server'
-import { AuthError } from 'next-auth';
-import { auth, signIn } from '../../../auth';
-import prisma from '../../../prisma/client/client';
 import { Prisma, UserRoles } from '@prisma/client';
-import { redirect } from 'next/navigation';
-import { pageUrl } from '@/paths';
-import { createSession } from './session';
+import { AuthError } from 'next-auth';
+import { signIn } from '../../../auth';
 import { createUser } from './userService';
 
 // ...
@@ -15,7 +11,7 @@ export async function authenticate(
     formData: FormData,
 ) {
     try {
-        await signIn('credentials', formData);
+        signIn('credentials', formData);
 
         // await createSession(id)
         // return formData
@@ -46,12 +42,13 @@ export async function register(
 ) {
     const nickname = formdata.get('nickname')
     const password = formdata.get('password')
+    const role = formdata.get('role')
     if (!nickname || !password) return
     try {
         // const user = await prisma.user.create({
         //     data: { nickname: nick as string, password: pass as string }
         // })
-        const validatedInputs = validateCreateFields(nickname as string, password as string)
+        const validatedInputs = validateCreateFields(nickname as string, password as string, role as UserRoles)
         const new_user = await createUser(validatedInputs)
 
         return new_user
@@ -79,11 +76,13 @@ const userNickName = Prisma.validator<Prisma.UserSelect>()({
 const validateCreateFields = (
     nickname: string,
     password: string,
+    role: UserRoles
 
 ) => {
     return Prisma.validator<Prisma.UserCreateInput>()({
         nickname,
         password,
+        role
 
     })
 }

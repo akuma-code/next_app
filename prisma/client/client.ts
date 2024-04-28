@@ -1,25 +1,36 @@
-import { Prisma, PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client'
+declare let global: { prisma: PrismaClient }
 
-const userNickName = Prisma.validator<Prisma.UserSelect>()({
-    nickname: true
-})
+let prisma: PrismaClient
 
-const createUser = (
-    nickname: string,
-    password: string,
-
-) => {
-    return Prisma.validator<Prisma.UserCreateInput>()({
-        nickname,
-        password,
-
-    })
+if (process.env.NODE_ENV === 'production') {
+    prisma = new PrismaClient()
+} else {
+    if (!global.prisma) {
+        global.prisma = new PrismaClient()
+    }
+    prisma = global.prisma
 }
 
-const findUser = (nickname: string) => {
-    return Prisma.validator<Prisma.UserWhereInput>()({
-        nickname
-    })
-}
+// const userNickName = Prisma.validator<Prisma.UserSelect>()({
+//     nickname: true
+// })
+
+// const createUser = (
+//     nickname: string,
+//     password: string,
+
+// ) => {
+//     return Prisma.validator<Prisma.UserCreateInput>()({
+//         nickname,
+//         password,
+
+//     })
+// }
+
+// const findUser = (nickname: string) => {
+//     return Prisma.validator<Prisma.UserWhereInput>()({
+//         nickname
+//     })
+// }
 export default prisma

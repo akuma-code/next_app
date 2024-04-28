@@ -27,8 +27,8 @@ const routes = [
 ]
 
 export const AppHeader: React.FC<AppHeaderProps> = async () => {
-    const user = await auth()
-    console.log(user)
+
+
 
 
     return (
