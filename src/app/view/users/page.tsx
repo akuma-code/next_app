@@ -8,7 +8,9 @@ import {
   QueryClient,
 } from '@tanstack/react-query'
 import { User } from '@prisma/client';
+import UsersMRT from '@/ClientComponents/MRT/MRT_Users/UsersTable';
 interface UsersProps {
+
 }
 
 const Users: React.FC<UsersProps> = async (props) => {
@@ -24,10 +26,9 @@ const Users: React.FC<UsersProps> = async (props) => {
   return (
     <HydrationBoundary state={ dehydrate(queryClient) }>
 
-      <Box>
-
-        <UserList users={ userslist } />
-      </Box>
+      { userslist &&
+        <UsersMRT users={ userslist } /> }
+      {/* <UserList users={ userslist } /> */ }
     </HydrationBoundary>
   )
 };

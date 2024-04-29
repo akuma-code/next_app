@@ -126,6 +126,7 @@ export default function RegisterForm() {
 
                         <Select
                             name='role'
+                            id='role'
                             value={ ur }
                             onChange={ (e) => setRole(e.target.value) }
 
@@ -136,7 +137,7 @@ export default function RegisterForm() {
                             )
                             }
                         </Select>
-                        <InputLabel htmlFor='roleinput'
+                        <InputLabel htmlFor='role'
                             sx={ {
                                 alignSelf: 'center',
                                 textTransform: 'capitalize',

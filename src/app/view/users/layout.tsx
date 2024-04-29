@@ -10,7 +10,7 @@ interface UserLayoutProps {
 const UserLayout: React.FC<UserLayoutProps> = async ({ children }) => {
     const users = await getAllUsers()
     return (
-        <Stack bgcolor={ 'lightgray' } maxWidth={ 400 } px={ 2 }>
+        <Stack bgcolor={ 'lightgray' } maxWidth={ 800 } px={ 2 }>
 
             <Divider flexItem>Список пользователей ({ users.length })</Divider>
             <LayoutHeader />
