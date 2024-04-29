@@ -12,9 +12,9 @@ const UserLayout: React.FC<UserLayoutProps> = async ({ children }) => {
     return (
         <Stack bgcolor={ 'lightgray' } maxWidth={ 400 } px={ 2 }>
 
-            <Divider flexItem>Список пользователей</Divider>
+            <Divider flexItem>Список пользователей ({ users.length })</Divider>
             <LayoutHeader />
-            <UserList users={ users } />
+
             { children }
 
         </Stack>

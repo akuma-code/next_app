@@ -13,7 +13,7 @@ function AministratorPage() {
     }
     return (
         <Box>
-            <SeedDbForm />
+            {/* <SeedDbForm /> */ }
             <Suspense fallback={ <div>Loading...</div> }>
 
                 <FormCreate />
