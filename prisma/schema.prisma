@@ -53,19 +53,25 @@ model Stp {
 }
 
 model User {
-  id          String        @id @default(uuid())
-  nickname    String        @unique
-  password    String
-  role        UserRoles     @default(guest)
+  id       Int       @id @default(autoincrement())
+  uuid     String    @unique @default(uuid())
+  nickname String    @unique
+  password String
+  role     UserRoles @default(guest)
+
   UserSession UserSession[]
+  created_at  DateTime?     @default(now())
+  updated_at  DateTime?     @updatedAt
 
   @@map("users")
 }
 
 model UserSession {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  id         String    @id @default(uuid())
+  user       User      @relation(fields: [userUuid], references: [uuid])
+  userUuid   String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
 }
 
 enum UserRoles {

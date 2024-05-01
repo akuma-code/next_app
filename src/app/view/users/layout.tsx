@@ -9,11 +9,12 @@ interface UserLayoutProps {
 
 const UserLayout: React.FC<UserLayoutProps> = async ({ children }) => {
     const users = await getAllUsers()
+
     return (
-        <Stack bgcolor={ 'lightgray' } maxWidth={ 800 } px={ 2 }>
+        <Stack bgcolor={ 'lightgray' } px={ 2 }>
 
             <Divider flexItem>Список пользователей ({ users.length })</Divider>
-            <LayoutHeader />
+            {/* <LayoutHeader /> */ }
 
             { children }
 
@@ -37,6 +38,11 @@ function LayoutHeader() {
 async function getAllUsers() {
     const users = await prisma.user.findMany()
     return users
+}
+
+async function getUserSession(userId: string) {
+    const session = await prisma.userSession.findMany({ where: { userUuid: userId }, select: { user: true, id: true } })
+    return session
 }
 export default UserLayout;
 

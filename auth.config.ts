@@ -4,7 +4,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from './prisma/client/client';
 export const authConfig = {
     pages: {
-        // signIn: '/api/auth',
+        signIn: '/api/auth',
         // newUser: '/view/users',
         // signOut: '/api/auth/logout'
     },

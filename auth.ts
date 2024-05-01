@@ -18,7 +18,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                     const user = await getUser(nickname)
                     if (!user) return null
                     if (user.password) {
-                        const s = await createSession(user.id)
+                        const s = await createSession(user.uuid)
                         // redirect(pageUrl.users)
                         return user
                     }
@@ -27,7 +27,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                 } else {
                     console.log('Invalid credentials');
                     throw new Error('Credential failure')
-                    // return null
                 }
             }
         }),

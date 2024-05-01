@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-query'
 import { User } from '@prisma/client';
 import UsersMRT from '@/ClientComponents/MRT/MRT_Users/UsersTable';
+import { verifySession } from '@/app/lib/session';
 interface UsersProps {
 
 }
@@ -23,6 +24,8 @@ const Users: React.FC<UsersProps> = async (props) => {
   // const userlist = await getAllUsers()
   const userslist = queryClient.getQueryData<User[]>(['userlist'])
 
+
+  // userslist && verifySession(userslist[0].uuid)
   return (
     <HydrationBoundary state={ dehydrate(queryClient) }>
 

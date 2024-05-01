@@ -11,7 +11,7 @@ export async function authenticate(
     formData: FormData,
 ) {
     try {
-        signIn('credentials', formData);
+        await signIn('credentials', formData);
 
         // await createSession(id)
         // return formData
@@ -22,6 +22,7 @@ export async function authenticate(
                     return new Error('Invalid credentials.')
 
                 default:
+                    console.log(error)
                     return new Error('Something went wrong.')
             }
         }
