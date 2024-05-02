@@ -26,7 +26,7 @@ import {
     useQueryClient,
 } from '@tanstack/react-query';
 import userColumns from './MRT_Data';
-import { User } from '@prisma/client';
+import { User, UserRoles } from '@prisma/client';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
 import { useCreateUser } from '@/Hooks/MRT/useCreateUser';
 import { useGetUsers } from '@/Hooks/MRT/useGetUsers';
@@ -38,79 +38,16 @@ import { Delete, EditNotifications } from '@mui/icons-material';
 type UsersMrtProps = {
     users: User[]
 }
+
+export const roleEnum: Record<UserRoles, string> = {
+    admin: 'Админ',
+    guest: "Гость",
+    user: "Юзер"
+}
 const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
 
     const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
-    const columns = useMemo(() => [
-        {
-            accessorKey: 'id',
-            header: 'ID',
-            size: 80,
 
-
-        },
-        {
-            accessorKey: 'nickname',
-            header: 'Name',
-            size: 200,
-            muiEditTextFieldProps: {
-                required: true,
-                error: !!validationErrors?.nickname,
-                helperText: validationErrors?.nickname,
-
-                onFocus: () =>
-                    setValidationErrors({
-                        ...validationErrors,
-                        nickname: undefined,
-                    })
-            },
-        },
-        {
-            accessorKey: 'role',
-            header: 'Role',
-            size: 100,
-            editVariant: 'select',
-            editSelectOptions: ['user', 'guest', 'admin'],
-            muiEditTextFieldProps: {
-                select: true,
-
-                required: false,
-                error: !!validationErrors?.role,
-                helperText: validationErrors?.role,
-
-                onFocus: () =>
-                    setValidationErrors({
-                        ...validationErrors,
-                        role: undefined,
-                    })
-            },
-        },
-        {
-            accessorKey: 'password',
-            header: 'Password',
-            size: 200,
-            muiEditTextFieldProps: {
-                required: true,
-                error: !!validationErrors?.password,
-                helperText: validationErrors?.password,
-
-                onFocus: () =>
-                    setValidationErrors({
-                        ...validationErrors,
-                        password: undefined,
-                    })
-            },
-        },
-
-        {
-            accessorKey: 'uuid',
-            header: 'UUID',
-            size: 200,
-
-
-        },
-
-    ] as MRT_ColumnDef<User>[], [validationErrors])
 
     const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUser()
     const handleCreateUser: MRT_TableOptions<User>['onCreatingRowSave'] = async ({ values, table, }) => {
@@ -158,6 +95,105 @@ const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
             deleteUser({ userName: row.original.nickname })
         }
     };
+
+    //*!___________________________________________________________________ */
+    const columns = useMemo(() => [
+        {
+            accessorKey: 'id',
+            header: 'ID',
+            size: 70,
+            muiTableHeadCellProps: {
+                align: 'left',
+                sx: {
+                    bgcolor: '#a0e1ff',
+                    borderRight: '1px solid black'
+                }
+            }
+
+        },
+        {
+            accessorKey: 'nickname',
+            header: 'Имя / никнейм',
+            minSize: 100,
+            muiEditTextFieldProps: {
+                required: true,
+                error: !!validationErrors?.nickname,
+                helperText: validationErrors?.nickname,
+
+                onFocus: () =>
+                    setValidationErrors({
+                        ...validationErrors,
+                        nickname: undefined,
+                    })
+            },
+            muiTableHeadCellProps: {
+                align: 'center',
+                sx: {
+                    bgcolor: '#a0e1ff',
+                    borderRight: '1px solid black'
+                }
+            }
+
+        },
+        {
+            accessorKey: 'role',
+            header: 'Доступ',
+            size: 100,
+            editVariant: 'select',
+            editSelectOptions: ['user', 'guest', 'admin'],
+            muiEditTextFieldProps: {
+                select: true,
+
+                required: false,
+                error: !!validationErrors?.role,
+                helperText: validationErrors?.role,
+
+                onFocus: () =>
+                    setValidationErrors({
+                        ...validationErrors,
+                        role: undefined,
+                    })
+            },
+            muiTableHeadCellProps: {
+                align: 'left',
+                sx: {
+                    bgcolor: '#a0e1ff',
+                    borderRight: '1px solid black'
+                }
+            },
+            Cell: ({ cell }) => roleEnum[cell.getValue() as User['role']]
+
+        },
+        {
+            accessorKey: 'password',
+            header: 'Пароль',
+            size: 200,
+            muiEditTextFieldProps: {
+                required: true,
+                error: !!validationErrors?.password,
+                helperText: validationErrors?.password,
+
+                onFocus: () =>
+                    setValidationErrors({
+                        ...validationErrors,
+                        password: undefined,
+                    })
+            },
+
+        },
+
+        {
+            accessorKey: 'uuid',
+            header: 'UUID',
+            size: 200,
+
+
+        },
+
+    ] as MRT_ColumnDef<User>[], [validationErrors])
+
+    //*!___________________________________________________________________ */
+
     const table = useMaterialReactTable<User>({
         columns,
         data: fetchedUsers,
@@ -166,6 +202,7 @@ const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
         createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
         editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
         enableEditing: true,
+
         getRowId: (row) => row.uuid,
         muiToolbarAlertBannerProps: isLoadingUsersError
             ? {
@@ -175,9 +212,54 @@ const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
             : undefined,
         muiTableContainerProps: {
             sx: {
-                minHeight: '300px',
-                // minWidth: '800px'
+                minHeight: '200px',
+                minWidth: '700px'
             },
+        },
+        defaultDisplayColumn: {
+            grow: 1,
+            minSize: 100,
+            muiTableHeadCellProps: {
+                align: 'center',
+                sx: {
+                    borderRight: '1px solid black',
+                    bgcolor: 'grey'
+                }
+
+            },
+            muiTableBodyCellProps: {
+                align: 'center',
+                sx: { borderRight: '1px solid black', },
+            }
+        },
+        defaultColumn: {
+            grow: 1,
+            minSize: 70,
+            muiTableHeadCellProps: {
+                align: 'center',
+                sx: {
+                    bgcolor: '#a0e1ff',
+                    borderRight: '1px solid black'
+                }
+            },
+            muiTableBodyCellProps: {
+                align: 'left',
+                sx: { borderRight: '1px solid black', },
+            }
+        },
+        initialState: {
+            density: 'comfortable',
+            columnVisibility: {
+
+                uuid: false
+            },
+
+        },
+        state: {
+            isLoading: isLoadingUsers,
+            isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
+            showAlertBanner: isLoadingUsersError,
+            showProgressBars: isFetchingUsers,
         },
         onCreatingRowCancel: () => setValidationErrors({}),
         onCreatingRowSave: handleCreateUser,
@@ -236,7 +318,7 @@ const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
                         { Nick }
                         { Pass }
                         { Role }
-                        {/* { internalEditComponents } {/* or render custom edit components here */ }
+
                     </DialogContent>
                     <DialogActions>
                         <MRT_EditActionButtons variant="text" table={ table } row={ row } />
@@ -245,7 +327,7 @@ const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
             )
         },
         renderRowActions: ({ row, table }) => (
-            <Box sx={ { display: 'flex', gap: '.5rem' } }>
+            <Box sx={ { display: 'flex' } }>
                 <Tooltip title="Edit">
                     <IconButton onClick={ () => table.setEditingRow(row) }>
                         <EditNotifications />
@@ -258,35 +340,7 @@ const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
                 </Tooltip>
             </Box>
         ),
-        defaultDisplayColumn: {
-            grow: 1,
-            minSize: 100,
-            muiTableHeadCellProps: {
-                align: 'center'
-            }
-        },
-        defaultColumn: {
-            muiTableHeadCellProps: {
-                align: 'left'
-            },
-            muiTableBodyCellProps: {
-                align: 'left'
-            }
-        },
-        initialState: {
-            density: 'compact',
-            columnVisibility: {
-                password: false,
-                uuid: false
-            },
 
-        },
-        state: {
-            isLoading: isLoadingUsers,
-            isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
-            showAlertBanner: isLoadingUsersError,
-            showProgressBars: isFetchingUsers,
-        },
 
     })
 

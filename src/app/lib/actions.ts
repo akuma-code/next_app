@@ -19,14 +19,15 @@ export async function authenticate(
         if (error instanceof AuthError) {
             switch (error.type) {
                 case 'CredentialsSignin':
-                    return new Error('Invalid credentials.')
+                    console.log(error)
+                    return new Error(error.message)
 
                 default:
                     console.log(error)
                     return new Error('Something went wrong.')
             }
         }
-        console.log("AUTH ERROR: ", error)
+        // console.log("____AUTH ERROR: ", error)
         // throw new Error('Something went wrong while auth')
     }
 }
@@ -83,7 +84,7 @@ const validateCreateFields = (
     return Prisma.validator<Prisma.UserCreateInput>()({
         nickname,
         password,
-        role
+        role,
 
     })
 }

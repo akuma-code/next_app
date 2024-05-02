@@ -9,13 +9,15 @@ import MemoAdeptusMechanicus from '../../public/assets/AdeptusMechanicus';
 
 import { apiUrl, pageUrl } from '@/paths';
 import { redirect } from 'next/dist/server/api-utils';
+import { signIn } from '../../auth';
+import { useSession } from 'next-auth/react';
 
 
 type FormState = {
     nickname: string
     password: string
     error?: string | null
-}
+} | undefined
 
 const initalState: FormState = {
     nickname: "",
@@ -25,7 +27,10 @@ export default function LoginForm() {
     const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
     return (
-        <form action={ dispatch } className="space-y-3" name='loginform'>
+        <form
+            action={ dispatch }
+
+            className="space-y-3" name='loginform' id={ 'loginform' }>
 
             <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
                 <div className="flex justify-between">
@@ -49,6 +54,7 @@ export default function LoginForm() {
                             id='inputname'
                             size='small'
                             placeholder='введите имя'
+                            type='text'
                             required
 
                         />
@@ -102,11 +108,13 @@ export default function LoginForm() {
 
 
                 <div
-                    className="flex h-8 items-end space-x-1"
+                    className="flex h-8 items-end space-x-1 p-1"
                     aria-live="polite"
                     aria-atomic="true"
                 >
-                    { errorMessage && errorMessage instanceof Error && (
+
+
+                    { errorMessage && (
                         <>
                             {/* <ExclamationCircleIcon className="h-5 w-5 text-red-500" /> */ }
                             <p className="text-sm text-red-500">{ errorMessage.message }</p>
@@ -116,6 +124,7 @@ export default function LoginForm() {
 
                 <LoginButton />
                 <RegisterButton />
+
             </div>
         </form>
     );

@@ -7,35 +7,54 @@ import { createSession } from '@/app/lib/session';
 import { redirect } from 'next/navigation';
 import { pageUrl } from '@/paths';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { validateUser } from '@/ClientComponents/MRT/MRT_Users/validators';
 export const { auth, signIn, signOut, handlers } = NextAuth({
     ...authConfig,
     providers: [
         Credentials({
-            async authorize(credentials, req) {
-                const { nickname, password, role } = credentials
-                if (typeof password === 'string' && typeof nickname === 'string') {
+            credentials: { nickname: {}, password: {} },
+            authorize: async (credentials) => {
+                let user: User | null = null
+                try {
+                    const { nickname, password } = credentials
+                    if (typeof nickname === 'string') {
+                        user = await getUser(nickname)
+                        if (!user) return null
 
-                    const user = await getUser(nickname)
-                    if (!user) return null
-                    if (user.password) {
-                        const s = await createSession(user.uuid)
-                        // redirect(pageUrl.users)
-                        return user
+                        // if (!validateUser(credentials as User)) { throw new Error('Credential failure') }
+                        if (user.password === password as string) {
+                            const s = await createSession(user.uuid)
+
+                            return s
+                        } else {
+                            console.log("________Password incorrect!")
+                            throw new Error('Credential failure')
+                        }
+                    } else {
+                        // console.log('Credential failure')
+                        return null
                     }
-
+                } catch (error) {
+                    console.log('Invalid credentials: ');
                     return null
-                } else {
-                    console.log('Invalid credentials');
-                    throw new Error('Credential failure')
+                    // throw new Error('Credential failure')
                 }
+
+
+
+                // } else {
+                //     console.log('Invalid credentials');
+                //     throw new Error('Credential failure')
+                // }
             }
         }),
 
     ],
+    debug: true
     // adapter: PrismaAdapter(prisma),
 });
 
-async function getUser(nick: string): Promise<User | null> {
+export async function getUser(nick: string): Promise<User | null> {
     try {
         const user = await prisma.user.findUnique({ where: { nickname: nick } })
         return user

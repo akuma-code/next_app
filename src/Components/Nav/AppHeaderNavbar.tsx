@@ -3,6 +3,8 @@ import { AppBar, Box, Breadcrumbs, Button, Paper, Toolbar, Typography } from '@m
 import Link from 'next/link';
 import React from 'react';
 import { auth, signOut } from '../../../auth';
+import { useSession } from 'next-auth/react';
+import { _log } from '@/Helpers/helpersFns';
 
 
 interface AppHeaderProps {
@@ -44,6 +46,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                         )
                     }
                 </Breadcrumbs>
+
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ pageUrl.admin }> Админка </Link>
@@ -58,7 +61,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                         action={ async () => {
                             'use server'
                             console.log("signing out")
-                            await signOut({ redirectTo: pageUrl.root })
+                            await signOut()
                         } }
                     >
                         <Button

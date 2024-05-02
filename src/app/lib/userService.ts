@@ -2,20 +2,28 @@
 import { Prisma, User, UserRoles } from "@prisma/client"
 import prisma from "../../../prisma/client/client"
 type UserFindVariant = { nickname: string } | { uuid: string }
-export const createUser = async (payload: { nickname: string, password: string, role: string }) => {
+interface CreateUserPayload {
+    nickname: string
+    password: string
+    role?: string
+}
 
-    const verifiedUserData = {
-        data: validateCreateFields(payload.nickname, payload.password, payload.role as UserRoles)
-    }
+export const createUser = async (payload: CreateUserPayload) => {
+    const { nickname, password, role = 'guest' } = payload;
+
+    const verifiedUserData = validateCreateFields(nickname, password, role as UserRoles)
+
     const new_user = await prisma.user.create({
-        ...verifiedUserData,
-        select: {
-            id: true,
-            nickname: true,
-            role: true,
-            UserSession: true,
+        data: {
+            ...verifiedUserData,
+        }, include: { session: true }
+        // select: {
+        //     id: true,
+        //     nickname: true,
+        //     role: true,
+        //     session: true,
 
-        }
+        // }
     })
     return new_user
 }

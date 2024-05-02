@@ -13,8 +13,8 @@ const UserLayout: React.FC<UserLayoutProps> = async ({ children }) => {
     return (
         <Stack bgcolor={ 'lightgray' } px={ 2 }>
 
-            <Divider flexItem>Список пользователей ({ users.length })</Divider>
-            {/* <LayoutHeader /> */ }
+            {/* <Divider flexItem>Список пользователей ({ users.length })</Divider> */ }
+            <LayoutHeader />
 
             { children }
 
@@ -25,13 +25,10 @@ const UserLayout: React.FC<UserLayoutProps> = async ({ children }) => {
 function LayoutHeader() {
     return (
         <Box component={ Stack } flexDirection={ 'row' } borderBottom={ '2px solid black' } mb={ 2 } pb={ 1 } fontWeight={ 'bold' }>
-            <Box flexGrow={ 1 } >
-                Имя
+            <Box flexGrow={ 1 } textAlign={ 'center' }>
+                Список пользователей
             </Box>
-            {/* <Divider flexItem orientation="vertical" /> */ }
-            <Box>
-                Уровень доступа
-            </Box>
+
         </Box>
     )
 }

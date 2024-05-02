@@ -59,17 +59,20 @@ model User {
   password String
   role     UserRoles @default(guest)
 
-  UserSession UserSession[]
-  created_at  DateTime?     @default(now())
-  updated_at  DateTime?     @updatedAt
+  session UserSession?
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
 
   @@map("users")
 }
 
 model UserSession {
-  id         String    @id @default(uuid())
-  user       User      @relation(fields: [userUuid], references: [uuid])
-  userUuid   String
+  id   String @id @default(uuid())
+  user User   @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+
+  userUuid   String    @unique
+  userName   String
   created_at DateTime? @default(now())
   updated_at DateTime? @updatedAt
 }

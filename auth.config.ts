@@ -16,7 +16,7 @@ export const authConfig = {
                 const isOnDashboard = nextUrl.pathname.startsWith('/api/auth');
                 if (isOnDashboard) {
                     if (isLoggedIn) return true;
-                    return false; // Redirect unauthenticated users to login page
+                    return Response.redirect(new URL('/api/auth', nextUrl)); // Redirect unauthenticated users to login page
                 } else if (isLoggedIn) {
                     return Response.redirect(new URL('/', nextUrl));
                 }
