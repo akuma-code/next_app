@@ -9,6 +9,7 @@ import { pageUrl } from '@/paths';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { validateUser } from '@/ClientComponents/MRT/MRT_Users/validators';
 export const { auth, signIn, signOut, handlers } = NextAuth({
+    adapter: PrismaAdapter(prisma),
     ...authConfig,
     providers: [
         Credentials({
@@ -51,7 +52,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
     ],
     debug: true
-    // adapter: PrismaAdapter(prisma),
+
 });
 
 export async function getUser(nick: string): Promise<User | null> {

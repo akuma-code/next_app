@@ -16,7 +16,7 @@ export const createUser = async (payload: CreateUserPayload) => {
     const new_user = await prisma.user.create({
         data: {
             ...verifiedUserData,
-        }, include: { session: true }
+        }
         // select: {
         //     id: true,
         //     nickname: true,
