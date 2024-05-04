@@ -1,0 +1,29 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Person {
+    id Int @id @default(autoincrement())
+
+    name         String
+    rttf_score   Int?
+    rttf_profile String? @unique
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime?
+
+    trainigs Training[]
+
+    @@map("persons")
+}
+
+model Training {
+    uuid    String   @id @default(uuid())
+    date    DateTime
+    persons Person[]
+}
