@@ -7,7 +7,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Person {
+model Player {
     id Int @id @default(autoincrement())
 
     name         String
@@ -17,13 +17,15 @@ model Person {
     createdAt DateTime  @default(now())
     updatedAt DateTime?
 
-    trainigs Training[]
+    events Event[]
 
-    @@map("persons")
+    @@map("players")
 }
 
-model Training {
+model Event {
     uuid    String   @id @default(uuid())
     date    DateTime
-    persons Person[]
+    persons Player[]
+
+    @@map("events")
 }

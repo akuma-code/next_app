@@ -8,10 +8,7 @@ interface ContainerLayoutProps {
 const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
     return (
         <Box>
-
-
             { children }
-
         </Box>
     );
 }

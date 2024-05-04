@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "studio": "npx prisma studio -p 3232",
-    "db_update": "prisma db pull && npx prisma generate",
+    "db_update": "npx prisma generate &&  prisma db push",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -21,6 +21,7 @@
     "@mui/x-date-pickers": "^7.2.0",
     "@prisma/client": "^5.13.0",
     "@tanstack/react-query": "^5.32.0",
+    "dayjs": "^1.11.11",
     "jose": "^5.2.4",
     "material-react-table": "^2.13.0",
     "next": "14.2.2",

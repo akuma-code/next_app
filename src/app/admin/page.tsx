@@ -19,7 +19,7 @@ function AministratorPage() {
                 <FormCreate />
                 <Divider>DB Names</Divider>
 
-                <DtoStpList />
+                <DtoStpList limit={ 10 } />
             </Suspense>
         </Box>);
 }

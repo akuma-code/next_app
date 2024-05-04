@@ -1,15 +1,26 @@
 'use client'
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClient, QueryClientProvider, QueryFunction, QueryKey, QueryOptions } from "@tanstack/react-query"
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../theme';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import 'dayjs/locale/ru'
 
+
+export const queryFetch: QueryFunction = async ({ queryKey }) => {
+    const fetch_url = queryKey[0]
+    if (typeof fetch_url !== 'string') return console.log("Fetch url error: ", fetch_url)
+    const data = await fetch(fetch_url)
+    return data
+}
 
 function makeQueryClient() {
     return new QueryClient({
         defaultOptions: {
             queries: {
+                queryFn: queryFetch,
                 // With SSR, we usually want to set some default staleTime
                 // above 0 to avoid refetching immediately on the client
                 staleTime: 60 * 1000,
@@ -43,12 +54,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
     return (
         <ThemeProvider theme={ theme }>
+            <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
 
-            <AppRouterCacheProvider>
-                <QueryClientProvider client={ queryClient }>
-                    { children }
-                </QueryClientProvider>
-            </AppRouterCacheProvider>
+                <AppRouterCacheProvider>
+                    <QueryClientProvider client={ queryClient }>
+                        { children }
+                    </QueryClientProvider>
+                </AppRouterCacheProvider>
+            </LocalizationProvider>
         </ThemeProvider>
     )
 }

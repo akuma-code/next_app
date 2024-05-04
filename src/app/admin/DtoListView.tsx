@@ -1,20 +1,19 @@
 'use client'
+import { StpData } from "@/Types/StpInterfaces";
 import { getDataList } from "@/dataStore/stp_list";
 import { Box, Button } from "@mui/material";
-import React, { Suspense, useState } from "react";
-import { StpControl } from "../../../prisma/controllers/stpService";
 import { useQuery } from "@tanstack/react-query";
-import { StpData } from "@/Types/StpInterfaces";
+import React from "react";
 
 interface DtoStpListProps {
-
+    limit?: number
 }
 
-const DtoStpList: React.FC<DtoStpListProps> = () => {
+const DtoStpList: React.FC<DtoStpListProps> = ({ limit }) => {
     // const [data,setData]=useState(()=>getDataList())
     const query = useQuery({
         queryKey: ['saved_stps'],
-        queryFn: () => getDataList()
+        queryFn: () => getDataList(limit)
     })
 
     const add = (n: StpData) => {

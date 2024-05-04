@@ -69,6 +69,8 @@ const UsersMRT: React.FC<UsersMrtProps> = ({ users }) => {
         isFetching: isFetchingUsers,
         isLoading: isLoadingUsers,
     } = useGetUsers();
+
+
     const { mutateAsync: updateUser, isPending: isUpdatingUser } =
         useUpdateUser();
     //UPDATE action
