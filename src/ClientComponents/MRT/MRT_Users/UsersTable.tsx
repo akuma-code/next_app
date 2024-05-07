@@ -1,14 +1,9 @@
 'use client'
-import { useMemo, useState } from 'react';
-import {
-    MRT_EditActionButtons,
-    MaterialReactTable,
-    // createRow,
-    type MRT_ColumnDef,
-    type MRT_Row,
-    type MRT_TableOptions,
-    useMaterialReactTable,
-} from 'material-react-table';
+import { useCreateUser } from '@/Hooks/MRT/useCreateUser';
+import { useDeleteUser } from '@/Hooks/MRT/useDeleteUser';
+import { useGetUsers } from '@/Hooks/MRT/useGetUsers';
+import { useUpdateUser } from '@/Hooks/MRT/useUpdateUser';
+import { Delete, EditNotifications } from '@mui/icons-material';
 import {
     Box,
     Button,
@@ -18,22 +13,19 @@ import {
     IconButton,
     Tooltip,
 } from '@mui/material';
-import {
-    QueryClient,
-    QueryClientProvider,
-    useMutation,
-    useQuery,
-    useQueryClient,
-} from '@tanstack/react-query';
-import userColumns from './MRT_Data';
 import { User, UserRoles } from '@prisma/client';
+import {
+    MRT_EditActionButtons,
+    MaterialReactTable,
+    useMaterialReactTable,
+    // createRow,
+    type MRT_ColumnDef,
+    type MRT_Row,
+    type MRT_TableOptions,
+} from 'material-react-table';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
-import { useCreateUser } from '@/Hooks/MRT/useCreateUser';
-import { useGetUsers } from '@/Hooks/MRT/useGetUsers';
-import { useUpdateUser } from '@/Hooks/MRT/useUpdateUser';
-import { useDeleteUser } from '@/Hooks/MRT/useDeleteUser';
+import { useMemo, useState } from 'react';
 import { validateUser } from './validators';
-import { Delete, EditNotifications } from '@mui/icons-material';
 
 type UsersMrtProps = {
     users: User[]

@@ -7,6 +7,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Player {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  infoUuid String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events Event[]
+
+  playerInfoUuid String?
+  PlayerInfo     PlayerInfo[]
+
+  @@map("players")
+}
+
+model Event {
+  id   Int      @id @default(autoincrement())
+  date DateTime
+
+  players Player[]
+
+  @@map("events")
+}
+
+model PlayerInfo {
+  uuid       String  @id @default(uuid())
+  rttf_score Int?
+  rttf_link  String?
+  playerId   Int
+  Player     Player  @relation(fields: [playerId], references: [id])
+
+  @@map("Profile")
+}
+
 model StpNumProp {
   id Int @id @default(autoincrement())
 
