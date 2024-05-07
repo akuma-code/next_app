@@ -36,6 +36,7 @@
     "enviroments.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "bad_code"
   ]
 }

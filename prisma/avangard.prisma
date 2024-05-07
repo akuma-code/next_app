@@ -23,9 +23,10 @@ model Player {
 }
 
 model Event {
-    uuid    String   @id @default(uuid())
-    date    DateTime
-    persons Player[]
+    uuid String   @id @default(uuid())
+    date DateTime
+
+    players Player[]
 
     @@map("events")
 }

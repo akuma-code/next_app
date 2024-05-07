@@ -1,17 +1,11 @@
 'use client';
 
 
-import { authenticate } from '@/app/lib/actions';
 import { Button, Divider, InputLabel, SvgIcon, TextField } from '@mui/material';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 
 import MemoAdeptusMechanicus from '../../public/assets/AdeptusMechanicus';
 
-import { apiUrl, pageUrl } from '@/paths';
-import { redirect } from 'next/dist/server/api-utils';
-import { signIn } from '../../auth';
-import { useSession } from 'next-auth/react';
-import { DatePicker } from '@mui/x-date-pickers';
 
 
 type FormState = {
@@ -25,11 +19,11 @@ const initalState: FormState = {
     password: "",
 }
 export default function LoginForm() {
-    const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+    // const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
     return (
         <form
-            action={ dispatch }
+            // action={  }
 
             className="space-y-3" name='loginform' id={ 'loginform' }>
 
@@ -114,12 +108,14 @@ export default function LoginForm() {
                     aria-atomic="true"
                 >
 
-                    { errorMessage && (
-                        <>
-                            {/* <ExclamationCircleIcon className="h-5 w-5 text-red-500" /> */ }
-                            <p className="text-sm text-red-500">{ errorMessage.message }</p>
-                        </>
-                    ) }
+                    {
+                        // errorMessage && (
+                        //     <>
+                        //         {/* <ExclamationCircleIcon className="h-5 w-5 text-red-500" /> */ }
+                        //         <p className="text-sm text-red-500">{ errorMessage.message }</p>
+                        //     </>
+                        // ) 
+                    }
                 </div>
 
                 <LoginButton />

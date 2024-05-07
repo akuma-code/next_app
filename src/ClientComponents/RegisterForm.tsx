@@ -1,13 +1,13 @@
 'use client';
 
 
-import { authenticate, register } from '@/app/lib/actions';
+import { register } from '@/app/lib/actions';
 import { Button, Divider, InputLabel, MenuItem, Select, SvgIcon, TextField } from '@mui/material';
 import { useFormState, useFormStatus } from 'react-dom';
 
-import MemoAdeptusMechanicus from '../../public/assets/AdeptusMechanicus';
 import { UserRoles } from '@prisma/client';
 import { useState } from 'react';
+import MemoAdeptusMechanicus from '../../public/assets/AdeptusMechanicus';
 
 
 type FormState = {

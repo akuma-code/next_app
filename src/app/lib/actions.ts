@@ -1,36 +1,34 @@
 'use server'
 import { Prisma, UserRoles } from '@prisma/client';
-import { AuthError } from 'next-auth';
-import { signIn } from '../../../auth';
 import { createUser } from './userService';
 
 // ...
 
-export async function authenticate(
-    prevState: any,
-    formData: FormData,
-) {
-    try {
-        await signIn('credentials', formData);
+// export async function authenticate(
+//     prevState: any,
+//     formData: FormData,
+// ) {
+//     try {
+//         await signIn('credentials', formData);
 
-        // await createSession(id)
-        // return formData
-    } catch (error) {
-        if (error instanceof AuthError) {
-            switch (error.type) {
-                case 'CredentialsSignin':
-                    console.log(error)
-                    return new Error(error.message)
+//         // await createSession(id)
+//         // return formData
+//     } catch (error) {
+//         if (error instanceof AuthError) {
+//             switch (error.type) {
+//                 case 'CredentialsSignin':
+//                     console.log(error)
+//                     return new Error(error.message)
 
-                default:
-                    console.log(error)
-                    return new Error('Something went wrong.')
-            }
-        }
-        // console.log("____AUTH ERROR: ", error)
-        // throw new Error('Something went wrong while auth')
-    }
-}
+//                 default:
+//                     console.log(error)
+//                     return new Error('Something went wrong.')
+//             }
+//         }
+//         // console.log("____AUTH ERROR: ", error)
+//         // throw new Error('Something went wrong while auth')
+//     }
+// }
 type CreateFormState = {
     nickname: string
     password: string

@@ -1,8 +1,6 @@
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 import prisma from '../../../prisma/client/client'
-import { getUser } from '../../../auth'
-import { User } from '@prisma/client'
 
 
 const secretKey = process.env.AUTH_SECRET
