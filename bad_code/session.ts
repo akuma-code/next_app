@@ -1,6 +1,6 @@
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import prisma from '../../../prisma/client/client'
+
 
 
 const secretKey = process.env.AUTH_SECRET
@@ -31,29 +31,29 @@ export async function decrypt(session: string | undefined = '') {
     }
 }
 
-export async function createSession(userUuid: string) {
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
-    const user = await prisma.user.findUnique({ where: { uuid: userUuid } })
-    if (!user) throw new Error("User not found")
-    const session = await encrypt({ userUuid, expiresAt, name: user.nickname })
-    try {
-        cookies().set(
-            'session', session, {
-            httpOnly: true,
-            secure: true,
-            expires: expiresAt,
-            sameSite: 'lax',
-            path: '/'
-        }
-        )
+// export async function createSession(userUuid: string) {
+//     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
+//     const user = await prisma.user.findUnique({ where: { uuid: userUuid } })
+//     if (!user) throw new Error("User not found")
+//     const session = await encrypt({ userUuid, expiresAt, name: user.nickname })
+//     try {
+//         cookies().set(
+//             'session', session, {
+//             httpOnly: true,
+//             secure: true,
+//             expires: expiresAt,
+//             sameSite: 'lax',
+//             path: '/'
+//         }
+//         )
 
-        return await prisma.userSession.create({ data: { userUuid, userName: user.nickname } })
-    } catch (error) {
-        throw new Error("Create session error")
-    }
+//         return await prisma.userSession.create({ data: { userUuid, userName: user.nickname } })
+//     } catch (error) {
+//         throw new Error("Create session error")
+//     }
 
 
-}
+// }
 
 export async function verifySession(uuid: string) {
     const s = cookies().get('session')

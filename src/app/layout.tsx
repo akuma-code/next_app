@@ -24,15 +24,15 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({
   return (
     <html lang="ru">
       <body className={ inter.className + " bg-red-50" } >
-        <SessionProvider>
-          <Providers>
-            <AppHeader />
-            <Container sx={ { border: '1px solid black', h: '100%' } } fixed key={ '___RootContainer' }>
+        {/* <SessionProvider> */ }
+        <Providers>
+          <AppHeader />
+          <Container sx={ { border: '1px solid black', h: '100%' } } fixed key={ '___RootContainer' }>
 
-              { children }
-            </Container>
-          </Providers>
-        </SessionProvider>
+            { children }
+          </Container>
+        </Providers>
+        {/* </SessionProvider> */ }
       </body>
     </html>
   );

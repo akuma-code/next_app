@@ -1,6 +1,5 @@
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["multiSchema"]
+    provider = "prisma-client-js"
 }
 
 datasource db {
@@ -13,8 +12,11 @@ model Player {
 
     name String
 
-    createdAt DateTime  @default(now())
-    updatedAt DateTime?
+    profile     Profile? @relation(fields: [profileUuId], references: [uuid])
+    profileUuId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     events Event[]
 
@@ -22,7 +24,7 @@ model Player {
 }
 
 model Event {
-    uuid String   @id @default(uuid())
+    id   Int      @id @default(autoincrement())
     date DateTime
 
     players Player[]
@@ -34,4 +36,6 @@ model Profile {
     uuid       String  @id @default(uuid())
     rttf_score Int?
     rttf_link  String?
+
+    Player Player[]
 }
