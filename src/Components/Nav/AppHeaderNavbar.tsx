@@ -1,10 +1,7 @@
 import { paths } from '@/paths';
-import { AppBar, Box, Breadcrumbs, Button, Paper, Toolbar, Typography } from '@mui/material';
+import { AppBar, Breadcrumbs, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import { auth, signOut } from '../../../auth';
-import { useSession } from 'next-auth/react';
-import { _log } from '@/Helpers/helpersFns';
 
 
 interface AppHeaderProps {
@@ -51,7 +48,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ pageUrl.admin }> Админка </Link>
                     </Typography>
-                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
+                    {/* <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ apiUrl.auth }> Авторизиция </Link>
                     </Typography>
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
@@ -67,7 +64,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                         <Button
                             variant='contained' color='info' type='submit'
                         >SignOut</Button>
-                    </form>
+                    </form> */}
                 </Breadcrumbs>
             </Toolbar>
         </AppBar>
