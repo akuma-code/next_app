@@ -14,13 +14,14 @@ type FormState = {
     nickname: string
     password: string
     error?: string | null
-    role?: UserRoles
+    role: UserRoles
     id?: string
 }
 
 const initalState: FormState = {
     nickname: "",
     password: "",
+    role: "guest",
     // id?: "",
     error: null,
 
@@ -33,7 +34,7 @@ export const roleEnum: Record<UserRoles, string> = {
     user: "Юзер"
 }
 export default function RegisterForm() {
-    const [state, dispatch] = useFormState(register, undefined);
+    const [state, dispatch] = useFormState(register, initalState);
     const [ur, setRole] = useState('guest')
     return (
         <form action={ dispatch } className="space-y-3" name='loginform'>

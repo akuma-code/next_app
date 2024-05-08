@@ -16,14 +16,14 @@ export const createUser = async (payload: CreateUserPayload) => {
     const new_user = await prisma.user.create({
         data: {
             ...verifiedUserData,
-        }
-        // select: {
-        //     id: true,
-        //     nickname: true,
-        //     role: true,
-        //     session: true,
+        },
+        select: {
 
-        // }
+            nickname: true,
+            role: true,
+
+
+        }
     })
     return new_user
 }

@@ -1,5 +1,5 @@
-
-import { PlayerInfo } from "@prisma/client";
+'use server'
+import { Player, PlayerInfo } from "@prisma/client";
 import prisma from "../../prisma/client/client";
 import { _log } from "@/Helpers/helpersFns";
 
@@ -17,8 +17,14 @@ export async function createPlayer(name: string, info?: Partial<PlayerInfo>) {
                     name,
                     PlayerInfo: {
                         create: {
-                            rttf_link, rttf_score
+                            rttf_link, rttf_score: rttf_score ? +rttf_score : undefined
                         }
+                    }
+                },
+                select: {
+                    name: true,
+                    PlayerInfo: {
+                        select: { rttf_link: true, rttf_score: true }
                     }
                 }
             })
@@ -49,10 +55,44 @@ export async function deletePlayer(payload: DeletePayload) {
 
 }
 
-
-export async function getPlayers() {
+export async function editPlayer(PlayerId: string, data: Partial<Player & PlayerInfo>) {
     try {
-        const p = await prisma.player.findMany()
+        const id = Number(PlayerId)
+        const p = await prisma.player.findUnique({ where: { id } })
+        if (p) {
+            const name = data?.name
+            if (!name) return
+
+            return await prisma.player.update({
+                where: { id },
+                data: name
+            },
+            )
+
+
+        }
+        return
+    } catch (e) {
+        _log(`___Edit player error: \n ${e} \n_____`)
+    }
+
+}
+
+
+export async function getPlayers(info?: string) {
+    try {
+
+        const p = await prisma.player.findMany({ include: { PlayerInfo: !!info } })
+        return p
+    } catch (error) {
+        _log("___Find error: \n", error)
+        throw new Error("findmany error")
+    }
+}
+export async function getOnePlayer(id: number) {
+    try {
+
+        const p = await prisma.player.findUnique({ where: { id }, include: { PlayerInfo: true } })
         return p
     } catch (error) {
         _log("___Find error: \n", error)

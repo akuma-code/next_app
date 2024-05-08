@@ -12,15 +12,15 @@ model Player {
 
   name String
 
-  infoUuid String?
+  // infoUuid String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   events Event[]
 
-  playerInfoUuid String?
-  PlayerInfo     PlayerInfo[]
+  // playerInfoUuid String?
+  PlayerInfo PlayerInfo?
 
   @@map("players")
 }
@@ -38,7 +38,7 @@ model PlayerInfo {
   uuid       String  @id @default(uuid())
   rttf_score Int?
   rttf_link  String?
-  playerId   Int
+  playerId   Int     @unique
   Player     Player  @relation(fields: [playerId], references: [id])
 
   @@map("Profile")
