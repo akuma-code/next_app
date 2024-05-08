@@ -22,7 +22,10 @@ const routes = [
         to: pageUrl.users,
         text: 'Users'
     },
-
+    {
+        to: '/avangard',
+        text: 'Авангард'
+    }
 ]
 
 export const AppHeader: React.FC<AppHeaderProps> = async () => {
