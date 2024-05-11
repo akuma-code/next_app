@@ -7,11 +7,12 @@ import Link from "next/link";
 interface OnePlayerPropsPage {
     params?: {
         id: number
-    }
+    },
+    searchParams?: { id: string }
 }
 
 const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {
-    const id = params.params?.id
+    const id = params.params?.id ?? params.searchParams?.id
     if (!id) return <div>Invalid Id</div>
     const player = await getOnePlayer(+id)
     if (!player) return <div>No player found, { id }</div>
@@ -38,12 +39,15 @@ const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params
                     </Link>
                     <Link href={ {
                         pathname: `/avangard/players/${id}`,
-                        query: { form: 'edit' },
+                        query: { action: 'edit', id },
                     } }
                         className="border-2 border-black w-fit p-1">
                         Edit
                     </Link>
-                    <Link href={ '/avangard/players' } className="border-2 border-black w-fit p-1">
+                    <Link href={ {
+                        pathname: '/avangard/players/' + id,
+                        query: { action: 'delete', id }
+                    } } className="border-2 border-black w-fit p-1">
                         Delete
                     </Link>
                 </Stack>

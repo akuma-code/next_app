@@ -2,6 +2,7 @@
 import { Player, PlayerInfo } from "@prisma/client";
 import prisma from "../../prisma/client/client";
 import { _log } from "@/Helpers/helpersFns";
+import { revalidatePath } from "next/cache";
 
 
 type DeletePayload = {
@@ -9,30 +10,31 @@ type DeletePayload = {
 }
 export async function createPlayer(name: string, info?: Partial<PlayerInfo>) {
     try {
+        const player = await prisma.player.create({
+            data: {
+                name
+            },
+            include: { PlayerInfo: true }
+        })
         if (info) {
             const { rttf_score, rttf_link } = info;
 
-            const p = prisma.player.create({
+            await prisma.player.update({
+                where: { id: player.id },
                 data: {
-                    name,
                     PlayerInfo: {
-                        create: {
-                            rttf_link, rttf_score: rttf_score ? +rttf_score : undefined
+                        connectOrCreate: {
+                            where: { playerId: player.id },
+                            create: { rttf_link, rttf_score }
                         }
-                    }
-                },
-                select: {
-                    name: true,
-                    PlayerInfo: {
-                        select: { rttf_link: true, rttf_score: true }
                     }
                 }
             })
-
-            return prisma.$transaction([p])
         }
+        revalidatePath('/')
+        return player
 
-        return await prisma.player.create({ data: { name } })
+        // return await prisma.player.create({ data: { name } })
     } catch (error) {
         _log("___Create error: \n", error)
         throw new Error("__create error")
@@ -56,22 +58,35 @@ export async function deletePlayer(payload: DeletePayload) {
 }
 
 export async function editPlayer(PlayerId: string, data: Partial<Player & PlayerInfo>) {
+    const { name, rttf_score } = data
     try {
         const id = Number(PlayerId)
         const p = await prisma.player.findUnique({ where: { id } })
         if (p) {
-            const name = data?.name
+            // const name = data?.name
             if (!name) return
-
-            return await prisma.player.update({
+            revalidatePath('/')
+            const pp = await prisma.player.update({
                 where: { id },
-                data: { ...data }
+                data: {
+                    name,
+                    PlayerInfo: {
+                        connectOrCreate: {
+                            where: { playerId: id },
+                            create: {
+                                rttf_score: Number(rttf_score)
+                            }
+                        }
+                    }
+                },
+                include: { PlayerInfo: true }
+
             },
             )
-
+            return pp
 
         }
-        return
+        return revalidatePath('/')
     } catch (e) {
         _log(`___Edit player error: \n ${e} \n_____`)
     }
