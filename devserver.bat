@@ -1,1 +1,1 @@
-npm run next dev
+npx next dev

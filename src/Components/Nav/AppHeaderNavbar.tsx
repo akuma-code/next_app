@@ -25,6 +25,10 @@ const routes = [
     {
         to: '/avangard',
         text: 'Авангард'
+    },
+    {
+        to: '/avangard/players',
+        text: 'Игроки'
     }
 ]
 

@@ -1,7 +1,7 @@
 import { _log } from "@/Helpers/helpersFns";
 import { createPlayer, getPlayers } from "@/Services/playerService";
 import { NextRequest } from "next/server";
-import prisma from "../../../../prisma/client/client";
+import prisma from "../../../../../prisma/client/client";
 
 export async function GET(req: NextRequest) {
 

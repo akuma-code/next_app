@@ -65,7 +65,7 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
 
             return await prisma.player.update({
                 where: { id },
-                data: name
+                data: { ...data }
             },
             )
 
@@ -96,6 +96,6 @@ export async function getOnePlayer(id: number) {
         return p
     } catch (error) {
         _log("___Find error: \n", error)
-        throw new Error("findmany error")
+        throw new Error("findone error")
     }
 }

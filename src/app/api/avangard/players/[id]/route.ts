@@ -1,6 +1,6 @@
 import { Player } from "@prisma/client";
 import { NextRequest } from "next/server";
-import prisma from "../../../../../prisma/client/client";
+import prisma from "../../../../../../prisma/client/client";
 import { editPlayer, getOnePlayer } from "@/Services/playerService";
 import { _log } from "@/Helpers/helpersFns";
 
