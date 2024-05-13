@@ -1,12 +1,14 @@
 'use server'
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
+import DeleteButton from "@/ClientComponents/UI/DeleteButton";
 import { createPlayer, getPlayers } from "@/Services/playerService";
 import { DeleteTwoTone, EditNotificationsTwoTone, EditTwoTone } from "@mui/icons-material";
 import { Box, Button, IconButton, List, ListItem, ListItemButton, ListItemText, Paper, Stack, Typography } from "@mui/material";
 import { PlayerInfo } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
+import { deletePlayerAction } from "./actions";
 
 async function AvPlayers(query?: { searchParams?: { action: string } }) {
 
@@ -47,7 +49,9 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
                                         query: { action: 'delete', id: p.id }
                                     } }>
 
-                                        <DeleteTwoTone />
+                                        <DeleteButton deleteId={ p.id } formAction={ deletePlayerAction }>
+                                            <DeleteTwoTone />
+                                        </DeleteButton>
                                     </Link>
                                 </ListItemButton>
                             </ListItem>

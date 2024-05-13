@@ -45,6 +45,7 @@ export async function createPlayer(name: string, info?: Partial<PlayerInfo>) {
 
 export async function deletePlayer(payload: DeletePayload) {
     const p = await prisma.player.findUnique({ where: payload })
+    _log(p)
     if (p) {
         try {
             return await prisma.player.delete({ where: payload })
