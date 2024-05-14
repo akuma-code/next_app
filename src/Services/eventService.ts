@@ -2,11 +2,11 @@
 
 import dayjs from "dayjs"
 import prisma from "../../prisma/client/client"
+import { _date } from "@/Helpers/dateFuncs"
 
 export async function createEvent(event_date?: string) {
-    const today = dayjs(Date.now()).format('DD/MM/YYYY')
-    const DATE = event_date ?? today
-    const d = dayjs(event_date).format()
+
+    const d = _date(event_date).format
     try {
         const ev = await prisma.event.create({
             data: {

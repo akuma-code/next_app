@@ -2,20 +2,22 @@
 
 import { _log } from "@/Helpers/helpersFns"
 import { createEvent } from "@/Services/eventService"
-import { Button, Divider } from "@mui/material"
+import { Button, Divider, List, ListItem, ListItemButton } from "@mui/material"
 import { DateCalendar, DateView } from "@mui/x-date-pickers"
 import { PickerSelectionState } from "@mui/x-date-pickers/internals"
 import dayjs, { Dayjs } from "dayjs"
 import Link from "next/link"
-import { redirect, useParams, useSearchParams } from "next/navigation"
+import { useRouter, redirect, useParams, usePathname, useSearchParams } from "next/navigation"
+
 import { Suspense, useCallback, useState } from "react"
 
 const today = dayjs()
 
 const EventCalendar: React.FC = () => {
+    const router = useRouter()
     const [value, setValue] = useState<Dayjs>(dayjs())
     const searchParams = useSearchParams()
-
+    const path = usePathname()
     // Get a new searchParams string by merging the current
     // searchParams with a provided key/value pair
     const createQueryString = useCallback(
@@ -37,20 +39,28 @@ const EventCalendar: React.FC = () => {
                     showDaysOutsideCurrentMonth={ true }
                     onChange={ (v) => {
 
-                        const date = [+v.$y, +v.$M, +v.$D]
+
                         const _d = dayjs(v)
-                        setValue(_d)
-                        const s = createQueryString('date', value.format('DD-MM-YYYY'))
-                        _log(s)
-                        return s
+                        setValue(prev => _d)
+                        const s = createQueryString('date', _d.format())
+                        router.push(path + '?' + s)
+
                     } }
                     value={ value }
 
                 />
+                {/* <List>
+                    <ListItem>
+
+                        <ListItemButton>
+
+                        </ListItemButton>
+                    </ListItem>
+                </List>
 
                 <Button variant="contained" onClick={ async () => await createEv() }>
                     Create Event
-                </Button>
+                </Button> */}
             </Suspense>
 
         </>

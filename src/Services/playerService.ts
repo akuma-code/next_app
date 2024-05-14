@@ -3,6 +3,7 @@ import { Player, PlayerInfo } from "@prisma/client";
 import prisma from "../../prisma/client/client";
 import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
+import dayjs from "dayjs";
 
 
 type DeletePayload = {
@@ -12,6 +13,20 @@ type DeletePayload = {
 type InfoCreatePayload = {
     rttf_score?: number
     rttf_link?: string
+}
+
+export type PlayerWithInfo = {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date,
+    PlayerInfo:
+    {
+        uuid: string;
+        rttf_score: number | null;
+        rttf_link: string | null;
+        playerId: number;
+    } | null;
 }
 export async function createPlayer(name: string, info?: InfoCreatePayload) {
     try {
@@ -119,7 +134,27 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
 export async function getPlayers(info?: string) {
     try {
 
-        const p = await prisma.player.findMany({ include: { PlayerInfo: !!info } })
+        const p = await prisma.player.findMany({ include: { PlayerInfo: !!info, events: true } })
+        return p
+    } catch (error) {
+        _log("___Find error: \n", error)
+        throw new Error("findmany error")
+    }
+}
+export async function getPlayersWithEvents(date?: string) {
+    const searchdate = dayjs(date).format()
+    _log("searchdate: ", searchdate)
+    try {
+
+        const p = await prisma.player.findMany({
+            where: {
+                events: {
+                    some: {
+                        date: searchdate
+                    }
+                }
+            }, include: { PlayerInfo: true, events: !!date }
+        })
         return p
     } catch (error) {
         _log("___Find error: \n", error)
