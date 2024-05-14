@@ -26,10 +26,10 @@ const routes = [
         to: '/avangard',
         text: 'Авангард'
     },
-    {
-        to: '/avangard/players',
-        text: 'Игроки'
-    }
+    // {
+    //     to: '/avangard/players',
+    //     text: 'Игроки'
+    // }
 ]
 
 export const AppHeader: React.FC<AppHeaderProps> = async () => {

@@ -39,7 +39,7 @@ model PlayerInfo {
   rttf_score Int?
   rttf_link  String?
   playerId   Int     @unique
-  Player     Player  @relation(fields: [playerId], references: [id])
+  Player     Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
   @@map("Profile")
 }

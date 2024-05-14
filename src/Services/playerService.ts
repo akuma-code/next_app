@@ -8,7 +8,12 @@ import { revalidatePath } from "next/cache";
 type DeletePayload = {
     id: number
 }
-export async function createPlayer(name: string, info?: Partial<PlayerInfo>) {
+
+type InfoCreatePayload = {
+    rttf_score?: number
+    rttf_link?: string
+}
+export async function createPlayer(name: string, info?: InfoCreatePayload) {
     try {
         const player = await prisma.player.create({
             data: {
@@ -19,19 +24,24 @@ export async function createPlayer(name: string, info?: Partial<PlayerInfo>) {
         if (info) {
             const { rttf_score, rttf_link } = info;
 
-            await prisma.player.update({
+            const addInfo = await prisma.player.update({
                 where: { id: player.id },
                 data: {
                     PlayerInfo: {
-                        connectOrCreate: {
-                            where: { playerId: player.id },
-                            create: { rttf_link, rttf_score }
+                        create: {
+                            // where: { playerId: player.id },
+                            // create: { rttf_link, rttf_score }
+                            rttf_link, rttf_score
                         }
                     }
                 }
             })
+
+            revalidatePath('/')
+            return addInfo
         }
         revalidatePath('/')
+
         return player
 
         // return await prisma.player.create({ data: { name } })
@@ -44,11 +54,16 @@ export async function createPlayer(name: string, info?: Partial<PlayerInfo>) {
 }
 
 export async function deletePlayer(payload: DeletePayload) {
-    const p = await prisma.player.findUnique({ where: payload })
-    _log(p)
+    const { id } = payload
+    const p = await prisma.player.findFirst({ where: { id } })
+    // _log(p)
     if (p) {
         try {
-            return await prisma.player.delete({ where: payload })
+
+            const d = await prisma.player.delete({ where: { id } })
+            _log("deleted: ", d)
+            revalidatePath('/')
+            return d
         } catch (error) {
             _log("___Delete error: \n", error)
             throw new Error("delete error")
@@ -59,7 +74,8 @@ export async function deletePlayer(payload: DeletePayload) {
 }
 
 export async function editPlayer(PlayerId: string, data: Partial<Player & PlayerInfo>) {
-    const { name, rttf_score } = data
+    const { name, rttf_score, rttf_link } = data
+    const score = rttf_score ? +rttf_score : null
     try {
         const id = Number(PlayerId)
         const p = await prisma.player.findUnique({ where: { id } })
@@ -72,12 +88,17 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
                 data: {
                     name,
                     PlayerInfo: {
-                        connectOrCreate: {
-                            where: { playerId: id },
-                            create: {
-                                rttf_score: Number(rttf_score)
-                            }
+                        update: {
+
+                            rttf_link,
+                            rttf_score: score
                         }
+                        // connectOrCreate: {
+                        //     where: { playerId: id },
+                        //     create: {
+                        //         rttf_score: Number(rttf_score)
+                        //     }
+                        // }
                     }
                 },
                 include: { PlayerInfo: true }

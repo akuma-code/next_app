@@ -1,17 +1,19 @@
 'use client'
 
 import { _log } from "@/Helpers/helpersFns"
-import { Divider } from "@mui/material"
+import { createEvent } from "@/Services/eventService"
+import { Button, Divider } from "@mui/material"
 import { DateCalendar, DateView } from "@mui/x-date-pickers"
 import { PickerSelectionState } from "@mui/x-date-pickers/internals"
-import dayjs from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 import Link from "next/link"
-import { useParams, useSearchParams } from "next/navigation"
+import { redirect, useParams, useSearchParams } from "next/navigation"
 import { Suspense, useCallback, useState } from "react"
 
+const today = dayjs()
 
-const EventCalendar = () => {
-    const [value, setValue] = useState<any | undefined>()
+const EventCalendar: React.FC = () => {
+    const [value, setValue] = useState<Dayjs>(dayjs())
     const searchParams = useSearchParams()
 
     // Get a new searchParams string by merging the current
@@ -25,8 +27,8 @@ const EventCalendar = () => {
         },
         [searchParams]
     )
-
-    const today = dayjs(value)
+    const _date = dayjs(value).format()
+    const createEv = createEvent.bind(null, _date)
     return (
         <>
             <Suspense fallback={ <div>load</div> }>
@@ -34,20 +36,25 @@ const EventCalendar = () => {
                 <DateCalendar
                     showDaysOutsideCurrentMonth={ true }
                     onChange={ (v) => {
-                        _log(dayjs(v))
-                        const date = [+v.$y, +v.$M + 1, +v.$D]
-                        setValue(date.join('-'))
-                        const s = createQueryString('date', value)
 
+                        const date = [+v.$y, +v.$M, +v.$D]
+                        const _d = dayjs(v)
+                        setValue(_d)
+                        const s = createQueryString('date', value.format('DD-MM-YYYY'))
+                        _log(s)
                         return s
                     } }
-
+                    value={ value }
 
                 />
+
+                <Button variant="contained" onClick={ async () => await createEv() }>
+                    Create Event
+                </Button>
             </Suspense>
 
         </>
     )
 }
-
+EventCalendar.displayName = "___EventCalendar"
 export default EventCalendar

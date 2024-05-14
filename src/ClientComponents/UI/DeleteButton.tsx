@@ -1,31 +1,41 @@
 'use client'
 import { _log } from "@/Helpers/helpersFns";
+import { deletePlayer } from "@/Services/playerService";
 import { Button } from "@mui/material";
 import { useSearchParams } from "next/navigation";
+import React, { type ButtonHTMLAttributes } from "react";
 
 import { useFormStatus } from "react-dom";
 
-interface DeleteButtonProps {
-    formAction: (formdata: FormData) => void
+interface DeleteButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+
     deleteId: number
     children?: React.ReactNode
     buttonProps?: {
         variant?: 'contained' | 'outlined' | 'text'
     }
+
 }
 
 const DeleteButton: React.FunctionComponent<DeleteButtonProps> = (props) => {
+    const {
+        buttonProps = { variant: 'outlined' },
+        deleteId,
+        children,
+
+
+    } = props
     const { pending } = useFormStatus()
-    const { buttonProps = { variant: 'outlined' } } = props
-    const q = useSearchParams()
-    const id = q.get('id')
+    const deleteAction = deletePlayer.bind(null, { id: deleteId })
+
     return (
-        <form action={ props.formAction }>
-            <input type="hidden" value={ props.deleteId } />
-            <Button { ...buttonProps } type="submit" disabled={ pending } color="info" >
-                { props.children }
+        <form action={ deleteAction }>
+
+            <Button { ...buttonProps } disabled={ pending } color="info" type={ "submit" }  >
+                { children }
             </Button>
         </form>
+
     );
 }
 

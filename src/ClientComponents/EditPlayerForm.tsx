@@ -2,13 +2,12 @@
 
 import { _log } from "@/Helpers/helpersFns";
 import { editPlayer } from "@/Services/playerService";
-import { Box, Button, Fade, Paper, Stack, TextField } from "@mui/material";
-import { Player, PlayerInfo } from "@prisma/client";
-import { revalidatePath } from "next/cache";
+import { Fade, Paper, Stack, TextField } from "@mui/material";
+import { Player } from "@prisma/client";
 import { redirect, useParams, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import SubmitButton from "./UI/SubmitButton";
 import ResetButton from "./UI/ResetButton";
+import SubmitButton from "./UI/SubmitButton";
 
 interface EditPlayerFormProps {
     player?: Player
@@ -16,24 +15,30 @@ interface EditPlayerFormProps {
 
 const EditPlayerForm: React.FunctionComponent<EditPlayerFormProps> = ({ player }) => {
     const s = useSearchParams()
-    const params = useParams() as { id: string }
+    const params = useParams() as { id?: string }
+
     const f = s.get('action')
 
-    if (!f || f !== 'edit') return null
 
+    const playerId = params.id ?? s.get('id')
+
+
+    if (!playerId) {
+        _log("Invalid id!", playerId)
+        return null
+    }
     const editAction = async (d: FormData) => {
-        const new_name = d.get('name')
 
         const new_data = Object.fromEntries(d) as { name?: string, rttf_score?: number }
-        if (!new_name) return
 
-        await editPlayer(params?.id, { ...new_data })
-        return redirect('/avangard/players/' + params.id)
+        await editPlayer(playerId, { ...new_data })
+        return redirect('/avangard/players/' + playerId)
     }
 
+    if (f !== 'edit') return null
     return (
         <Suspense fallback={ <div>Loading form...</div> }>
-            <Fade in={ !!f } timeout={ 2000 }>
+            <Fade in={ !!f } timeout={ 1000 }>
 
                 <Paper elevation={ 2 } sx={ { p: 2 } }>
 
@@ -63,10 +68,10 @@ const EditPlayerForm: React.FunctionComponent<EditPlayerFormProps> = ({ player }
                             <SubmitButton label="Подтвердить" />
                             <ResetButton />
                         </Stack>
-                        {/* <Button color="success" type="submit">Submit</Button> */ }
-                        {/* <Button color="secondary" type="reset">Reset</Button> */ }
+
 
                     </form>
+
                 </Paper>
             </Fade>
         </Suspense>

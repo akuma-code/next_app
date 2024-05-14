@@ -2,17 +2,19 @@
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
 import DeleteButton from "@/ClientComponents/UI/DeleteButton";
-import { createPlayer, getPlayers } from "@/Services/playerService";
-import { DeleteTwoTone, EditNotificationsTwoTone, EditTwoTone } from "@mui/icons-material";
-import { Box, Button, IconButton, List, ListItem, ListItemButton, ListItemText, Paper, Stack, Typography } from "@mui/material";
+import { createPlayer, getOnePlayer, getPlayers } from "@/Services/playerService";
+import { DeleteTwoTone, EditTwoTone } from "@mui/icons-material";
+import { Box, Button, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
 import { PlayerInfo } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
-import { deletePlayerAction } from "./actions";
 
 async function AvPlayers(query?: { searchParams?: { action: string } }) {
 
     const players = await getPlayers("info")
+
+    const show = query?.searchParams?.action ? true : false
+    const showEdit = query?.searchParams?.action === 'edit'
+    const showCreate = query?.searchParams?.action === 'create'
     // if (players.length === 0) return <div>No players</div>
     return (
         <Stack direction={ 'row' } columnGap={ 2 }>
@@ -23,36 +25,29 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
                         { players.map((p, idx) =>
 
                             <ListItem key={ p.id }>
-                                <ListItemText>
-                                    <Typography variant="body1">
+                                <ListItemText
+                                    secondaryTypographyProps={ { ml: 2 } }
+                                    primary={
                                         <Link href={ {
                                             pathname: 'players/' + p.id.toString(),
                                         } }
                                             className="hover:underline"
                                         >
-
                                             { idx + 1 }. { p.name }
                                         </Link>
-                                    </Typography>
-                                    {
-                                        p.PlayerInfo?.rttf_score &&
-                                        <Typography variant="body2" ml={ 2 }>
-                                            рейтинг: { p.PlayerInfo?.rttf_score }
-                                        </Typography>
                                     }
-                                </ListItemText>
-
-
+                                    secondary={
+                                        p.PlayerInfo?.rttf_score &&
+                                        <span> рейтинг: { p.PlayerInfo?.rttf_score }</span>
+                                    }
+                                />
+                                <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>
+                                    <EditTwoTone />
+                                </ListItemButton>
                                 <ListItemButton color="red">
-                                    <Link href={ {
-                                        pathname: '/avangard/players',
-                                        query: { action: 'delete', id: p.id }
-                                    } }>
-
-                                        <DeleteButton deleteId={ p.id } formAction={ deletePlayerAction }>
-                                            <DeleteTwoTone />
-                                        </DeleteButton>
-                                    </Link>
+                                    <DeleteButton deleteId={ +p.id }>
+                                        <DeleteTwoTone />
+                                    </DeleteButton>
                                 </ListItemButton>
                             </ListItem>
                         ) }
@@ -64,7 +59,7 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
                 <Box ml={ 2 }>
 
                     {
-                        query?.searchParams?.action ?
+                        show ?
 
                             <CloseFormButton />
                             :
@@ -73,21 +68,18 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
                 </Box>
             </Stack>
 
-
-            <CreatePlayerForm faction={ createPlayerAction } />
-            <EditPlayerForm />
+            {
+                showCreate &&
+                <CreatePlayerForm />
+            }
+            {
+                showEdit &&
+                <EditPlayerForm />
+            }
         </Stack>
     );
 }
 
-async function createPlayerAction(formdata: FormData) {
-    'use server'
-    const data = Object.fromEntries(formdata.entries()) as { name?: string, info?: Partial<PlayerInfo> }
-    const { name, info } = data;
-    if (!name) return
-    const p = await createPlayer(name, info)
-    return
-}
 
 function CloseFormButton() {
 

@@ -1,5 +1,7 @@
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
+import DeleteButton from "@/ClientComponents/UI/DeleteButton";
 import { getOnePlayer } from "@/Services/playerService";
+import { DeleteTwoTone } from "@mui/icons-material";
 import { Box, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -8,7 +10,7 @@ interface OnePlayerPropsPage {
     params?: {
         id: number
     },
-    searchParams?: { id: string }
+    searchParams?: { id: string, action: string }
 }
 
 const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {
@@ -18,6 +20,7 @@ const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params
     if (!player) return <div>No player found, { id }</div>
     const { PlayerInfo, name, createdAt } = player;
     const date = dayjs(new Date(createdAt)).format('DD/MM/YYYY')
+    const showEdit = params?.searchParams?.action === 'edit'
     return (
         <Stack direction={ 'row' }>
 
@@ -34,25 +37,29 @@ const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params
 
                 <Stack direction={ 'row' } spacing={ 4 }>
 
-                    <Link href={ '/avangard/players' } className="border-2 border-black w-fit p-1">
+                    <Link href={ '/avangard/players' } className=" w-fit p-1">
                         Back
                     </Link>
-                    <Link href={ {
-                        pathname: `/avangard/players/${id}`,
-                        query: { action: 'edit', id },
-                    } }
-                        className="border-2 border-black w-fit p-1">
-                        Edit
-                    </Link>
-                    <Link href={ {
-                        pathname: '/avangard/players/' + id,
-                        query: { action: 'delete', id }
-                    } } className="border-2 border-black w-fit p-1">
+                    <DeleteButton deleteId={ +id } >
                         Delete
-                    </Link>
+                        <DeleteTwoTone />
+                    </DeleteButton>
+                    {
+                        !showEdit &&
+                        <Link href={ {
+                            pathname: `/avangard/players/${id}`,
+                            query: { action: 'edit', id },
+                        } }
+                            className="border-2 border-black w-fit p-1">
+                            Edit
+                        </Link>
+                    }
+
                 </Stack>
             </Stack>
-            <EditPlayerForm player={ player } />
+            { showEdit &&
+                <EditPlayerForm player={ player } />
+            }
 
         </Stack>
     );

@@ -18,30 +18,24 @@ const CreatePlayerForm: React.FunctionComponent<CreatePlayerFormProps> = ({ fact
     const show = q.has('action')
     const action = q.get('action')
     if (!show || action !== 'create') return null
+
+
     const createAction = async (fd: FormData) => {
         const data = Object.fromEntries(fd) as { name: string, rttf_score?: string }
         const { name, rttf_score } = data
-        if (faction) {
-            try {
-                return faction(fd)
-            } catch (error) {
-
-            }
-        }
-        await createPlayer(name)
+        const score = rttf_score ? +rttf_score : 0
+        await createPlayer(name, { rttf_score: score })
         redirect('/avangard/players')
-        // revalidatePath('/avangard/[players]')
-    }
-
-    async function handleCreate(data: FormData): Promise<void> {
 
     }
+
+
     return (
         <Suspense fallback={ <div>Loading form...</div> }>
             <Fade in={ show } timeout={ { enter: 1000, exit: 500 } }>
                 <Paper elevation={ 2 } sx={ { p: 2 } }>
 
-                    <form action={ faction }>
+                    <form action={ createAction }>
                         <Stack>
 
                             Добавить нового игрока
