@@ -23,7 +23,7 @@ export default async function AvangardPage(search?: {
         <Stack direction={ 'row' }>
             <EventCalendar />
             <PlayersList players={ mapped } />
-            { searchDate && <PlayersList players={ evPlayers } /> }
+            { evPlayers.length > 0 && <PlayersList players={ evPlayers.map(p => ({ id: p.id, name: p.name })) } /> }
         </Stack>
     )
 }
