@@ -27,6 +27,7 @@ const EventCalendar: React.FC = () => {
             params.set(name, dayjs(value).format())
             router.push(path + '?' + params.toString())
             // return params.toString()
+
         },
         [searchParams]
     )

@@ -1,10 +1,11 @@
 'use server'
 import { Player, PlayerInfo } from "@prisma/client";
-import prisma from "../../prisma/client/client";
+
 import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
 import dayjs from "dayjs";
 import { _date } from "@/Helpers/dateFuncs";
+import prisma from "@/client/client";
 
 
 type DeletePayload = {
@@ -28,6 +29,10 @@ export type PlayerWithInfo = {
         rttf_link: string | null;
         playerId: number;
     } | null;
+    events?: {
+        id: number;
+        date: Date;
+    }[];
 }
 export async function createPlayer(name: string, info?: InfoCreatePayload) {
     try {
@@ -194,4 +199,29 @@ export async function getOnePlayer(id: number) {
         _log("___Find error: \n", error)
         throw new Error("findone error")
     }
+}
+
+
+interface PlayerFullInfo {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+    events: {
+        id: number;
+        date: Date;
+    }[];
+    PlayerInfo: {
+        uuid: string;
+        rttf_score: number | null;
+        rttf_link: string | null;
+        playerId: number;
+    } | null;
+}
+
+export async function getPlayerWithCondition(condition: any): Promise<PlayerFullInfo[]> {
+    const dbp = prisma.player
+    return await dbp.findMany({ where: condition, include: { events: true, PlayerInfo: true } })
+
+
 }

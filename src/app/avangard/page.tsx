@@ -24,13 +24,13 @@ export default async function AvangardPage(search?: PageProps) {
     return (
         <Stack direction={ 'row' }>
             <EventCalendar />
-            <PlayersList players={ mapped }
+            {/* <PlayersList players={ mapped }
                 title={
                     <Typography variant="body2" textAlign={ 'center' }>
                         Общий список
                     </Typography>
                 }
-            />
+            /> */}
             {
 
                 <PlayersList
