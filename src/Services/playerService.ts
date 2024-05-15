@@ -143,7 +143,7 @@ export async function getPlayers(info?: string) {
 }
 export async function getPlayersWithEvents(date?: string) {
     const searchdate = dayjs(date).format()
-    _log("searchdate: ", searchdate)
+
     try {
 
         const p = await prisma.player.findMany({

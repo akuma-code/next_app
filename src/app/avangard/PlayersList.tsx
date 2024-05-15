@@ -9,18 +9,25 @@ interface PlayersListProps {
 
 }
 export const PlayersList: React.FC<PlayersListProps> = ({ players }) => {
+
     return (
         <List sx={ { p: 2 } }>
-            { players.map(p =>
-                <ListItem key={ p.id }
-                    disablePadding
-                    dense
-                >
-                    <ListItemButton>
-                        { p.name }
-                    </ListItemButton>
+            { players.length > 0 ?
+                players.map(p =>
+                    <ListItem key={ p.id }
+                        disablePadding
+                        dense
+                    >
+                        <ListItemButton>
+                            { p.name }
+                        </ListItemButton>
+                    </ListItem>
+                )
+                :
+                <ListItem>
+                    List is empty
                 </ListItem>
-            ) }
+            }
         </List>
     )
 };

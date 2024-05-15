@@ -30,7 +30,7 @@ const EventCalendar: React.FC = () => {
         [searchParams]
     )
     const _date = dayjs(value).format()
-    const createEv = createEvent.bind(null, _date)
+    const createEv = createEvent.bind(null, value.format())
     return (
         <>
             <Suspense fallback={ <div>load</div> }>
@@ -41,8 +41,8 @@ const EventCalendar: React.FC = () => {
 
 
                         const _d = dayjs(v)
-                        setValue(prev => _d)
-                        const s = createQueryString('date', _d.format())
+                        setValue(prev => v)
+                        const s = createQueryString('date', dayjs(v).format())
                         router.push(path + '?' + s)
 
                     } }
@@ -58,10 +58,11 @@ const EventCalendar: React.FC = () => {
                     </ListItem>
                 </List>
 
-                <Button variant="contained" onClick={ async () => await createEv() }>
-                    Create Event
-                </Button> */}
+                */}
             </Suspense>
+            <Button variant="contained" onClick={ async () => await createEv() }>
+                Create Event
+            </Button>
 
         </>
     )
