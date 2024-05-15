@@ -9,3 +9,5 @@ export const _date = (date?: string) => {
 
 
 }
+
+export const _djs = (date?: string) => dayjs(date).format()
