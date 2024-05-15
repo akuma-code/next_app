@@ -15,54 +15,39 @@ const today = dayjs()
 
 const EventCalendar: React.FC = () => {
     const router = useRouter()
-    const [value, setValue] = useState<Dayjs>(dayjs())
     const searchParams = useSearchParams()
+    const selectedDate = searchParams.has('date') ? dayjs(searchParams.get('date')) : today
     const path = usePathname()
+    const [value, setValue] = useState(dayjs(selectedDate))
     // Get a new searchParams string by merging the current
     // searchParams with a provided key/value pair
     const createQueryString = useCallback(
         (name: string, value: string) => {
             const params = new URLSearchParams(searchParams.toString())
-            params.set(name, value)
-
-            return params.toString()
+            params.set(name, dayjs(value).format())
+            router.push(path + '?' + params.toString())
+            // return params.toString()
         },
         [searchParams]
     )
-    const _date = dayjs(value).format()
-    const createEv = createEvent.bind(null, value.format())
+
     return (
         <>
             <Suspense fallback={ <div>load</div> }>
 
                 <DateCalendar
+                    referenceDate={ selectedDate }
                     showDaysOutsideCurrentMonth={ true }
                     onChange={ (v) => {
-
-
-                        const _d = dayjs(v)
                         setValue(prev => v)
-                        const s = createQueryString('date', dayjs(v).format())
-                        router.push(path + '?' + s)
-
+                        createQueryString('date', v)
                     } }
                     value={ value }
 
                 />
-                {/* <List>
-                    <ListItem>
 
-                        <ListItemButton>
-
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-
-                */}
             </Suspense>
-            <Button variant="contained" onClick={ async () => await createEv() }>
-                Create Event
-            </Button>
+
 
         </>
     )

@@ -4,6 +4,7 @@ import prisma from "../../prisma/client/client";
 import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
 import dayjs from "dayjs";
+import { _date } from "@/Helpers/dateFuncs";
 
 
 type DeletePayload = {
@@ -142,6 +143,7 @@ export async function getPlayers(info?: string) {
     }
 }
 export async function getPlayersWithEvents(date?: string) {
+    _log("searchdate valid: ", dayjs(date).isValid())
     const searchdate = dayjs(date).format()
 
     try {
@@ -153,9 +155,31 @@ export async function getPlayersWithEvents(date?: string) {
                         date: searchdate
                     }
                 }
-            }, include: { PlayerInfo: true, events: !!date }
+            }, include: { events: !!date }
         })
+        _log("finded: ", p)
         return p
+    } catch (error) {
+        _log("___Find error: \n", error)
+        throw new Error("findmany error")
+    }
+}
+export async function getPlayersByDateString(date?: string) {
+    _log("searchdate valid: ", dayjs(date).isValid())
+    const searchdate = dayjs(date).format('DD/MM/YYYY')
+    try {
+        const events = await prisma.event.findMany() //* все ивенты
+        const players = await prisma.player.findMany({ include: { events: { select: { id: true } } } }) //* все игроки + ид ивентов
+        const fevents = events.map(e => ({ ...e, date: dayjs(e.date).format('DD/MM/YYYY') })) //* форматируем дату ивентов
+        const eresult = fevents.find(e => e.date === searchdate)?.id //* ищем ивент с датой, совпадающей с искомой
+        _log("\nev.id: ", eresult)
+        if (eresult) {
+            const pres = players.filter(p =>
+                p.events.map(e => e.id).includes(eresult)) //* если ивент нашелся, фильтруем игроков у которых есть ивент с искомым ид
+            _log("\nev.play", pres.map(p => p.name))
+            return pres
+        }
+        return []
     } catch (error) {
         _log("___Find error: \n", error)
         throw new Error("findmany error")
