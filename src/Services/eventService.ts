@@ -113,3 +113,8 @@ export async function updateEvent(payload: EventUpdatePayload) {
         throw new Error("___Update event error:")
     }
 }
+
+export async function getEventsUnique() {
+    const playersByDate = (date: string) => prisma.event.findUnique({ where: { formated_date: date } }).players()
+    return { playersByDate }
+}

@@ -47,7 +47,6 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers 
     const [names, setNames] = useState<string[]>([])
     const selected = useMemo(() => dbPlayers.filter(i => names.includes(i.name)), [names])
     const formated = dayjs(eventDate).format('DD-MM-YY')
-    const existed = getPlayersByEventId({ date: formated })
 
 
     const handleCreate = async () => {
