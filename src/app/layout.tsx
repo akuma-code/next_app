@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AppHeader } from '../Components/Nav/AppHeaderNavbar';
@@ -27,10 +27,11 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({
         {/* <SessionProvider> */ }
         <Providers>
           <AppHeader />
-          <Container sx={ { border: '1px solid black', h: '100%' } } fixed key={ '___RootContainer' }>
+          <Box p={ 3 } bgcolor={ '#f5d7c6' }>
 
             { children }
-          </Container>
+          </Box>
+
         </Providers>
         {/* </SessionProvider> */ }
       </body>

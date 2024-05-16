@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import dayjs from "dayjs";
 import { _date } from "@/Helpers/dateFuncs";
 import prisma from "@/client/client";
+import { parseNames } from "@/dataStore/avangardPlayers";
 
 
 type DeletePayload = {
@@ -109,10 +110,11 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
                 data: {
                     name,
                     PlayerInfo: {
-                        update: {
+                        upsert: {
 
-                            rttf_link,
-                            rttf_score: score
+
+                            create: { rttf_score: score },
+                            update: { rttf_score: score }
                         }
                         // connectOrCreate: {
                         //     where: { playerId: id },
@@ -122,7 +124,7 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
                         // }
                     }
                 },
-                include: { PlayerInfo: true }
+                // include: { PlayerInfo: true }
 
             },
             )
@@ -140,7 +142,20 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
 export async function getPlayers(info?: string) {
     try {
 
-        const p = await prisma.player.findMany({ include: { PlayerInfo: !!info, events: true } })
+        const p = await prisma.player.findMany({
+            select: {
+                PlayerInfo: true,
+                events: true,
+                id: true,
+                name: true,
+                createdAt: true,
+                updatedAt: true
+            },
+            orderBy: {
+                events: { _count: 'desc' },
+                // id: 'asc'
+            },
+        })
         return p
     } catch (error) {
         _log("___Find error: \n", error)
@@ -157,10 +172,10 @@ export async function getPlayersWithEvents(date?: string) {
             where: {
                 events: {
                     some: {
-                        date: searchdate
+                        date: searchdate,
                     }
                 }
-            }, include: { events: !!date }
+            }, include: { events: true }
         })
         _log("finded: ", p)
         return p
@@ -171,11 +186,11 @@ export async function getPlayersWithEvents(date?: string) {
 }
 export async function getPlayersByDateString(date?: string) {
     _log("searchdate valid: ", dayjs(date).isValid())
-    const searchdate = dayjs(date).format('DD/MM/YYYY')
+    const searchdate = dayjs(date).format('DD-MM-YYYY')
     try {
         const events = await prisma.event.findMany() //* все ивенты
         const players = await prisma.player.findMany({ include: { events: { select: { id: true } } } }) //* все игроки + ид ивентов
-        const fevents = events.map(e => ({ ...e, date: dayjs(e.date).format('DD/MM/YYYY') })) //* форматируем дату ивентов
+        const fevents = events.map(e => ({ ...e, date: dayjs(e.date).format('DD-MM-YYYY') })) //* форматируем дату ивентов
         const eresult = fevents.find(e => e.date === searchdate)?.id //* ищем ивент с датой, совпадающей с искомой
         _log("\nev.id: ", eresult)
         if (eresult) {
@@ -193,7 +208,7 @@ export async function getPlayersByDateString(date?: string) {
 export async function getOnePlayer(id: number) {
     try {
 
-        const p = await prisma.player.findUnique({ where: { id }, include: { PlayerInfo: true } })
+        const p = await prisma.player.findUnique({ where: { id }, include: { PlayerInfo: true, events: true, } })
         return p
     } catch (error) {
         _log("___Find error: \n", error)
@@ -224,4 +239,19 @@ export async function getPlayerWithCondition(condition: any): Promise<PlayerFull
     return await dbp.findMany({ where: condition, include: { events: true, PlayerInfo: true } })
 
 
+}
+
+export async function seedPlayers() {
+    const seed = parseNames.map(n => n.secondname ? { name: n.name + " " + n.secondname } : { name: n.name })
+    try {
+        // const pls = prisma.player.createMany({ data: seed, })
+        const seedArray = seed.map(s => prisma.player.create({
+            data: s,
+            include: { PlayerInfo: true, events: true }
+        }))
+        return await prisma.$transaction(seedArray)
+    } catch (error) {
+        _log("___\n", error)
+        throw new Error("SEED ERROR")
+    }
 }

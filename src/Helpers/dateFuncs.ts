@@ -1,4 +1,4 @@
-import dayjs from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 
 export const _date = (date?: string) => {
     const day = dayjs(date)
@@ -10,4 +10,4 @@ export const _date = (date?: string) => {
 
 }
 
-export const _djs = (date?: string) => dayjs(date).format()
+export const _djs = (date?: string | dayjs.Dayjs | null) => dayjs(date).format()

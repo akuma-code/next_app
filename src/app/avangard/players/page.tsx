@@ -19,7 +19,16 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
     return (
         <Stack direction={ 'row' } columnGap={ 2 }>
             <Stack >
+                <Box ml={ 2 }>
 
+                    {
+                        show ?
+
+                            <CloseFormButton />
+                            :
+                            <ShowCreateFormButton />
+                    }
+                </Box>
                 { players.length > 0 ?
                     <List dense disablePadding>
                         { players.map((p, idx) =>
@@ -56,16 +65,7 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
                         No players found
                     </div>
                 }
-                <Box ml={ 2 }>
 
-                    {
-                        show ?
-
-                            <CloseFormButton />
-                            :
-                            <ShowCreateFormButton />
-                    }
-                </Box>
             </Stack>
 
             {

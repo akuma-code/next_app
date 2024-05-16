@@ -25,8 +25,8 @@ const AvangardLayout: React.FC<PropsWithChildren> = async ({ children }) => {
 
     return (
 
-        <Stack direction={ 'row' } spacing={ 4 }>
-            <Box maxWidth={ 300 } p={ 1 } display={ 'flex' } flexDirection={ 'column' } gap={ 1 }>
+        <Stack direction={ { sm: 'row', xs: 'column' } } spacing={ 4 }>
+            <Box maxWidth={ 300 } p={ 1 } display={ 'flex' } flexDirection={ { xs: 'row', sm: 'column' } } >
                 {
                     links.map(item =>
                         <NavLink key={ item.href }
@@ -40,10 +40,10 @@ const AvangardLayout: React.FC<PropsWithChildren> = async ({ children }) => {
 
             </Box>
             <Divider flexItem orientation="vertical" ></Divider>
-            <Box>
 
-                { children }
-            </Box>
+
+            { children }
+
         </Stack>
 
     )

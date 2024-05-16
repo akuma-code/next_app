@@ -1,110 +1,214 @@
 'use client'
+import { _djs } from "@/Helpers/dateFuncs"
+import { createEvent } from "@/Services/eventService"
+import { PlayerWithInfo } from "@/Services/playerService"
+import { CloseTwoTone } from "@mui/icons-material"
+import {
+    Box,
+    Button,
+    ButtonGroup,
+    Card,
+    CardActions,
+    CardContent,
+    Checkbox,
+    FormControl,
+    FormLabel,
+    Grow,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    MenuItem,
+    OutlinedInput,
+    Select,
+    SelectChangeEvent,
+    Stack,
+    Typography
+} from "@mui/material"
+import { DatePicker } from "@mui/x-date-pickers"
+import dayjs, { type Dayjs } from "dayjs"
+import { useMemo, useState } from "react"
 
-import { useItemStore } from "@/Hooks/useItemStore"
-import { PlayerWithInfo, getPlayers } from "@/Services/playerService"
-import { PlayersList } from "@/app/avangard/PlayersList"
-import { Box, Button, List, ListItem, ListItemButton, Stack, Typography } from "@mui/material"
-import { Player, PlayerInfo } from "@prisma/client"
-import dayjs from "dayjs"
-import { useCallback, useEffect, useMemo, useState } from "react"
 
-
+type CreateEventPayload = {
+    event_date: string,
+    ids: { id: number }[]
+}
 type PlayersTransferProps = {
     dbPlayers: PlayerWithInfo[]
 }
+
+const today = dayjs()
 export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers }) => {
-    const [init] = dbPlayers.map(p => p.id).flat()
-    const [players, setPlayers] = useState<PlayerWithInfo[]>(() => dbPlayers)
-    const [store, dispatch] = useItemStore(init)
-
-    const inQueue = (id: number) => store.includes(id)
-    // const [eventPlayers, setEventPlayers] = useState<PlayerWithInfo[]>([])
-    const [eventDate, setEventDate] = useState(() => dayjs().format('DD-MM-YYYY'))
-    const selected = useMemo(() => dbPlayers.filter(i => inQueue(i.id)), [store])
 
 
-    const handleSelect = useCallback((player: PlayerWithInfo) => {
-        inQueue(player.id) ? dispatch.remove(player.id) : dispatch.add(player.id)
+    const options = useMemo(() => dbPlayers.map(p => ({ id: p.id, name: p.name })), [])
+    const [eventDate, setEventDate] = useState<Dayjs | null>(today)
+    const [names, setNames] = useState<string[]>([])
+    const selected = useMemo(() => dbPlayers.filter(i => names.includes(i.name)), [names])
 
 
-    }, [selected, dispatch])
 
 
+    const handleCreate = async () => {
+        // event.preventDefault()
+        const ids = selected.map(p => ({ id: p.id }))
+        const payload: CreateEventPayload = {
+            event_date: _djs(eventDate),
+            ids: ids
+        }
+
+
+        // console.log('data: ', payload)
+        const new_event = createEvent.bind(null, payload)
+        await new_event()
+        setNames([])
+
+    }
+    const handleChange = (event: SelectChangeEvent<string[]>) => {
+        let { value } = event.target
+        const v = typeof value === 'string' ? value.split(', ') : value
+        setNames(v)
+
+    }
     return (
         <>
-            <Stack direction={ 'row' } gap={ 2 } p={ 3 } justifyContent={ 'space-between' } width={ '100%' }>
-                <Box border={ 2 } borderRadius={ 1 }>
+            <Stack direction={ { sm: 'row', xs: 'column' } } gap={ 2 } p={ 2 } justifyContent={ 'space-between' } >
 
-                    <List >
-                        { players.length > 0 ?
-                            players.map(p =>
-                                <ListItem key={ p.id }
-                                    disablePadding
-                                    dense
 
-                                    sx={ {
-                                        bgcolor: inQueue(p.id) ? "#e79703" : 'inherit'
-                                    } }
-                                >
-                                    <ListItemButton
-                                        selected={ inQueue(p.id) }
-                                        onClick={ () => handleSelect(p) }
-
-                                    >
-                                        { p.name }
-                                    </ListItemButton>
-                                </ListItem>
-                            )
-                            :
-                            <ListItem>
-                                List is empty
-                            </ListItem>
-                        }
-                    </List>
-                </Box>
                 <Stack spacing={ 2 }>
+                    <DatePicker
+                        name="date"
+                        value={ eventDate }
+                        onChange={ v => setEventDate(v) }
 
-                    <Button variant="outlined"
-                        sx={ { flexGrow: 0, alignSelf: 'flex-start' } }>Create Event</Button>
-                    <Button variant="contained" color="secondary"
-                        sx={ { flexGrow: 0, alignSelf: 'flex-start' } }
-                        onClick={ dispatch.clear }>Clear</Button>
-                </Stack>
-                <Box >
+                    />
+                    <FormControl >
+                        <FormLabel id="name-selector-label">
+                            <Typography variant="body1" textAlign={ 'right' }>
 
-                    <Typography>
+                                Присутствуют на тренировке:
+                            </Typography>
+                        </FormLabel>
 
-                        Всего: { selected.length }
-                    </Typography>
-                    { selected.length > 0 ?
-                        <Box border={ 2 } borderRadius={ 1 }>
-                            <List >
+                        <Select
+                            labelId="name-selector-label"
+                            autoFocus={ false }
+                            name="names"
+                            id="name-selector"
+                            value={ names }
+                            onChange={ handleChange }
+                            multiple
+                            renderValue={ (n) => {
+                                const text = n.length > 0 ? `Выбрано: ${n.length}` : "players"
+                                return (<Box textAlign={ 'center' }>{ text }</Box>)
+                            } }
+                            variant="outlined"
+                            placeholder="asd"
 
-                                { selected.map(p =>
-                                    <ListItem key={ p.id }
-                                        disablePadding
-                                        dense
-                                    // sx={ {
-                                    //     bgcolor: inQueue(p.id) ? "#fcf7f5" : 'inherit'
-                                    // } }
-                                    >
-                                        <ListItemButton
-                                            onClick={ () => dispatch.remove(p.id) }
-                                        >
-                                            { p.name }
-                                        </ListItemButton>
-                                    </ListItem>
+                            input={
+                                <OutlinedInput
+                                    placeholder="players"
+                                    name="names2"
+                                    startAdornment={
+                                        <IconButton onClick={ () => setNames([]) }>
+                                            { names.length > 0 && <CloseTwoTone /> }
+                                        </IconButton> } />
+                            }
+
+                        >
+
+
+                            {
+                                options.map(p =>
+                                    <MenuItem
+                                        key={ p.name }
+                                        value={ p.name } >
+                                        <ListItemText
+                                            primary={ p.name }
+                                            primaryTypographyProps={ { textAlign: 'left' } }
+                                        />
+                                        <Checkbox checked={ names.includes(p.name) } />
+                                    </MenuItem>
                                 )
-                                }
-                            </List>
-                        </Box>
-                        : null
-                    }
-
-                </Box>
+                            }
+                        </Select>
+                        {/* <FormHelperText>Players</FormHelperText> */ }
+                    </FormControl>
 
 
-            </Stack>
+                </Stack>
+
+
+
+                { selected.length > 0 &&
+                    <Grow in={ selected.length > 0 } timeout={ 800 }>
+
+
+                        <Card sx={ { minWidth: 200, px: 1 } }>
+
+                            <Typography variant="h6" component={ Stack } direction={ 'row' } justifyContent={ 'space-evenly' } useFlexGap>
+                                <b> { eventDate?.format('DD.MM.YY') }</b>
+
+                            </Typography>
+
+
+                            <CardContent >
+
+                                <List >
+
+                                    { selected.map((p, i) =>
+                                        <ListItem key={ p.id }
+                                            disablePadding
+                                            dense
+                                        // sx={ { width: 'max-content' } }
+                                        >
+                                            <ListItemText
+                                                primary={ `${i + 1}) ${p.name}` }
+                                                primaryTypographyProps={ { marginInlineStart: 2, textAlign: 'left' } }
+                                                // secondary={ `id: ${p.id} rate: ${p.PlayerInfo?.rttf_score}` }
+                                                secondaryTypographyProps={ { textAlign: 'right' } }
+                                            />
+
+
+                                        </ListItem>
+                                    )
+                                    }
+
+                                </List>
+                            </CardContent>
+                            <CardActions >
+                                <ButtonGroup>
+
+                                    <Button
+                                        size={ 'small' }
+                                        onClick={ handleCreate }
+                                        type="submit"
+                                        variant="contained"
+                                        sx={ { flexGrow: 0, alignSelf: 'flex-start' } }>
+                                        Подтвердить
+                                    </Button>
+                                    <Button
+                                        size={ 'small' }
+
+                                        variant="contained"
+                                        color="error"
+                                        sx={ { flexGrow: 0, alignSelf: 'flex-start' } }
+                                        onClick={ () => setNames([]) }>
+                                        Очистить
+                                    </Button>
+                                </ButtonGroup>
+                            </CardActions>
+                        </Card>
+                    </Grow>
+                }
+
+
+
+
+
+
+            </Stack >
 
         </>
     )

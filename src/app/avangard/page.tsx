@@ -12,7 +12,7 @@ type PageProps = {
 }
 
 export default async function AvangardPage(search?: PageProps) {
-    const searchDate = search?.searchParams?.date
+    const searchDate = search?.searchParams?.date || dayjs().format()
     const evDate = dayjs(searchDate).format()
     // _log("\n search: \n", evDate)
     const players = await getPlayers('info')
@@ -40,7 +40,7 @@ export default async function AvangardPage(search?: PageProps) {
                             { _date(evDate).local }
                         </Typography>
                     }
-                    players={ eps }
+                    players={ evPlayers }
                 /> }
         </Stack>
     )

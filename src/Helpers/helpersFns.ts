@@ -12,7 +12,7 @@ export const _styleSet = (...args: string[]): string => {
     return args.join(' ')
 }
 
-export const _promptVar = (msg: string) => prompt(msg) ?? ""
+export const _promptVar = (msg: string) => confirm(msg) ?? ""
 export const _isArr = (obj: any): obj is any[] => Array.isArray(obj)
 
 

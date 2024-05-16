@@ -1,12 +1,13 @@
 'use client'
 
-import { createPlayer } from "@/Services/playerService";
+import { createPlayer, seedPlayers } from "@/Services/playerService";
 import { Button, Fade, Paper, Stack, TextField } from "@mui/material";
 import { revalidatePath } from "next/cache";
 import { redirect, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import SubmitButton from "./UI/SubmitButton";
 import ResetButton from "./UI/ResetButton";
+import { _promptVar } from "@/Helpers/helpersFns";
 
 interface CreatePlayerFormProps {
     faction?: (data: FormData) => Promise<void>
@@ -28,7 +29,9 @@ const CreatePlayerForm: React.FunctionComponent<CreatePlayerFormProps> = ({ fact
         redirect('/avangard/players')
 
     }
-
+    const seedAction = async () => {
+        _promptVar("Восстановить игроков из базы?") && await seedPlayers()
+    }
 
     return (
         <Suspense fallback={ <div>Loading form...</div> }>
@@ -55,6 +58,11 @@ const CreatePlayerForm: React.FunctionComponent<CreatePlayerFormProps> = ({ fact
                             <ResetButton buttonProps={ { variant: 'text' } } />
                         </Stack>
                     </form>
+                    <Button
+                        color="warning"
+                        variant="contained"
+                        onClick={ seedAction }
+                    >Восстановить из базы</Button>
                 </Paper>
             </Fade>
         </Suspense>
