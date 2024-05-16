@@ -1,7 +1,7 @@
 'use client'
 import { _djs } from "@/Helpers/dateFuncs"
 import { createEvent } from "@/Services/eventService"
-import { PlayerWithInfo } from "@/Services/playerService"
+import { PlayerWithInfo, getPlayersByEventId } from "@/Services/playerService"
 import { CloseTwoTone } from "@mui/icons-material"
 import {
     Box,
@@ -46,8 +46,8 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers 
     const [eventDate, setEventDate] = useState<Dayjs | null>(today)
     const [names, setNames] = useState<string[]>([])
     const selected = useMemo(() => dbPlayers.filter(i => names.includes(i.name)), [names])
-
-
+    const formated = dayjs(eventDate).format('DD-MM-YY')
+    const existed = getPlayersByEventId({ date: formated })
 
 
     const handleCreate = async () => {

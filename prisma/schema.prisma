@@ -26,10 +26,14 @@ model Player {
 }
 
 model Event {
-  id   Int      @id @default(autoincrement())
-  date DateTime
+  id            Int      @id @default(autoincrement())
+  date          DateTime @map("date_iso")
+  formated_date String   @unique @map("date")
+  title         String?
 
-  players Player[]
+  players   Player[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("events")
 }

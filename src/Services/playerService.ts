@@ -3,7 +3,7 @@ import { Player, PlayerInfo } from "@prisma/client";
 
 import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { _date } from "@/Helpers/dateFuncs";
 import prisma from "@/client/client";
 import { parseNames } from "@/dataStore/avangardPlayers";
@@ -163,17 +163,15 @@ export async function getPlayers(info?: string) {
     }
 }
 export async function getPlayersWithEvents(date?: string) {
-    _log("searchdate valid: ", dayjs(date).isValid())
-    const searchdate = dayjs(date).format()
+    _log("searchdate valid: ", dayjs(date).format("DD-MM-YY"))
+    const searchdate = dayjs(date).format("DD-MM-YY")
 
     try {
 
         const p = await prisma.player.findMany({
             where: {
                 events: {
-                    some: {
-                        date: searchdate,
-                    }
+
                 }
             }, include: { events: true }
         })
@@ -213,6 +211,16 @@ export async function getOnePlayer(id: number) {
     } catch (error) {
         _log("___Find error: \n", error)
         throw new Error("findone error")
+    }
+}
+export async function getPlayersByEventId({ eventId, date }: { eventId?: number, date: string }) {
+    if (date) {
+        const p = prisma.event.findFirst({
+            where: { formated_date: date },
+            include: { players: true },
+
+        })
+        return p
     }
 }
 

@@ -30,6 +30,7 @@ export async function createEvent(payload: EventCreatePayload) {
             const remake = prisma.event.create({
                 data: {
                     date: _djs(event_date),
+                    formated_date: dayjs(event_date).format("DD-MM-YY"),
                     players: {
                         connect: ids
                     }
@@ -41,6 +42,8 @@ export async function createEvent(payload: EventCreatePayload) {
                             name: true,
                         }
                     },
+                    formated_date: true
+
 
                 }
             })
@@ -58,7 +61,7 @@ export async function createEvent(payload: EventCreatePayload) {
         const ev = await prisma.event.create({
             data: {
                 date: _djs(event_date),
-
+                formated_date: dayjs(event_date).format("DD-MM-YY"),
                 players: {
                     connect: ids
                 }
@@ -70,6 +73,7 @@ export async function createEvent(payload: EventCreatePayload) {
                         name: true,
                     }
                 },
+                formated_date: true
 
             }
         })

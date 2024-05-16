@@ -16,7 +16,7 @@ const today = dayjs()
 const EventCalendar: React.FC = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const selectedDate = searchParams.has('date') ? dayjs(searchParams.get('date')) : today
+    const selectedDate = searchParams.has('date') ? dayjs(searchParams.get('date')).format() : dayjs()
     const path = usePathname()
     const [value, setValue] = useState(dayjs(selectedDate))
     // Get a new searchParams string by merging the current
@@ -37,7 +37,7 @@ const EventCalendar: React.FC = () => {
             <Suspense fallback={ <div>load</div> }>
 
                 <DateCalendar
-                    referenceDate={ selectedDate }
+                    referenceDate={ dayjs(selectedDate) }
                     showDaysOutsideCurrentMonth={ true }
                     onChange={ (v) => {
                         setValue(prev => v)
