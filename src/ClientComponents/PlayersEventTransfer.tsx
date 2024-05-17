@@ -46,8 +46,8 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
     const [eventDate, setEventDate] = useState<Dayjs | null>(today)
     const [names, setNames] = useState<string[]>(() => dbPlayers.map(p => p.name) || [])
     const selected = useMemo(() => evPlayers.filter(i => names.includes(i.name)), [names])
-    const formated = _formated_date(eventDate)
-    const options = useMemo(() => evPlayers.map(p => ({ id: p.id, name: p.name })), [selected])
+
+    const options = useMemo(() => evPlayers.map(p => ({ id: p.id, name: p.name })), [names])
 
 
     const handleCreate = async () => {
