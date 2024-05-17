@@ -11,3 +11,5 @@ export const _date = (date?: string) => {
 }
 
 export const _djs = (date?: string | dayjs.Dayjs | null) => dayjs(date).format()
+
+export const _formated_date = (date?: string | dayjs.Dayjs | null) => dayjs(date).format("DD_MM_YY")

@@ -15,7 +15,7 @@ export async function deletePlayerAction(formdata: FormData) {
 
 export async function createPlayerAction(formdata: FormData) {
     'use server'
-    const data = Object.fromEntries(formdata.entries()) as { name?: string, info?: { rttf_score?: number, rttf_link?: string } }
+    const data = Object.fromEntries(formdata.entries()) as { name?: string, info?: { rttf_score?: number, } }
     const { name, info } = data;
     if (!name) return
     await createPlayer(name, info)

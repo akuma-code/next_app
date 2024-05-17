@@ -12,40 +12,37 @@ model Player {
 
   name String
 
-  // infoUuid String?
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   events Event[]
-
-  // playerInfoUuid String?
-  PlayerInfo PlayerInfo?
+  info   Info?
 
   @@map("players")
 }
 
 model Event {
-  id            Int      @id @default(autoincrement())
-  date          DateTime @map("date_iso")
-  formated_date String   @unique @map("date")
+  id Int @id @default(autoincrement())
+
+  date_formated String  @unique @map("date")
   title         String?
 
-  players   Player[]
+  players Player[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("events")
 }
 
-model PlayerInfo {
-  uuid       String  @id @default(uuid())
+model Info {
+  uuid       String @id @default(uuid())
   rttf_score Int?
-  rttf_link  String?
-  playerId   Int     @unique
-  Player     Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
-  @@map("Profile")
+  playerId Int    @unique
+  Player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@map("infos")
 }
 
 model StpNumProp {

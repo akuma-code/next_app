@@ -1,53 +1,61 @@
 'use client'
 
+import { _formated_date } from "@/Helpers/dateFuncs"
 import { _log } from "@/Helpers/helpersFns"
-import { createEvent } from "@/Services/eventService"
-import { Button, Divider, List, ListItem, ListItemButton } from "@mui/material"
-import { DateCalendar, DateView } from "@mui/x-date-pickers"
-import { PickerSelectionState } from "@mui/x-date-pickers/internals"
-import dayjs, { Dayjs } from "dayjs"
-import Link from "next/link"
-import { useRouter, redirect, useParams, usePathname, useSearchParams } from "next/navigation"
+import { DateCalendar } from "@mui/x-date-pickers"
+import dayjs from "dayjs"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { Suspense, useCallback, useState } from "react"
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
 
 const today = dayjs()
+interface EventCalendarProps {
+    getCurrentDate?: (date: string) => void
+}
 
-const EventCalendar: React.FC = () => {
+const EventCalendar: React.FC<EventCalendarProps> = ({ getCurrentDate }) => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const selectedDate = searchParams.has('date') ? dayjs(searchParams.get('date')).format() : dayjs()
+    const selectedDate = searchParams.has('date') ? dayjs(searchParams.get('date')) : dayjs()
     const path = usePathname()
-    const [value, setValue] = useState(dayjs(selectedDate))
+    const [currentDate, setDate] = useState(() => dayjs(selectedDate))
     // Get a new searchParams string by merging the current
     // searchParams with a provided key/value pair
     const createQueryString = useCallback(
         (name: string, value: string) => {
+            const f = _formated_date(value)
             const params = new URLSearchParams(searchParams.toString())
-            params.set(name, dayjs(value).format())
+
+            params.set(name, f)
+            _log({ params: params.toString(), f })
             router.push(path + '?' + params.toString())
             // return params.toString()
 
         },
         [searchParams]
     )
-
+    const DATE = useMemo(() => _formated_date(currentDate), [currentDate])
+    // useEffect(() => {
+    //     getCurrentDate && getCurrentDate(DATE)
+    // }, [DATE])
     return (
         <>
-            <Suspense fallback={ <div>load</div> }>
+            {/* <Suspense fallback={ <div>load</div> }> */ }
 
-                <DateCalendar
-                    referenceDate={ dayjs(selectedDate) }
-                    showDaysOutsideCurrentMonth={ true }
-                    onChange={ (v) => {
-                        setValue(prev => v)
-                        createQueryString('date', v)
-                    } }
-                    value={ value }
+            <DateCalendar
+                referenceDate={ currentDate }
+                showDaysOutsideCurrentMonth={ true }
+                onChange={ (v) => {
+                    setDate(prev => v)
+                    createQueryString('date', v)
+                    _log({ DATE })
+                    getCurrentDate && getCurrentDate(DATE)
+                } }
+                value={ currentDate }
 
-                />
+            />
 
-            </Suspense>
+            {/* </Suspense> */ }
 
 
         </>

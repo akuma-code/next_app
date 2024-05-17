@@ -54,14 +54,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
     return (
         <ThemeProvider theme={ theme }>
-            <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
 
-                <AppRouterCacheProvider>
-                    <QueryClientProvider client={ queryClient }>
+            <AppRouterCacheProvider>
+                <QueryClientProvider client={ queryClient }>
+                    <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
                         { children }
-                    </QueryClientProvider>
-                </AppRouterCacheProvider>
-            </LocalizationProvider>
+                    </LocalizationProvider>
+                </QueryClientProvider>
+            </AppRouterCacheProvider>
         </ThemeProvider>
     )
 }

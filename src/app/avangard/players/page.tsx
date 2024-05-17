@@ -2,15 +2,14 @@
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
 import DeleteButton from "@/ClientComponents/UI/DeleteButton";
-import { createPlayer, getOnePlayer, getPlayers } from "@/Services/playerService";
+import { getPlayers } from "@/Services/playerService";
 import { DeleteTwoTone, EditTwoTone } from "@mui/icons-material";
-import { Box, Button, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
-import { PlayerInfo } from "@prisma/client";
+import { Box, Button, List, ListItem, ListItemButton, ListItemText, Stack } from "@mui/material";
 import Link from "next/link";
 
 async function AvPlayers(query?: { searchParams?: { action: string } }) {
 
-    const players = await getPlayers("info")
+    const players = await getPlayers()
 
     const show = query?.searchParams?.action ? true : false
     const showEdit = query?.searchParams?.action === 'edit'
@@ -46,8 +45,8 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
                                         </Link>
                                     }
                                     secondary={
-                                        p.PlayerInfo?.rttf_score &&
-                                        <span> рейтинг: { p.PlayerInfo?.rttf_score }</span>
+                                        p.info?.rttf_score &&
+                                        <span> рейтинг: { p.info?.rttf_score }</span>
                                     }
                                 />
                                 <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>

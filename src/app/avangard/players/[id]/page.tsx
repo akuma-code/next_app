@@ -18,7 +18,7 @@ const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params
     if (!id) return <div>Invalid Id</div>
     const player = await getOnePlayer(+id)
     if (!player) return <div>No player found, { id }</div>
-    const { PlayerInfo, name, createdAt } = player;
+    const { info, name, createdAt } = player;
     const date = dayjs(new Date(createdAt)).format('DD/MM/YYYY')
     const showEdit = params?.searchParams?.action === 'edit'
     return (
@@ -29,9 +29,9 @@ const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params
                 <div>ID: { id }</div>
                 <Typography variant="body1">name: { name }</Typography>
                 {
-                    PlayerInfo &&
+                    info &&
 
-                    <Typography variant="body1">RTTF: { PlayerInfo.rttf_score }</Typography>
+                    <Typography variant="body1">RTTF: { info.rttf_score }</Typography>
                 }
                 <Typography variant="body1">Создан: { date }</Typography>
 

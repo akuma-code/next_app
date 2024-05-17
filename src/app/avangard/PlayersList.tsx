@@ -1,6 +1,6 @@
 'use client'
-import { List, ListItem, ListItemButton, Paper, Stack } from "@mui/material";
-import { useState } from "react";
+import { Grow, List, ListItem, ListItemButton, Paper, Stack } from "@mui/material";
+import { useRef, useState } from "react";
 
 interface PlayersListProps {
     players: {
@@ -12,6 +12,7 @@ interface PlayersListProps {
 }
 export const PlayersList: React.FC<PlayersListProps> = ({ players, title, getSelected }) => {
     const [group, setGroup] = useState<number[]>([])
+    const ref = useRef(null)
     const isInGroup = (id: number) => group.includes(id)
     const handleSelect = (id: number) => {
         if (isInGroup(id)) {
@@ -23,24 +24,27 @@ export const PlayersList: React.FC<PlayersListProps> = ({ players, title, getSel
         }
     }
     return (
-        <Stack direction={ 'column' } p={ 2 } component={ Paper } elevation={ 1 } m={ 1 }>
+        <Stack direction={ 'column' } p={ 2 } component={ Paper } elevation={ 1 } m={ 1 } ref={ ref }>
             { title }
             <List >
                 { players.length > 0 ?
                     players.map(p =>
-                        <ListItem key={ p.id }
-                            disablePadding
-                            dense
-                            sx={ {
-                                bgcolor: isInGroup(p.id) ? "beige" : 'inherit'
-                            } }
-                        >
-                            <ListItemButton
-                                selected={ isInGroup(p.id) }
-                                onClick={ () => handleSelect(p.id) }>
-                                { p.name }
-                            </ListItemButton>
-                        </ListItem>
+                        <Grow in={ players.length > 0 } timeout={ 800 }>
+
+                            <ListItem key={ p.id }
+                                disablePadding
+                                dense
+                                sx={ {
+                                    bgcolor: isInGroup(p.id) ? "beige" : 'inherit'
+                                } }
+                            >
+                                <ListItemButton
+                                    selected={ isInGroup(p.id) }
+                                    onClick={ () => handleSelect(p.id) }>
+                                    { p.name }
+                                </ListItemButton>
+                            </ListItem>
+                        </Grow>
                     )
                     :
                     <ListItem>

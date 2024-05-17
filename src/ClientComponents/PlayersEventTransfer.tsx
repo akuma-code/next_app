@@ -1,7 +1,7 @@
 'use client'
-import { _djs } from "@/Helpers/dateFuncs"
+import { _djs, _formated_date } from "@/Helpers/dateFuncs"
 import { createEvent } from "@/Services/eventService"
-import { PlayerWithInfo, getPlayersByEventId } from "@/Services/playerService"
+import { PlayerWithInfo } from "@/Services/playerService"
 import { CloseTwoTone } from "@mui/icons-material"
 import {
     Box,
@@ -35,18 +35,19 @@ type CreateEventPayload = {
     ids: { id: number }[]
 }
 type PlayersTransferProps = {
-    dbPlayers: PlayerWithInfo[]
+    dbPlayers: { id: number, name: string }[]
+    evPlayers: { id: number, name: string }[]
 }
 
 const today = dayjs()
-export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers }) => {
+export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers, evPlayers }) => {
 
 
-    const options = useMemo(() => dbPlayers.map(p => ({ id: p.id, name: p.name })), [])
     const [eventDate, setEventDate] = useState<Dayjs | null>(today)
-    const [names, setNames] = useState<string[]>([])
-    const selected = useMemo(() => dbPlayers.filter(i => names.includes(i.name)), [names])
-    const formated = dayjs(eventDate).format('DD-MM-YY')
+    const [names, setNames] = useState<string[]>(() => dbPlayers.map(p => p.name) || [])
+    const selected = useMemo(() => evPlayers.filter(i => names.includes(i.name)), [names])
+    const formated = _formated_date(eventDate)
+    const options = useMemo(() => evPlayers.map(p => ({ id: p.id, name: p.name })), [selected])
 
 
     const handleCreate = async () => {
@@ -147,7 +148,7 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers 
                         <Card sx={ { minWidth: 200, px: 1 } }>
 
                             <Typography variant="h6" component={ Stack } direction={ 'row' } justifyContent={ 'space-evenly' } useFlexGap>
-                                <b> { eventDate?.format('DD.MM.YY') }</b>
+                                <b> { _formated_date(eventDate) }</b>
 
                             </Typography>
 

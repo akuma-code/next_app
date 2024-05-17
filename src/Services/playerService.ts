@@ -1,5 +1,5 @@
 'use server'
-import { Player, PlayerInfo } from "@prisma/client";
+import { Player, Info } from "@prisma/client";
 
 import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
@@ -15,7 +15,7 @@ type DeletePayload = {
 
 type InfoCreatePayload = {
     rttf_score?: number
-    rttf_link?: string
+
 }
 
 export type PlayerWithInfo = {
@@ -23,17 +23,14 @@ export type PlayerWithInfo = {
     name: string;
     createdAt: Date;
     updatedAt: Date,
-    PlayerInfo:
+    info:
     {
         uuid: string;
         rttf_score: number | null;
-        rttf_link: string | null;
+
         playerId: number;
     } | null;
-    events?: {
-        id: number;
-        date: Date;
-    }[];
+
 }
 export async function createPlayer(name: string, info?: InfoCreatePayload) {
     try {
@@ -41,19 +38,19 @@ export async function createPlayer(name: string, info?: InfoCreatePayload) {
             data: {
                 name
             },
-            include: { PlayerInfo: true }
+            include: { info: true }
         })
         if (info) {
-            const { rttf_score, rttf_link } = info;
+            const { rttf_score } = info;
 
             const addInfo = await prisma.player.update({
                 where: { id: player.id },
                 data: {
-                    PlayerInfo: {
+                    info: {
                         create: {
                             // where: { playerId: player.id },
                             // create: { rttf_link, rttf_score }
-                            rttf_link, rttf_score
+                            rttf_score
                         }
                     }
                 }
@@ -95,8 +92,8 @@ export async function deletePlayer(payload: DeletePayload) {
 
 }
 
-export async function editPlayer(PlayerId: string, data: Partial<Player & PlayerInfo>) {
-    const { name, rttf_score, rttf_link } = data
+export async function editPlayer(PlayerId: string, data: Partial<Player & Info>) {
+    const { name, rttf_score } = data
     const score = rttf_score ? +rttf_score : null
     try {
         const id = Number(PlayerId)
@@ -109,7 +106,7 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
                 where: { id },
                 data: {
                     name,
-                    PlayerInfo: {
+                    info: {
                         upsert: {
 
 
@@ -139,22 +136,30 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Player
 }
 
 
-export async function getPlayers(info?: string) {
+export async function getPlayers(options?: { info?: boolean, }) {
     try {
 
         const p = await prisma.player.findMany({
-            select: {
-                PlayerInfo: true,
+            // select: {
+            //     info: true,
+            //     events: true,
+            //     id: true,
+            //     name: true,
+            //     createdAt: true,
+            //     updatedAt: true
+            // },
+            include: {
                 events: true,
-                id: true,
-                name: true,
-                createdAt: true,
-                updatedAt: true
+                info: true
             },
-            orderBy: {
-                events: { _count: 'desc' },
-                // id: 'asc'
-            },
+            orderBy: [
+                {
+                    events: {
+                        _count: 'desc'
+                    }
+                },
+                { id: 'asc' }
+            ],
         })
         return p
     } catch (error) {
@@ -170,9 +175,7 @@ export async function getPlayersWithEvents(date?: string) {
 
         const p = await prisma.player.findMany({
             where: {
-                events: {
-
-                }
+                events: {}
             }, include: { events: true }
         })
         _log("finded: ", p)
@@ -182,72 +185,19 @@ export async function getPlayersWithEvents(date?: string) {
         throw new Error("findmany error")
     }
 }
-export async function getPlayersByDateString(date?: string) {
-    _log("searchdate valid: ", dayjs(date).isValid())
-    const searchdate = dayjs(date).format('DD-MM-YYYY')
-    try {
-        const events = await prisma.event.findMany() //* все ивенты
-        const players = await prisma.player.findMany({ include: { events: { select: { id: true } } } }) //* все игроки + ид ивентов
-        const fevents = events.map(e => ({ ...e, date: dayjs(e.date).format('DD-MM-YYYY') })) //* форматируем дату ивентов
-        const eresult = fevents.find(e => e.date === searchdate)?.id //* ищем ивент с датой, совпадающей с искомой
-        _log("\nev.id: ", eresult)
-        if (eresult) {
-            const pres = players.filter(p =>
-                p.events.map(e => e.id).includes(eresult)) //* если ивент нашелся, фильтруем игроков у которых есть ивент с искомым ид
-            _log("\nev.play", pres.map(p => p.name))
-            return pres
-        }
-        return []
-    } catch (error) {
-        _log("___Find error: \n", error)
-        throw new Error("findmany error")
-    }
-}
+
 export async function getOnePlayer(id: number) {
     try {
 
-        const p = await prisma.player.findUnique({ where: { id }, include: { PlayerInfo: true, events: true, } })
+        const p = await prisma.player.findUnique({ where: { id }, include: { info: true, events: true, } })
         return p
     } catch (error) {
         _log("___Find error: \n", error)
         throw new Error("findone error")
     }
 }
-export async function getPlayersByEventId({ eventId, date }: { eventId?: number, date: string }) {
-    if (date) {
-        const p = prisma.event.findFirst({
-            where: { formated_date: date },
-            include: { players: true },
-
-        })
-        return p
-    }
-}
 
 
-interface PlayerFullInfo {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    events: {
-        id: number;
-        date: Date;
-    }[];
-    PlayerInfo: {
-        uuid: string;
-        rttf_score: number | null;
-        rttf_link: string | null;
-        playerId: number;
-    } | null;
-}
-
-export async function getPlayerWithCondition(condition: any): Promise<PlayerFullInfo[]> {
-    const dbp = prisma.player
-    return await dbp.findMany({ where: condition, include: { events: true, PlayerInfo: true } })
-
-
-}
 
 export async function seedPlayers() {
     const seed = parseNames.map(n => n.secondname ? { name: n.name + " " + n.secondname } : { name: n.name })
@@ -255,11 +205,58 @@ export async function seedPlayers() {
         // const pls = prisma.player.createMany({ data: seed, })
         const seedArray = seed.map(s => prisma.player.create({
             data: s,
-            include: { PlayerInfo: true, events: true }
+            include: { info: true, events: true }
         }))
         return await prisma.$transaction(seedArray)
     } catch (error) {
         _log("___\n", error)
         throw new Error("SEED ERROR")
     }
+}
+
+export async function getPlayersByEventDate(payload: { event_date?: string }) {
+    const { event_date } = payload
+    const p = prisma.player
+    try {
+        if (!event_date) {
+            const players = await p.findMany()
+            const nonPlayers: typeof players = []
+            return { players, nonPlayers }
+        }
+
+        const ev_players = await p.findMany({
+            where: {
+                events: {
+                    some: {
+                        date_formated: event_date
+                    }
+                }
+            },
+            select: {
+                id: true, name: true,
+            }
+        })
+
+        const nonEv_players = await p.findMany(
+            {
+                where: {
+                    events: {
+                        none: {
+                            NOT: {
+                                date_formated: event_date
+                            }
+                        }
+                    }
+                },
+                select: {
+                    id: true, name: true,
+                }
+            }
+        )
+        return { players: ev_players, nonPlayers: nonEv_players }
+    } catch (error) {
+        _log("___\n", error)
+        throw new Error("fetch players error, __getplayers_by_event_date")
+    }
+
 }

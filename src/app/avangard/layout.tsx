@@ -1,7 +1,5 @@
 import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import Link from "next/link";
-import { PropsWithChildren } from "react";
 
 
 const links = [
@@ -20,7 +18,7 @@ const links = [
 
 ]
 
-const AvangardLayout: React.FC<PropsWithChildren> = async ({ children }) => {
+const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ children }) => {
 
 
     return (
