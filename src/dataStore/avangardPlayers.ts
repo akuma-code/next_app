@@ -52,10 +52,72 @@ export const savednames = [
     'Александр',
     'Анна',
     'Ира Герасимова',
-    'Сергей Бажан',]
+    'Сергей Бажан',
+]
 
 
 export const parseNames = savednames.map(name => {
     const [firstname, secondname] = name.split(" ")
     return secondname ? { name: firstname, secondname } : { name: firstname }
 })
+
+export const mockEvents = [
+    {
+        id: 1,
+        date_formated: '17_05_24',
+        players: [
+            {
+                id: 1,
+                name: 'player1'
+            },
+            {
+                id: 2,
+                name: 'player2'
+            },
+            {
+                id: 3,
+                name: 'player3'
+            },
+            {
+                id: 4,
+                name: 'player4'
+            },
+        ]
+    },
+    {
+        id: 2,
+        date_formated: '19_05_24',
+        players: [
+            {
+                id: 11,
+                name: 'player11'
+            },
+            {
+                id: 22,
+                name: 'player22'
+            },
+
+        ]
+    },
+    {
+        id: 3,
+        date_formated: '21_05_24',
+        players: [
+            {
+                id: 13,
+                name: 'player13'
+            },
+
+            {
+                id: 33,
+                name: 'player33'
+            },
+            {
+                id: 43,
+                name: 'player43'
+            },
+        ]
+    },
+
+
+]

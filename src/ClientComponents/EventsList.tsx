@@ -3,10 +3,12 @@
 import { _log } from "@/Helpers/helpersFns";
 import { stringToColor } from "@/Helpers/stringToColor";
 import { OpenInFullTwoTone, OpenWithTwoTone } from "@mui/icons-material";
-import { Avatar, Box, Card, CardActions, CardContent, IconButton, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardActions, CardContent, CardHeader, IconButton, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import 'dayjs/locale/ru'
+import { DayOfWeek } from "@/Helpers/dateFuncs";
 export interface IEvent_Front {
     id: number;
     date_formated: string;
@@ -18,82 +20,26 @@ export interface IEvent_Front {
     _count?: { players: number }
 
 }
-const mockEvents = [
-    {
-        id: 1,
-        date_formated: '17_05_24',
-        players: [
-            {
-                id: 1,
-                name: 'player1'
-            },
-            {
-                id: 2,
-                name: 'player2'
-            },
-            {
-                id: 3,
-                name: 'player3'
-            },
-            {
-                id: 4,
-                name: 'player4'
-            },
-        ]
-    },
-    {
-        id: 2,
-        date_formated: '19_05_24',
-        players: [
-            {
-                id: 11,
-                name: 'player11'
-            },
-            {
-                id: 22,
-                name: 'player22'
-            },
-
-        ]
-    },
-    {
-        id: 3,
-        date_formated: '21_05_24',
-        players: [
-            {
-                id: 13,
-                name: 'player13'
-            },
-
-            {
-                id: 33,
-                name: 'player33'
-            },
-            {
-                id: 43,
-                name: 'player43'
-            },
-        ]
-    },
 
 
-]
 
-
-export const EventsList: React.FC<{ events?: IEvent_Front[] }> = ({ events = mockEvents }: { events?: IEvent_Front[] }) => {
+export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }: { events: IEvent_Front[] }) => {
 
 
 
     return (
-        <Stack flexWrap={ 'wrap' } maxWidth={ 400 } direction={ 'row' } rowGap={ 1 } columnGap={ 2 }>
-            { events.map(e =>
-                <EventCard
-                    key={ e.id }
-                    event={ e }
-                />
+        <Box bgcolor={ '#ebb8ff' } p={ 1 }>
+            <Stack flexWrap={ 'wrap' } maxWidth={ 450 } direction={ 'row' } rowGap={ 1 } columnGap={ 2 }>
 
-            ) }
-        </Stack>
+                { events.map(e =>
+                    <EventCard
+                        key={ e.id }
+                        event={ e }
+                    />
+
+                ) }
+            </Stack>
+        </Box>
     )
 }
 
@@ -102,24 +48,45 @@ export const EventCard: React.FC<{ event: IEvent_Front }> = ({ event }) => {
     const { id, date_formated, title = 'Avangard', players } = event
     const pathname = usePathname()
 
-    const d = date_formated.replaceAll("_", "/")
+    const d = date_formated.replaceAll("_", ".")
+
+
+    const dayWeek = dayjs(d, 'DD.MM.YYYY', 'ru').weekday()
+
+    const avatarColor = (numb: number) => {
+        const colors = {
+            xs: 'grey',
+            sm: 'darkgreen',
+            md: 'orange',
+            lg: '#00fff2',
+            xl: 'red'
+
+        }
+        if (numb >= 10) return colors.xl
+        if (numb >= 9) return colors.lg
+        if (numb >= 7) return colors.md
+        if (numb > 3) return colors.sm
+        if (numb >= 0) return colors.xs
+        return colors.md
+    }
     // _log(stringToColor('8'))
     return (
-        <Card sx={ { maxWidth: 120 } }>
-            <CardContent component={ Stack } gap={ 0 } sx={ { p: 1, my: 0 } }>
+        <Card sx={ { maxWidth: 150, m: .4 } } square={ false } >
+            <CardHeader
+                title={ d }
+                subheader={ DayOfWeek[dayWeek] }
+                subheaderTypographyProps={ { textAlign: 'left' } }
+                titleTypographyProps={ { fontSize: 20, textAlign: 'center' } }
+                sx={ { pb: 0, my: 0 } }
+            />
+            <CardContent component={ Stack } rowGap={ .5 } sx={ { px: 1, my: 0, py: 0.4 } } alignItems={ 'center' }>
 
-                <Typography
-                    variant="button"
-                    component={ 'div' }
-                    textAlign={ 'center' }>
-                    { d }
 
 
-                </Typography>
                 <Stack direction={ 'row' } spacing={ 1 }>
                     <Typography variant="body1">Игроков: </Typography>
                     <Avatar variant="circular" alt={ title } sizes="small"
-                        sx={ { width: 24, height: 24, bgcolor: stringToColor(players.length.toString()) } }
+                        sx={ { width: 28, height: 28, bgcolor: avatarColor(players.length), fontSize: 16 } }
                     >
                         { players.length }
                     </Avatar>

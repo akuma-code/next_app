@@ -48,7 +48,7 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
     const [names, setNames] = useState<string[]>(() => dbPlayers.map(p => p.name) || [])
     const selected = useMemo(() => evPlayers.filter(i => names.includes(i.name)), [names])
 
-    const options = useMemo(() => evPlayers.map(p => ({ id: p.id, name: p.name })), [names])
+    const options = useMemo(() => evPlayers.map(p => ({ id: p.id, name: p.name })), [])
     const router = useRouter()
     const pathname = usePathname()
 

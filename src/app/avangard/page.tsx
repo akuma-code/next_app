@@ -16,16 +16,16 @@ type PageProps = {
 export default async function AvangardPage({ searchParams }: { searchParams: { date: string } }) {
 
     const date = searchParams.date ?? ''
-    const ewp = await getPlayersByEventDate({ event_date: date })
+    const ewp = await getPlayersByEventDate({ event_date: "" })
 
 
 
-    const playersByDate = await getEventsUnique(date)
+    const playersByDate = await getEventsUnique()
 
     // _log("players: ", await getPlayersByDateString(searchDate))
     return (
         <Box component={ Stack } direction={ 'row' }>
-            <PlayersEventTranfer dbPlayers={ ewp.nonPlayers } evPlayers={ ewp.players } />
+            <PlayersEventTranfer dbPlayers={ playersByDate || [] } evPlayers={ ewp.players } />
             {/* <CalendarAndPlayers players={ playersByDate } searchDate={ date } /> */ }
 
             {/* <EventsList /> */ }

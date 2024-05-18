@@ -19,7 +19,7 @@ const EventsPage = async ({ searchParams }: { searchParams: { date: string } }) 
         <>
             {/* <PlayersEventTranfer dbPlayers={ ewp.nonPlayers } evPlayers={ ewp.players } /> */ }
 
-            <EventsList />
+            <EventsList events={ events_with_players } />
             {/* <Box component={ Stack } direction={ 'column' } flexWrap={ 'wrap' } maxHeight={ 300 }>
 
                 {

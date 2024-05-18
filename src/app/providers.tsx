@@ -7,8 +7,9 @@ import theme from '../theme';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/ru'
-
-
+import weekday from 'dayjs/plugin/weekday'
+import dayjs from "dayjs";
+dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]
     if (typeof fetch_url !== 'string') return console.log("Fetch url error: ", fetch_url)

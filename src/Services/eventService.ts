@@ -137,6 +137,7 @@ export async function getEventsUnique(date?: string) {
 export async function getEventsWithPlayers() {
     const ev = await prisma.event.findMany({
         where: { players: {} },
+
         select: {
             date_formated: true,
             id: true,
@@ -144,5 +145,6 @@ export async function getEventsWithPlayers() {
             _count: { select: { players: true } }
         }
     })
+
     return ev
 }

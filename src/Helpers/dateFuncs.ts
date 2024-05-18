@@ -12,4 +12,29 @@ export const _date = (date?: string) => {
 
 export const _djs = (date?: string | dayjs.Dayjs | null) => dayjs(date).format()
 
-export const _formated_date = (date?: string | dayjs.Dayjs | null) => dayjs(date).format("DD_MM_YY")
+export const _formated_date = (date?: string | dayjs.Dayjs | null) => dayjs(date).format("DD_MM_YYYY")
+
+export enum DayOfWeek {
+    'Понедельник',
+    'Вторник',
+    'Среда',
+    'Четверг',
+    'Пятница',
+    'Суббота',
+    'Воскресенье',
+}
+
+export enum Month {
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь',
+}
