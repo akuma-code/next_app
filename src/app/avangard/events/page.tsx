@@ -4,20 +4,23 @@ import { PlayersEventTranfer } from "@/ClientComponents/PlayersEventTransfer"
 import { getEventsUnique, getEventsWithPlayers } from "@/Services/eventService"
 import { Badge, Box, Stack } from "@mui/material"
 import Link from "next/link"
+import { EventsList } from "@/ClientComponents/EventsList"
 
 const EventsPage = async ({ searchParams }: { searchParams: { date: string } }) => {
     const dbplayers = await getPlayers()
     const date = searchParams.date ?? ''
+    const ewp = await getPlayersByEventDate({ event_date: date })
     const playersByDate = await getEventsUnique(date)
     // const res = await playersByDate(formated)
-    const ewp = await getPlayersByEventDate({ event_date: date })
     const events_with_players = await getEventsWithPlayers()
-    console.log('we: ', ewp.players)
-    console.log('woe: ', ewp.nonPlayers)
+    // console.log('we: ', ewp.players)
+    // console.log('woe: ', ewp.nonPlayers)
     return (
         <>
-            <PlayersEventTranfer dbPlayers={ ewp.nonPlayers } evPlayers={ ewp.players } />
-            <Box component={ Stack } direction={ 'column' }>
+            {/* <PlayersEventTranfer dbPlayers={ ewp.nonPlayers } evPlayers={ ewp.players } /> */ }
+
+            <EventsList />
+            {/* <Box component={ Stack } direction={ 'column' } flexWrap={ 'wrap' } maxHeight={ 300 }>
 
                 {
 
@@ -34,7 +37,7 @@ const EventsPage = async ({ searchParams }: { searchParams: { date: string } }) 
                     )
 
                 }
-            </Box>
+            </Box> */}
         </>
     )
 }

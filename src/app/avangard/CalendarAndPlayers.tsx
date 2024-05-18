@@ -20,8 +20,8 @@ export const CalendarAndPlayers: React.FC<{ players: FoundPlayers; searchDate: s
     const [day, setDay] = useState(dayjs())
 
     const router = useRouter()
-    const searchParams = useSearchParams()
     const pathname = usePathname()
+    const searchParams = useSearchParams()
     const eventDate = useMemo(() => _formated_date(day), [day])
     const [eventPlayers] = useGetEventPlayers(eventDate)
 

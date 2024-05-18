@@ -140,6 +140,7 @@ export async function getEventsWithPlayers() {
         select: {
             date_formated: true,
             id: true,
+            players: { select: { id: true, name: true } },
             _count: { select: { players: true } }
         }
     })

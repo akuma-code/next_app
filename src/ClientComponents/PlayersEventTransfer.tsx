@@ -27,6 +27,7 @@ import {
 } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
 import dayjs, { type Dayjs } from "dayjs"
+import { usePathname, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 
 
@@ -48,7 +49,8 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
     const selected = useMemo(() => evPlayers.filter(i => names.includes(i.name)), [names])
 
     const options = useMemo(() => evPlayers.map(p => ({ id: p.id, name: p.name })), [names])
-
+    const router = useRouter()
+    const pathname = usePathname()
 
     const handleCreate = async () => {
         // event.preventDefault()
@@ -62,13 +64,14 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
         // console.log('data: ', payload)
         const new_event = createEvent.bind(null, payload)
         await new_event()
-        setNames([])
+        // setNames([])
 
     }
     const handleChange = (event: SelectChangeEvent<string[]>) => {
         let { value } = event.target
         const v = typeof value === 'string' ? value.split(', ') : value
         setNames(v)
+
 
     }
     return (
@@ -80,8 +83,13 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
                     <DatePicker
                         name="date"
                         value={ eventDate }
-                        onChange={ v => setEventDate(v) }
-
+                        onChange={ v => {
+                            router.push(pathname + '?date=' + _formated_date(v))
+                            setEventDate(v)
+                        } }
+                        slotProps={ {
+                            textField: { size: 'small' }
+                        } }
                     />
                     <FormControl >
                         <FormLabel id="name-selector-label">
@@ -105,7 +113,7 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
                             } }
                             variant="outlined"
                             placeholder="asd"
-
+                            size="small"
                             input={
                                 <OutlinedInput
                                     placeholder="players"

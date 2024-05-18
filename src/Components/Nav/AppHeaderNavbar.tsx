@@ -23,7 +23,7 @@ const routes = [
         text: 'Users'
     },
     {
-        to: '/avangard',
+        to: '/avangard/events',
         text: 'Авангард'
     },
     // {
