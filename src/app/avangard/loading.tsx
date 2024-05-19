@@ -1,4 +1,4 @@
-import { Box, LinearProgress } from "@mui/material";
+import { Box, CircularProgress, LinearProgress, Stack } from "@mui/material";
 import React from "react";
 
 interface LoadingStpProps {
@@ -7,8 +7,8 @@ interface LoadingStpProps {
 
 const LoadingStp: React.FC<LoadingStpProps> = () => {
     return (
-        <Box sx={ { w: '100%', h: '100%', p: 3 } }>
-            <LinearProgress variant="indeterminate" color="info" />
+        <Box component={ Stack } justifyContent={ 'center' } alignContent={ 'center' } textAlign={ 'center' } width={ '100%' }>
+            <CircularProgress variant="indeterminate" color='warning' sx={ { m: 'auto' } } size={ 150 } />
         </Box>
     );
 }

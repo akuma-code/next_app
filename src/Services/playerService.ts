@@ -8,7 +8,11 @@ import { _date } from "@/Helpers/dateFuncs";
 import prisma from "@/client/client";
 import { parseNames } from "@/dataStore/avangardPlayers";
 
-
+const ASC = 'asc' as const
+const DESC = 'desc' as const
+const orderByEvents = [
+    { events: { _count: DESC }, id: ASC }
+]
 type DeletePayload = {
     id: number
 }
@@ -167,24 +171,24 @@ export async function getPlayers(options?: { info?: boolean, }) {
         throw new Error("findmany error")
     }
 }
-export async function getPlayersWithEvents(date?: string) {
-    _log("searchdate valid: ", dayjs(date).format("DD-MM-YY"))
-    const searchdate = dayjs(date).format("DD-MM-YY")
+// export async function getPlayersWithEvents(date?: string) {
+//     _log("searchdate valid: ", dayjs(date).format("DD-MM-YY"))
+//     const searchdate = dayjs(date).format("DD-MM-YY")
 
-    try {
+//     try {
 
-        const p = await prisma.player.findMany({
-            where: {
-                events: {}
-            }, include: { events: true }
-        })
-        _log("finded: ", p)
-        return p
-    } catch (error) {
-        _log("___Find error: \n", error)
-        throw new Error("findmany error")
-    }
-}
+//         const p = await prisma.player.findMany({
+//             where: {
+//                 events: {}
+//             }, include: { events: true }
+//         })
+//         _log("finded: ", p)
+//         return p
+//     } catch (error) {
+//         _log("___Find error: \n", error)
+//         throw new Error("findmany error")
+//     }
+// }
 
 export async function getOnePlayer(id: number) {
     try {
@@ -217,9 +221,17 @@ export async function seedPlayers() {
 export async function getPlayersByEventDate(payload: { event_date?: string }) {
     const { event_date } = payload
     const p = prisma.player
+
     try {
         if (!event_date) {
-            const players = await p.findMany()
+            const players = await p.findMany({
+                orderBy: [{
+                    events: {
+                        _count: 'desc'
+                    }
+                },
+                { id: 'asc' }]
+            })
             const nonPlayers: typeof players = []
             return { players, nonPlayers }
         }
@@ -234,7 +246,7 @@ export async function getPlayersByEventDate(payload: { event_date?: string }) {
             },
             select: {
                 id: true, name: true,
-            }
+            },
         })
 
         const nonEv_players = await p.findMany(
