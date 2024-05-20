@@ -9,22 +9,28 @@ import {
     Select,
     SelectChangeEvent, Typography
 } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 
 interface PlayerSelectorProps {
-    names: string[],
+    event_p_names?: string[],
     setNames?: Dispatch<SetStateAction<string[]>>
     options: string[]
 }
-export function PlayerSelector({ names, setNames, options }: PlayerSelectorProps) {
+export function PlayerSelector({ options, event_p_names }: PlayerSelectorProps) {
+    const [selected, setSelected] = useState(() => options)
+    const [rest, setRest] = useState(options.filter(o => !selected.includes(o)))
+
     const handleChange = (event: SelectChangeEvent<string[]>) => {
         let { value } = event.target;
         const v = typeof value === 'string' ? value.split(', ') : value;
-        setNames && setNames(v);
-
-
+        setSelected(v);
     };
+
+    useEffect(() => {
+        if (!event_p_names) return setRest(options)
+        setRest(prev => prev.filter(p => event_p_names.includes(p)))
+    }, [event_p_names])
     return (
         <FormControl>
             <FormLabel id="name-selector-label">
@@ -38,7 +44,7 @@ export function PlayerSelector({ names, setNames, options }: PlayerSelectorProps
                 autoFocus={ false }
                 name="names"
                 id="name-selector"
-                value={ names }
+                value={ selected }
                 onChange={ handleChange }
                 multiple
                 renderValue={ (n) => {
@@ -51,20 +57,20 @@ export function PlayerSelector({ names, setNames, options }: PlayerSelectorProps
                 input={ <OutlinedInput
                     placeholder="players"
                     name="names2"
-                    startAdornment={ <IconButton onClick={ () => { setNames && setNames([]) } }>
-                        { names.length > 0 && <CloseTwoTone /> }
+                    startAdornment={ <IconButton onClick={ () => { setSelected && setSelected([]) } }>
+                        { selected.length > 0 && <CloseTwoTone /> }
                     </IconButton> } /> }
 
             >
 
 
-                { options.map(p => <MenuItem
+                { rest.map(p => <MenuItem
                     key={ p }
                     value={ p }>
                     <ListItemText
                         primary={ p }
                         primaryTypographyProps={ { textAlign: 'left' } } />
-                    <Checkbox checked={ names.includes(p) } />
+                    <Checkbox checked={ selected.includes(p) } />
                 </MenuItem>
                 ) }
             </Select>

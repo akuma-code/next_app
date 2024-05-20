@@ -16,11 +16,11 @@ import {
     Stack,
     Typography
 } from "@mui/material"
-import { DatePicker } from "@mui/x-date-pickers"
 import dayjs, { type Dayjs } from "dayjs"
 import { usePathname, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { PlayerSelector } from "./PlayerSelector"
+import { EventDatePicker } from "./EventDatePicker"
 
 
 type CreateEventPayload = {
@@ -36,7 +36,7 @@ const today = dayjs()
 export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers, evPlayers }) => {
 
 
-    const [eventDate, setEventDate] = useState<Dayjs | null>(today)
+    const [eventDate, setEventDate] = useState<Dayjs>(today)
     const [names, setNames] = useState<string[]>(() => dbPlayers.map(p => p.name) || [])
     const selected = useMemo(() => evPlayers.filter(i => names.includes(i.name)), [names])
 
@@ -60,9 +60,9 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
 
     }
 
-    const onDateChange = (v: Dayjs | null) => {
+    const onDateChange = (v: string | null) => {
         router.push(pathname + '?date=' + _formated_date(v))
-        setEventDate(v)
+        setEventDate(dayjs(v))
     }
     return (
         <>
@@ -70,8 +70,8 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
 
 
                 <Stack spacing={ 2 }>
-                    { EventDatePicker(eventDate, onDateChange) }
-                    { PlayerSelector({ names, setNames, options }) }
+                    { EventDatePicker({ event_date: _formated_date(eventDate), changeHandler: onDateChange }) }
+                    { PlayerSelector({ event_p_names: names, setNames, options }) }
 
 
                 </Stack>
@@ -152,17 +152,4 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
 }
 
 PlayersEventTranfer.displayName = '_____PlayersTransferList'
-
-function EventDatePicker(eventDate: dayjs.Dayjs | null, onDateChange: (v: Dayjs | null) => void) {
-    return <DatePicker
-        name="date"
-        value={ eventDate }
-        onChange={ onDateChange }
-        slotProps={ {
-            textField: { size: 'small', },
-        } }
-
-    />
-}
-
 

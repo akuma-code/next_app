@@ -223,3 +223,37 @@ export async function getOneEventByDate(date: string) {
         throw new Error("get event by date error:")
     }
 }
+
+
+export async function createBlankEvent(date: string, title?: string) {
+    const _date = _formated_date(date)
+    const pev = await prisma.event.create({ data: { date_formated: _date, title: title }, select: { id: true, date_formated: true } })
+    return pev
+}
+
+export async function connectPlayersToEvent(id: number, players: { id: number, name: string }[]) {
+    try {
+        const event = await prisma.event.update({
+            where: { id },
+            data: {
+                players: {
+                    connect: players
+                }
+            },
+            include: {
+                players: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        })
+
+        return event
+    } catch (error) {
+        console.log(" \n", error)
+        throw new Error("CONNECT PLAYERS ERROR")
+    }
+
+}

@@ -1,6 +1,6 @@
 import { _formated_date } from "@/Helpers/dateFuncs";
 import { _log } from "@/Helpers/helpersFns";
-import { getEventById, getEventsByMonth, getEventsUnique, getOneEventByDate } from "@/Services/eventService";
+import { createBlankEvent, getEventById, getEventsByMonth, getEventsUnique, getOneEventByDate } from "@/Services/eventService";
 import { getPlayers, getPlayersByEventDate } from "@/Services/playerService";
 import { Box, Stack } from "@mui/material";
 import { CalendarAndPlayers } from "./CalendarAndPlayers";
@@ -23,21 +23,27 @@ export default async function AvangardPage({ searchParams }: { searchParams: { d
 
 
     const activeEvent = await getOneEventByDate(date)
+
     // const playersByDate = await getEventsUnique()
     // _log("players: ", await getPlayersByDateString(searchDate))
     return (
-        <Box component={ Stack } direction={ { md: 'row', sm: 'column' } } alignItems={ 'start' }>
+        <Box component={ Stack } direction={ { md: 'row', sm: 'column' } } alignItems={ 'start' } gap={ 2 }>
             <EventControl allPlayers={ ewp.players } event={ activeEvent } />
-            {/* <PlayersEventTranfer dbPlayers={ playersByDate || [] } evPlayers={ ewp.players } /> */ }
-            {
-                activeEvent && <EventView event={ activeEvent } boxProps={ { mt: 2, } } readonly={ false } />
-            }
-            {/* <CalendarAndPlayers players={ playersByDate } searchDate={ date } /> */ }
 
-            {/* <EventsList /> */ }
+            {
+                activeEvent && <EventView event={ activeEvent } boxProps={ { mt: 0, } } readonly={ false } />
+            }
+
         </Box>
     )
 }
 
 
 
+async function EventBlank(date: string) {
+    const isEventDay = [2, 4].includes(dayjs(date).day())
+    const blankEvent = await createBlankEvent(_formated_date(dayjs()), "Blank Event")
+    let event: ReturnType<typeof createBlankEvent> | null = null
+
+
+}

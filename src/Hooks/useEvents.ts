@@ -1,9 +1,11 @@
 'use client'
 
+import { _log } from "@/Helpers/helpersFns"
 import { createEvent } from "@/Services/eventService"
 import { getPlayers } from "@/Services/playerService"
+import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
-import useSWR from "swr"
+
 interface EventPayload {
     findBy?: { month: string } | { id: number } | undefined
     initPlayersList: { id: number, name: string }[]
@@ -12,16 +14,12 @@ interface EventPayload {
 }
 
 export function useEventControl({ findBy, initPlayersList, activeEvent }: EventPayload) {
+    const [names, setNames] = useState(() => initPlayersList.map(p => p.name))
 
-    const names = useMemo(() => initPlayersList.map(p => p.name), [])
+    const isSelected = (name: string) => names.includes(name)
 
-    const restNames = useMemo(() => {
-        if (!activeEvent) return names
-        const active = activeEvent.players.map(p => p.name)
-        return names.filter(name => !active.includes(name))
-    }, [activeEvent])
     const selectorOptions = {
-        names, restNames
+        names, isSelected, setNames
     }
 
     return { options: selectorOptions }
