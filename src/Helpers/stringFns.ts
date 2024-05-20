@@ -1,0 +1,1 @@
+export const name_letters = (name: string) => name.split(" ").map(n => n[0]).join("")

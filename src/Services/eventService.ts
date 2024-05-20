@@ -155,7 +155,7 @@ export async function getEventsByMonth(month?: string, year = 2024) {
         // if month omit return all avents with players
         const events = e.findMany({
             where: { players: {} },
-            orderBy: { date_formated: 'asc' },
+            orderBy: { id: 'asc' },
             select: {
                 id: true,
                 date_formated: true,
@@ -178,9 +178,48 @@ export async function getEventsByMonth(month?: string, year = 2024) {
             date_formated: true,
             players: { select: { id: true, name: true } },
             _count: { select: { players: true } }
-        }
+        },
+        orderBy: { date_formated: 'asc' }
 
     })
 
     return result
+}
+
+export async function getEventById(eventId: string) {
+    const id = Number(eventId)
+    if (isNaN(id)) throw new Error(`Event Id Invalid: ${eventId}`)
+
+    const e = prisma.event
+    try {
+        const event = await e.findUnique({
+            where: { id },
+            select: {
+                id: true, date_formated: true, title: true,
+                players: true, _count: { select: { players: true } }
+            }
+        })
+        return event
+    } catch (error) {
+        console.log(" \n", error)
+        throw new Error("get eventId error:")
+    }
+}
+export async function getOneEventByDate(date: string) {
+
+
+    const e = prisma.event
+    try {
+        const event = await e.findUnique({
+            where: { date_formated: date },
+            select: {
+                id: true, date_formated: true, title: true,
+                players: true, _count: { select: { players: true } }
+            }
+        })
+        return event
+    } catch (error) {
+        console.log(" \n", error)
+        throw new Error("get event by date error:")
+    }
 }

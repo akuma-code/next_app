@@ -154,7 +154,8 @@ export async function getPlayers(options?: { info?: boolean, }) {
             // },
             include: {
                 events: true,
-                info: true
+                info: true,
+                _count: { select: { events: true } }
             },
             orderBy: [
                 {

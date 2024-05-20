@@ -1,27 +1,18 @@
 'use client'
+import AdeptusMechanicus from "@/Components/Icons/AdeptusMechanicus"
 import { _djs, _formated_date } from "@/Helpers/dateFuncs"
 import { createEvent } from "@/Services/eventService"
 import { PlayerWithInfo } from "@/Services/playerService"
-import { CloseTwoTone } from "@mui/icons-material"
 import {
-    Box,
     Button,
     ButtonGroup,
     Card,
     CardActions,
     CardContent,
-    Checkbox,
-    FormControl,
-    FormLabel,
     Grow,
-    IconButton,
     List,
     ListItem,
     ListItemText,
-    MenuItem,
-    OutlinedInput,
-    Select,
-    SelectChangeEvent,
     Stack,
     Typography
 } from "@mui/material"
@@ -29,6 +20,7 @@ import { DatePicker } from "@mui/x-date-pickers"
 import dayjs, { type Dayjs } from "dayjs"
 import { usePathname, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
+import { PlayerSelector } from "./PlayerSelector"
 
 
 type CreateEventPayload = {
@@ -48,7 +40,7 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
     const [names, setNames] = useState<string[]>(() => dbPlayers.map(p => p.name) || [])
     const selected = useMemo(() => evPlayers.filter(i => names.includes(i.name)), [names])
 
-    const options = useMemo(() => evPlayers.map(p => ({ id: p.id, name: p.name })), [])
+    const options = useMemo(() => evPlayers.map(p => p.name), [])
     const router = useRouter()
     const pathname = usePathname()
 
@@ -67,12 +59,10 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
         // setNames([])
 
     }
-    const handleChange = (event: SelectChangeEvent<string[]>) => {
-        let { value } = event.target
-        const v = typeof value === 'string' ? value.split(', ') : value
-        setNames(v)
 
-
+    const onDateChange = (v: Dayjs | null) => {
+        router.push(pathname + '?date=' + _formated_date(v))
+        setEventDate(v)
     }
     return (
         <>
@@ -80,69 +70,8 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
 
 
                 <Stack spacing={ 2 }>
-                    <DatePicker
-                        name="date"
-                        value={ eventDate }
-                        onChange={ v => {
-                            router.push(pathname + '?date=' + _formated_date(v))
-                            setEventDate(v)
-                        } }
-                        slotProps={ {
-                            textField: { size: 'small' }
-                        } }
-                    />
-                    <FormControl >
-                        <FormLabel id="name-selector-label">
-                            <Typography variant="body1" textAlign={ 'right' }>
-
-                                Присутствуют на тренировке:
-                            </Typography>
-                        </FormLabel>
-
-                        <Select
-                            labelId="name-selector-label"
-                            autoFocus={ false }
-                            name="names"
-                            id="name-selector"
-                            value={ names }
-                            onChange={ handleChange }
-                            multiple
-                            renderValue={ (n) => {
-                                const text = n.length > 0 ? `Выбрано: ${n.length}` : "players"
-                                return (<Box textAlign={ 'center' }>{ text }</Box>)
-                            } }
-                            variant="outlined"
-                            placeholder="asd"
-                            size="small"
-                            input={
-                                <OutlinedInput
-                                    placeholder="players"
-                                    name="names2"
-                                    startAdornment={
-                                        <IconButton onClick={ () => setNames([]) }>
-                                            { names.length > 0 && <CloseTwoTone /> }
-                                        </IconButton> } />
-                            }
-
-                        >
-
-
-                            {
-                                options.map(p =>
-                                    <MenuItem
-                                        key={ p.name }
-                                        value={ p.name } >
-                                        <ListItemText
-                                            primary={ p.name }
-                                            primaryTypographyProps={ { textAlign: 'left' } }
-                                        />
-                                        <Checkbox checked={ names.includes(p.name) } />
-                                    </MenuItem>
-                                )
-                            }
-                        </Select>
-                        {/* <FormHelperText>Players</FormHelperText> */ }
-                    </FormControl>
+                    { EventDatePicker(eventDate, onDateChange) }
+                    { PlayerSelector({ names, setNames, options }) }
 
 
                 </Stack>
@@ -223,3 +152,17 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
 }
 
 PlayersEventTranfer.displayName = '_____PlayersTransferList'
+
+function EventDatePicker(eventDate: dayjs.Dayjs | null, onDateChange: (v: Dayjs | null) => void) {
+    return <DatePicker
+        name="date"
+        value={ eventDate }
+        onChange={ onDateChange }
+        slotProps={ {
+            textField: { size: 'small', },
+        } }
+
+    />
+}
+
+

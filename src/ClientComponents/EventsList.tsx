@@ -13,7 +13,7 @@ import { EventViewCard } from "@/Components/EventView/EventViewCard";
 export interface IEvent_Front {
     id: number;
     date_formated: string;
-    title?: string
+    title?: string | null
     players: {
         id: number;
         name: string;
@@ -97,7 +97,7 @@ export const EventCard: React.FC<{ event: IEvent_Front }> = ({ event }) => {
 
                 <Stack direction={ 'row' } spacing={ 1 }>
                     <Typography variant="body1">Игроков: </Typography>
-                    <Avatar variant="circular" alt={ title } sizes="small"
+                    <Avatar variant="circular" alt={ title || "" } sizes="small"
                         sx={ { width: 28, height: 28, bgcolor: avatarColor(players.length), fontSize: 16 } }
                     >
                         { players.length }

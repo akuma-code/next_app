@@ -4,7 +4,8 @@ import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
 import DeleteButton from "@/ClientComponents/UI/DeleteButton";
 import { getPlayers } from "@/Services/playerService";
 import { DeleteTwoTone, EditTwoTone } from "@mui/icons-material";
-import { Box, Button, List, ListItem, ListItemButton, ListItemText, Stack } from "@mui/material";
+import { Avatar, Box, Button, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack } from "@mui/material";
+import { wrap } from "module";
 import Link from "next/link";
 
 async function AvPlayers(query?: { searchParams?: { action: string } }) {
@@ -17,49 +18,59 @@ async function AvPlayers(query?: { searchParams?: { action: string } }) {
     // if (players.length === 0) return <div>No players</div>
     return (
         <Stack direction={ 'row' } columnGap={ 2 }>
-            <Stack >
-                <Box ml={ 2 }>
-
-                    {
-                        show ?
-
-                            <CloseFormButton />
-                            :
-                            <ShowCreateFormButton />
-                    }
-                </Box>
+            <Stack justifyContent={ 'center' }>
                 { players.length > 0 ?
-                    <List dense disablePadding>
-                        { players.map((p, idx) =>
+                    <Box
 
-                            <ListItem key={ p.id }>
-                                <ListItemText
-                                    secondaryTypographyProps={ { ml: 2 } }
-                                    primary={
-                                        <Link href={ {
-                                            pathname: 'players/' + p.id.toString(),
-                                        } }
-                                            className="hover:underline"
-                                        >
-                                            { idx + 1 }. { p.name }
-                                        </Link>
-                                    }
-                                    secondary={
-                                        p.info?.rttf_score &&
-                                        <span> рейтинг: { p.info?.rttf_score }</span>
-                                    }
-                                />
-                                <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>
-                                    <EditTwoTone />
-                                </ListItemButton>
-                                <ListItemButton color="red">
-                                    <DeleteButton deleteId={ +p.id }>
-                                        <DeleteTwoTone />
-                                    </DeleteButton>
-                                </ListItemButton>
-                            </ListItem>
-                        ) }
-                    </List>
+                        sx={ {
+                            borderRadius: 4,
+
+                            border: "1px solid",
+                            borderColor: 'lightgray',
+                            bgcolor: "background.paper",
+                            boxShadow: "0 2px 6px 0 rgba(0,0,0,0.08)",
+                            // maxHeight: 600,
+
+                        } }
+                    >
+
+
+                        <List dense disablePadding sx={ { maxWidth: 300 } }>
+                            { players.map((p, idx) =>
+                                <ListItem key={ p.id } sx={ { minWidth: 'fit-content', } }>
+                                    <ListItemText
+                                        primaryTypographyProps={ { variant: 'body1' } }
+                                        secondaryTypographyProps={ { ml: 2 } }
+                                        primary={
+                                            <Link href={ {
+                                                pathname: 'players/' + p.id.toString(),
+                                            } }
+                                                className="hover:underline"
+                                            >
+                                                { idx + 1 }. { p.name }
+                                            </Link>
+                                        }
+                                        secondary={
+                                            p.info?.rttf_score &&
+                                            <span> рейтинг: { p.info?.rttf_score }</span>
+                                        }
+                                    />
+                                    <ListItemAvatar>
+                                        <Avatar variant="rounded">{ p._count.events || 0 }</Avatar>
+                                    </ListItemAvatar>
+                                    {/* <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>
+                                        <EditTwoTone />
+                                    </ListItemButton>
+                                    <ListItemButton color="red">
+                                        <DeleteButton deleteId={ +p.id }>
+                                            <DeleteTwoTone />
+                                        </DeleteButton>
+                                    </ListItemButton> */}
+                                </ListItem>
+
+                            ) }
+                        </List>
+                    </Box>
                     : <div>
                         No players found
                     </div>
