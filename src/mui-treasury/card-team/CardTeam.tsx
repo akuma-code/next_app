@@ -46,6 +46,7 @@ const ColumnCard = styled("div")(() => ({
   backgroundColor: "#fff",
   transition: "0.4s",
   height: "100%",
+  border: '2px solid grey'
 }));
 
 const AvatarLogo = styled(Avatar)(() => ({
@@ -77,7 +78,7 @@ const ButtonJoin = styled(Button)(() => ({
   },
 }));
 
-const CustomCard = ({
+export const CustomCard = ({
   title,
   subtitle,
   description,
@@ -92,39 +93,39 @@ const CustomCard = ({
 }) => (
   <DivRoot>
     <ColumnCard>
-      <Box display="flex" p={2} gap={2} flexWrap="nowrap">
-        <AvatarLogo variant={"rounded"} src={thumbnail} />
-        <Info useStyles={getInfoApexStyles} sx={{ alignSelf: "center" }}>
-          <InfoTitle>{title}</InfoTitle>
-          <InfoSubtitle>{subtitle}</InfoSubtitle>
+      <Box display="flex" p={ 2 } gap={ 2 } flexWrap="nowrap">
+        <AvatarLogo variant={ "rounded" } src={ thumbnail } />
+        <Info useStyles={ getInfoApexStyles } sx={ { alignSelf: "center" } }>
+          <InfoTitle>{ title }</InfoTitle>
+          <InfoSubtitle>{ subtitle }</InfoSubtitle>
         </Info>
       </Box>
       <Box
-        pb={1}
-        px={2}
-        color={"grey.600"}
-        fontSize={"0.875rem"}
-        fontFamily={"Ubuntu"}
-        flexGrow={1}
+        pb={ 1 }
+        px={ 2 }
+        color={ "grey.600" }
+        fontSize={ "0.875rem" }
+        fontFamily={ "Ubuntu" }
+        flexGrow={ 1 }
       >
-        {description}
+        { description }
       </Box>
       <Box
         display="flex"
-        p={2}
-        gap={2}
-        sx={{
+        p={ 2 }
+        gap={ 2 }
+        sx={ {
           flexWrap: "wrap",
           justifyContent: "space-between",
           "&& > *": {
             minWidth: `clamp(0px, (248px + 1px - 100%) * 999, 100%)`,
           },
-        }}
+        } }
       >
         <Box>
           <AvatarGroup
-            max={4}
-            sx={{
+            max={ 4 }
+            sx={ {
               "& .MuiAvatar-root": {
                 fontFamily: "Ubuntu",
                 fontSize: "0.875rem",
@@ -135,20 +136,20 @@ const CustomCard = ({
                   marginRight: "auto",
                 },
               },
-            }}
+            } }
           >
-            {new Array(5).fill(0).map((_, index) => (
+            { new Array(5).fill(0).map((_, index) => (
               <Avatar
-                key={index}
-                src={`https://i.pravatar.cc/300?img=${Math.floor(
+                key={ index }
+                src={ `https://i.pravatar.cc/300?img=${Math.floor(
                   Math.random() * 30
-                )}`}
+                )}` }
               />
-            ))}
+            )) }
           </AvatarGroup>
         </Box>
-        <ButtonJoin variant={"contained"} color={"primary"} disableRipple>
-          {joined ? "Leave group" : "Join group"}
+        <ButtonJoin variant={ "contained" } color={ "primary" } disableRipple>
+          { joined ? "Leave group" : "Join group" }
         </ButtonJoin>
       </Box>
     </ColumnCard>
@@ -157,14 +158,14 @@ const CustomCard = ({
 
 export function CardTeam() {
   return (
-    <Grid container spacing={4}>
-      <Grid item xs={12} sm={6} lg={4}>
+    <Grid container spacing={ 4 }>
+      <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
         <CustomCard
           thumbnail={
             "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQHCBAj8nRJkEwjWg5TpNuSZZG9iscsf43V1mfx0LZHNDYW3S_&usqp=CAU"
           }
-          title={"APEX Legends: Assemble!"}
-          subtitle={"Created by siriwatknp"}
+          title={ "APEX Legends: Assemble!" }
+          subtitle={ "Created by siriwatknp" }
           description={
             <>
               <b>Shining Alpaca</b> and 3 others are already members of this
@@ -173,24 +174,24 @@ export function CardTeam() {
           }
         />
       </Grid>
-      <Grid item xs={12} sm={6} lg={4}>
+      <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
         <CustomCard
           joined
           thumbnail={
             "https://cm1.narvii.com/7153/05204b8d8dcbb652dd1a8ceaafde997bc1909468_00.jpg"
           }
-          title={"League of Legends Official"}
-          subtitle={"Created by LoL"}
+          title={ "League of Legends Official" }
+          subtitle={ "Created by LoL" }
           description={
             "You are already a member of this group since April 5th 2019."
           }
         />
       </Grid>
-      <Grid item xs={12} sm={6} lg={4}>
+      <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
         <CustomCard
-          thumbnail={"https://avatarfiles.alphacoders.com/537/53765.jpg"}
-          title={"Overwatch official"}
-          subtitle={"Created by Bliz"}
+          thumbnail={ "https://avatarfiles.alphacoders.com/537/53765.jpg" }
+          title={ "Overwatch official" }
+          subtitle={ "Created by Bliz" }
           description={
             <>
               <b>RainBOW</b> and 3 others are already members of this group.
@@ -201,3 +202,10 @@ export function CardTeam() {
     </Grid>
   );
 }
+
+
+const CMCard = {
+  DivRoot, ColumnCard, AvatarLogo, ButtonJoin, CustomCard
+}
+
+export default CMCard

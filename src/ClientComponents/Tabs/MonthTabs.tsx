@@ -9,11 +9,6 @@ import dayjs from "dayjs"
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { ChromeTabItem, TabsChrome } from "@/mui-treasury/tabs-chrome"
 
-const monthlist = [
-    { value: 0 },
-    { value: 1 },
-    { value: 2 },
-]
 
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 const stringifyMonth = (newValue: number) => newValue < 10 ? '0' + (newValue + 1) : `${(newValue + 1)}`

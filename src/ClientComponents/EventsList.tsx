@@ -3,12 +3,13 @@
 import { _log } from "@/Helpers/helpersFns";
 import { stringToColor } from "@/Helpers/stringToColor";
 import { OpenInFullTwoTone, OpenWithTwoTone } from "@mui/icons-material";
-import { Avatar, Box, Card, CardActions, CardContent, CardHeader, IconButton, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardActions, CardContent, CardHeader, Grid, IconButton, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import 'dayjs/locale/ru'
 import { DayOfWeek } from "@/Helpers/dateFuncs";
+import { EventViewCard } from "@/Components/EventView/EventViewCard";
 export interface IEvent_Front {
     id: number;
     date_formated: string;
@@ -21,24 +22,50 @@ export interface IEvent_Front {
 
 }
 
+export const avatarColor = (numb: number) => {
+    const colors = {
+        xs: 'grey',
+        sm: 'darkgreen',
+        md: 'orange',
+        lg: 'darkorange',
+        xl: 'red'
 
+    }
+    if (numb >= 10) return colors.xl
+    if (numb >= 9) return colors.lg
+    if (numb >= 7) return colors.md
+    if (numb > 3) return colors.sm
+    if (numb >= 0) return colors.xs
+    return colors.md
+}
 
 export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }: { events: IEvent_Front[] }) => {
 
+    const d = (date: string) => date.replaceAll("_", ".")
+    const dm = (date: string) => dayjs(date, 'DD_MM_YYYY', 'ru').format("DD MMMM")
 
+
+    const dayWeek = (d: string) => DayOfWeek[dayjs(d, 'DD.MM.YYYY', 'ru').weekday()]
 
     return (
-        <Box bgcolor={ '#ebb8ff' } p={ 1 }>
-            <Stack flexWrap={ 'wrap' } maxWidth={ 450 } direction={ 'row' } rowGap={ 1 } columnGap={ 2 }>
-
+        <Box bgcolor={ '#ebb8ff' } p={ 1 } maxWidth={ 550 }>
+            {/* <Stack flexWrap={ 'wrap' } maxWidth={ 450 } direction={ 'row' } rowGap={ 1 } columnGap={ 2 }> */ }
+            <Grid container spacing={ 2 } maxWidth={ 500 }>
                 { events.map(e =>
-                    <EventCard
-                        key={ e.id }
-                        event={ e }
-                    />
 
+                    <Grid key={ e.id } item xs={ 6 } lg={ 4 }>
+
+                        <EventViewCard
+
+                            event={ e }
+                            title={ dm(e.date_formated) }
+                            subtitle={ dayWeek(e.date_formated) }
+                            description={ "всего: " + e._count?.players + " человек" }
+                        />
+                    </Grid>
                 ) }
-            </Stack>
+                {/* </Stack> */ }
+            </Grid>
         </Box>
     )
 }
@@ -53,22 +80,7 @@ export const EventCard: React.FC<{ event: IEvent_Front }> = ({ event }) => {
 
     const dayWeek = dayjs(d, 'DD.MM.YYYY', 'ru').weekday()
 
-    const avatarColor = (numb: number) => {
-        const colors = {
-            xs: 'grey',
-            sm: 'darkgreen',
-            md: 'orange',
-            lg: '#00fff2',
-            xl: 'red'
 
-        }
-        if (numb >= 10) return colors.xl
-        if (numb >= 9) return colors.lg
-        if (numb >= 7) return colors.md
-        if (numb > 3) return colors.sm
-        if (numb >= 0) return colors.xs
-        return colors.md
-    }
     // _log(stringToColor('8'))
     return (
         <Card sx={ { maxWidth: 150, m: .4 } } square={ false } >
