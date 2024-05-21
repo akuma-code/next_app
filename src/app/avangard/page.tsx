@@ -9,6 +9,7 @@ import { EventsList } from "@/ClientComponents/EventsList";
 import { PlayersEventTranfer } from "@/ClientComponents/PlayersEventTransfer";
 import { EventView } from "@/Components/EventView/EventView";
 import EventControl from "@/Components/EventControl";
+import allP from "@/utils/playersList";
 type PageProps = {
     searchParams?: {
         date?: string
@@ -19,7 +20,7 @@ export default async function AvangardPage({ searchParams }: { searchParams: { d
 
     const date = searchParams.date ?? ''
     const ewp = await getPlayersByEventDate({ event_date: "" })
-
+    const all = await allP()
 
 
     const activeEvent = await getOneEventByDate(date)
@@ -28,7 +29,7 @@ export default async function AvangardPage({ searchParams }: { searchParams: { d
     // _log("players: ", await getPlayersByDateString(searchDate))
     return (
         <Box component={ Stack } direction={ { md: 'row', sm: 'column' } } alignItems={ 'start' } gap={ 2 }>
-            <EventControl allPlayers={ ewp.players } event={ activeEvent } />
+            <EventControl allPlayers={ all } event={ activeEvent } />
 
             {
                 activeEvent && <EventView event={ activeEvent } boxProps={ { mt: 0, } } readonly={ false } />

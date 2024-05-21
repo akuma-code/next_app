@@ -1,7 +1,8 @@
 {
     "parser": "@typescript-eslint/parser",
     "extends": [
-        "plugin:@typescript-eslint/recommended"
+        // "plugin:@typescript-eslint/recommended",
+        "next/core-web-vitals"
     ],
     "parserOptions": {
         "ecmaVersion": 2020,

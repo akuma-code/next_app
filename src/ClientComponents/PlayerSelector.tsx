@@ -1,4 +1,5 @@
 'use client';
+import { useEventContext } from "@/Hooks/useEventContext";
 import { CloseTwoTone } from "@mui/icons-material";
 import {
     Box, Checkbox,
@@ -14,25 +15,28 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface PlayerSelectorProps {
     event_p_names?: string[],
-    setNames?: Dispatch<SetStateAction<string[]>>
+
     options: string[]
 }
-export function PlayerSelector({ options, event_p_names }: PlayerSelectorProps) {
-    const [selected, setSelected] = useState(() => options)
-    const [rest, setRest] = useState(options.filter(o => !selected.includes(o)))
+export function PlayerSelector({ options }: PlayerSelectorProps) {
+    const [selected, setSelected] = useState<string[]>([])
+    const { create_newEvent } = useEventContext()
+
+    // const [rest, setRest] = useState(options.filter(o => !selected.includes(o)))
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
         let { value } = event.target;
         const v = typeof value === 'string' ? value.split(', ') : value;
-        setSelected(v);
+        setSelected(prev => v);
+
     };
 
-    useEffect(() => {
-        if (!event_p_names) return setRest(options)
-        setRest(prev => prev.filter(p => event_p_names.includes(p)))
-    }, [event_p_names])
+    // useEffect(() => {
+    //     if (!event_p_names) return setRest(options)
+    //     setRest(prev => prev.filter(p => event_p_names.includes(p)))
+    // }, [event_p_names])
     return (
-        <FormControl>
+        <FormControl sx={ { minWidth: 200 } }>
             <FormLabel id="name-selector-label">
                 <Typography variant="body1" textAlign={ 'right' }>
                     Добавить игроков:
@@ -64,7 +68,7 @@ export function PlayerSelector({ options, event_p_names }: PlayerSelectorProps) 
             >
 
 
-                { rest.map(p => <MenuItem
+                { options.map(p => <MenuItem
                     key={ p }
                     value={ p }>
                     <ListItemText

@@ -144,14 +144,7 @@ export async function getPlayers(options?: { info?: boolean, }) {
     try {
 
         const p = await prisma.player.findMany({
-            // select: {
-            //     info: true,
-            //     events: true,
-            //     id: true,
-            //     name: true,
-            //     createdAt: true,
-            //     updatedAt: true
-            // },
+
             include: {
                 events: true,
                 info: true,
