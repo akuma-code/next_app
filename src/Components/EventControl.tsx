@@ -4,11 +4,13 @@ import { EventContext } from "@/Hooks/useEventContext";
 import { useToggle } from "@/Hooks/useToggle";
 import { Button, ButtonGroup, Grid, Stack } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BaseEvent, EventBlank } from "./EventView/EventBlank";
 import { _formated_date } from "@/Helpers/dateFuncs";
 import dayjs from "dayjs";
 import { _log } from "@/Helpers/helpersFns";
+import { EventView } from "./EventView/EventView";
+import { createEvent } from "@/Services/eventService";
 
 interface IPlayer {
     id: number;
@@ -27,6 +29,7 @@ interface EventControlProps {
 }
 
 type EventStatus = 'onActive' | 'onCreate' | 'idle'
+type DateStatus = 'free' | 'hasEvent'
 
 const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, event }) => {
     const router = useRouter()
@@ -37,17 +40,35 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
     const [isShow, show] = useToggle(false)
     const [blankEvent, setBlankEvent] = useState<BaseEvent | null>(null)
 
-    const handleChangeQuery = (date?: string) => {
-        router.push(pathname + '?date=' + date)
+
+    const handleCreateEvent = async () => {
+
+        if (blankEvent && blankEvent.players) {
+
+            const ids = blankEvent?.players.map(p => ({ id: p.id }))
+            const data = { event_date: edate, ids }
+            try {
+
+                await createEvent({ ...data })
+            } catch (error) {
+                _log(error)
+            }
+        }
     }
-    const handleSaveEvent = (date: string) => {
-        if (!blankEvent) return setBlankEvent({ date_formated: date, })
-        setBlankEvent(prev => ({ ...prev, date_formated: date }))
+    const addEvent = () => {
+        setBlankEvent({ date_formated: edate })
+    }
+    const deleteEvent = () => {
+        setBlankEvent(null)
+    }
+    const addPlayers = (pls: IPlayer[]) => {
+        blankEvent
+            ? setBlankEvent(prev => ({ ...prev, players: pls, date_formated: edate }))
+            : setBlankEvent({ date_formated: edate, players: pls })
     }
 
-    const isEventExis = event || !isShow
-    const status: EventStatus = event ? 'onActive' : (blankEvent || isShow) ? 'onCreate' : "idle"
-    _log(status)
+    const status: DateStatus = useMemo(() => event || blankEvent ? 'hasEvent' : 'free', [event, blankEvent])
+
     return (
         <EventContext.Provider
             value={ {
@@ -65,27 +86,27 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
                         <EventDatePicker event_date={ event?.date_formated } />
                         <ButtonGroup fullWidth>
 
-                            <Button disabled={ status === 'idle' }
+                            <Button disabled={ status === 'free' }
                                 color="error"
                                 variant="contained"
-                                onClick={ () => handleSaveEvent(edate) }
+                                onClick={ handleCreateEvent }
                             >
-                                Сохранить
+                                Создать
 
                             </Button>
 
                             <Button
-                                disabled={ status !== 'idle' }
-                                variant="outlined"
-                                onClick={ show.toggle }
+                                disabled={ status === 'hasEvent' }
+                                variant="contained"
+                                onClick={ addEvent }
                             >
 
                                 Добавить
                             </Button>
                             <Button
-                                disabled={ status !== 'onCreate' }
+                                disabled={ status === 'free' }
                                 variant="outlined"
-                                onClick={ show.toggle }
+                                onClick={ deleteEvent }
 
                             >
                                 Отмена
@@ -96,10 +117,8 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
                 </Grid>
                 <Grid item md={ 5 } xs={ 'auto' }>
 
-                    {
-                        !isEventExis &&
-
-                        <EventBlank /> }
+                    { (blankEvent || event) && <EventBlank getSelectedPlayers={ addPlayers } /> }
+                    { event && <EventView event={ event } boxProps={ { mt: 0, } } readonly={ false } /> }
                 </Grid>
             </Grid>
         </EventContext.Provider>

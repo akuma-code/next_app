@@ -32,7 +32,7 @@ export default async function AvangardPage({ searchParams }: { searchParams: { d
             <EventControl allPlayers={ all } event={ activeEvent } />
 
             {
-                activeEvent && <EventView event={ activeEvent } boxProps={ { mt: 0, } } readonly={ false } />
+                // activeEvent && <EventView event={ activeEvent } boxProps={ { mt: 0, } } readonly={ false } />
             }
 
         </Box>
