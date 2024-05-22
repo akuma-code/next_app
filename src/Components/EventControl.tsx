@@ -4,7 +4,7 @@ import { EventContext } from "@/Hooks/useEventContext";
 import { useToggle } from "@/Hooks/useToggle";
 import { Button, ButtonGroup, Grid, Stack } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BaseEvent, EventBlank } from "./EventView/EventBlank";
 import { _formated_date } from "@/Helpers/dateFuncs";
 import dayjs from "dayjs";
@@ -35,23 +35,28 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
     const router = useRouter()
     const pathname = usePathname()
     const search = useSearchParams()
-
+    const selectedDate = search.get('date')
     const [edate, setDate] = useState<string>(() => _formated_date(dayjs()))
-    const [isShow, show] = useToggle(false)
+    const [isPending, setPending] = useState(false)
     const [blankEvent, setBlankEvent] = useState<BaseEvent | null>(null)
 
 
     const handleCreateEvent = async () => {
-
+        setPending(true)
         if (blankEvent && blankEvent.players) {
 
             const ids = blankEvent?.players.map(p => ({ id: p.id }))
             const data = { event_date: edate, ids }
             try {
 
-                await createEvent({ ...data })
+                const new_event = await createEvent({ ...data })
+                _log(new_event)
+                setBlankEvent(null)
+                return new_event
             } catch (error) {
                 _log(error)
+            } finally {
+                setPending(false)
             }
         }
     }
@@ -61,14 +66,17 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
     const deleteEvent = () => {
         setBlankEvent(null)
     }
-    const addPlayers = (pls: IPlayer[]) => {
+    const addPlayers = (pls: IPlayer[], date: string) => {
+        setDate(date)
         blankEvent
-            ? setBlankEvent(prev => ({ ...prev, players: pls, date_formated: edate }))
-            : setBlankEvent({ date_formated: edate, players: pls })
+            ? setBlankEvent(prev => ({ ...prev, players: pls, date_formated: date }))
+            : setBlankEvent({ date_formated: date, players: pls })
     }
 
     const status: DateStatus = useMemo(() => event || blankEvent ? 'hasEvent' : 'free', [event, blankEvent])
-
+    // useEffect(() => {
+    //     setBlankEvent(event || null)
+    // }, [event, status])
     return (
         <EventContext.Provider
             value={ {
@@ -83,10 +91,10 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
                 <Grid item xs={ 'auto' } md={ 3 }>
 
                     <Stack direction={ { sm: 'column' } } gap={ 2 }>
-                        <EventDatePicker event_date={ event?.date_formated } />
+                        <EventDatePicker event_date={ selectedDate || edate } />
                         <ButtonGroup fullWidth>
 
-                            <Button disabled={ status === 'free' }
+                            <Button disabled={ status === 'free' || isPending }
                                 color="error"
                                 variant="contained"
                                 onClick={ handleCreateEvent }
@@ -116,9 +124,11 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
                     </Stack>
                 </Grid>
                 <Grid item md={ 5 } xs={ 'auto' }>
+                    { status === 'hasEvent' &&
+                        < EventBlank getSelectedPlayers={ addPlayers } event={ event } />
+                    }
 
-                    { (blankEvent || event) && <EventBlank getSelectedPlayers={ addPlayers } /> }
-                    { event && <EventView event={ event } boxProps={ { mt: 0, } } readonly={ false } /> }
+                    {/* { event && <EventView event={ event } boxProps={ { mt: 0, } } readonly={ false } /> } */ }
                 </Grid>
             </Grid>
         </EventContext.Provider>

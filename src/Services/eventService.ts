@@ -22,7 +22,7 @@ export interface EventUpdatePayload {
 function validateDate(date_to_valid: string) {
     const regex = /\d{2}_\d{2}_\d{4}/gi
     const isValid = regex.test(date_to_valid)
-    _log({ isValid })
+    _log("__date: ", { isValid })
     return isValid
 }
 export async function createEvent(payload: EventCreatePayload) {
@@ -33,35 +33,12 @@ export async function createEvent(payload: EventCreatePayload) {
     //     throw new Error(`\n\nEvent date is invalid: ${event_date}`)
     // }
 
-    const existEvent = await prisma.event.findFirst({ where: { date_formated: date } })
+    const existEvent = await prisma.event.findUnique({ where: { date_formated: date } })
     if (existEvent) {
         try {
             const ee = await connectPlayersToEvent(existEvent.id, ids)
 
-            // const del = prisma.event.delete({ where: { ...existEvent } })
-            // const remake = prisma.event.create({
-            //     data: {
-            //         id: existEvent.id,
-            //         date_formated: _formated_date(event_date),
-            //         players: {
-            //             connect: ids
-            //         }
-            //     },
-            //     select: {
-            //         date_formated: true,
-            //         players: {
-            //             select: {
-            //                 id: true,
-            //                 name: true,
-            //             }
-            //         },
 
-
-            //     }
-            // })
-            // const t = await prisma.$transaction([del, remake])
-            // _log(`event id ${existEvent.id} removed, make new event`, t[1])
-            // return t
             return ee
         } catch (error) {
             console.log(" \n", error)
@@ -90,7 +67,7 @@ export async function createEvent(payload: EventCreatePayload) {
             }
         })
 
-        revalidatePath('/avangard')
+        revalidatePath('/')
         _log("\nCreated event: ", ev)
         return ev
     } catch (error) {
@@ -226,7 +203,8 @@ export async function getOneEventByDate(date: string) {
             where: { date_formated: date },
             select: {
                 id: true, date_formated: true, title: true,
-                players: true, _count: { select: { players: true } }
+                players: true,
+                //  _count: { select: { players: true }                  }
             }
         })
         return event
@@ -244,8 +222,20 @@ export async function createBlankEvent(date: string, title?: string) {
 }
 
 export async function connectPlayersToEvent(id: number, players: { id: number }[]) {
+    _log(players)
     try {
-        const event = await prisma.event.update({
+        const connected = await prisma.event.findUnique({ where: { id }, select: { players: { select: { id: true } } } })!
+        const disconnect = connected?.players.filter(p => !players.includes({ id: p.id }))
+        const disconnect_event = prisma.event.update({
+            where: { id },
+            data: {
+                players: {
+                    disconnect: disconnect
+                }
+            }
+
+        })
+        const connect_event = prisma.event.update({
             where: { id },
             data: {
                 players: {
@@ -262,10 +252,12 @@ export async function connectPlayersToEvent(id: number, players: { id: number }[
             }
         })
 
-        return event
+        return await prisma.$transaction([disconnect_event, connect_event])
     } catch (error) {
         console.log(" \n", error)
         throw new Error("CONNECT PLAYERS ERROR")
+    } finally {
+        revalidatePath('/')
     }
 
 }

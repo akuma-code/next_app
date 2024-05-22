@@ -4,7 +4,7 @@ import { _log } from "@/Helpers/helpersFns";
 import { useEventContext } from "@/Hooks/useEventContext";
 import { DatePicker, DateValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers";
 import dayjs, { type Dayjs } from "dayjs";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SetStateAction, useState } from "react";
 
 
@@ -13,15 +13,24 @@ interface EventDatePickerProps {
     // changeHandler?: (date: string) => void | undefined
 }
 export const EventDatePicker: React.FC<EventDatePickerProps> = ({ event_date }) => {
-    const [eventDate, setEventDate] = useState<Dayjs | null>(() => dayjs(event_date))
+    const search = useSearchParams()
     const { setDate } = useEventContext();
+
+    const selectedDate = search.get('date')
+    const init = search.has('date')
+        ? dayjs(selectedDate, "DD_MM_YYYY")
+        : !!event_date
+            ? dayjs(event_date, "DD_MM_YYYY")
+            : dayjs()
+    const [eventDate, setEventDate] = useState<Dayjs | null>(() => init)
+    // const { setDate } = useEventContext();
     const r = useRouter()
     const p = usePathname()
-    const changeDate = (value: dayjs.Dayjs | null, context?: PickerChangeHandlerContext<DateValidationError>) => {
+    const changeDate = (value: Dayjs | null, context?: PickerChangeHandlerContext<DateValidationError>) => {
+        context?.validationError && console.error(context.validationError)
         setEventDate(value)
         r.push(p + '?date=' + _formated_date(value))
         setDate && setDate(_formated_date(value))
-        context?.validationError && console.error(context.validationError)
     }
     return <DatePicker
         name="date"
@@ -31,7 +40,7 @@ export const EventDatePicker: React.FC<EventDatePickerProps> = ({ event_date }) 
             textField: { size: 'small', },
 
         } }
-        onError={ (e, value) => _log(e, { value }) } />;
+    />;
 }
 
 

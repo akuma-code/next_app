@@ -1,11 +1,17 @@
 import { NavLink } from "@/ClientComponents/UI/NavLink";
+import { _formated_date } from "@/Helpers/dateFuncs";
 import { Box, Divider, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
 
-
+const today = _formated_date(dayjs())
 const links = [
     {
-        href: '/avangard',
-        label: 'Календарь'
+        href: '/avangard/' + today,
+        label: 'Новая'
+    },
+    {
+        href: '/avangard?date=' + today,
+        label: 'Настройки'
     },
     {
         href: '/avangard/events',
@@ -18,8 +24,8 @@ const links = [
 
 ]
 
-const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ children }) => {
 
+const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ children }) => {
 
     return (
 
