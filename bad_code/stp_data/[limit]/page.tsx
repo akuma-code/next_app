@@ -1,24 +1,30 @@
 
 import { StpData } from "@/Types/StpInterfaces";
 import { Box } from "@mui/material";
-import { StpListItem } from "./StpListItem";
+import { createStp } from "../../../../prisma/controllers/stpService";
 
+async function StpDataListPage({ params }: { params: { limit: number } }) {
 
-async function StpDataListPage({ params }: { params?: { limit?: number } }) {
 
 
     return (
         <Box>
-            NO DATA
+            <ul>
+
+
+                no data
+
+
+            </ul>
         </Box>
     );
 }
 
-
-export async function getData(limit = 2): Promise<[StpData[], number, number]> {
+const fetcher = (url: string) => fetch(url).then(res => res.json())
+export async function getData(limit: number): Promise<[StpData[], number, number]> {
 
     try {
-        const tu = `/api/db/saved`
+        const tu = `http://localhost:3000/api/db/saved`
         const res = await fetch(tu)
         if (!res.ok) {
             throw new Error("Fetch data error")
@@ -26,7 +32,7 @@ export async function getData(limit = 2): Promise<[StpData[], number, number]> {
 
         return res.json()
     } catch (error) {
-
+        console.log(error)
         throw new Error("get data error!")
     }
 

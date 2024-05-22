@@ -7,7 +7,7 @@ import { DeleteTwoTone, EditTwoTone } from "@mui/icons-material";
 import { Box, Button, List, ListItem, ListItemButton, ListItemText, Stack } from "@mui/material";
 import Link from "next/link";
 
-async function AvPlayers(query?: { searchParams?: { action: string } }) {
+async function AvPlayers(query: { searchParams: { action: string } }) {
 
     const players = await getPlayers()
 

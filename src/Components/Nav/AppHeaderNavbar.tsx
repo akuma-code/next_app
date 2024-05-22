@@ -14,14 +14,14 @@ const routes = [
         to: pageUrl.root,
         text: 'Home'
     },
-    {
-        to: pageUrl.stps,
-        text: 'Data list'
-    },
-    {
-        to: pageUrl.users,
-        text: 'Users'
-    },
+    // {
+    //     to: pageUrl.stps,
+    //     text: 'Data list'
+    // },
+    // {
+    //     to: pageUrl.users,
+    //     text: 'Users'
+    // },
     {
         to: '/avangard/events',
         text: 'Авангард'
@@ -55,23 +55,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ pageUrl.admin }> Админка </Link>
                     </Typography>
-                    {/* <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                        <Link href={ apiUrl.auth }> Авторизиция </Link>
-                    </Typography>
-                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                        <Link href={ apiUrl.register }> Регистрация </Link>
-                    </Typography>
-                    <form
-                        action={ async () => {
-                            'use server'
-                            console.log("signing out")
-                            await signOut()
-                        } }
-                    >
-                        <Button
-                            variant='contained' color='info' type='submit'
-                        >SignOut</Button>
-                    </form> */}
+
                 </Breadcrumbs>
             </Toolbar>
         </AppBar>

@@ -8,7 +8,7 @@ import { Avatar, Box, Button, List, ListItem, ListItemAvatar, ListItemButton, Li
 import { wrap } from "module";
 import Link from "next/link";
 
-async function AvPlayers(query?: { searchParams?: { action: string } }) {
+async function AvPlayers(query: { searchParams: { action: string } }) {
 
     const players = await getPlayers()
 

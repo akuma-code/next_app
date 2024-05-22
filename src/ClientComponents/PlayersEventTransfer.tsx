@@ -70,7 +70,7 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
 
 
                 <Stack spacing={ 2 }>
-                    { EventDatePicker({ event_date: _formated_date(eventDate), changeHandler: onDateChange }) }
+                    { EventDatePicker({ event_date: _formated_date(eventDate) }) }
                     { PlayerSelector({ event_p_names: names, options }) }
 
 

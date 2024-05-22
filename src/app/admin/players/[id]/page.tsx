@@ -7,10 +7,10 @@ import dayjs from "dayjs";
 import Link from "next/link";
 
 interface OnePlayerPropsPage {
-    params?: {
+    params: {
         id: number
     },
-    searchParams?: { id: string, action: string }
+    searchParams: { id: string, action: string }
 }
 
 const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {
