@@ -33,6 +33,7 @@ const securityHeaders = [
 ]
 const nextConfig = {
     reactStrictMode: true,
+
     // async headers() {
     //     return [
     //         {
