@@ -5,16 +5,10 @@ import Link from "next/link";
 function HomePage() {
 
     return (
-        <Box>
-            <code>
-                /
-                <br />
-                /api
-                <br />
-                /auth
-                <br />
-                /table
-            </code>
+        <Box display={ 'flex' } gap={ 2 }>
+            <Link href={ '/' }>Home</Link>
+            <Link href={ 'avangard' }>Avangard</Link>
+            <Link href={ 'admin' }>Admin</Link>
 
         </Box>
     );

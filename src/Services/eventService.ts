@@ -1,12 +1,10 @@
 'use server'
 
-import dayjs, { Dayjs } from "dayjs"
-import prisma from "../../prisma/client/client"
+import { _formated_date } from "@/Helpers/dateFuncs"
 import { _log } from "@/Helpers/helpersFns"
-import { _djs, _formated_date } from "@/Helpers/dateFuncs"
 import { Event } from "@prisma/client"
-import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
+import prisma from "../../prisma/client/client"
 
 export interface EventCreatePayload {
     event_date: string

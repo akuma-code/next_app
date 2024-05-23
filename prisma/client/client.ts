@@ -4,7 +4,7 @@ declare let global: { prisma: PrismaClient }
 let prisma: PrismaClient
 
 if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient({ log: [{ level: 'query', emit: 'event' }] })
+    prisma = new PrismaClient()
 } else {
     if (!global.prisma) {
         global.prisma = new PrismaClient({ log: [{ level: 'query', emit: 'event' }] })

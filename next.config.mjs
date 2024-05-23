@@ -32,7 +32,10 @@ const securityHeaders = [
     }
 ]
 const nextConfig = {
-    reactStrictMode: true,
+    reactStrictMode: false,
+    // output: 'export',
+    distDir: 'output',
+    // crossOrigin: 'akumadev',
 
     // async headers() {
     //     return [

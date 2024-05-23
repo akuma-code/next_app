@@ -34,7 +34,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "prisma/*",
-    "enviroments.d.ts"
+    "enviroments.d.ts",
+    "output/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
