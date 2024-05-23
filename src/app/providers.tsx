@@ -1,14 +1,14 @@
 'use client'
 
-import { QueryClient, QueryClientProvider, QueryFunction, QueryKey, QueryOptions } from "@tanstack/react-query"
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from '../theme';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import 'dayjs/locale/ru'
-import weekday from 'dayjs/plugin/weekday'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import 'dayjs/locale/ru';
+import weekday from 'dayjs/plugin/weekday';
+import theme from '../theme';
 dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]

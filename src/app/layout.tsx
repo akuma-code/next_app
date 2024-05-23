@@ -1,11 +1,11 @@
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import React from "react";
 import { AppHeader } from '../Components/Nav/AppHeaderNavbar';
 import "./globals.css";
 import Providers from "./providers";
-import React, { PropsWithChildren } from "react";
-import { SessionProvider } from "next-auth/react";
+
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 
