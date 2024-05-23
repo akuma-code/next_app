@@ -6,7 +6,7 @@
     "dev": "next dev",
     "studio": "npx prisma studio -p 3232",
     "db_update": "npx prisma generate &&  prisma db push",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
