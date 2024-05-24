@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import StpListView from "./StpList";
 
 interface ContainerLayoutProps {
     children: React.ReactNode

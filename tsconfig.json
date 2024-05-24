@@ -39,6 +39,7 @@
   ],
   "exclude": [
     "node_modules",
-    "bad_code"
+    "bad_code",
+    ".ignore"
   ]
 }

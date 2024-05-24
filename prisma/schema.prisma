@@ -51,3 +51,45 @@ model Info {
 
   @@map("infos")
 }
+
+model User {
+  id       Int       @id @default(autoincrement())
+  uuid     String    @unique @default(uuid())
+  nickname String    @unique
+  password String
+  role     UserRoles @default(guest)
+
+  // accounts     Account[]
+  // userSessions UserSession?
+  // sessions     Session[]
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  @@map("users")
+}
+
+enum UserRoles {
+  guest
+  user
+  admin
+}
+
+enum StpTagType {
+  simple
+  energy
+  standart
+  hitproof
+  soundproof
+  solarproof
+  multi
+
+  @@map("StpTagType")
+}
+
+enum StpSecureType {
+  P2A
+  none
+  CM2
+  CM3
+}
+ 

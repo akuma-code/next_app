@@ -1,7 +1,7 @@
 'use client';
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useFormState } from "react-dom";
-import { createAction } from "@/app/actions";
+
 import { useEffect } from "react";
 
 type InitState = {
@@ -10,11 +10,11 @@ type InitState = {
 const initFormState: InitState = { name: "" }
 export function FormCreate() {
 
-    const [state, formAction] = useFormState(createAction, initFormState);
+    // const [state, formAction] = useFormState(createAction, initFormState);
 
 
     return (
-        <form action={ formAction } className="p-2">
+        <form className="p-2">
             <Box component={ Stack } spacing={ 4 } direction={ 'row' }>
 
                 <TextField
