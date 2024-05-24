@@ -11,7 +11,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL_PG")
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model Player {
@@ -92,4 +93,3 @@ enum StpSecureType {
   CM2
   CM3
 }
- 
