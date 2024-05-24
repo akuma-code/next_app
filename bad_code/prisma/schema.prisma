@@ -1,0 +1,184 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events Event[]
+  info   Info?
+
+  @@fulltext([name])
+  @@map("players")
+}
+
+model Event {
+  id Int @id @default(autoincrement())
+
+  date_formated String  @unique @map("date")
+  title         String? @default("Тренировка")
+
+  players Player[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@fulltext(fields: [date_formated])
+  @@map("events")
+}
+
+model Info {
+  uuid       String @id @default(uuid())
+  rttf_score Int?
+
+  playerId Int    @unique
+  Player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@map("infos")
+}
+
+model StpNumProp {
+  id Int @id @default(autoincrement())
+
+  stpName String @unique
+  stp     Stp?   @relation(fields: [stpName], references: [name], onDelete: Cascade, onUpdate: Cascade)
+
+  Ro     Float
+  Rw     Int
+  Lt     Int
+  Lr     Int
+  Ra     Int
+  Det    Int
+  Er     Int
+  Ea     Int
+  Sf     Int
+  S      Float
+  weight Int
+
+  @@map("num-props")
+}
+
+model StpParam {
+  id      Int           @id @default(autoincrement())
+  stpName String        @unique
+  stp     Stp           @relation(fields: [stpName], references: [name], onDelete: Cascade, onUpdate: Cascade)
+  cams    Int
+  depth   Int
+  secure  StpSecureType
+
+  @@map("stp-params")
+}
+
+model Stp {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  paramId      Int? @unique
+  stpNumPropId Int? @unique
+
+  StpParam   StpParam?
+  StpNumProp StpNumProp?
+
+  @@map("stps")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  uuid     String    @unique @default(uuid())
+  nickname String    @unique
+  password String
+  role     UserRoles @default(guest)
+
+  // accounts     Account[]
+  // userSessions UserSession?
+  // sessions     Session[]
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  @@map("users")
+}
+
+// model Account {
+//   id                String  @id @default(cuid())
+//   userId            String
+//   type              String
+//   provider          String
+//   providerAccountId String
+//   refresh_token     String?
+//   access_token      String?
+//   expires_at        Int?
+//   token_type        String?
+//   scope             String?
+//   id_token          String?
+//   session_state     String?
+
+//   created_at DateTime? @default(now())
+//   user       User      @relation(fields: [userId], references: [uuid], onDelete: Cascade)
+
+//   @@unique([provider, providerAccountId])
+//   @@map("accounts")
+// }
+
+// model Session {
+//   id           String    @id @default(cuid())
+//   sessionToken String    @unique
+//   userId       String
+//   expires      DateTime
+//   user         User      @relation(fields: [userId], references: [uuid], onDelete: Cascade)
+//   created_at   DateTime? @default(now())
+// }
+
+// model VerificationToken {
+//   identifier String
+//   token      String   @unique
+//   expires    DateTime
+
+//   @@unique([identifier, token])
+//   @@map("tokens")
+// }
+
+// model UserSession {
+//   id   String @id @default(uuid())
+//   user User   @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+
+//   userUuid   String    @unique
+//   userName   String
+//   created_at DateTime? @default(now())
+//   updated_at DateTime? @updatedAt
+// }
+
+enum UserRoles {
+  guest
+  user
+  admin
+}
+
+enum StpTagType {
+  simple
+  energy
+  standart
+  hitproof
+  soundproof
+  solarproof
+  multi
+
+  @@map("StpTagType")
+}
+
+enum StpSecureType {
+  P2A
+  none
+  CM2
+  CM3
+}

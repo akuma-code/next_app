@@ -4,7 +4,7 @@ import { _formated_date } from "@/Helpers/dateFuncs"
 import { _log } from "@/Helpers/helpersFns"
 import { Event } from "@prisma/client"
 import { revalidatePath } from "next/cache"
-import prisma from "../../prisma/client/client"
+import prisma from "@/client/client"
 
 export interface EventCreatePayload {
     event_date: string

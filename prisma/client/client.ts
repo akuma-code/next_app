@@ -1,36 +1,12 @@
-import { PrismaClient } from '@prisma/client'
-declare let global: { prisma: PrismaClient }
+import { Pool } from 'pg'
+import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaClient } from "@prisma/client"
 
-let prisma: PrismaClient
 
-if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient()
-} else {
-    if (!global.prisma) {
-        global.prisma = new PrismaClient({ log: [{ level: 'query', emit: 'event' }] })
-    }
-    prisma = global.prisma
-}
-// const userNickName = Prisma.validator<Prisma.UserSelect>()({
-//     nickname: true
-// })
 
-// const createUser = (
-//     nickname: string,
-//     password: string,
+const pool = new Pool({ connectionString: process.env.DATABASE_URL_PG })
+const adapter = new PrismaPg(pool)
+const prisma = new PrismaClient({ adapter })
 
-// ) => {
-//     return Prisma.validator<Prisma.UserCreateInput>()({
-//         nickname,
-//         password,
 
-//     })
-// }
-
-// const findUser = (nickname: string) => {
-//     return Prisma.validator<Prisma.UserWhereInput>()({
-//         nickname
-//     })
-// }
-// prisma.$on('info' as never, (e: any) => console.log(e))
 export default prisma
