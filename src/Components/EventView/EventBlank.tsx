@@ -36,11 +36,10 @@ interface EventCreateProps {
 export const EventBlank: React.FC<EventCreateProps> = (props) => {
     const { event, getSelectedPlayers } = props
     const init_players_ids = event ? event.players.map(p => p.id) : []
-    const { players, activeEvent } = useEventContext()
+    const { players } = useEventContext()
     const q = useSearchParams()
     const date = q.get('date')
     const [selected, setSelected] = useState<number[]>(init_players_ids)
-
 
     const handleSelect = (event: SelectChangeEvent<number[]>) => {
         let { value } = event.target;
@@ -54,6 +53,13 @@ export const EventBlank: React.FC<EventCreateProps> = (props) => {
         const select = players.filter(p => selected.includes(p.id))
         return select
     }, [selected])
+
+
+
+    const checkCount = () => selectedPlayers.length === event?.players?.length
+
+
+
     function handleRemove(player: IPlayer) {
         setSelected(prev => prev.filter(p => player.id !== p))
     }
@@ -75,9 +81,11 @@ export const EventBlank: React.FC<EventCreateProps> = (props) => {
     return (
         <Paper elevation={ 2 } sx={ { maxWidth: 350 } }>
             <Stack gap={ 2 } direction={ { sm: 'column' } } p={ 2 } mx={ 2 }>
-                <Typography>{ event ? event.title : "New Event" } </Typography>
-                <Stack direction={ 'row' } gap={ 1 } alignItems={ 'end' }>
+                <Typography bgcolor={ checkCount() ? 'inherit' : 'red' } textAlign={ 'center' }>
+                    { event ? event.title : "New Event" }
+                </Typography>
 
+                <Stack direction={ 'row' } gap={ 1 } alignItems={ 'end' }>
                     <FormControl sx={ { minWidth: 280 } }>
                         <FormLabel id="name-selector-label">
                             <Typography variant="body1" textAlign={ 'right' }>

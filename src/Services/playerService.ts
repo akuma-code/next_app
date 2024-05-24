@@ -51,8 +51,7 @@ export async function createPlayer(name: string, info?: InfoCreatePayload) {
                 data: {
                     info: {
                         create: {
-                            // where: { playerId: player.id },
-                            // create: { rttf_link, rttf_score }
+
                             rttf_score
                         }
                     }

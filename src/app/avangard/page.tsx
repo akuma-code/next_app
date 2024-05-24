@@ -31,20 +31,10 @@ export default async function AvangardPage({ searchParams }: { searchParams: { d
         <Box component={ Stack } direction={ { md: 'row', sm: 'column' } } alignItems={ 'start' } gap={ 2 }>
             <EventControl allPlayers={ all } event={ activeEvent } />
 
-            {
-                // activeEvent && <EventView event={ activeEvent } boxProps={ { mt: 0, } } readonly={ false } />
-            }
+
 
         </Box>
     )
 }
 
 
-
-async function EventBlank(date: string) {
-    const isEventDay = [2, 4].includes(dayjs(date).day())
-    const blankEvent = await createBlankEvent(_formated_date(dayjs()), "Blank Event")
-    let event: ReturnType<typeof createBlankEvent> | null = null
-
-
-}

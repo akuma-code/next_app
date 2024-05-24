@@ -38,8 +38,27 @@ export const EventDatePicker: React.FC<EventDatePickerProps> = ({ event_date }) 
         onChange={ changeDate }
         slotProps={ {
             textField: { size: 'small', },
+            // shortcuts: {
+            //     items: [
+            //         {
+            //             label: 'Среда',
+            //             getValue: (props) => {
+            //                 const today = dayjs()
+            //                  return today.month().day(3)
 
+            //             }
+            //         },
+            //         {
+            //             label: 'Пятница',
+            //             getValue: (props) => {
+
+            //                 return dayjs().day(4)
+            //             }
+            //         },
+            //     ]
+            // },
         } }
+
     />;
 }
 

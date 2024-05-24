@@ -5,13 +5,13 @@ import dayjs from "dayjs";
 
 const today = _formated_date(dayjs())
 const links = [
-    {
-        href: '/avangard/' + today,
-        label: 'Новая'
-    },
+    // {
+    //     href: '/avangard/' + today,
+    //     label: 'Новая'
+    // },
     {
         href: '/avangard?date=' + today,
-        label: 'Настройки'
+        label: 'Календарь'
     },
     {
         href: '/avangard/events',

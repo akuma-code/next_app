@@ -22,10 +22,13 @@ export default async function AvangardPageDate({ params }: PageProps) {
 
     const activeEvent = await getOneEventByDate(date)
     _log(activeEvent?.id)
-
+    const isExistEvent = !!activeEvent
     return (
         <Box component={ Stack } direction={ { md: 'row', sm: 'column' } } alignItems={ 'start' } gap={ 2 }>
-            <EventControlParam allPlayers={ all } event={ activeEvent } params={ params } />
+            { isExistEvent
+                ? <EventControlParam allPlayers={ all } event={ activeEvent } params={ params } />
+                : <EventControlParam allPlayers={ all } params={ params } />
+            }
 
 
 

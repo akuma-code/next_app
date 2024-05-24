@@ -32,13 +32,19 @@ type EventStatus = 'onActive' | 'onCreate' | 'idle'
 type DateStatus = 'free' | 'hasEvent'
 
 const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, event }) => {
+    const [edate, setDate] = useState<string>(() => _formated_date(dayjs()))
+    const initEventState = {
+        players: [],
+        date_formated: edate,
+        title: "Тренировка"
+    }
     const router = useRouter()
     const pathname = usePathname()
     const search = useSearchParams()
     const selectedDate = search.get('date')
-    const [edate, setDate] = useState<string>(() => _formated_date(dayjs()))
     const [isPending, setPending] = useState(false)
-    const [blankEvent, setBlankEvent] = useState<BaseEvent | null>(null)
+    const [blankEvent, setBlankEvent] = useState<BaseEvent | null>(event || initEventState)
+
 
 
     const handleCreateEvent = async () => {
@@ -61,10 +67,11 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
         }
     }
     const addEvent = () => {
-        setBlankEvent({ date_formated: edate })
+
+        setBlankEvent({ date_formated: edate, players: [] })
     }
     const deleteEvent = () => {
-        setBlankEvent(null)
+        setBlankEvent(initEventState)
     }
     const addPlayers = (pls: IPlayer[], date: string) => {
         setDate(date)
@@ -99,7 +106,7 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
                                 variant="contained"
                                 onClick={ handleCreateEvent }
                             >
-                                Создать
+                                Сохранить
 
                             </Button>
 

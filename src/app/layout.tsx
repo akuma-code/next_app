@@ -10,8 +10,8 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 
 export const metadata: Metadata = {
-  title: "NextApp Stp",
-  description: "Stp server",
+  title: "Akumadev Avangard",
+  description: "Avangard project",
 };
 
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({

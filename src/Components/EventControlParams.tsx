@@ -15,7 +15,7 @@ import { name_letters } from "@/Helpers/stringFns";
 import { CloseTwoTone } from "@mui/icons-material";
 import DoNotDisturbOnTwoToneIcon from '@mui/icons-material/DoNotDisturbOnTwoTone';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, DateValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers";
 interface IPlayer {
     id: number;
     name: string;
@@ -68,7 +68,13 @@ const EventControlParam: React.FunctionComponent<EventControlProps> = ({ allPlay
     const router = useRouter()
     const pathname = usePathname()
     // const search = useSearchParams()
+    const handleChangeDate = (value: Dayjs | null, context?: PickerChangeHandlerContext<DateValidationError>) => {
+        if (context) console.error(context.validationError)
+        setPickerDate(prev => value)
+        const _formated = _formated_date(value)
 
+
+    }
 
     const handleCreateEvent = async () => {
         setPending(true)
@@ -137,11 +143,11 @@ const EventControlParam: React.FunctionComponent<EventControlProps> = ({ allPlay
             <Grid item xs={ 'auto' } md={ 3 }>
 
                 <Stack direction={ { sm: 'column' } } gap={ 2 }>
-                    {/* <EventDatePicker event_date={ selectedDate || date } /> */ }
+
                     <DatePicker
                         name="date"
                         value={ pickerDate }
-                        onChange={ setPickerDate }
+                        onChange={ handleChangeDate }
                         slotProps={ {
                             textField: { size: 'small', },
 

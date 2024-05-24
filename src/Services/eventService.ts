@@ -41,6 +41,8 @@ export async function createEvent(payload: EventCreatePayload) {
         } catch (error) {
             console.log(" \n", error)
             throw new Error("___Update event error:")
+        } finally {
+            revalidatePath('/')
         }
 
     }
@@ -65,12 +67,14 @@ export async function createEvent(payload: EventCreatePayload) {
             }
         })
 
-        revalidatePath('/')
+
         _log("\nCreated event: ", ev)
         return ev
     } catch (error) {
         console.log("___Create event error: \n", error)
         throw new Error("Error while create event")
+    } finally {
+        revalidatePath('/')
     }
 
 }
@@ -98,6 +102,8 @@ export async function updateEvent(payload: EventUpdatePayload) {
     } catch (error) {
         console.log(" \n", error)
         throw new Error("___Update event error:")
+    } finally {
+        revalidatePath('/')
     }
 }
 
@@ -106,16 +112,15 @@ export async function getEventsUnique(date?: string) {
         _log({ date })
         return null
     }
-    // if (!dayjs(date).isValid()) {
-    //     _log(date, "____invalid date! \n")
-    //     return null
-    // }
+
     try {
         const playersByDate = (date: string) => prisma.event.findUnique({ where: { date_formated: date } }).players()
         return await playersByDate(date)
     } catch (error) {
         console.log(" \n", error)
         throw new Error("get event players error:")
+    } finally {
+        revalidatePath('/')
     }
 
 }
@@ -136,41 +141,50 @@ export async function getEventsWithPlayers() {
     return ev
 }
 
-export async function getEventsByMonth(month?: string, year = 2024) {
+export async function getEventsByMonth(month?: string, year?: number) {
+    const y = year ? year : 2024
     const e = prisma.event
-    if (!month) {
-        // if month omit return all avents with players
-        const events = e.findMany({
-            where: { players: {} },
-            orderBy: { id: 'asc' },
+    try {
+        if (!month) {
+            // if month omit return all avents with players
+            const events = e.findMany({
+                where: { players: {} },
+                orderBy: { id: 'asc' },
+                select: {
+                    id: true,
+                    date_formated: true,
+                    players: { select: { id: true, name: true } },
+                    _count: { select: { players: true } }
+                }
+            })
+            return events
+        }
+        const searchM = `${month}_${y}` as const
+        const result = await e.findMany({
+            where: {
+                AND: {
+                    players: {},
+                    date_formated: { endsWith: searchM }
+                }
+            },
             select: {
                 id: true,
                 date_formated: true,
                 players: { select: { id: true, name: true } },
                 _count: { select: { players: true } }
-            }
+            },
+            orderBy: { date_formated: 'asc' }
+
         })
-        return events
+
+        return result
+    } catch (error) {
+        console.log(" \n", error)
+        throw new Error("Error in function: getEventsByMonth")
+    } finally {
+        revalidatePath('/')
     }
-    const searchM = `${month}_${year}` as const
-    const result = await e.findMany({
-        where: {
-            AND: {
-                players: {},
-                date_formated: { endsWith: searchM }
-            }
-        },
-        select: {
-            id: true,
-            date_formated: true,
-            players: { select: { id: true, name: true } },
-            _count: { select: { players: true } }
-        },
-        orderBy: { date_formated: 'asc' }
 
-    })
-
-    return result
 }
 
 export async function getEventById(eventId: string) {
@@ -220,7 +234,7 @@ export async function createBlankEvent(date: string, title?: string) {
 }
 
 export async function connectPlayersToEvent(id: number, players: { id: number }[]) {
-    _log(players)
+
     try {
         const connected = await prisma.event.findUnique({ where: { id }, select: { players: { select: { id: true } } } })!
         const disconnect = connected?.players.filter(p => !players.includes({ id: p.id }))
@@ -249,7 +263,7 @@ export async function connectPlayersToEvent(id: number, players: { id: number }[
                 }
             }
         })
-
+        _log("\ntsx: ", { disconnect_event, connect_event })
         return await prisma.$transaction([disconnect_event, connect_event])
     } catch (error) {
         console.log(" \n", error)
