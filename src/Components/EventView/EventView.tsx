@@ -7,10 +7,12 @@ import { name_letters } from "@/Helpers/stringFns"
 import { TopUsersCardMockup } from "@/mui-treasury/mockup-dashboard"
 import { Circle } from "@/mui-treasury/mockup-shape"
 import { FastRewindTwoTone, KeyboardArrowLeftTwoTone } from "@mui/icons-material"
-import { Avatar, Box, BoxProps, Button, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from "@mui/material"
+import { Avatar, Box, BoxProps, Button, ButtonGroup, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from "@mui/material"
 import { useRouter } from "next/navigation"
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import DoNotDisturbOnTwoToneIcon from '@mui/icons-material/DoNotDisturbOnTwoTone';
+import { EventViewEditDialog } from "./EventViewEditDialog"
+import { deleteEvent } from "@/Services/eventService"
 interface Eventinfo {
     boxProps?: BoxProps
     event: IEvent_Front
@@ -21,7 +23,12 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = tru
     const { players, date_formated, title, _count } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
 
-
+    const handleDelete = async (id: number) => {
+        if (confirm("Delete event?")) {
+            await deleteEvent(id)
+            router.back()
+        }
+    }
     return (
         <Box
             { ...boxProps }
@@ -47,14 +54,20 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = tru
                 </Avatar>
             </Box>
             <Divider sx={ { justifyContent: 'left' } } flexItem>
-                <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={ () => router.back() }
+                <ButtonGroup>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={ () => router.back() }
 
-                    startIcon={ <FastRewindTwoTone /> }>
-                    Назад
-                </Button>
+                        startIcon={ <FastRewindTwoTone /> }>
+                        Назад
+                    </Button>
+
+                    <EventViewEditDialog event={ event } />
+                    <Button color='warning' size="small"
+                        onClick={ () => handleDelete(event.id) }>Delete</Button>
+                </ButtonGroup>
             </Divider>
             <List>
                 {

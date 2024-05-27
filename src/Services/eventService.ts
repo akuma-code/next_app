@@ -2,7 +2,7 @@
 
 import { _formated_date } from "@/Helpers/dateFuncs"
 import { _log } from "@/Helpers/helpersFns"
-import { Event } from "@prisma/client"
+import { Event, Player } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import prisma from "@/client/client"
 
@@ -12,15 +12,18 @@ export interface EventCreatePayload {
 
 }
 export interface EventUpdatePayload {
-    eventId: number
-    event?: Event
-    ids: { id: number }[]
+    id: number
+    _new_data: {
+        date_formated?: string
+        players: { id: number, name: string }[]
+        title?: string | null
+    }
 
 }
 function validateDate(date_to_valid: string) {
     const regex = /\d{2}_\d{2}_\d{4}/gi
     const isValid = regex.test(date_to_valid)
-    _log("__date: ", { isValid })
+    _log("__date: ", date_to_valid, { isValid })
     return isValid
 }
 export async function createEvent(payload: EventCreatePayload) {
@@ -78,26 +81,36 @@ export async function createEvent(payload: EventCreatePayload) {
     }
 
 }
+export async function deleteEvent(id: number) {
+    try {
+        const ev = await prisma.event.delete({ where: { id } })
+        _log("deleted event: ", { id })
 
+    } catch (error) {
+        console.log("___Delete event error: \n", error)
+        throw new Error("Error while deleting event")
+    } finally {
+        revalidatePath('/')
+    }
+}
 export async function updateEvent(payload: EventUpdatePayload) {
-    const { ids, event } = payload
+    const { id, _new_data } = payload
 
-    const eventId = event ? event.id : payload.eventId
-
+    const { title, players, date_formated } = _new_data
+    const _new_players = players.map(p => ({ id: p.id, name: p.name }))
     try {
         const ev = await prisma.event.update({
-            where: { id: eventId },
+            where: { id },
             data: {
+                date_formated,
+                title,
                 players: {
-                    update: {
-                        where: { id: eventId },
-                        data: ids.flat()
-
-
-                    }
+                    set: [],
+                    connect: _new_players
                 }
             }
         })
+        _log('\n', { ev })
         return ev
     } catch (error) {
         console.log(" \n", error)
@@ -228,9 +241,16 @@ export async function getOneEventByDate(date: string) {
 
 
 export async function createBlankEvent(date: string, title?: string) {
-    const _date = date
-    const pev = await prisma.event.create({ data: { date_formated: _date, title: title }, select: { id: true, date_formated: true } })
-    return pev
+    try {
+        const _date = validateDate(date) ? date : _formated_date(date)
+        const pev = await prisma.event.create({ data: { date_formated: _date, title: title, players: {} }, select: { id: true, date_formated: true } })
+        _log("created event: \n", pev)
+        return pev
+
+    } catch (error) {
+        console.log(" \n", error)
+        throw new Error("create blank_event error")
+    }
 }
 
 export async function connectPlayersToEvent(id: number, players: { id: number }[]) {

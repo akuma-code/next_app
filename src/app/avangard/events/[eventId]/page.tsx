@@ -8,7 +8,7 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({ params }
     const event = await getEventById(eventId)
     if (!event) return <Box>Event error!</Box>
     return (
-        <EventView event={ event } />
+        <EventView event={ event } readonly={ false } />
     )
 }
 

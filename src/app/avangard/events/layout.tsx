@@ -5,20 +5,10 @@ import dayjs from "dayjs"
 
 
 
-const tabList = [
-    { href: { query: { month: '04' } } },
-    { href: { query: { month: '05' } } },
-    { href: { query: { month: '06' } } },
-    { href: { query: { month: '07' } } },
-]
 
-const EventsLayout = async ({ children, searchParams, params }: { children: React.ReactNode, searchParams?: { month?: string }, params?: { eventId: string } }) => {
+const EventsLayout = async ({ children, params }: { children: React.ReactNode, params?: { eventId: string } }) => {
 
-    const currentMonth = dayjs().month()
-    const month = searchParams?.month
-    const prevMonth = dayjs().month() - 1
-    const nextMonth = dayjs().add(1, 'month').month()
-    const events = await getEventsByMonth(month)
+
 
     return (
         <>
@@ -35,18 +25,3 @@ const EventsLayout = async ({ children, searchParams, params }: { children: Reac
 
 export default EventsLayout
 
-
-/* <Divider>
-<Link href={ {
-query: { month: prevMonth }
-} }>
-<Button> { Month[prevMonth] }</Button>
-</Link>
-{ Month[currentMonth] }
-<Link href={ {
-query: { month: nextMonth }
-} }>
-
-<Button>{ Month[nextMonth] }</Button>
-</Link>
-</Divider> */
