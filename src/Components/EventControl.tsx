@@ -1,16 +1,14 @@
 'use client'
 import { EventDatePicker } from "@/ClientComponents/EventDatePicker";
-import { EventContext } from "@/Hooks/useEventContext";
-import { useToggle } from "@/Hooks/useToggle";
-import { Button, ButtonGroup, Grid, Stack } from "@mui/material";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { BaseEvent, EventBlank } from "./EventView/EventBlank";
 import { _formated_date } from "@/Helpers/dateFuncs";
-import dayjs from "dayjs";
 import { _log } from "@/Helpers/helpersFns";
-import { EventView } from "./EventView/EventView";
+import { EventContext } from "@/Hooks/useEventContext";
 import { createEvent } from "@/Services/eventService";
+import { Button, ButtonGroup, Grid, Stack } from "@mui/material";
+import dayjs from "dayjs";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import { BaseEvent, EventBlank } from "./EventView/EventBlank";
 
 interface IPlayer {
     id: number;

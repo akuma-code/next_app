@@ -39,7 +39,7 @@ export const avatarColor = (numb: number) => {
     return colors.md
 }
 
-export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }: { events: IEvent_Front[] }) => {
+export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => {
 
     const d = (date: string) => date.replaceAll("_", ".")
     const dm = (date: string) => dayjs(date, 'DD_MM_YYYY', 'ru').format("DD MMMM")
@@ -48,23 +48,27 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }: { e
     const dayWeek = (d: string) => DayOfWeek[dayjs(d, 'DD.MM.YYYY', 'ru').weekday()]
 
     return (
-        <Box bgcolor={ '#ebb8ff' } p={ 1 } maxWidth={ 550 }>
-            {/* <Stack flexWrap={ 'wrap' } maxWidth={ 450 } direction={ 'row' } rowGap={ 1 } columnGap={ 2 }> */ }
+        <Box
+            bgcolor={ 'inherit' }
+            p={ 1 }
+
+            sx={ { borderBottomLeftRadius: 6, borderBottomRightRadius: 6, border: '2px solid black', borderTop: 0 } }>
+
             <Grid container spacing={ 2 } maxWidth={ 500 }>
                 { events.map(e =>
 
-                    <Grid key={ e.id } item xs={ 6 } lg={ 4 }>
+                    <Grid key={ e.id } item xs={ 6 } sm={ 4 } >
 
                         <EventViewCard
 
                             event={ e }
                             title={ dm(e.date_formated) }
-                            subtitle={ dayWeek(e.date_formated) }
-                            description={ "всего: " + e._count?.players + " человек" }
+                            subtitle={ dayjs().year().toString() }
+                            description={ dayWeek(e.date_formated) }
                         />
                     </Grid>
                 ) }
-                {/* </Stack> */ }
+
             </Grid>
         </Box>
     )
@@ -87,7 +91,7 @@ export const EventCard: React.FC<{ event: IEvent_Front }> = ({ event }) => {
             <CardHeader
                 title={ d }
                 subheader={ DayOfWeek[dayWeek] }
-                subheaderTypographyProps={ { textAlign: 'left' } }
+                subheaderTypographyProps={ { textAlign: 'right' } }
                 titleTypographyProps={ { fontSize: 20, textAlign: 'center' } }
                 sx={ { pb: 0, my: 0 } }
             />

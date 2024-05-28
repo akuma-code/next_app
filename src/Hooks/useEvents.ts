@@ -1,28 +1,25 @@
 'use client'
 
 import { _log } from "@/Helpers/helpersFns"
-import { createEvent } from "@/Services/eventService"
+import { createEvent, deleteEvent } from "@/Services/eventService"
 import { getPlayers } from "@/Services/playerService"
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
+import useSWR from "swr"
+import { StrictTupleKey } from "swr/_internal"
 
 interface EventPayload {
-    findBy?: { month: string } | { id: number } | undefined
-    initPlayersList: { id: number, name: string }[]
-    activeEvent?: { id: number, date_formated: string, players: { name: string }[], title?: string | null } | null
+    key: StrictTupleKey
+    event: { id: number, date_formated: string, players: { name: string }[], title?: string | null }
 
 }
 
-export function useEventControl({ findBy, initPlayersList, activeEvent }: EventPayload) {
-    const [names, setNames] = useState(() => initPlayersList.map(p => p.name))
+export function useEventControl({ event, key }: EventPayload) {
+    const { id, date_formated, players } = event;
 
-    const isSelected = (name: string) => names.includes(name)
+    const { data: deleted, error, isLoading, mutate } = useSWR(key, ([key]) => deleteEvent(key))
 
-    const selectorOptions = {
-        names, isSelected, setNames
-    }
-
-    return { options: selectorOptions }
+    return [deleted, error, isLoading] as const
 }
 
 

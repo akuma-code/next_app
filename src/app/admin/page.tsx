@@ -7,7 +7,7 @@ function AministratorPage() {
 
     return (
         <Box>
-            <Link href={ '/admin/players' } className="hover:underline">Players</Link>
+
         </Box>
     );
 }

@@ -8,3 +8,5 @@ function parseSearch(req: NextRequest) {
 }
 
 export default parseSearch
+
+

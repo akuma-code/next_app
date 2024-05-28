@@ -6,9 +6,9 @@ import { _dbDateParser } from "@/Helpers/dateFuncs"
 import { name_letters } from "@/Helpers/stringFns"
 import { TopUsersCardMockup } from "@/mui-treasury/mockup-dashboard"
 import { Circle } from "@/mui-treasury/mockup-shape"
-import { FastRewindTwoTone, KeyboardArrowLeftTwoTone } from "@mui/icons-material"
+import { FastRewindTwoTone, KeyboardArrowLeftTwoTone, SettingsTwoTone } from "@mui/icons-material"
 import { Avatar, Box, BoxProps, Button, ButtonGroup, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from "@mui/material"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import DoNotDisturbOnTwoToneIcon from '@mui/icons-material/DoNotDisturbOnTwoTone';
 import { EventViewEditDialog } from "./EventViewEditDialog"
@@ -18,8 +18,9 @@ interface Eventinfo {
     event: IEvent_Front
     readonly?: boolean
 }
-export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = true }) => {
+export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = false }) => {
     const router = useRouter()
+    const pathname = usePathname()
     const { players, date_formated, title, _count } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
 
@@ -45,7 +46,9 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = tru
             <Box sx={ { display: "flex", p: 1.5, alignItems: "center", columnGap: 1, justifyContent: 'space-evenly' } }>
 
                 <Box>
-                    <Typography variant="body1" fontSize={ 18 } fontWeight={ 'bold' }>{ dd_mm_yyyy }</Typography>
+
+                    <Typography variant="h5" component={ 'div' }>{ title }</Typography>
+                    <Typography variant="body1" fontSize={ 18 } >{ dd_mm_yyyy }</Typography>
                 </Box>
                 <Avatar variant="rounded"
                     sx={ { mt: 0.5, mb: 0, bgcolor: avatarColor(_count?.players || 0) } }
@@ -58,23 +61,32 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = tru
                     <Button
                         variant="outlined"
                         size="small"
-                        onClick={ () => router.back() }
-
+                        href={ '/avangard/events' }
                         startIcon={ <FastRewindTwoTone /> }>
                         Назад
                     </Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={ () => router.push(pathname + '/edit') }
 
-                    <EventViewEditDialog event={ event } />
-                    <Button color='warning' size="small"
-                        onClick={ () => handleDelete(event.id) }>Delete</Button>
+                        startIcon={ <SettingsTwoTone /> }>
+                        Изменить
+                    </Button>
+                    {/* <EventViewEditDialog event={ event } /> */ }
+                    {/* <Button color='warning' size="small"
+                        onClick={ () => handleDelete(event.id) }>Delete</Button> */}
                 </ButtonGroup>
             </Divider>
             <List>
                 {
                     players.map((p, index) => (
-                        <ListItem key={ index } sx={ { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' } }>
+                        <ListItem key={ index } sx={ { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' } } >
                             <ListItemAvatar >
-                                <Avatar sizes="sm">{ name_letters(p.name) }</Avatar>
+                                <Avatar sx={ { fontSize: 14, width: 28, height: 28 } } >
+                                    { name_letters(p.name) }
+
+                                </Avatar>
                             </ListItemAvatar>
                             <ListItemText primary={ p.name } />
                             { readonly === false &&

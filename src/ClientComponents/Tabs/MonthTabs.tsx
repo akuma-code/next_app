@@ -26,11 +26,13 @@ export const MonthTabs = () => {
     }, [])
     return (
         <Box sx={ {
-            maxWidth: 500,
+            maxWidth: { xs: 400, sm: 550, lg: 650 },
             bgcolor: '#4d4d4d',
             borderTopRightRadius: 8,
             borderTopLeftRadius: 8
-        } }>
+        } }
+
+        >
 
             <TabsChrome
                 value={ tabNumber }

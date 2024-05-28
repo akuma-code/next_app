@@ -1,0 +1,1 @@
+export const fetcher = (resource: string, init?: RequestInit | undefined) => fetch(resource, init).then(res => res.json())

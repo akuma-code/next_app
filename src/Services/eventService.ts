@@ -2,7 +2,6 @@
 
 import { _formated_date } from "@/Helpers/dateFuncs"
 import { _log } from "@/Helpers/helpersFns"
-import { Event, Player } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import prisma from "@/client/client"
 
@@ -26,6 +25,36 @@ function validateDate(date_to_valid: string) {
     _log("__date: ", date_to_valid, { isValid })
     return isValid
 }
+
+export async function makeNewEvent(payload: { date_formated: string, players: { id: number, name: string }[], title: string }) {
+    const { date_formated, players, title } = payload;
+    const existEvent = await prisma.event.findUnique({ where: { date_formated } })
+
+    if (existEvent) {
+        return await updateEvent({ id: existEvent.id, _new_data: { players, date_formated, title } })
+    }
+    try {
+
+        const e = await prisma.event.create({
+            data: {
+                date_formated, title, players: { connect: players.map(p => ({ id: p.id })) }
+            },
+            select: {
+                id: true,
+                date_formated: true,
+                title: true,
+                players: true
+            }
+        })
+        return e
+    } catch (error) {
+        console.log(" \n", error)
+        throw new Error("___Update event error:")
+    } finally {
+        revalidatePath('/')
+    }
+}
+
 export async function createEvent(payload: EventCreatePayload) {
     const { event_date, ids } = payload
     const date = validateDate(event_date) ? event_date : _formated_date(event_date)
@@ -85,7 +114,7 @@ export async function deleteEvent(id: number) {
     try {
         const ev = await prisma.event.delete({ where: { id } })
         _log("deleted event: ", { id })
-
+        return ev
     } catch (error) {
         console.log("___Delete event error: \n", error)
         throw new Error("Error while deleting event")

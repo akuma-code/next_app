@@ -6,7 +6,7 @@ interface ToggleControl {
     readonly on: () => void;
 }
 
-export function useToggle(init?: boolean): readonly [flag: boolean, ToggleControl] {
+export function _useToggle(init?: boolean): readonly [flag: boolean, ToggleControl] {
     const [flag, setFlag] = useState(init || false)
 
     const toggleReturn = useMemo(() => {
@@ -19,4 +19,18 @@ export function useToggle(init?: boolean): readonly [flag: boolean, ToggleContro
         return [flag, control] as const
     }, [flag])
     return toggleReturn
+}
+export function useToggle(init?: boolean): readonly [flag: boolean, ToggleControl] {
+    const [flag, setFlag] = useState(init || false)
+
+
+    const on = () => setFlag(true)
+    const off = () => setFlag(false)
+    const toggle = () => setFlag(prev => !prev)
+
+
+    const control = { toggle, off, on } as const
+    return [flag, control] as const
+
+
 }

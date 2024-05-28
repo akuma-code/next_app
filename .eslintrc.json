@@ -1,3 +1,22 @@
-{
-  "extends": "next/core-web-vitals"
-}
+// {
+//     "parser": "@typescript-eslint/parser",
+//     "extends": [
+//         "plugin:@typescript-eslint/recommended",
+//         "plugin:react-hooks/recommended",
+//         "eslint:recommended",
+//         // "plugin:react/recommended",
+//         "plugin:react/jsx-runtime",
+//         "next"
+//         // "next/core-web-vitals"
+//     ],
+//     "parserOptions": {
+//         "ecmaVersion": 2020,
+//         "sourceType": "module"
+//     },
+//     "rules": {
+//         "typescript-eslint/no-explicit-any": "off",
+//         "no-unused-vars": "warn"
+//         // "quotes": "warn",
+//         // "typescript-eslint/ban-types": "off"
+//     }
+// }

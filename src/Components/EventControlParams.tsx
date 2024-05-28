@@ -1,21 +1,17 @@
 'use client'
-import { EventDatePicker } from "@/ClientComponents/EventDatePicker";
-import { EventContext } from "@/Hooks/useEventContext";
-import { useToggle } from "@/Hooks/useToggle";
-import { Avatar, Box, Button, ButtonGroup, Checkbox, FormControl, FormLabel, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { BaseEvent, EventBlank } from "./EventView/EventBlank";
 import { _formated_date } from "@/Helpers/dateFuncs";
-import dayjs, { Dayjs } from "dayjs";
 import { _log } from "@/Helpers/helpersFns";
-import { EventView } from "./EventView/EventView";
-import { createEvent } from "@/Services/eventService";
 import { name_letters } from "@/Helpers/stringFns";
+import { createEvent } from "@/Services/eventService";
 import { CloseTwoTone } from "@mui/icons-material";
-import DoNotDisturbOnTwoToneIcon from '@mui/icons-material/DoNotDisturbOnTwoTone';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
+import DoNotDisturbOnTwoToneIcon from '@mui/icons-material/DoNotDisturbOnTwoTone';
+import { Avatar, Box, Button, ButtonGroup, Checkbox, FormControl, FormLabel, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
 import { DatePicker, DateValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { BaseEvent } from "./EventView/EventBlank";
 interface IPlayer {
     id: number;
     name: string;

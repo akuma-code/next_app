@@ -9,9 +9,13 @@ const links = [
     //     href: '/avangard/' + today,
     //     label: 'Новая'
     // },
+    // {
+    //     href: '/avangard?date=' + today,
+    //     label: 'Календарь'
+    // },
     {
-        href: '/avangard?date=' + today,
-        label: 'Календарь'
+        href: '/avangard/events/create',
+        label: 'Добавить'
     },
     {
         href: '/avangard/events',
