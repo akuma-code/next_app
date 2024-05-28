@@ -285,21 +285,22 @@ export async function createBlankEvent(date: string, title?: string) {
 export async function connectPlayersToEvent(id: number, players: { id: number }[]) {
 
     try {
-        const connected = await prisma.event.findUnique({ where: { id }, select: { players: { select: { id: true } } } })!
-        const disconnect = connected?.players.filter(p => !players.includes({ id: p.id }))
-        const disconnect_event = prisma.event.update({
-            where: { id },
-            data: {
-                players: {
-                    disconnect: disconnect
-                }
-            }
+        // const connected = await prisma.event.findUnique({ where: { id }, select: { players: { select: { id: true } } } })!
+        // const disconnect = connected?.players.filter(p => !players.includes({ id: p.id }))
+        // const disconnect_event = prisma.event.update({
+        //     where: { id },
+        //     data: {
+        //         players: {
+        //             disconnect: disconnect
+        //         }
+        //     }
 
-        })
-        const connect_event = prisma.event.update({
+        // })
+        const connect_event = await prisma.event.update({
             where: { id },
             data: {
                 players: {
+                    set: [],
                     connect: players
                 }
             },
@@ -312,8 +313,8 @@ export async function connectPlayersToEvent(id: number, players: { id: number }[
                 }
             }
         })
-        _log("\ntsx: ", { disconnect_event, connect_event })
-        return await prisma.$transaction([disconnect_event, connect_event])
+        _log("\ntsx: ", { connect_event })
+        return connect_event
     } catch (error) {
         console.log(" \n", error)
         throw new Error("CONNECT PLAYERS ERROR")
