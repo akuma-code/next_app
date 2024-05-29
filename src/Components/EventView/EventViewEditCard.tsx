@@ -118,15 +118,15 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({ event, buttonV
                             } }
                         />
 
-                        <Autocomplete multiple disableCloseOnSelect forcePopupIcon
-
+                        <Autocomplete multiple disableCloseOnSelect forcePopupIcon disableListWrap
+                            filterSelectedOptions
                             loading={ isLoading }
                             autoHighlight
                             value={ ac_select }
                             onChange={ handleAcValueChange }
                             inputValue={ ac_value }
                             onInputChange={ handleInputChange }
-                            renderInput={ (params) => <TextField { ...params } maxRows={ 2 } helperText={ 'Изменить состав' } /> }
+                            renderInput={ (params) => <TextField { ...params } helperText={ 'Изменить состав' } size="small" /> }
                             options={ ac_options }
                             getOptionLabel={ (option) => option.name }
                             isOptionEqualToValue={ (option, value) => option.id === value.id }
@@ -151,18 +151,18 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({ event, buttonV
                             }
                             }
                             limitTags={ 3 }
-                            getLimitTagsText={ (more) => <Avatar sizes="small" sx={ { height: 25, width: 25, fontSize: 14, bgcolor: avatarColor(more) } } >+{ more }</Avatar> }
-                            renderTags={ (selected, getTagProps) => {
-                                return selected.map((p, index) => {
-                                    const { key, ...rest } = getTagProps({ index })
+                        // getLimitTagsText={ (more) => <Avatar sizes="small" sx={ { height: 25, width: 25, fontSize: 14, bgcolor: avatarColor(more) } } >+{ more }</Avatar> }
+                        // renderTags={ (selected, getTagProps) => {
+                        //     return selected.map((p, index) => {
+                        //         const { key, ...rest } = getTagProps({ index })
 
-                                    const label = name_letters(p.name)
-                                    return (
-                                        <Chip variant="filled" label={ p.name } { ...rest } key={ p.name } />
-                                    )
-                                })
-                            }
-                            }
+                        //         const label = name_letters(p.name)
+                        //         return (
+                        //             <Chip variant="filled" label={ label } { ...rest } key={ p.name } />
+                        //         )
+                        //     })
+                        // }
+                        // }
                         />
                     </Stack>
                 </CardContent>

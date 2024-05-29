@@ -16,13 +16,14 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
     const show = query?.searchParams?.action ? true : false
     const showEdit = query?.searchParams?.action === 'edit'
     const showCreate = query?.searchParams?.action === 'create'
-    const playerId = query?.searchParams?.event
+    const playerId = query.searchParams.event
     const eid = playerId ? Number(playerId) : 0
     const ep = await getPlayerEvents(eid)
+    const isSelected = (id: number) => +id === eid
     // if (players.length === 0) return <div>No players</div>
     return (
         <Stack direction={ 'row' } columnGap={ 2 }>
-            <Stack justifyContent={ 'center' }>
+            <Stack justifyContent={ 'center' } direction={ { sm: "column", md: "row" } } gap={ 1 }>
                 { players.length > 0 ?
                     <Box
 
@@ -39,9 +40,9 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
                     >
 
 
-                        <List dense disablePadding sx={ { maxWidth: 350, p: 2, maxHeight: '70vh', overflowY: 'auto' } }>
+                        <List dense disablePadding sx={ { maxWidth: 350, p: 2, maxHeight: playerId ? '30vh' : '70vh', overflowY: 'auto' } }>
                             { players.map((p, idx) =>
-                                <ListItem key={ p.id } sx={ { minWidth: 'fit-content', } }>
+                                <ListItem key={ p.id } sx={ { minWidth: 'fit-content', } } >
                                     <ListItemText
                                         primaryTypographyProps={ { variant: 'body2' } }
                                         secondaryTypographyProps={ { ml: 2 } }
@@ -64,7 +65,7 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
                                         <ListItemAvatar>
                                             <Avatar variant="rounded" sizes="small" sx={ { maxHeight: 28, maxWidth: 28, } }>{ p._count.events || 0 }</Avatar>
                                         </ListItemAvatar>
-                                        <ListItemButton disableGutters href={ `?event=${p.id}` } LinkComponent={ Link }>
+                                        <ListItemButton disableGutters href={ `?event=${p.id}` } LinkComponent={ Link } selected={ isSelected(p.id) }>
                                             <InfoTwoTone />
                                         </ListItemButton>
                                     </Box>
@@ -85,10 +86,10 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
                         No players found
                     </div>
                 }
-            </Stack>
-            <Box>
+
                 <PlayersEventList event_info={ ep } />
-            </Box>
+
+            </Stack>
 
             {
                 showCreate &&
