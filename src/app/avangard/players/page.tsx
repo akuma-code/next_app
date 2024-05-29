@@ -2,19 +2,23 @@
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
 import DeleteButton from "@/ClientComponents/UI/DeleteButton";
-import { getPlayers } from "@/Services/playerService";
-import { DeleteTwoTone, EditTwoTone } from "@mui/icons-material";
+import { PlayersEventList } from "@/Components/EventView/PlayersEventList";
+import { getPlayerEvents, getPlayers } from "@/Services/playerService";
+import { DeleteTwoTone, EditTwoTone, InfoTwoTone } from "@mui/icons-material";
 import { Avatar, Box, Button, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack } from "@mui/material";
 import { wrap } from "module";
 import Link from "next/link";
 
-async function AvPlayers(query: { searchParams: { action: string } }) {
+async function AvPlayers(query: { searchParams: { action: string, event: string } }) {
 
     const players = await getPlayers()
 
     const show = query?.searchParams?.action ? true : false
     const showEdit = query?.searchParams?.action === 'edit'
     const showCreate = query?.searchParams?.action === 'create'
+    const playerId = query?.searchParams?.event
+    const eid = playerId ? Number(playerId) : 0
+    const ep = await getPlayerEvents(eid)
     // if (players.length === 0) return <div>No players</div>
     return (
         <Stack direction={ 'row' } columnGap={ 2 }>
@@ -35,11 +39,11 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                     >
 
 
-                        <List dense disablePadding sx={ { maxWidth: 300 } }>
+                        <List dense disablePadding sx={ { maxWidth: 350, p: 2, maxHeight: '70vh', overflowY: 'auto' } }>
                             { players.map((p, idx) =>
                                 <ListItem key={ p.id } sx={ { minWidth: 'fit-content', } }>
                                     <ListItemText
-                                        primaryTypographyProps={ { variant: 'body1' } }
+                                        primaryTypographyProps={ { variant: 'body2' } }
                                         secondaryTypographyProps={ { ml: 2 } }
                                         primary={
                                             <Link href={ {
@@ -55,9 +59,15 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                                             <span> рейтинг: { p.info?.rttf_score }</span>
                                         }
                                     />
-                                    <ListItemAvatar>
-                                        <Avatar variant="rounded">{ p._count.events || 0 }</Avatar>
-                                    </ListItemAvatar>
+                                    <Box display={ "flex" } justifyContent={ 'center' } gap={ 0 } pl={ 2 }>
+
+                                        <ListItemAvatar>
+                                            <Avatar variant="rounded" sizes="small" sx={ { maxHeight: 28, maxWidth: 28, } }>{ p._count.events || 0 }</Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemButton disableGutters href={ `?event=${p.id}` } LinkComponent={ Link }>
+                                            <InfoTwoTone />
+                                        </ListItemButton>
+                                    </Box>
                                     {/* <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>
                                         <EditTwoTone />
                                     </ListItemButton>
@@ -75,8 +85,10 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                         No players found
                     </div>
                 }
-
             </Stack>
+            <Box>
+                <PlayersEventList event_info={ ep } />
+            </Box>
 
             {
                 showCreate &&

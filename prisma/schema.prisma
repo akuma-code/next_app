@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  previewFeatures = ["driverAdapters", "multiSchema"]
 }
 
 datasource db {
@@ -20,11 +20,13 @@ model Player {
 
   name String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("cAt")
+  updatedAt DateTime @updatedAt @map("uAt")
 
-  events Event[]
-  info   Info?
+  events  Event[]
+  info    Info?
+  Coach   Coach?  @relation(fields: [coachId], references: [id])
+  coachId Int?
 
   @@map("players")
 }
@@ -36,9 +38,10 @@ model Event {
   title         String? @default("Тренировка")
 
   players Player[]
+  Coach   Coach[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("cAt")
+  updatedAt DateTime @updatedAt @map("uAt")
 
   @@map("events")
 }
@@ -53,43 +56,17 @@ model Info {
   @@map("infos")
 }
 
-model User {
-  id       Int       @id @default(autoincrement())
-  uuid     String    @unique @default(uuid())
-  nickname String    @unique
-  password String
-  role     UserRoles @default(guest)
+model Coach {
+  id          Int     @id @default(autoincrement())
+  first_name  String
+  second_name String?
 
-  // accounts     Account[]
-  // userSessions UserSession?
-  // sessions     Session[]
-  created_at DateTime? @default(now())
-  updated_at DateTime? @updatedAt
+  events  Event[]
+  players Player[]
 
-  @@map("users")
-}
+  createdAt DateTime @default(now()) @map("cAt")
+  updatedAt DateTime @updatedAt @map("uAt")
 
-enum UserRoles {
-  guest
-  user
-  admin
-}
-
-enum StpTagType {
-  simple
-  energy
-  standart
-  hitproof
-  soundproof
-  solarproof
-  multi
-
-  @@map("StpTagType")
-}
-
-enum StpSecureType {
-  P2A
-  none
-  CM2
-  CM3
+  @@unique([first_name, second_name], map: "name")
+  @@map("coaches")
 }

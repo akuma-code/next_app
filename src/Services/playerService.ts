@@ -192,7 +192,29 @@ export async function getOnePlayer(id: number) {
         throw new Error("findone error")
     }
 }
-
+export async function getPlayerEvents(id: number) {
+    const db = prisma.player
+    try {
+        const p = await db.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                events: {
+                    select:
+                    {
+                        date_formated: true,
+                        id: true,
+                        Coach: { select: { id: true } }
+                    }
+                }
+            }
+        })
+        return p
+    } catch (error) {
+        throw new Error("Find player's events error")
+    }
+}
 
 
 export async function seedPlayers() {

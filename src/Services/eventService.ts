@@ -4,6 +4,7 @@ import { _formated_date } from "@/Helpers/dateFuncs"
 import { _log } from "@/Helpers/helpersFns"
 import { revalidatePath } from "next/cache"
 import prisma from "@/client/client"
+import { db_events } from "@/dataStore/backup_db"
 
 export interface EventCreatePayload {
     event_date: string
@@ -54,6 +55,28 @@ export async function makeNewEvent(payload: { date_formated: string, players: { 
         revalidatePath('/')
     }
 }
+
+export async function seedEvents() {
+    const ev = prisma.event
+    const eventArray = db_events.map(e => ({ ...e }))
+    try {
+        const seed = eventArray.map(e => ev.create({
+            data: {
+                date_formated: e.date_formated,
+                title: e.title,
+                id: e.id,
+                players: {
+                    connect: e.players.map(p => ({ id: p.id }))
+                },
+            }
+        }))
+        return await prisma.$transaction(seed)
+    } catch (error) {
+        _log("\n seed events error")
+        throw new Error("Restore events error")
+    }
+}
+
 
 export async function createEvent(payload: EventCreatePayload) {
     const { event_date, ids } = payload
@@ -285,17 +308,7 @@ export async function createBlankEvent(date: string, title?: string) {
 export async function connectPlayersToEvent(id: number, players: { id: number }[]) {
 
     try {
-        // const connected = await prisma.event.findUnique({ where: { id }, select: { players: { select: { id: true } } } })!
-        // const disconnect = connected?.players.filter(p => !players.includes({ id: p.id }))
-        // const disconnect_event = prisma.event.update({
-        //     where: { id },
-        //     data: {
-        //         players: {
-        //             disconnect: disconnect
-        //         }
-        //     }
 
-        // })
         const connect_event = await prisma.event.update({
             where: { id },
             data: {
@@ -313,7 +326,7 @@ export async function connectPlayersToEvent(id: number, players: { id: number }[
                 }
             }
         })
-        _log("\ntsx: ", { connect_event })
+        // _log("\ntsx: ", { connect_event })
         return connect_event
     } catch (error) {
         console.log(" \n", error)

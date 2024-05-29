@@ -10,9 +10,14 @@ const links = [
         label: "Игроки",
     },
     {
+        href: "/admin/coaches",
+        label: "Тренера",
+    },
+    {
         href: "/admin/backup",
         label: "Backup",
     },
+
 ]
 
 

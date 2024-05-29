@@ -1,0 +1,58 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters", "multiSchema"]
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_PRISMA_URL") // uses a direct connection
+    schemas   = ["schema", "stp"]
+}
+
+model User {
+    id       Int       @id @default(autoincrement())
+    uuid     String    @unique @default(uuid())
+    nickname String    @unique
+    password String
+    role     UserRoles @default(guest)
+
+    // accounts     Account[]
+    // userSessions UserSession?
+    // sessions     Session[]
+    created_at DateTime? @default(now())
+    updated_at DateTime? @updatedAt
+
+    @@map("users")
+    @@schema("stp")
+}
+
+enum UserRoles {
+    guest
+    user
+    admin
+
+    @@schema("stp")
+}
+
+enum StpTagType {
+    simple
+    energy
+    standart
+    hitproof
+    soundproof
+    solarproof
+    multi
+
+    @@map("StpTagType")
+    @@schema("stp")
+}
+
+enum StpSecureType {
+    P2A
+    none
+    CM2
+    CM3
+
+    @@schema("stp")
+}

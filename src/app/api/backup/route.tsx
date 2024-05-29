@@ -29,3 +29,15 @@ export async function GET(request: Request, context?: { params: { data: string }
 
 
 }
+
+export async function POST(request: Request, context?: { params: { data: string } }) {
+    const db_players = prisma.player
+    const db_event = prisma.event
+
+    try {
+    } catch (error) {
+        _log("____Restore error \n", error)
+        throw new Error("Restore error")
+    }
+
+}
