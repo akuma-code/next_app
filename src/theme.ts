@@ -2,8 +2,8 @@
 import { Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 import { ruRU } from '@mui/material/locale'
-import { PaletteMode } from '@mui/material';
-import { amber, deepOrange, grey } from '@mui/material/colors';
+import { PaletteMode, ThemeOptions } from '@mui/material';
+import { amber, blue, deepOrange, deepPurple, grey, } from '@mui/material/colors';
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -11,45 +11,28 @@ const roboto = Roboto({
     display: 'swap',
 });
 
-const theme = createTheme({
-    typography: {
-        fontFamily: roboto.style.fontFamily,
-    },
+
+export const getDesignTokens = (mode: PaletteMode) => ({
     palette: {
-        primary: {
-            main: '#119bd1',
-            dark: deepOrange[700],
-            light: amber[50]
+        contrastThreshold: 4.5,
+        typography: {
+            fontFamily: roboto.style.fontFamily,
         },
-        secondary: {
-            main: '#00008b'
-        },
-        text: {
-            primary: grey[900],
-            secondary: grey[700]
-        },
-        background: {
-            default: grey[50],
-            paper: 'white'
-        }
-
-
-    }
-
-}, ruRU,
-);
-
-const getDesignTokens = (mode: PaletteMode) => ({
-    palette: {
         mode,
+
         ...(mode === 'light'
             ? {
                 // palette values for light mode
-                primary: amber,
-                divider: amber[200],
+                primary: {
+                    main: '#119bd1',
+                    dark: blue[700],
+                    light: blue[300]
+                },
+
+                divider: deepPurple[600],
                 text: {
                     primary: grey[900],
-                    secondary: grey[800],
+                    secondary: grey[500],
                 },
             }
             : {
@@ -58,15 +41,50 @@ const getDesignTokens = (mode: PaletteMode) => ({
                 divider: deepOrange[700],
                 background: {
                     default: deepOrange[900],
-                    paper: deepOrange[900],
+                    paper: deepPurple[500],
                 },
                 text: {
                     primary: '#fff',
-                    secondary: grey[500],
+                    secondary: grey[100],
+
                 },
+
             }),
     },
+
 });
+
+
+const theme = createTheme({
+    typography: {
+        fontFamily: roboto.style.fontFamily,
+    },
+    palette: {
+        primary: {
+            main: '#119bd1',
+            dark: blue[700],
+            light: blue[300]
+        },
+        secondary: {
+            main: '#00008b'
+        },
+        text: {
+            primary: grey[900],
+            secondary: grey[700],
+
+        },
+        background: {
+            default: grey[50],
+            paper: '#fff'
+        },
+
+
+
+    }
+
+}, ruRU,
+);
+
 
 
 export default theme;

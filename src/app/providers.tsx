@@ -8,9 +8,9 @@ import { QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
-import theme from '../theme';
-import { CssBaseline, useMediaQuery } from '@mui/material';
-import { useMemo } from 'react';
+import theme, { getDesignTokens } from '../theme';
+import { CssBaseline, PaletteMode, useMediaQuery } from '@mui/material';
+import React, { useMemo } from 'react';
 dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]
@@ -47,8 +47,22 @@ export function getQueryClient() {
         return browserQueryClient
     }
 }
+export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+    const [mode, setMode] = React.useState<PaletteMode>('light');
+    const colorMode = React.useMemo(
+        () => ({
+            // The dark mode switch would invoke this method
+            toggleColorMode: () => {
+                setMode((prevMode: PaletteMode) =>
+                    prevMode === 'light' ? 'dark' : 'light',
+                );
+            },
+        }),
+        [],
+    );
+
     // NOTE: Avoid useState when initializing the query client if you don't
     //       have a suspense boundary between this and the code that may
     //       suspend because React will throw away the client on the initial
@@ -56,21 +70,23 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const queryClient = getQueryClient()
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const THEME = useMemo(() => createTheme({
-        palette: {
-            ...theme,
-            mode: prefersDarkMode ? 'dark' : 'light'
-        }
-    }), [prefersDarkMode])
+        ...getDesignTokens(mode),
+        // palette: {
+        //     mode: prefersDarkMode ? 'dark' : 'light',
+        // }
+    }), [mode])
     return (
-        <ThemeProvider theme={ theme }>
-            <CssBaseline enableColorScheme />
-            <AppRouterCacheProvider>
-                <QueryClientProvider client={ queryClient }>
-                    <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
-                        { children }
-                    </LocalizationProvider>
-                </QueryClientProvider>
-            </AppRouterCacheProvider>
-        </ThemeProvider>
+        <ColorModeContext.Provider value={ colorMode }>
+            <ThemeProvider theme={ THEME }>
+                <CssBaseline enableColorScheme />
+                <AppRouterCacheProvider>
+                    <QueryClientProvider client={ queryClient }>
+                        <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
+                            { children }
+                        </LocalizationProvider>
+                    </QueryClientProvider>
+                </AppRouterCacheProvider>
+            </ThemeProvider>
+        </ColorModeContext.Provider>
     )
 }

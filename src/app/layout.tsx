@@ -1,10 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
 import { AppHeader } from '../Components/Nav/AppHeaderNavbar';
 import "./globals.css";
 import Providers from "./providers";
+
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -20,20 +21,17 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({
   children: React.ReactNode;
 }>) => {
 
-
+  const cls = [inter.className, 'bg-[#b1d9fa]'].join(" ")
   return (
     <html lang="ru">
-      <body className={ inter.className + " bg-red-50" } >
-        {/* <SessionProvider> */ }
+      <body className={ cls } >
         <Providers>
           <AppHeader />
-          <Box p={ 3 } bgcolor={ '#f5d7c6' }>
+          <Container >
 
             { children }
-          </Box>
-
+          </Container>
         </Providers>
-        {/* </SessionProvider> */ }
       </body>
     </html>
   );
