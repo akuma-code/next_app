@@ -1,7 +1,7 @@
 'use client'
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react-query";
@@ -9,7 +9,8 @@ import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import theme from '../theme';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, useMediaQuery } from '@mui/material';
+import { useMemo } from 'react';
 dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]
@@ -53,7 +54,13 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     //       suspend because React will throw away the client on the initial
     //       render if it suspends and there is no boundary
     const queryClient = getQueryClient()
-
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const THEME = useMemo(() => createTheme({
+        palette: {
+            ...theme,
+            mode: prefersDarkMode ? 'dark' : 'light'
+        }
+    }), [prefersDarkMode])
     return (
         <ThemeProvider theme={ theme }>
             <CssBaseline enableColorScheme />
