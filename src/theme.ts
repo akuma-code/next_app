@@ -16,19 +16,23 @@ const theme = createTheme({
         fontFamily: roboto.style.fontFamily,
     },
     palette: {
-        mode: 'dark',
-
-        // palette values for dark mode
-        primary: deepOrange,
-        divider: deepOrange[700],
-        background: {
-            default: deepOrange[900],
-            paper: deepOrange[900],
+        primary: {
+            main: '#119bd1',
+            dark: deepOrange[700],
+            light: amber[50]
+        },
+        secondary: {
+            main: '#00008b'
         },
         text: {
-            primary: '#fff',
-            secondary: grey[500],
+            primary: grey[900],
+            secondary: grey[700]
         },
+        background: {
+            default: grey[50],
+            paper: 'white'
+        }
+
 
     }
 
