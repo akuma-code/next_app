@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import theme from '../theme';
+import { CssBaseline } from '@mui/material';
 dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]
@@ -55,7 +56,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
     return (
         <ThemeProvider theme={ theme }>
-
+            <CssBaseline enableColorScheme />
             <AppRouterCacheProvider>
                 <QueryClientProvider client={ queryClient }>
                     <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
