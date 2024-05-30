@@ -40,8 +40,8 @@ export const getDesignTokens = (mode: PaletteMode) => ({
                 primary: deepOrange,
                 divider: deepOrange[700],
                 background: {
-                    default: deepOrange[900],
-                    paper: deepPurple[500],
+                    default: grey[200],
+                    paper: deepPurple[700],
                 },
                 text: {
                     primary: '#fff',

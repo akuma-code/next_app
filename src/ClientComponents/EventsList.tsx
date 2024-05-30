@@ -72,21 +72,29 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => 
                         />
                     </Grid>
                 ) }
+                <Grid item >
 
+                    <Zoom
+
+                        in={ !!events }
+                        timeout={ 500 }
+
+                        unmountOnExit
+                    >
+                        <Fab
+                            aria-label={ "add event" }
+                            color={ 'success' }
+                            href="/avangard/events/create"
+                            LinkComponent={ Link }
+
+                        >
+
+                            <AddIcon />
+
+                        </Fab>
+                    </Zoom>
+                </Grid>
             </Grid>
-            <Zoom
-
-                in={ !!events }
-                timeout={ 500 }
-
-                unmountOnExit
-            >
-                <Fab aria-label={ "add event" } color={ 'success' } href="/avangard/events/create" LinkComponent={ Link }>
-
-                    <AddIcon />
-
-                </Fab>
-            </Zoom>
         </Box>
     )
 }
