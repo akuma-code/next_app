@@ -15,6 +15,22 @@ const theme = createTheme({
     typography: {
         fontFamily: roboto.style.fontFamily,
     },
+    palette: {
+        mode: 'dark',
+
+        // palette values for dark mode
+        primary: deepOrange,
+        divider: deepOrange[700],
+        background: {
+            default: deepOrange[900],
+            paper: deepOrange[900],
+        },
+        text: {
+            primary: '#fff',
+            secondary: grey[500],
+        },
+
+    }
 
 }, ruRU,
 );
