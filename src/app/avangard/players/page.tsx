@@ -50,7 +50,7 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
                                             <Link href={ {
                                                 pathname: 'players/' + p.id.toString(),
                                             } }
-                                                className="hover:underline"
+                                                className={ "hover:underline" }
                                             >
                                                 { idx + 1 }. { p.name }
                                             </Link>
@@ -69,14 +69,7 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
                                             <InfoTwoTone />
                                         </ListItemButton>
                                     </Box>
-                                    {/* <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>
-                                        <EditTwoTone />
-                                    </ListItemButton>
-                                    <ListItemButton color="red">
-                                        <DeleteButton deleteId={ +p.id }>
-                                            <DeleteTwoTone />
-                                        </DeleteButton>
-                                    </ListItemButton> */}
+
                                 </ListItem>
 
                             ) }

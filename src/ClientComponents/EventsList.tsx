@@ -2,14 +2,14 @@
 
 import { _log } from "@/Helpers/helpersFns";
 import { stringToColor } from "@/Helpers/stringToColor";
-import { OpenInFullTwoTone, OpenWithTwoTone } from "@mui/icons-material";
-import { Avatar, Box, Card, CardActions, CardContent, CardHeader, Grid, IconButton, Stack, Typography } from "@mui/material";
+import { OpenInFullTwoTone } from "@mui/icons-material";
+import { Box, Fab, Grid, Zoom } from "@mui/material";
 import dayjs from "dayjs";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import 'dayjs/locale/ru'
 import { DayOfWeek } from "@/Helpers/dateFuncs";
 import { EventViewCard } from "@/Components/EventView/EventViewCard";
+import AddIcon from '@mui/icons-material/Add'
+import Link from "next/link";
 export interface IEvent_Front {
     id: number;
     date_formated: string;
@@ -51,8 +51,12 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => 
         <Box
             bgcolor={ 'inherit' }
             p={ 1 }
-
-            sx={ { borderBottomLeftRadius: 6, borderBottomRightRadius: 6, border: '2px solid black', borderTop: 0 } }>
+            sx={ {
+                borderBottomLeftRadius: 6,
+                borderBottomRightRadius: 6,
+                border: '2px solid black',
+                borderTop: 0
+            } }>
 
             <Grid container spacing={ 2 } maxWidth={ 500 }>
                 { events.map(e =>
@@ -70,56 +74,20 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => 
                 ) }
 
             </Grid>
+            <Zoom
+
+                in={ !!events }
+                timeout={ 500 }
+
+                unmountOnExit
+            >
+                <Fab aria-label={ "add event" } color={ 'success' } href="/avangard/events/create" LinkComponent={ Link }>
+
+                    <AddIcon />
+
+                </Fab>
+            </Zoom>
         </Box>
     )
 }
 
-export const EventCard: React.FC<{ event: IEvent_Front }> = ({ event }) => {
-
-    const { id, date_formated, title = 'Avangard', players } = event
-    const pathname = usePathname()
-
-    const d = date_formated.replaceAll("_", ".")
-
-
-    const dayWeek = dayjs(d, 'DD.MM.YYYY', 'ru').weekday()
-
-
-    // _log(stringToColor('8'))
-    return (
-        <Card sx={ { maxWidth: 150, m: .4 } } square={ false } >
-            <CardHeader
-                title={ d }
-                subheader={ DayOfWeek[dayWeek] }
-                subheaderTypographyProps={ { textAlign: 'right' } }
-                titleTypographyProps={ { fontSize: 20, textAlign: 'center' } }
-                sx={ { pb: 0, my: 0 } }
-            />
-            <CardContent component={ Stack } rowGap={ .5 } sx={ { px: 1, my: 0, py: 0.4 } } alignItems={ 'center' }>
-
-
-
-                <Stack direction={ 'row' } spacing={ 1 }>
-                    <Typography variant="body1">Игроков: </Typography>
-                    <Avatar variant="circular" alt={ title || "" } sizes="small"
-                        sx={ { width: 28, height: 28, bgcolor: avatarColor(players.length), fontSize: 16 } }
-                    >
-                        { players.length }
-                    </Avatar>
-
-
-                </Stack>
-            </CardContent>
-            <CardActions disableSpacing sx={ { py: 0, my: 0, justifyContent: 'end' } } >
-                <Link href={ {
-                    pathname: pathname + '/' + id.toString(),
-                } }>
-                    <span className="hover:underline">Перейти</span>
-                    <IconButton size="small" title="Open">
-                        <OpenWithTwoTone />
-                    </IconButton>
-                </Link>
-            </CardActions>
-        </Card>
-    )
-}

@@ -13,6 +13,7 @@ type EventListProps = {
         events: {
             id: number,
             date_formated: string
+            Coach: { id: number, first_name: string }[]
         }[]
     } | null
 
@@ -56,7 +57,7 @@ export const PlayersEventList = ({ event_info }: EventListProps) => {
                                     <ListItemText
                                         primary={ text(e.date_formated) }
                                         primaryTypographyProps={ { textAlign: 'left', fontSize: 18 } }
-                                        secondary={ 'тренер: нет' }
+                                        secondary={ e.Coach.map(c => c.first_name).join(" ") }
                                     />
 
                                 </ListItem>

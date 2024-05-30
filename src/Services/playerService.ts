@@ -205,7 +205,7 @@ export async function getPlayerEvents(id: number) {
                     {
                         date_formated: true,
                         id: true,
-                        Coach: { select: { id: true } }
+                        Coach: { select: { id: true, first_name: true } }
                     }
                 }
             }

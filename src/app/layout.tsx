@@ -11,8 +11,9 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 
 export const metadata: Metadata = {
-  title: "Akumadev Avangard",
+  title: "Авангард",
   description: "Avangard project",
+
 };
 
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({

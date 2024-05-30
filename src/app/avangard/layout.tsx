@@ -13,10 +13,10 @@ const links = [
     //     href: '/avangard?date=' + today,
     //     label: 'Календарь'
     // },
-    {
-        href: '/avangard/events/create',
-        label: 'Добавить'
-    },
+    // {
+    //     href: '/avangard/events/create',
+    //     label: 'Добавить'
+    // },
     {
         href: '/avangard/events',
         label: 'Тренировки'
@@ -33,13 +33,14 @@ const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ childr
 
     return (
 
-        <Stack direction={ { sm: 'row', xs: 'column' } } spacing={ 4 }>
-            <Box maxWidth={ 300 } p={ 1 } display={ 'flex' } flexDirection={ { xs: 'row', sm: 'column' } } >
+        <Stack direction={ { sm: 'row', xs: 'column' } } spacing={ 2 }>
+            <Box maxWidth={ 300 } px={ 1 } display={ 'flex' } flexDirection={ { xs: 'row', sm: 'column' } } >
                 {
                     links.map(item =>
-                        <NavLink key={ item.href }
+                        <NavLink
+                            key={ item.href }
                             href={ item.href }
-                        // label={ item.label }
+
                         >
                             <Typography>{ item.label }</Typography>
                         </NavLink>
@@ -47,7 +48,7 @@ const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ childr
                 }
 
             </Box>
-            <Divider flexItem orientation="vertical" ></Divider>
+
 
 
             { children }

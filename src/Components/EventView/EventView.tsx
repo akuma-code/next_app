@@ -11,8 +11,11 @@ import { Avatar, Box, BoxProps, Button, ButtonGroup, Divider, IconButton, List, 
 import { usePathname, useRouter } from "next/navigation"
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import DoNotDisturbOnTwoToneIcon from '@mui/icons-material/DoNotDisturbOnTwoTone';
+import AddIcon from '@mui/icons-material/Add';
 import { EventViewEditDialog } from "./EventViewEditDialog"
 import { deleteEvent } from "@/Services/eventService"
+import { connectCoachToPlayer } from "@/Services/coachService"
+import { _log } from "@/Helpers/helpersFns"
 interface Eventinfo {
     boxProps?: BoxProps
     event: IEvent_Front
@@ -21,14 +24,13 @@ interface Eventinfo {
 export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = false }) => {
     const router = useRouter()
     const pathname = usePathname()
-    const { players, date_formated, title, _count } = event
+    const { players, date_formated, title, _count, id } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
 
-    const handleDelete = async (id: number) => {
-        if (confirm("Delete event?")) {
-            await deleteEvent(id)
-            router.back()
-        }
+    async function handleAddCoach(eId: number, pId: number, cId: number) {
+        const connect = await connectCoachToPlayer(pId, cId, eId)
+        _log(connect)
+        return connect
     }
     return (
         <Box
@@ -89,11 +91,11 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = fal
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText primary={ p.name } />
-                            { readonly === false &&
-                                <IconButton edge={ 'end' } >
-                                    <DoNotDisturbOnTwoToneIcon sx={ { width: 28, height: 28 } } />
-                                </IconButton>
-                            }
+
+                            <IconButton edge={ 'end' } onClick={ () => handleAddCoach(id, p.id, 5) }>
+                                <AddIcon sx={ { width: 28, height: 28 } } />
+                            </IconButton>
+
                         </ListItem>
                     ))
                 }

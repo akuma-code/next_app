@@ -4,7 +4,7 @@
 import { Button, Divider, InputLabel, SvgIcon, TextField } from '@mui/material';
 import { useFormStatus } from 'react-dom';
 
-import MemoAdeptusMechanicus from '../../public/assets/AdeptusMechanicus';
+
 
 
 
@@ -30,12 +30,12 @@ export default function LoginForm() {
             <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
                 <div className="flex justify-between">
 
-                    <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon>
+                    {/* <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon> */ }
                     <h1 className={ ` mb-3 text-2xl text-center` }>
                         Авторизация
 
                     </h1>
-                    <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon>
+                    {/* <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon> */ }
                 </div>
                 <Divider sx={ { my: 1 } } />
                 <div className="w-full flex flex-col space-y-2">

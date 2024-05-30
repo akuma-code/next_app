@@ -262,6 +262,7 @@ export async function getEventById(eventId: string) {
             where: { id },
             select: {
                 id: true, date_formated: true, title: true,
+                Coach: true,
                 players: true, _count: { select: { players: true } }
             }
         })
