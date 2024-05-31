@@ -6,7 +6,7 @@ function AministratorPage() {
 
     return (
         <Box>
-
+            Administrator Panel
         </Box>
     );
 }

@@ -33,23 +33,16 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                         { players.map((p, idx) =>
 
                             <ListItem key={ p.id }>
-                                <ListItemText
-                                    secondaryTypographyProps={ { ml: 2 } }
-                                    primary={
-                                        <Link href={ {
-                                            pathname: 'players/' + p.id.toString(),
-                                        } }
-                                            className="hover:underline"
-                                        >
-                                            { idx + 1 }. { p.name }
-                                        </Link>
-                                    }
-                                    secondary={
-                                        p.info?.rttf_score &&
-                                        <span> рейтинг: { p.info?.rttf_score }</span>
-                                    }
-                                />
-                                <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>
+                                <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit` }>
+                                    <ListItemText
+                                        secondaryTypographyProps={ { ml: 2 } }
+                                        primary={ p.name }
+
+                                        secondary={
+                                            p.info?.rttf_score &&
+                                            <span> рейтинг: { p.info?.rttf_score }</span>
+                                        }
+                                    />
                                     <EditTwoTone />
                                 </ListItemButton>
                                 <ListItemButton color="red">

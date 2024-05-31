@@ -31,7 +31,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
     const initEvent = {
         date_formated: _formated_date(dayjs()),
         players: [],
-        title: "",
+        title: "Тренировка",
     }
     const [ev, setEvent] = useState<{ date_formated: string, players: IPlayer[], title: string }>(initEvent)
     const r = useRouter()
@@ -65,7 +65,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
 
         }
 
-        _log({ event_data })
+        _log(event_data)
         await makeNewEvent(event_data)
         // await updateEvent({ id: event_data.id, _new_data: event_data }).finally(() => off())
         r.push('/avangard/events/')
@@ -91,7 +91,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                 >
                     <ButtonGroup variant="contained" size="small" component={ Stack } direction={ 'row' } fullWidth>
 
-                        <Button onClick={ handleSubmitEvent } >
+                        <Button onClick={ handleSubmitEvent } color="primary">
                             Сохранить
                         </Button>
                         {/* <Button onClick={ () => handleDelete(event.id) } disabled={ isChanging }>Удалить</Button> */ }

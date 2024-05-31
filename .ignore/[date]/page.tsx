@@ -1,7 +1,6 @@
 import { _formated_date } from "@/Helpers/dateFuncs";
 import { _log } from "@/Helpers/helpersFns";
 import { createBlankEvent, getOneEventByDate } from "@/Services/eventService";
-import { getPlayersByEventDate } from "@/Services/playerService";
 import { Box, Stack } from "@mui/material";
 
 import EventControlParam from "@/Components/EventControlParams";
@@ -16,7 +15,7 @@ type PageProps = {
 export default async function AvangardPageDate({ params }: PageProps) {
 
     const date = params.date
-    const ewp = await getPlayersByEventDate({ event_date: "" })
+
     const all = await allP()
 
 

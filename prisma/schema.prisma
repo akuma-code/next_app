@@ -6,13 +6,13 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters", "multiSchema"]
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_PRISMA_URL") // uses a direct connection
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  // directUrl = env("POSTGRES_PRISMA_URL_LOCAL") // uses a direct connection
 }
 
 model Player {
@@ -20,13 +20,14 @@ model Player {
 
   name String
 
+  info Info?
+
+  events Event[]
+
+  MasterEvent MasterEvent[]
+
   createdAt DateTime @default(now()) @map("cAt")
   updatedAt DateTime @updatedAt @map("uAt")
-
-  events  Event[]
-  info    Info?
-  Coach   Coach?  @relation(fields: [coachId], references: [id])
-  coachId Int?
 
   @@map("players")
 }
@@ -37,13 +38,32 @@ model Event {
   date_formated String  @unique @map("date")
   title         String? @default("Тренировка")
 
-  players Player[]
-  Coach   Coach[]
+  players     Player[]
+  masterEvent MasterEvent[]
 
-  createdAt DateTime @default(now()) @map("cAt")
-  updatedAt DateTime @updatedAt @map("uAt")
+  // createdAt DateTime @default(now()) @map("cAt")
+  // updatedAt DateTime @updatedAt @map("uAt")
 
   @@map("events")
+}
+
+model Master {
+  id          Int           @id @default(autoincrement())
+  name        String
+  MasterEvent MasterEvent[]
+
+  @@map("masters")
+}
+
+model MasterEvent {
+  id      Int      @id @default(autoincrement())
+  players Player[]
+
+  master   Master @relation(fields: [masterId], references: [id])
+  masterId Int
+
+  event   Event @relation(fields: [eventId], references: [id])
+  eventId Int
 }
 
 model Info {
@@ -61,8 +81,8 @@ model Coach {
   first_name  String
   second_name String?
 
-  events  Event[]
-  players Player[]
+  // events  Event[]
+  // players Player[]
 
   createdAt DateTime @default(now()) @map("cAt")
   updatedAt DateTime @updatedAt @map("uAt")

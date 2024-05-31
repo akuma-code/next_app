@@ -51,17 +51,15 @@ export async function createPlayer(name: string, info?: InfoCreatePayload) {
                 data: {
                     info: {
                         create: {
-
                             rttf_score
                         }
                     }
                 }
             })
 
-            revalidatePath('/')
+
             return addInfo
         }
-        revalidatePath('/')
 
         return player
 
@@ -69,6 +67,9 @@ export async function createPlayer(name: string, info?: InfoCreatePayload) {
     } catch (error) {
         _log("___Create error: \n", error)
         throw new Error("__create error")
+    } finally {
+
+        revalidatePath('/')
     }
 
 
@@ -115,12 +116,7 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Info>)
                             create: { rttf_score: score },
                             update: { rttf_score: score }
                         }
-                        // connectOrCreate: {
-                        //     where: { playerId: id },
-                        //     create: {
-                        //         rttf_score: Number(rttf_score)
-                        //     }
-                        // }
+
                     }
                 },
                 // include: { PlayerInfo: true }
@@ -130,15 +126,17 @@ export async function editPlayer(PlayerId: string, data: Partial<Player & Info>)
             return pp
 
         }
-        return revalidatePath('/')
+
     } catch (e) {
         _log(`___Edit player error: \n ${e} \n_____`)
+    } finally {
+        revalidatePath('/')
     }
 
 }
 
 
-export async function getPlayers(options?: { info?: boolean, }) {
+export async function getPlayers() {
     try {
 
         const p = await prisma.player.findMany({
@@ -161,7 +159,7 @@ export async function getPlayers(options?: { info?: boolean, }) {
     } catch (error) {
         _log("___Find error: \n", error)
         throw new Error("findmany error")
-    }
+    } finally { revalidatePath('/') }
 }
 // export async function getPlayersWithEvents(date?: string) {
 //     _log("searchdate valid: ", dayjs(date).format("DD-MM-YY"))
@@ -205,10 +203,12 @@ export async function getPlayerEvents(id: number) {
                     {
                         date_formated: true,
                         id: true,
-                        Coach: { select: { id: true, first_name: true } }
-                    }
+
+                    },
+
                 }
-            }
+            },
+
         })
         return p
     } catch (error) {
@@ -283,6 +283,8 @@ export async function getPlayersByEventDate(payload: { event_date?: string }) {
     } catch (error) {
         _log("___\n", error)
         throw new Error("fetch players error, __getplayers_by_event_date")
+    } finally {
+        revalidatePath('/')
     }
 
 }

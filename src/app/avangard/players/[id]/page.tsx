@@ -1,6 +1,6 @@
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
 import DeleteButton from "@/ClientComponents/UI/DeleteButton";
-import { getOnePlayer } from "@/Services/playerService";
+import { getOnePlayer, getPlayers } from "@/Services/playerService";
 import { DeleteTwoTone } from "@mui/icons-material";
 import { Box, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
@@ -8,9 +8,14 @@ import Link from "next/link";
 
 interface OnePlayerPropsPage {
     params?: {
-        id: number
+        id: string
     },
     searchParams?: { id: string, action: string }
+}
+
+export async function generateStaticParams() {
+    const players = await getPlayers()
+    return players.map(p => ({ id: p.id.toString() }))
 }
 
 const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {

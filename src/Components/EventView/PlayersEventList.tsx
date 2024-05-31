@@ -2,7 +2,7 @@
 
 import { DayOfWeek, Month, _dbDateParser } from "@/Helpers/dateFuncs"
 import { _log } from "@/Helpers/helpersFns"
-import { Box, Grid, Grow, List, ListItem, ListItemText, Paper, Typography } from "@mui/material"
+import { Box, Divider, Grid, Grow, List, ListItem, ListItemText, Paper, Typography } from "@mui/material"
 import dayjs from "dayjs"
 
 type EventListProps = {
@@ -13,13 +13,12 @@ type EventListProps = {
         events: {
             id: number,
             date_formated: string
-            Coach: { id: number, first_name: string }[]
         }[]
     } | null
 
 }
 export const PlayersEventList = ({ event_info }: EventListProps) => {
-    if (!event_info || event_info.events.length === 0) {
+    if (!event_info) {
         return (
             <Typography variant="body1" component={ 'div' } textAlign={ 'center' } fontSize={ 15 }>
                 У выбранного игрока тренировок не было
@@ -38,36 +37,50 @@ export const PlayersEventList = ({ event_info }: EventListProps) => {
         const day = DayOfWeek[dayjs(+d).day()]
         return { dat, month, day, year: y }
     }
-    const text = (d: string) => `${date(d).dat}`
+    const text = (d: string, c?: string) => `${date(d).dat}     ${c ? ' \nтренер: ' + c : ""}`
     return (
         <Box component={ Paper } elevation={ 3 } borderRadius={ 4 } p={ 2 } width={ 350 }>
             <Grow in={ events.length > 0 } >
 
                 <Grid container gridRow={ 'auto' } >
-                    <Grid item sm={ 12 } >
+                    <Grid item sm={ 12 } md={ 12 }>
                         <Typography variant="h5" component={ 'div' } textAlign={ 'center' } fontSize={ 20 }>
-                            { name }<br /> тренировок: { events.length }
+                            { name }
                         </Typography>
+                        <Divider flexItem >тренировок: { events.length }</Divider>
                     </Grid>
 
-                    <Grid item sm={ 12 }>
-                        <List dense>
-                            { events.map((e, idx) =>
-                                <ListItem key={ e.id } divider>
-                                    <ListItemText
-                                        primary={ text(e.date_formated) }
-                                        primaryTypographyProps={ { textAlign: 'left', fontSize: 18 } }
-                                        secondary={ e.Coach.map(c => c.first_name).join(" ") }
-                                    />
+                    <Grid item sm={ 12 } md={ 6 } >
+                        <List dense disablePadding >
+                            { events
+                                // .sort((a, b) => dayjs(a.date_formated).diff(dayjs(b.date_formated)))
+                                .map((e, idx) => {
+                                    const { d, m } = splitDate(e.date_formated)
+                                    return <ListItem key={ e.id } divider disablePadding>
+                                        <ListItemText
+                                            primary={ text(e.date_formated) }
+                                            primaryTypographyProps={ { textAlign: 'left', fontSize: 18, marginInlineStart: 2 } }
+                                            secondary={ <div></div> }
+                                            secondaryTypographyProps={ { textAlign: 'left', marginInlineStart: 2 } }
+                                        />
 
-                                </ListItem>
+                                    </ListItem>
 
 
-                            ) }
+                                }) }
                         </List>
                     </Grid>
                 </Grid>
             </Grow>
         </Box>
     )
+}
+
+
+const splitDate = (date: string) => {
+    const [d, m, y] = dayjs(date, "DD_MM_YYYY", 'ru')
+        .format("DD.MM.YYYY")
+        .split(".")
+        .map(Number)
+    return { d, m, y } as const
 }

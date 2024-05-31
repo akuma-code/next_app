@@ -56,9 +56,9 @@ export async function makeNewEvent(payload: { date_formated: string, players: { 
     }
 }
 
-export async function seedEvents() {
+export async function seedEvents(mock?: typeof db_events) {
     const ev = prisma.event
-    const eventArray = db_events.map(e => ({ ...e }))
+    const eventArray = mock ? mock : db_events.map(e => ({ ...e }))
     try {
         const seed = eventArray.map(e => ev.create({
             data: {
@@ -66,13 +66,15 @@ export async function seedEvents() {
                 title: e.title,
                 id: e.id,
                 players: {
-                    connect: e.players.map(p => ({ id: p.id }))
+
+                    connect: e.players.map(p => ({ id: p.id })),
+
                 },
             }
         }))
         return await prisma.$transaction(seed)
     } catch (error) {
-        _log("\n seed events error")
+        _log("\n seed events error", error)
         throw new Error("Restore events error")
     }
 }
@@ -198,9 +200,10 @@ export async function getEventsWithPlayers() {
         select: {
             date_formated: true,
             id: true,
-            players: { select: { id: true, name: true } },
+            players: true,
             _count: { select: { players: true } }
-        }
+
+        }, orderBy: { date_formated: "asc" }
     })
 
     return ev
@@ -262,7 +265,6 @@ export async function getEventById(eventId: string) {
             where: { id },
             select: {
                 id: true, date_formated: true, title: true,
-                Coach: true,
                 players: true, _count: { select: { players: true } }
             }
         })

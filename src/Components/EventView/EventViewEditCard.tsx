@@ -118,10 +118,10 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({ event, buttonV
                             } }
                         />
 
-                        <Autocomplete multiple disableCloseOnSelect forcePopupIcon disableListWrap
+                        <Autocomplete multiple disableCloseOnSelect forcePopupIcon
                             filterSelectedOptions
-                            loading={ isLoading }
                             autoHighlight
+                            loading={ isLoading }
                             value={ ac_select }
                             onChange={ handleAcValueChange }
                             inputValue={ ac_value }
@@ -143,26 +143,25 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({ event, buttonV
 
                                     >
                                         <ListItemButton>
-
-
                                             { option.name }
                                         </ListItemButton>
                                     </ListItem>)
                             }
                             }
-                            limitTags={ 3 }
-                        // getLimitTagsText={ (more) => <Avatar sizes="small" sx={ { height: 25, width: 25, fontSize: 14, bgcolor: avatarColor(more) } } >+{ more }</Avatar> }
-                        // renderTags={ (selected, getTagProps) => {
-                        //     return selected.map((p, index) => {
-                        //         const { key, ...rest } = getTagProps({ index })
 
-                        //         const label = name_letters(p.name)
-                        //         return (
-                        //             <Chip variant="filled" label={ label } { ...rest } key={ p.name } />
-                        //         )
-                        //     })
-                        // }
-                        // }
+                            limitTags={ 1 }
+                            // getLimitTagsText={ (more) => <Avatar sizes="small" sx={ { height: 25, width: 25, fontSize: 14, bgcolor: avatarColor(more) } } >+{ more }</Avatar> }
+                            renderTags={ (selected, getTagProps) => {
+                                return selected.map((p, index) => {
+                                    const { key, ...rest } = getTagProps({ index })
+
+                                    const label = name_letters(p.name)
+                                    return (
+                                        <Chip variant="filled" label={ label } { ...rest } key={ p.name } />
+                                    )
+                                })
+                            }
+                            }
                         />
                     </Stack>
                 </CardContent>

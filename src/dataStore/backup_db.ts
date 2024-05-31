@@ -893,77 +893,66 @@ const db_events_mock = [
                 "name": "Борис Палевич",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 2,
                 "name": "Валера Русинович",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 3,
                 "name": "Володя Юдаев",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 4,
                 "name": "Дмитий Чуприков",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 6,
                 "name": "Инна Гулина",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 7,
                 "name": "Лариса Басманова",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 11,
                 "name": "Павел Роднянский",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 12,
                 "name": "Рома Русаков",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 16,
                 "name": "Юра Малин",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 38,
                 "name": "Николай Смоглей",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 41,
                 "name": "Жижирий Сергей",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             }
         ]
     },
@@ -979,14 +968,12 @@ const db_events_mock = [
                 "name": "Женя Мураткалиев",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 9,
                 "name": "Павел Аниловский",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             }
         ]
     },
@@ -1002,70 +989,60 @@ const db_events_mock = [
                 "name": "Борис Палевич",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 2,
                 "name": "Валера Русинович",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 3,
                 "name": "Володя Юдаев",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 4,
                 "name": "Дмитий Чуприков",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 5,
                 "name": "Женя Мураткалиев",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 6,
                 "name": "Инна Гулина",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 7,
                 "name": "Лариса Басманова",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 9,
                 "name": "Павел Аниловский",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 11,
                 "name": "Павел Роднянский",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 12,
                 "name": "Рома Русаков",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             }
         ]
     },
@@ -1081,56 +1058,48 @@ const db_events_mock = [
                 "name": "Дмитий Чуприков",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 10,
                 "name": "Павел Кот",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 13,
                 "name": "Рома Урусов",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 14,
                 "name": "Сергей Кучигин",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 15,
                 "name": "Сергей Коробов",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 16,
                 "name": "Юра Малин",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 17,
                 "name": "Ольга Сипина",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 20,
                 "name": "Надежда Отпетова",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             }
         ]
     },
@@ -1146,64 +1115,59 @@ const db_events_mock = [
                 "name": "Женя Мураткалиев",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 6,
                 "name": "Инна Гулина",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 7,
                 "name": "Лариса Басманова",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 14,
                 "name": "Сергей Кучигин",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 15,
                 "name": "Сергей Коробов",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 16,
                 "name": "Юра Малин",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 17,
                 "name": "Ольга Сипина",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 18,
                 "name": "Варя",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             },
             {
                 "id": 38,
                 "name": "Николай Смоглей",
                 "createdAt": "2024-05-29T19:57:10.926Z",
                 "updatedAt": "2024-05-29T19:57:10.926Z",
-                "coachId": null
             }
         ]
     }
 ]
+
+export const mock_events = {
+    db_events_mock, db_events
+}
