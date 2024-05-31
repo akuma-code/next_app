@@ -5,7 +5,7 @@ import React from "react";
 import { AppHeader } from '../Components/Nav/AppHeaderNavbar';
 import "./globals.css";
 import Providers from "./providers";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -32,6 +32,7 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({
 
             { children }
           </Container>
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
