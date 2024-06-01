@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, Paper } from "@mui/material";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
@@ -22,15 +22,20 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({
   children: React.ReactNode;
 }>) => {
 
-  const cls = [inter.className, 'bg-[#b1d9fa]'].join(" ")
+  const cls = [inter.className, 'bg-[#7ad5f3c9]'].join(" ")
   return (
     <html lang="ru">
       <body className={ cls } >
         <Providers>
-          <AppHeader />
-          <Container >
 
-            { children }
+
+          <Container maxWidth={ 'md' } >
+            <Paper elevation={ 1 } >
+
+              <AppHeader />
+              { children }
+
+            </Paper>
           </Container>
           <SpeedInsights />
         </Providers>

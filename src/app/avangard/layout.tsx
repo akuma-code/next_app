@@ -33,7 +33,9 @@ const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ childr
 
     return (
 
-        <Stack direction={ { sm: 'row', xs: 'column' } } spacing={ 2 }>
+        <Stack direction={ { sm: 'row', xs: 'column' } } spacing={ 2 }
+        // bgcolor={ 'background' }
+        >
             <Box maxWidth={ 300 } px={ 1 } display={ 'flex' } flexDirection={ { xs: 'row', sm: 'column' } } >
                 {
                     links.map(item =>

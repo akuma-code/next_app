@@ -4,13 +4,13 @@ import { createTheme } from '@mui/material/styles';
 import { ruRU } from '@mui/material/locale'
 import { PaletteMode, ThemeOptions } from '@mui/material';
 import { amber, blue, deepOrange, deepPurple, grey, } from '@mui/material/colors';
+import { COLOR_LIGHT, COLOR_DARK } from './ColorsTheme';
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
     subsets: ['latin'],
     display: 'swap',
 });
-
 
 export const getDesignTokens = (mode: PaletteMode) => ({
     palette: {
@@ -24,32 +24,36 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             ? {
                 // palette values for light mode
                 primary: {
-                    main: '#119bd1',
-                    dark: '#0c2370',
-                    light: '#00aeea'
+                    main: '#1c9bce',
+                    dark: COLOR_LIGHT.BLUE,
+                    light: COLOR_LIGHT.LIGHT_BLUE
                 },
 
                 divider: deepPurple[600],
                 text: {
-                    primary: grey[900],
-                    secondary: grey[500],
+                    primary: COLOR_LIGHT.BLACK,
+                    secondary: grey['A400'],
                 },
                 background: {
-                    default: '#fefefe',
-                    paper: grey[50],
+                    default: COLOR_LIGHT.LIGHT_BLUE,
+                    paper: COLOR_LIGHT.WHITE,
                 }
             }
             : {
                 // palette values for dark mode
-                primary: deepOrange,
-                divider: deepOrange[700],
+                primary: {
+                    main: COLOR_DARK.LIGHTGREEN,
+                    dark: COLOR_DARK.SALAD,
+                    light: COLOR_DARK.YELLOW
+                },
+                divider: COLOR_DARK.DARKGREEN,
                 background: {
-                    default: grey[200],
-                    paper: deepPurple[700],
+                    default: COLOR_DARK.GREY,
+                    paper: COLOR_DARK.LIGHTGRAY,
                 },
                 text: {
-                    primary: '#fff',
-                    secondary: grey[100],
+                    primary: COLOR_DARK.DARKGREEN,
+                    secondary: COLOR_DARK.LIGHTGREEN,
 
                 },
 

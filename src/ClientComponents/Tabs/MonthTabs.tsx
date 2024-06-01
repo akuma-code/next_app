@@ -22,12 +22,12 @@ export const MonthTabs = () => {
         router.push(pathname + `?month=${stringifyMonth(newValue)}`)
     }
     useEffect(() => {
-        router.push(pathname + `?month=${stringifyMonth(tabNumber)}`)
+        // router.push(pathname + `?month=${stringifyMonth(tabNumber)}`)
     }, [])
     return (
         <Box sx={ {
             maxWidth: { xs: 400, sm: 550, lg: 650 },
-            bgcolor: '#4d4d4d',
+            bgcolor: 'background.default',
             borderTopRightRadius: 8,
             borderTopLeftRadius: 8
         } }

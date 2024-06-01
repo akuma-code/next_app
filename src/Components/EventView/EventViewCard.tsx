@@ -4,7 +4,7 @@ import CMCard from "@/mui-treasury/card-team/CardTeam"
 import { getInfoApexStyles } from "@/mui-treasury/info-apex";
 import { InfoTitle, InfoSubtitle, Info } from "@/mui-treasury/info-basic";
 
-import { Box, AvatarGroup, Avatar, IconButton, Stack } from "@mui/material";
+import { Box, AvatarGroup, Avatar, IconButton, Stack, SvgIcon, ButtonGroup } from "@mui/material";
 import mock_events from "./mock_events";
 import AdeptusMechanicus from "@/Components/Icons/AdeptusMechanicus";
 import { avatarColor } from "@/ClientComponents/EventsList";
@@ -14,6 +14,8 @@ import dayjs from "dayjs";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
 import { EventViewEditDialog } from "./EventViewEditDialog";
 import { SettingsTwoTone } from "@mui/icons-material";
+import OpenInBrowserOutlinedIcon from '@mui/icons-material/OpenInBrowserOutlined';
+import OpenWithOutlinedIcon from '@mui/icons-material/OpenWithOutlined';
 const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard
 
 const event_data = mock_events
@@ -105,18 +107,31 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                     </Box>
                     <Stack direction={ 'row' } justifyContent={ 'space-between' }>
 
-                        <Link href={ {
-                            pathname: pathname + `/${event.id}`
-                        } }>
-                            <ButtonJoin variant={ "contained" } color={ "primary" } disableRipple>
+                        <ButtonGroup size="small" orientation="vertical" fullWidth variant={ "contained" }>
+
+                            <ButtonJoin
+
+                                color='primary'
+                                LinkComponent={ Link }
+                                href={ pathname + `/${event.id}` }
+                                startIcon={ <OpenWithOutlinedIcon /> }>
                                 Открыть
                             </ButtonJoin>
-                        </Link>
-                        <Link href={ pathname + `/${event.id}/edit` }>
-                            <IconButton >
-                                <SettingsTwoTone />
-                            </IconButton>
-                        </Link>
+                            <ButtonJoin
+                                startIcon={ <SettingsTwoTone /> }
+                                color="primary"
+                                LinkComponent={ Link }
+                                href={ pathname + `/${event.id}/edit` }
+
+                            >
+                                Править
+                            </ButtonJoin>
+                        </ButtonGroup>
+                        {/* <IconButton color="secondary" LinkComponent={ Link } href={ pathname + `/${event.id}/edit` }>
+                            <SvgIcon>
+
+                            </SvgIcon>
+                        </IconButton> */}
                     </Stack>
 
                 </Box>

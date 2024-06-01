@@ -56,7 +56,7 @@ const AvatarLogo = styled(Avatar)(() => ({
 }));
 
 const ButtonJoin = styled(Button)(() => ({
-  borderRadius: 50,
+  borderRadius: 10,
   textTransform: "initial",
   "&:focus": {
     boxShadow:

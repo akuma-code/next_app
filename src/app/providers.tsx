@@ -9,8 +9,9 @@ import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import theme, { getDesignTokens } from '../theme';
-import { CssBaseline, PaletteMode, useMediaQuery } from '@mui/material';
+import { CssBaseline, PaletteMode, Paper, useMediaQuery } from '@mui/material';
 import React, { useMemo } from 'react';
+import { _log } from '@/Helpers/helpersFns';
 dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]
@@ -50,13 +51,19 @@ export function getQueryClient() {
 export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-    const [mode, setMode] = React.useState<PaletteMode>('light');
+    const savedmode = localStorage.getItem('colormode') || 'light'
+
+    const [mode, setMode] = React.useState<PaletteMode>(savedmode as PaletteMode);
     const colorMode = React.useMemo(
         () => ({
             // The dark mode switch would invoke this method
             toggleColorMode: () => {
-                setMode((prevMode: PaletteMode) =>
-                    prevMode === 'light' ? 'dark' : 'light',
+                setMode((prevMode: PaletteMode) => {
+                    const new_color = prevMode === 'light' ? 'dark' : 'light'
+                    localStorage.setItem('colormode', new_color)
+                    return new_color
+                }
+
                 );
             },
         }),
@@ -71,9 +78,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const THEME = useMemo(() => createTheme({
         ...getDesignTokens(mode),
-        // palette: {
-        //     mode: prefersDarkMode ? 'dark' : 'light',
-        // }
+
     }), [mode])
     return (
         <ColorModeContext.Provider value={ colorMode }>
@@ -82,7 +87,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 <AppRouterCacheProvider>
                     <QueryClientProvider client={ queryClient }>
                         <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
+                            {/* <Paper elevation={ 2 }> */ }
+
                             { children }
+                            {/* </Paper> */ }
                         </LocalizationProvider>
                     </QueryClientProvider>
                 </AppRouterCacheProvider>

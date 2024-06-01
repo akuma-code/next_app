@@ -53,14 +53,12 @@ export const PlayersEventList = ({ event_info }: EventListProps) => {
                     <Grid item sm={ 12 } md={ 6 } >
                         <List dense disablePadding >
                             { events
-                                // .sort((a, b) => dayjs(a.date_formated).diff(dayjs(b.date_formated)))
                                 .map((e, idx) => {
                                     const { d, m } = splitDate(e.date_formated)
                                     return <ListItem key={ e.id } divider disablePadding>
                                         <ListItemText
                                             primary={ text(e.date_formated) }
                                             primaryTypographyProps={ { textAlign: 'left', fontSize: 18, marginInlineStart: 2 } }
-                                            secondary={ <div></div> }
                                             secondaryTypographyProps={ { textAlign: 'left', marginInlineStart: 2 } }
                                         />
 
