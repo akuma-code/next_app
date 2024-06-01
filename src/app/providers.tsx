@@ -51,16 +51,16 @@ export function getQueryClient() {
 export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-    const savedmode = localStorage.getItem('colormode') || 'light'
+    // const savedmode = localStorage.getItem('colormode') || 'light'
 
-    const [mode, setMode] = React.useState<PaletteMode>(savedmode as PaletteMode);
+    const [mode, setMode] = React.useState<PaletteMode>('light');
     const colorMode = React.useMemo(
         () => ({
             // The dark mode switch would invoke this method
             toggleColorMode: () => {
                 setMode((prevMode: PaletteMode) => {
                     const new_color = prevMode === 'light' ? 'dark' : 'light'
-                    localStorage.setItem('colormode', new_color)
+                    // localStorage.setItem('colormode', new_color)
                     return new_color
                 }
 
