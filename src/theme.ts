@@ -3,7 +3,7 @@ import { Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 import { ruRU } from '@mui/material/locale'
 import { PaletteMode, ThemeOptions } from '@mui/material';
-import { amber, blue, deepOrange, deepPurple, grey, } from '@mui/material/colors';
+import { amber, blue, deepOrange, deepPurple, green, grey, } from '@mui/material/colors';
 import { COLOR_LIGHT, COLOR_DARK } from './ColorsTheme';
 
 const roboto = Roboto({
@@ -25,17 +25,17 @@ export const getDesignTokens = (mode: PaletteMode) => ({
                 // palette values for light mode
                 primary: {
                     main: '#1c9bce',
-                    dark: COLOR_LIGHT.BLUE,
-                    light: COLOR_LIGHT.LIGHT_BLUE
+                    dark: COLOR_LIGHT.DARKBLUE,
+                    light: COLOR_LIGHT.LIGHTBLUE
                 },
-
+                info: { main: deepOrange['A400'] },
                 divider: deepPurple[600],
                 text: {
                     primary: COLOR_LIGHT.BLACK,
                     secondary: grey['A400'],
                 },
                 background: {
-                    default: COLOR_LIGHT.LIGHT_BLUE,
+                    default: COLOR_LIGHT.LIGHTBLUE,
                     paper: COLOR_LIGHT.WHITE,
                 }
             }
@@ -46,6 +46,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
                     dark: COLOR_DARK.SALAD,
                     light: COLOR_DARK.YELLOW
                 },
+                info: { main: COLOR_LIGHT.LIGHTBLUE },
                 divider: COLOR_DARK.DARKGREEN,
                 background: {
                     default: COLOR_DARK.GREY,
@@ -53,7 +54,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
                 },
                 text: {
                     primary: COLOR_DARK.DARKGREEN,
-                    secondary: COLOR_DARK.LIGHTGREEN,
+                    secondary: green['A700'],
 
                 },
 

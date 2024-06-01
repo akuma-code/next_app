@@ -10,9 +10,10 @@ export const enum COLOR_DARK {
     LIGHTGRAY = '#6e7170'
 }
 export const enum COLOR_LIGHT {
+    MAINBLUE = '#1c9bce',
     BLACK = '#060309',
-    BLUE = '#0c2370',
-    LIGHT_BLUE = '#00aeea',
-    WHITE = '#fefefe'
+    DARKBLUE = '#0c2370',
+    LIGHTBLUE = '#00aeea',
+    WHITE = '#fefefe',
 
 }

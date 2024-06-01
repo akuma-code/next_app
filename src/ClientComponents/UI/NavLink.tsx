@@ -12,7 +12,7 @@ export const NavLink: React.FC<NavLinkProps> = ({ href, children, label }) => {
     const pathname = usePathname()
     const isActive = pathname === href
     return (
-        <Link href={ href }>
+        <Link href={ href } >
             {
                 children ?
                     <Box
@@ -20,7 +20,7 @@ export const NavLink: React.FC<NavLinkProps> = ({ href, children, label }) => {
                         textAlign={ 'center' }
                         borderRadius={ 3 }
                         color={ isActive ? 'whitesmoke' : 'inherit' }
-                        bgcolor={ isActive ? '#e63408' : 'inherit' }
+                        bgcolor={ isActive ? 'info.main' : 'inherit' }
                     >
                         { children }
                     </Box>

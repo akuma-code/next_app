@@ -52,7 +52,7 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
                                         LinkComponent={ Link }
                                         selected={ p.id === eid } >
                                         <ListItemText
-                                            primaryTypographyProps={ { variant: 'body2' } }
+                                            primaryTypographyProps={ { variant: 'body2', color: 'primary.dark' } }
                                             primary={ <span>{ idx + 1 }. { p.name }</span> }
                                         />
 

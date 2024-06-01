@@ -1,4 +1,5 @@
 import { Box, List, ListItem, ListItemButton, Paper, Stack } from "@mui/material";
+import Link from "next/link";
 
 interface ContainerLayoutProps {
     children: React.ReactNode
@@ -30,7 +31,7 @@ const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
                     { links.map(link =>
 
                         <ListItem key={ link.href }>
-                            <ListItemButton
+                            <ListItemButton LinkComponent={ Link }
                                 href={ link.href }
                             >
                                 { link.label }

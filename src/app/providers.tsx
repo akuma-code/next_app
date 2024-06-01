@@ -51,9 +51,11 @@ export function getQueryClient() {
 export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-    // const savedmode = localStorage.getItem('colormode') || 'light'
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    console.log('prefersDarkMode: ', prefersDarkMode)
+    const savedmode: PaletteMode = prefersDarkMode ? 'dark' : 'light'
 
-    const [mode, setMode] = React.useState<PaletteMode>('light');
+    const [mode, setMode] = React.useState<PaletteMode>(savedmode);
     const colorMode = React.useMemo(
         () => ({
             // The dark mode switch would invoke this method
@@ -75,11 +77,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     //       suspend because React will throw away the client on the initial
     //       render if it suspends and there is no boundary
     const queryClient = getQueryClient()
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const THEME = useMemo(() => createTheme({
-        ...getDesignTokens(mode),
-
-    }), [mode])
+    const THEME = useMemo(() => createTheme({ ...getDesignTokens(mode) }), [mode])
     return (
         <ColorModeContext.Provider value={ colorMode }>
             <ThemeProvider theme={ THEME }>

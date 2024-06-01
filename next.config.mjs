@@ -35,16 +35,16 @@ const nextConfig = {
     reactStrictMode: true,
     // output: 'export',
     distDir: 'output',
-    // crossOrigin: 'akumadev',
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/avangard/events',
+                permanent: true
+            }
+        ]
+    }
 
-    // async headers() {
-    //     return [
-    //         {
-    //             source: '/:path*',
-    //             headers: securityHeaders
-    //         }
-    //     ]
-    // }
 };
 
 export default nextConfig;
