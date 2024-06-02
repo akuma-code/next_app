@@ -1,17 +1,18 @@
 'use client'
 
 import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
+import { useDraftEvent } from "@/Hooks/DEvent/useDraftEventState";
 import { CloseTwoTone, InsertCommentTwoTone, CheckCircleTwoTone } from "@mui/icons-material";
-import { Autocomplete, Box, ButtonGroup, Card, CardContent, CardHeader, Grid, IconButton, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, ButtonGroup, Card, CardActions, CardContent, CardHeader, Chip, FilledInput, Grid, IconButton, ListItemButton, OutlinedInput, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Player } from "@prisma/client";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createForm } from 'react-any-shape-form'
 
 type Member = Pick<Player, 'id' | 'name'>
 interface DraftEventProps {
-    options?: { id: number, label: string }[]
+    options: { id: number, name: string }[]
 }
 const DraftForm = createForm({
 
@@ -19,58 +20,58 @@ const DraftForm = createForm({
     members: [] as Member[]
 })
 const initState = { members: [] as Member[] }
-const DraftEventForm: React.FC<DraftEventProps> = ({ options }) => {
 
+
+const DraftEventForm: React.FC<DraftEventProps> = ({ options }) => {
+    // const [state, setAC] = useState({ input: "", members: [] as Member[] })
     const [eventState, setState] = useState(initState)
+    const [ac_value, setName] = useState("")
+    const { state, options: ac_options, dispatch } = useDraftEvent({ players: options })
     const title_date = _dbDateParser(_formated_date(dayjs())).dd_mmmm
-    const ac_options = options ? options : eventState.members.map(m => ({ ...m, label: m.name }))
+
+
+    const onFinish = async (formData: FormData) => {
+        dispatch.add(ac_value)
+
+
+
+
+    }
+    // const ac_options = useMemo(() => options.map(o => ({ id: o.id, label: o.name })), [])
     return (
         <Card elevation={ 4 }>
             <CardHeader title='Запись на тренировку' subheader={ title_date } />
-
+            <CardActions>
+                <Button onClick={ async () => await dispatch.createEventDraft(state.members) }>Create</Button> </CardActions>
             <CardContent>
 
-                <DraftForm
-                    onFinish={ state => setState(state) }
-                    initialState={ initState }
-                >
+                <form id="ed_form" name="draft_form" action={ onFinish }>
+
+
                     <Grid container spacing={ 2 } gridRow={ 4 }>
-                        {/* <Grid item xs={ 12 }>
-                            <DraftForm.Item
-                                name="title"
-                                onChange={ value => value }
-                            >
-                                {
-                                    ({ value, onChange }) =>
-                                        <TextField fullWidth value={ value } onChange={ (e) => onChange(e.target.value) } />
-                                }
-                            </DraftForm.Item>
-                        </Grid> */}
-                        <Grid item xs={ 10 } columnGap={ 2 } direction={ 'row' }>
-                            <DraftForm.Item
-                                name="members"
-                                onChange={ value => value }
 
-                            >
-                                { ({ value, onChange }) =>
-                                    <>
-                                        <Autocomplete
-                                            freeSolo
-                                            autoHighlight
-                                            size="small"
-                                            options={ ac_options }
-                                            renderInput={ (params) =>
-                                                <TextField { ...params }
-                                                // InputProps={ {
-                                                //     startAdornment: <InputAdorment />
-                                                // } }
-                                                />
-                                            }
-                                        />
-                                    </>
+                        <Grid item xs={ 8 } columnGap={ 2 } >
 
+                            {/* <Autocomplete
+                                freeSolo
+
+                                autoHighlight
+                                size="small"
+                                loading
+                                options={ ac_options }
+
+                                noOptionsText={ "No options" }
+                                renderInput={ (params) => <TextField name="member" { ...params } />
                                 }
-                            </DraftForm.Item>
+                                inputValue={ ac_value.name }
+                                onInputChange={ (e, v) => setName({ name: v }) }
+
+
+                            /> */}
+                            <TextField size="small" name="candidate" value={ ac_value } onChange={ e => setName(e.target.value) } />
+
+
+
                         </Grid>
                         <Grid item xs={ 2 }>
 
@@ -78,7 +79,7 @@ const DraftEventForm: React.FC<DraftEventProps> = ({ options }) => {
                                 title="Сохранить"
                                 edge={ 'end' }
                                 color="success"
-                                sx={ { border: '1px solid', mr: 2, } }
+                                sx={ { border: '1px solid', bgcolor: 'primary.main', color: 'primary.dark' } }
                                 size="small"
                                 type="submit"
                             >
@@ -86,9 +87,9 @@ const DraftEventForm: React.FC<DraftEventProps> = ({ options }) => {
                             </IconButton>
                         </Grid>
                     </Grid>
+                </form>
 
 
-                </DraftForm>
             </CardContent>
         </Card>
     );

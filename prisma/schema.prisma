@@ -44,13 +44,39 @@ model Event {
   // createdAt DateTime @default(now()) @map("cAt")
   // updatedAt DateTime @updatedAt @map("uAt")
 
+  isDraft Boolean @default(false)
+
   @@map("events")
+}
+
+model Member {
+  id           Int                 @id @default(autoincrement())
+  name         String
+  drafts       DraftEvent[]
+  instance     DraftEventInstance? @relation(fields: [instanceUuid], references: [uuid])
+  instanceUuid String?
+
+  @@map("members")
+}
+
+model DraftEvent {
+  uuid    String   @id @default(uuid())
+  members Member[]
+
+  @@map("drafts")
+}
+
+model DraftEventInstance {
+  uuid    String   @id @default(uuid())
+  members Member[]
+
+  @@map("instance")
 }
 
 model Master {
   id          Int           @id @default(autoincrement())
-  name        String
-  MasterEvent MasterEvent[]
+  name        Coaches @default(Anton)
+  masterEvent MasterEvent[]
 
   @@map("masters")
 }
@@ -64,6 +90,8 @@ model MasterEvent {
 
   event   Event @relation(fields: [eventId], references: [id])
   eventId Int
+
+  @@map("masterEvents")
 }
 
 model Info {
@@ -71,7 +99,7 @@ model Info {
   rttf_score Int?
 
   playerId Int    @unique
-  Player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
   @@map("infos")
 }
@@ -89,4 +117,9 @@ model Coach {
 
   @@unique([first_name, second_name], map: "name")
   @@map("coaches")
+}
+
+enum Coaches {
+  Alan
+  Anton
 }

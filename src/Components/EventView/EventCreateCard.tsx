@@ -7,7 +7,7 @@ import { name_letters } from "@/Helpers/stringFns"
 import { useGetAllPlayers } from "@/Hooks/useGetEventPlayers"
 import { useToggle } from "@/Hooks/useToggle"
 import { createEvent, deleteEvent, makeNewEvent } from "@/Services/eventService"
-import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Avatar, Button, ButtonGroup, Card, CardActions, CardContent, CardHeader, Checkbox, Chip, ListItem, ListItemButton, Stack, TextField } from "@mui/material"
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Avatar, Box, Button, ButtonGroup, Card, CardActions, CardContent, CardHeader, Checkbox, Chip, FormControl, FormLabel, ListItem, ListItemButton, Stack, TextField } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
 import dayjs, { Dayjs } from "dayjs"
 import { useRouter } from "next/navigation"
@@ -32,8 +32,10 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
         date_formated: _formated_date(dayjs()),
         players: [],
         title: "Тренировка",
+        isDraft: false
+
     }
-    const [ev, setEvent] = useState<{ date_formated: string, players: IPlayer[], title: string }>(initEvent)
+    const [ev, setEvent] = useState<{ date_formated: string, players: IPlayer[], title: string, isDraft: boolean }>(initEvent)
     const r = useRouter()
     // const [isChanging, { on, off }] = useToggle(false)
     const [isChanged, change_control] = useToggle()
@@ -121,6 +123,15 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                                 textField: { size: 'small', helperText: 'изменить дату' }
                             } }
                         />
+
+                        <FormControl>
+                            <Stack direction={ 'row' } alignItems={ 'center' }>
+
+                                <Checkbox name="isDraft" value={ ev.isDraft } onChange={ (e, checked) => setEvent(prev => ({ ...prev, isDraft: checked })) } />
+                                <FormLabel>is Draft</FormLabel>
+                            </Stack>
+
+                        </FormControl>
 
                         <Autocomplete multiple disableCloseOnSelect forcePopupIcon
 

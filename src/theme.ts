@@ -33,6 +33,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
                 text: {
                     primary: COLOR_LIGHT.BLACK,
                     secondary: grey['A400'],
+                    info: '#fff'
                 },
                 background: {
                     default: COLOR_LIGHT.LIGHTBLUE,

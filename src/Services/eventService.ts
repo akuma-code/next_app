@@ -8,6 +8,7 @@ import { db_events } from "@/dataStore/backup_db"
 
 export interface EventCreatePayload {
     event_date: string
+    isDraft: boolean
     ids: { id: number }[]
 
 }
@@ -17,6 +18,7 @@ export interface EventUpdatePayload {
         date_formated?: string
         players: { id: number, name: string }[]
         title?: string | null
+        isDraft?: boolean
     }
 
 }
@@ -27,24 +29,26 @@ function validateDate(date_to_valid: string) {
     return isValid
 }
 
-export async function makeNewEvent(payload: { date_formated: string, players: { id: number, name: string }[], title: string }) {
-    const { date_formated, players, title } = payload;
+export async function makeNewEvent(payload: { date_formated: string, players: { id: number, name: string }[], title: string, isDraft: boolean }) {
+    const { date_formated, players, title, isDraft = false } = payload;
     const existEvent = await prisma.event.findUnique({ where: { date_formated } })
 
     if (existEvent) {
-        return await updateEvent({ id: existEvent.id, _new_data: { players, date_formated, title } })
+        return await updateEvent({ id: existEvent.id, _new_data: { players, date_formated, title, isDraft } })
     }
     try {
 
         const e = await prisma.event.create({
             data: {
-                date_formated, title, players: { connect: players.map(p => ({ id: p.id })) }
+                isDraft, date_formated, title, players: { connect: players.map(p => ({ id: p.id })) }
             },
             select: {
                 id: true,
                 date_formated: true,
                 title: true,
-                players: true
+                players: true,
+                isDraft: true,
+                masterEvent: true
             }
         })
         return e
@@ -106,6 +110,7 @@ export async function createEvent(payload: EventCreatePayload) {
     try {
         const ev = await prisma.event.create({
             data: {
+                isDraft: false,
 
                 date_formated: date,
                 players: {
@@ -117,9 +122,11 @@ export async function createEvent(payload: EventCreatePayload) {
                     select: {
                         id: true,
                         name: true,
+                        MasterEvent: true
                     }
                 },
-                date_formated: true
+                date_formated: true,
+
 
             }
         })
@@ -150,12 +157,13 @@ export async function deleteEvent(id: number) {
 export async function updateEvent(payload: EventUpdatePayload) {
     const { id, _new_data } = payload
 
-    const { title, players, date_formated } = _new_data
+    const { title, players, date_formated, isDraft } = _new_data
     const _new_players = players.map(p => ({ id: p.id, name: p.name }))
     try {
         const ev = await prisma.event.update({
             where: { id },
             data: {
+                isDraft,
                 date_formated,
                 title,
                 players: {
@@ -193,7 +201,7 @@ export async function getEventsUnique(date?: string) {
 }
 
 
-export async function getEventsWithPlayers() {
+async function getEventsWithPlayers() {
     const ev = await prisma.event.findMany({
         where: { players: {} },
 
@@ -216,7 +224,7 @@ export async function getEventsByMonth(month?: string, year?: number) {
         if (!month) {
             // if month omit return all avents with players
             const events = e.findMany({
-                where: { players: {} },
+                where: { AND: { players: {}, isDraft: false } },
                 orderBy: { id: 'asc' },
                 select: {
                     id: true,
@@ -238,7 +246,7 @@ export async function getEventsByMonth(month?: string, year?: number) {
             select: {
                 id: true,
                 date_formated: true,
-                players: { select: { id: true, name: true } },
+                players: { select: { id: true, name: true, MasterEvent: true } },
                 _count: { select: { players: true } }
             },
             orderBy: { date_formated: 'asc' }
@@ -265,7 +273,8 @@ export async function getEventById(eventId: string) {
             where: { id },
             select: {
                 id: true, date_formated: true, title: true,
-                players: true, _count: { select: { players: true } }
+                players: true, _count: { select: { players: true } },
+                isDraft: true
             }
         })
         return event
