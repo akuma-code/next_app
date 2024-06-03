@@ -41,28 +41,67 @@ model Event {
 
   players Player[]
 
-  eventInfo EventInfo?
+  eventInfo EventInfo[]
+  pairs     Pair[]
 
   @@map("events")
+}
+
+model Pair {
+  id             Int @id @default(autoincrement())
+  firstPlayerId  Int
+  secondPlayerId Int
+
+  events Event[]
 }
 
 model EventInfo {
   id Int @id @default(autoincrement())
 
-  eventId       Int          @unique
-  event         Event        @relation(fields: [eventId], references: [id])
-  masterEvent   MasterEvent?
-  masterIventId Int?
+  eventId Int   @unique
+  event   Event @relation(fields: [eventId], references: [id])
+
+  text String?
 
   @@map("eventInfo")
 }
 
+model ReservedTable {
+  id Int @id @default(autoincrement())
+
+  coachId Int
+
+  playerId Int
+
+  eventInfoId Int
+
+  @@map("reserved_tables")
+  @@ignore
+}
+
+model Master {
+  id   Int     @id @default(autoincrement())
+  name String?
+
+  @@map("masters")
+}
+
+model MasterEvent {
+  id      Int      @id @default(autoincrement())
+  players Player[]
+
+  // master Master?
+
+  // eventInfo   EventInfo @relation(fields: [eventInfoId], references: [id])
+  // eventInfoId Int       @unique
+
+  @@map("masterEvents")
+}
+
 model Member {
-  id           Int                 @id @default(autoincrement())
-  name         String
-  drafts       DraftEvent[]
-  instance     DraftEventInstance? @relation(fields: [instanceUuid], references: [uuid])
-  instanceUuid String?
+  id     Int          @id @default(autoincrement())
+  name   String
+  drafts DraftEvent[]
 
   @@map("members")
 }
@@ -75,31 +114,10 @@ model DraftEvent {
 }
 
 model DraftEventInstance {
-  uuid    String   @id @default(uuid())
-  members Member[]
+  uuid String @id @default(uuid())
 
   @@map("instance")
-}
-
-model Master {
-  id          Int           @id @default(autoincrement())
-  name        String?
-  masterEvent MasterEvent[]
-
-  @@map("masters")
-}
-
-model MasterEvent {
-  id      Int      @id @default(autoincrement())
-  players Player[]
-
-  master   Master @relation(fields: [masterId], references: [id])
-  masterId Int
-
-  eventInfo   EventInfo @relation(fields: [eventInfoId], references: [id])
-  eventInfoId Int       @unique
-
-  @@map("masterEvents")
+  @@ignore
 }
 
 model Info {

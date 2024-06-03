@@ -7,7 +7,11 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({ params }
     // event_UpsertInfo({ eventId: 3, playerId: 11, masterId: 1 })
     const { eventId } = params
     const event = await getEventById(eventId)
-    const masters = await getMasters()
+    const masters = [
+        { id: 1, name: "Alan Zaikin" },
+        { id: 2, name: "Anton Kozlov" },
+
+    ]
     if (!event) return <Box>Event error!</Box>
     return (
         <EventView event={ event } masters={ masters } />

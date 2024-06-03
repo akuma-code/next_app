@@ -124,20 +124,21 @@ interface MenuButtonProps {
 }
 const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
 
+    const [masterId, setMaster] = useState<null | number>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [eventInfo, setInfo] = useState<{ master?: { id: number, name?: string } } | null>(null)
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
+
     };
     const handleClose = () => {
         setAnchorEl(null);
+
     };
-    const handleSubmit = async (master: { id: number, name?: string | null }) => {
+    const handleSubmit = (masterId: number) => async () => {
+        _log({ masterId, playerId, eventId })
 
 
-        const info = await addInfo({ eventId, masterId: master.id, players: [{ id: playerId }] })
-        _log({ info })
     }
     return (
         <React.Fragment>
@@ -196,7 +197,7 @@ const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
             >
                 { options && options?.map((o, idx) =>
 
-                    <MenuItem onClick={ () => handleSubmit(o) } key={ idx }>
+                    <MenuItem onClick={ handleSubmit(o.id) } key={ idx }>
                         <Avatar
                             sx={ { width: 32, height: 32 } }
                         /> { o.name }
