@@ -40,6 +40,7 @@ async function seedEvents(seed_events: SeedEvent[]) {
                 date_formated: e.date_formated,
                 title: e.title,
                 id: e.id,
+                isDraft: false,
                 players: {
                     connect: e.players.map(p => ({ id: p.id })),
                 },
@@ -55,6 +56,7 @@ async function seedEvents(seed_events: SeedEvent[]) {
 async function seed_db() {
     const players_seed = await seedPlayers(seed_players)
     const events_seed = await seedEvents(events_to_seed)
+    console.log("Database seeded")
     console.table(players_seed)
     console.table(events_seed)
 }

@@ -37,8 +37,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
     }
     const [ev, setEvent] = useState<{ date_formated: string, players: IPlayer[], title: string, isDraft: boolean }>(initEvent)
     const r = useRouter()
-    // const [isChanging, { on, off }] = useToggle(false)
-    const [isChanged, change_control] = useToggle()
+
     const [ac_value, setAcValue] = useState("")
     const [eventDate, setEventDate] = useState<Dayjs | null>(() => dayjs())
     const [all_players, isLoading] = useGetAllPlayers()
@@ -124,24 +123,32 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                             } }
                         />
 
-                        <FormControl>
+                        <FormControl >
                             <Stack direction={ 'row' } alignItems={ 'center' }>
-
-                                <Checkbox name="isDraft" value={ ev.isDraft } onChange={ (e, checked) => setEvent(prev => ({ ...prev, isDraft: checked })) } />
-                                <FormLabel>is Draft</FormLabel>
+                                <FormLabel >
+                                    <Checkbox
+                                        name="isDraft"
+                                        value={ ev.isDraft }
+                                        onChange={ (e, checked) => setEvent(prev => ({ ...prev, isDraft: checked })) } />
+                                    is Draft
+                                </FormLabel>
                             </Stack>
 
                         </FormControl>
 
-                        <Autocomplete multiple disableCloseOnSelect forcePopupIcon
-
-                            loading={ isLoading }
+                        <Autocomplete
+                            multiple
+                            disableCloseOnSelect
+                            forcePopupIcon
+                            filterSelectedOptions
+                            size="small"
                             autoHighlight
+                            loading={ isLoading }
                             value={ ac_select }
                             onChange={ handleAcValueChange }
                             inputValue={ ac_value }
                             onInputChange={ handleInputChange }
-                            renderInput={ (params) => <TextField { ...params } maxRows={ 2 } helperText={ 'Изменить состав' } /> }
+                            renderInput={ (params) => <TextField { ...params } helperText={ 'Изменить состав' } /> }
                             options={ ac_options }
                             getOptionLabel={ (option) => option.name }
                             isOptionEqualToValue={ (option, value) => option.id === value.id }
@@ -158,8 +165,6 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
 
                                     >
                                         <ListItemButton>
-
-
                                             { option.name }
                                         </ListItemButton>
                                     </ListItem>)
@@ -173,7 +178,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
 
                                     const label = name_letters(p.name)
                                     return (
-                                        <Chip variant="filled" label={ p.name } { ...rest } key={ p.name } />
+                                        <Chip variant="filled" label={ label } { ...rest } key={ p.name } />
                                     )
                                 })
                             }

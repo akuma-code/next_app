@@ -1,4 +1,5 @@
 import { Box, List, ListItem, ListItemButton, Paper, Stack } from "@mui/material";
+import { Metadata } from "next";
 import Link from "next/link";
 
 interface ContainerLayoutProps {
@@ -10,17 +11,19 @@ const links = [
         href: "/admin/players",
         label: "Игроки",
     },
-    {
-        href: "/admin/coaches",
-        label: "Тренера",
-    },
+
     {
         href: "/admin/backup",
         label: "Backup",
     },
 
 ]
+export const metadata: Metadata = {
+    title: "Админка",
+    description: "Панель администратора",
+    icons: "icon.ico"
 
+};
 
 const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
     return (

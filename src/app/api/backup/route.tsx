@@ -18,9 +18,9 @@ export type BackupResponse = NextResponse<{
 export async function GET(request: Request, context?: { params: { data: string } }) {
     try {
         const p = prisma.player.findMany({ include: { info: true } })
-        const e = prisma.event.findMany({ include: { players: true } })
+        const e = prisma.event.findMany({ include: { players: true, eventInfo: true } })
         const tsx = await prisma.$transaction([p, e])
-        const json = JSON.stringify(tsx)
+
         return NextResponse.json(tsx)
     } catch (error) {
         _log("____Get Backup error \n", error)

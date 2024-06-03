@@ -12,6 +12,17 @@ export interface EventCreatePayload {
     ids: { id: number }[]
 
 }
+
+export interface DTO_NewEvent {
+    id?: number
+    date_formated: string,
+    title: string,
+    isDraft: boolean
+    players: {
+        id: number,
+        name: string
+    }[],
+}
 export interface EventUpdatePayload {
     id: number
     _new_data: {
@@ -29,13 +40,8 @@ function validateDate(date_to_valid: string) {
     return isValid
 }
 
-export async function makeNewEvent(payload: { date_formated: string, players: { id: number, name: string }[], title: string, isDraft: boolean }) {
+export async function eventCreate(payload: DTO_NewEvent) {
     const { date_formated, players, title, isDraft = false } = payload;
-    const existEvent = await prisma.event.findUnique({ where: { date_formated } })
-
-    if (existEvent) {
-        return await updateEvent({ id: existEvent.id, _new_data: { players, date_formated, title, isDraft } })
-    }
     try {
 
         const e = await prisma.event.create({
@@ -48,16 +54,29 @@ export async function makeNewEvent(payload: { date_formated: string, players: { 
                 title: true,
                 players: true,
                 isDraft: true,
-                masterEvent: true
+                eventInfo: true
             }
         })
         return e
     } catch (error) {
         console.log(" \n", error)
-        throw new Error("___Update event error:")
+        throw new Error("Create event error:")
     } finally {
         revalidatePath('/')
     }
+}
+
+export async function makeNewEvent(payload: DTO_NewEvent) {
+    const { date_formated, players, title, isDraft = false } = payload;
+    const existEvent = await prisma.event.findUnique({ where: { date_formated } })
+
+    if (existEvent) {
+        return await updateEvent({ id: existEvent.id, _new_data: { players, date_formated, title, isDraft } })
+    }
+
+    const e = await eventCreate(payload)
+    return e
+
 }
 
 export async function seedEvents(mock?: typeof db_events) {

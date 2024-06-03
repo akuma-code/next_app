@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { IEvent_Front, avatarColor } from "@/ClientComponents/EventsList"
 import { _dbDateParser } from "@/Helpers/dateFuncs"
@@ -11,18 +11,26 @@ import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import Link from 'next/link'
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import { Event, Player } from '@prisma/client'
+import { addInfo, event_UpsertInfo } from '@/Services/eventActions'
+import { _log } from '@/Helpers/helpersFns'
+
 interface Eventinfo {
     boxProps?: BoxProps
     event: IEvent_Front
-    readonly?: boolean
+    masters?: { id: number, name?: string | null }[]
+
 }
-export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = false }) => {
+
+export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => {
     const router = useRouter()
     const pathname = usePathname()
     const { players, date_formated, title, _count, id } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
 
-    async function handleAddCoach(eId: number, pId: number, cId: number) {
+    const menuOptions = useMemo(() => masters ?? [{ id: 1, name: "Алан" }, { id: 2, name: "Антон" }], [])
+    async function handleAddCoach(event: Event, trener: string, player: Player) {
+
         // const connect = await connectCoachToPlayer(pId, cId, eId)
         // _log(connect)
         // return connect
@@ -96,7 +104,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = fal
                             />
 
 
-                            <MenuButton options={ ['Алан Заикин', "Антон Козлов"] } />
+                            <MenuButton options={ menuOptions } eventId={ id } playerId={ p.id } />
                         </ListItem>
                     ))
                 }
@@ -108,12 +116,16 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, readonly = fal
 
 
 interface MenuButtonProps {
-    options: React.ReactNode[]
+    options: { id: number, name?: string | null }[]
+    playerId: number
+    eventId: number
+
 
 }
-const MenuButton = ({ options }: MenuButtonProps) => {
+const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [eventInfo, setInfo] = useState<{ master?: { id: number, name?: string } } | null>(null)
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -121,7 +133,12 @@ const MenuButton = ({ options }: MenuButtonProps) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleSubmit = async (master: { id: number, name?: string | null }) => {
 
+
+        const info = await addInfo({ eventId, masterId: master.id, players: [{ id: playerId }] })
+        _log({ info })
+    }
     return (
         <React.Fragment>
             <Tooltip title="Занятия с тренером">
@@ -177,12 +194,12 @@ const MenuButton = ({ options }: MenuButtonProps) => {
                 transformOrigin={ { horizontal: 'right', vertical: 'top' } }
                 anchorOrigin={ { horizontal: 'right', vertical: 'bottom' } }
             >
-                { options.map((o, idx) =>
+                { options && options?.map((o, idx) =>
 
-                    <MenuItem onClick={ handleClose } key={ idx }>
+                    <MenuItem onClick={ () => handleSubmit(o) } key={ idx }>
                         <Avatar
                             sx={ { width: 32, height: 32 } }
-                        /> { o }
+                        /> { o.name }
                     </MenuItem>
                 ) }
 

@@ -2,6 +2,7 @@ import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { _formated_date } from "@/Helpers/dateFuncs";
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
+import { Metadata } from "next";
 
 const today = _formated_date(dayjs())
 const links = [
@@ -32,7 +33,12 @@ const links = [
 
 ]
 
+export const metadata: Metadata = {
+    title: "Тренировки",
+    description: "Расписание тренировок",
+    icons: "icon1.ico"
 
+};
 const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ children }) => {
 
     return (
@@ -42,7 +48,7 @@ const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ childr
         >
             <Box maxWidth={ 300 } px={ 1 } display={ 'flex' } flexDirection={ { xs: 'row', sm: 'column' } }
                 sx={ {
-                    [`& :hover.MuiTypography-root`]: { textUnderlineOffset: 2 }
+                    [`& :hover.MuiTypography-root`]: { textUnderlineOffset: 2, textDecoration: 'underline' }
                 } }
             >
                 {

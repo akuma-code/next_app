@@ -37,16 +37,24 @@ model Event {
 
   date_formated String  @unique @map("date")
   title         String? @default("Тренировка")
+  isDraft       Boolean @default(false)
 
-  players     Player[]
-  masterEvent MasterEvent[]
+  players Player[]
 
-  // createdAt DateTime @default(now()) @map("cAt")
-  // updatedAt DateTime @updatedAt @map("uAt")
-
-  isDraft Boolean @default(false)
+  eventInfo EventInfo?
 
   @@map("events")
+}
+
+model EventInfo {
+  id Int @id @default(autoincrement())
+
+  eventId       Int          @unique
+  event         Event        @relation(fields: [eventId], references: [id])
+  masterEvent   MasterEvent?
+  masterIventId Int?
+
+  @@map("eventInfo")
 }
 
 model Member {
@@ -75,7 +83,7 @@ model DraftEventInstance {
 
 model Master {
   id          Int           @id @default(autoincrement())
-  name        Coaches @default(Anton)
+  name        String?
   masterEvent MasterEvent[]
 
   @@map("masters")
@@ -88,8 +96,8 @@ model MasterEvent {
   master   Master @relation(fields: [masterId], references: [id])
   masterId Int
 
-  event   Event @relation(fields: [eventId], references: [id])
-  eventId Int
+  eventInfo   EventInfo @relation(fields: [eventInfoId], references: [id])
+  eventInfoId Int       @unique
 
   @@map("masterEvents")
 }
@@ -104,22 +112,22 @@ model Info {
   @@map("infos")
 }
 
-model Coach {
-  id          Int     @id @default(autoincrement())
-  first_name  String
-  second_name String?
+// model Coach {
+//   id          Int     @id @default(autoincrement())
+//   first_name  String
+//   second_name String?
 
-  // events  Event[]
-  // players Player[]
+//   // events  Event[]
+//   // players Player[]
 
-  createdAt DateTime @default(now()) @map("cAt")
-  updatedAt DateTime @updatedAt @map("uAt")
+//   createdAt DateTime @default(now()) @map("cAt")
+//   updatedAt DateTime @updatedAt @map("uAt")
 
-  @@unique([first_name, second_name], map: "name")
-  @@map("coaches")
-}
+//   @@unique([first_name, second_name], map: "name")
+//   @@map("coaches")
+// }
 
-enum Coaches {
-  Alan
-  Anton
-}
+// enum Coaches {
+//   Alan
+//   Anton
+// }
