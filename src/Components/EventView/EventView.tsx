@@ -185,8 +185,10 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
             if (!pairId) {
                 const pair = await addPair({
                     eventId, playerId, masterId: selected.id
-                })
-                return setPairId(pair.id)
+                }).then(
+                    (r) =>
+                        setPairId(r.id)
+                )
             } else {
                 await updatePair(pairId, { masterId: selected.id })
             }
@@ -194,7 +196,7 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
 
 
         }
-
+        setAnchorEl(null)
 
     }
     const handleClose = () => {
@@ -223,8 +225,8 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
                 anchorEl={ anchorEl }
                 id="account-menu"
                 open={ open }
-                onClose={ handleClose }
-                onClick={ handleClose }
+                onClose={ handleUpdatePair }
+                onClick={ handleUpdatePair }
                 slotProps={ {
                     paper: {
                         elevation: 1,
@@ -250,6 +252,7 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
                                 transform: 'translateY(-50%) rotate(45deg)',
                                 zIndex: 0,
                             },
+                            // '& .MuiMenuItem-root': { bgcolor: 'red' }
                         }
                     },
                 } }
@@ -258,10 +261,12 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
             >
                 { options && options?.map((m, idx) =>
 
-                    <MenuItem onClick={ () => handleMasterChange(m) } key={ idx }>
-                        <Avatar
-                            sx={ { width: 32, height: 32 } }
-                        /> { m.name }
+                    <MenuItem onClick={ () => handleMasterChange(m) } key={ idx } selected={ selected?.id === m.id }>
+                        { selected && m.id === selected.id &&
+                            <Avatar
+                            // sx={ { width: 32, height: 32 } }
+                            /> }
+                        { m.name }
                     </MenuItem>
                 ) }
 
