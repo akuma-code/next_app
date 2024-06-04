@@ -52,7 +52,7 @@ export const ColorModeContext = React.createContext({ toggleColorMode: () => { }
 
 export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    console.log('prefersDarkMode: ', prefersDarkMode)
+    // console.log('prefersDarkMode: ', prefersDarkMode)
     const savedmode: PaletteMode = prefersDarkMode ? 'dark' : 'light'
 
     const [mode, setMode] = React.useState<PaletteMode>(savedmode);

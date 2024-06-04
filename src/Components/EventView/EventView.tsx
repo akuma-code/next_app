@@ -12,7 +12,7 @@ import { useState } from "react"
 import Link from 'next/link'
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import { Event, Player } from '@prisma/client'
-import { addPair, event_UpsertInfo, removePair } from '@/Services/eventActions'
+import { addPair, event_UpsertInfo, removePair, updatePair } from '@/Services/eventActions'
 import { _log } from '@/Helpers/helpersFns'
 
 interface Pair {
@@ -25,7 +25,7 @@ interface Pair {
 interface Eventinfo {
     boxProps?: BoxProps
     event: IEvent_Front & { pairs: Pair[] }
-    masters?: { id: number, name: string | null }[]
+    masters?: { id: number, name: string }[]
 
 }
 
@@ -141,7 +141,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                             />
 
 
-                            <MenuButton options={ menuOptions } eventId={ id } playerId={ p.id } />
+                            <MenuButton masters={ menuOptions } eventId={ id } playerId={ p.id } />
                         </ListItem>
                     ))
                 }
@@ -153,35 +153,54 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
 
 
 interface MenuButtonProps {
-    options: { id: number, name: string | null }[]
+    masters: { id: number, name: string }[]
     playerId: number
     eventId: number
 
 
 }
-const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
+const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) => {
 
-    const [mId, setMaster] = useState<null | number>(null);
+    const [selected, setMaster] = useState<null | { id: number, name: string }>(null);
+    const [pairId, setPairId] = useState<null | number>(null)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
 
     };
-    const handleClose = () => {
-        setAnchorEl(null);
 
-    };
-    const handleSubmit = (masterId: number) => async () => {
-        if (!mId) setMaster(masterId)
-        else { setMaster(null) }
-        mId === masterId
-            ? await removePair({ eventId, mId: masterId, pId: playerId })
-            : await addPair({ eventId, masterId, playerId })
-        _log({ masterId: mId, playerId, eventId })
+
+    const updateMaster = (master: { id: number, name: string }) => {
+        if (!selected) return setMaster(master)
+        if (master.id === selected.id) setMaster(null)
+        else setMaster(prev => master)
+    }
+
+    const handleMasterChange = (master: { id: number, name: string }) => {
+        updateMaster(master)
+    }
+    const handleUpdatePair = async () => {
+        if (selected) {
+            if (!pairId) {
+                const pair = await addPair({
+                    eventId, playerId, masterId: selected.id
+                })
+                return setPairId(pair.id)
+            } else {
+                await updatePair(pairId, { masterId: selected.id })
+            }
+
+
+
+        }
 
 
     }
+    const handleClose = () => {
+        setAnchorEl(null);
+        // handleUpdatePair()
+    };
     return (
         <React.Fragment>
             <Tooltip title="Занятия с тренером">
@@ -237,12 +256,12 @@ const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
                 transformOrigin={ { horizontal: 'right', vertical: 'top' } }
                 anchorOrigin={ { horizontal: 'right', vertical: 'bottom' } }
             >
-                { options && options?.map((o, idx) =>
+                { options && options?.map((m, idx) =>
 
-                    <MenuItem onClick={ handleSubmit(o.id) } key={ idx }>
+                    <MenuItem onClick={ () => handleMasterChange(m) } key={ idx }>
                         <Avatar
                             sx={ { width: 32, height: 32 } }
-                        /> { o.name }
+                        /> { m.name }
                     </MenuItem>
                 ) }
 

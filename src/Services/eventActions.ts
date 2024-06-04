@@ -45,29 +45,40 @@ export async function addPair(payload: {
             // event: { connect: { id: eventId } }
 
         },
+        select: { id: true }
 
-    })
+    }).finally((() => revalidatePath('/')))
 
     console.log('tsx_pair: ', tsx_pair)
     // console.log('tsx_eventConnect: ', tsx_eventConnect)
-    revalidatePath('/')
+
     return tsx_pair
 }
 
-export async function removePair(payload: { mId: number, pId: number, eventId: number }) {
-    const { mId, pId, eventId } = payload;
+export async function removePair(pairId: number) {
 
     const pair = await prisma.pair.delete({
         where: {
-
-            eventId, game: { firstPlayerId: mId, secondPlayerId: pId }
-
+            id: pairId
         }
     }).finally(() => revalidatePath('/'))
 
     return pair
 }
+export async function updatePair(pairId: number, payload: { masterId: number, }) {
+    const { masterId: firstPlayerId, } = payload
+    const pair = await prisma.pair.update({
+        where: {
+            id: pairId
 
+        },
+        data: {
+            firstPlayerId
+        }
+    }).finally(() => revalidatePath('/'))
+
+    return pair
+}
 
 export async function getMasters() {
     return await prisma.master.findMany()
