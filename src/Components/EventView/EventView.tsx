@@ -12,12 +12,19 @@ import { useState } from "react"
 import Link from 'next/link'
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import { Event, Player } from '@prisma/client'
-import { addInfo, event_UpsertInfo } from '@/Services/eventActions'
+import { addPair, event_UpsertInfo, removePair } from '@/Services/eventActions'
 import { _log } from '@/Helpers/helpersFns'
+
+interface Pair {
+
+    eventId: number
+    firstPlayerId: number
+    secondPlayerId: number
+}
 
 interface Eventinfo {
     boxProps?: BoxProps
-    event: IEvent_Front
+    event: IEvent_Front & { pairs: Pair[] }
     masters?: { id: number, name?: string | null }[]
 
 }
@@ -25,16 +32,42 @@ interface Eventinfo {
 export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => {
     const router = useRouter()
     const pathname = usePathname()
-    const { players, date_formated, title, _count, id } = event
+    const { players, date_formated, title, _count, id, pairs } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
 
     const menuOptions = useMemo(() => masters ?? [{ id: 1, name: "Алан" }, { id: 2, name: "Антон" }], [])
-    async function handleAddCoach(event: Event, trener: string, player: Player) {
+    const PAIR = pairs.map(pair => ({
+        master: players.find(p => p.id === pair.firstPlayerId),
+        student: players.find(p => p.id === pair.secondPlayerId),
+    }))
+    const hasPair = (id: number) => pairs.find(pp => pp.secondPlayerId === id)?.firstPlayerId || 0
+    const getMaster = (pId: number) => {
+        // if (pairs.some(pair => pair.secondPlayerId === pId)) return "no pair"
 
+        const mId = pairs.find(pp => pp.secondPlayerId === pId)
+        if (mId) return players.find(p => p.id === mId.firstPlayerId)?.name ?? ""
+
+
+        return "NO Result"
+    }
+    async function handleAddCoach(event: Event, trener: string, player: Player) {
+        const pp = (id: number) => players.find(p => p.id === id)
         // const connect = await connectCoachToPlayer(pId, cId, eId)
         // _log(connect)
         // return connect
     }
+    const player_pairs = useMemo(() => {
+        const master = (id: number) => masters?.find(m => m.id === id)?.name
+
+        const withPair = players.map(p => {
+            const pair = pairs.find(pp => pp.secondPlayerId === p.id)
+            return pair
+                ? ({ ...p, pair: master(pair.firstPlayerId) })
+                : ({ ...p, pair: null })
+        })
+        return withPair
+    }, [pairs, players])
+    const pairText = (name?: string | null) => name ? `тренер: ${name}` : null
     return (
         <Box
             { ...boxProps }
@@ -89,7 +122,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
             </Divider>
             <List>
                 {
-                    players.map((p, index) => (
+                    player_pairs.map((p, index) => (
                         <ListItem key={ index } sx={ { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' } } dense divider>
                             <ListItemAvatar >
                                 <Avatar
@@ -101,6 +134,10 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                             </ListItemAvatar>
                             <ListItemText primary={ p.name }
                                 primaryTypographyProps={ { textAlign: 'left' } }
+                                secondary={ pairText(p.pair) }
+                                secondaryTypographyProps={ {
+                                    fontWeight: 'bold', marginInlineStart: 0, color: 'primary'
+                                } }
                             />
 
 
@@ -124,7 +161,7 @@ interface MenuButtonProps {
 }
 const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
 
-    const [masterId, setMaster] = useState<null | number>(null);
+    const [mId, setMaster] = useState<null | number>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -136,7 +173,11 @@ const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
 
     };
     const handleSubmit = (masterId: number) => async () => {
-        _log({ masterId, playerId, eventId })
+        if (!mId) setMaster(masterId)
+        else { setMaster(null) }
+        mId ? await addPair({ eventId, masterId: mId, playerId })
+            : await removePair({ eventId, mId: masterId, pId: playerId })
+        _log({ masterId: mId, playerId, eventId })
 
 
     }

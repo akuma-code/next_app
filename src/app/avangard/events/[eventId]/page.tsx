@@ -8,8 +8,8 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({ params }
     const { eventId } = params
     const event = await getEventById(eventId)
     const masters = [
-        { id: 1, name: "Alan Zaikin" },
-        { id: 2, name: "Anton Kozlov" },
+        { id: 1, name: "Алан Заикин" },
+        { id: 2, name: "Антон Козлов" },
 
     ]
     if (!event) return <Box>Event error!</Box>

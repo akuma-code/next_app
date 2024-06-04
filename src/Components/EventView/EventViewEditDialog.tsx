@@ -6,7 +6,7 @@ import { _log } from "@/Helpers/helpersFns"
 import { name_letters } from "@/Helpers/stringFns"
 import { useGetAllPlayers } from "@/Hooks/useGetEventPlayers"
 import { useToggle } from "@/Hooks/useToggle"
-import { updateEvent } from "@/Services/eventService"
+import { updateEventPlayers } from "@/Services/eventService"
 import { SettingsTwoTone } from "@mui/icons-material"
 import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Box, Button, ButtonTypeMap, Checkbox, Chip, Dialog, DialogContent, DialogTitle, ExtendButtonBase, IconButton, IconButtonTypeMap, Stack, TextField } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
@@ -57,7 +57,7 @@ export const EventViewEditDialog: React.FC<EditEventDialogProps> = ({ event, but
         }
 
         _log({ event_data })
-        await updateEvent({ id: event_data.id, _new_data: event_data })
+        await updateEventPlayers({ id: event_data.id, _new_data: event_data })
         control.off()
     }
     return (

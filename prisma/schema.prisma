@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
@@ -11,141 +5,96 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  // directUrl = env("POSTGRES_PRISMA_URL_LOCAL") // uses a direct connection
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model Player {
-  id Int @id @default(autoincrement())
-
-  name String
-
-  info Info?
-
-  events Event[]
-
-  MasterEvent MasterEvent[]
-
+  id        Int      @id @default(autoincrement())
+  name      String
   createdAt DateTime @default(now()) @map("cAt")
   updatedAt DateTime @updatedAt @map("uAt")
+  info      Info?
+  events    Event[]  @relation("EventToPlayer")
 
   @@map("players")
 }
 
 model Event {
-  id Int @id @default(autoincrement())
-
-  date_formated String  @unique @map("date")
-  title         String? @default("Тренировка")
-  isDraft       Boolean @default(false)
-
-  players Player[]
-
-  eventInfo EventInfo[]
-  pairs     Pair[]
+  id            Int        @id @default(autoincrement())
+  date_formated String     @unique @map("date")
+  title         String?    @default("Тренировка")
+  isDraft       Boolean?   @default(false)
+  eventInfo     EventInfo?
+  pairs         Pair[]
+  players       Player[]   @relation("EventToPlayer")
 
   @@map("events")
 }
 
 model Pair {
-  id             Int @id @default(autoincrement())
+  id             Int   @id @default(autoincrement())
   firstPlayerId  Int
   secondPlayerId Int
+  eventId        Int
+  event          Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
-  events Event[]
+  @@unique([firstPlayerId, secondPlayerId], name: "game")
+  @@map("pairs")
 }
 
 model EventInfo {
-  id Int @id @default(autoincrement())
-
-  eventId Int   @unique
-  event   Event @relation(fields: [eventId], references: [id])
-
-  text String?
+  id      Int     @id @default(autoincrement())
+  eventId Int     @unique
+  text    String?
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@map("eventInfo")
-}
-
-model ReservedTable {
-  id Int @id @default(autoincrement())
-
-  coachId Int
-
-  playerId Int
-
-  eventInfoId Int
-
-  @@map("reserved_tables")
-  @@ignore
-}
-
-model Master {
-  id   Int     @id @default(autoincrement())
-  name String?
-
-  @@map("masters")
-}
-
-model MasterEvent {
-  id      Int      @id @default(autoincrement())
-  players Player[]
-
-  // master Master?
-
-  // eventInfo   EventInfo @relation(fields: [eventInfoId], references: [id])
-  // eventInfoId Int       @unique
-
-  @@map("masterEvents")
 }
 
 model Member {
   id     Int          @id @default(autoincrement())
   name   String
-  drafts DraftEvent[]
+  drafts DraftEvent[] @relation("DraftEventToMember")
 
   @@map("members")
 }
 
 model DraftEvent {
   uuid    String   @id @default(uuid())
-  members Member[]
+  members Member[] @relation("DraftEventToMember")
 
   @@map("drafts")
-}
-
-model DraftEventInstance {
-  uuid String @id @default(uuid())
-
-  @@map("instance")
-  @@ignore
 }
 
 model Info {
   uuid       String @id @default(uuid())
   rttf_score Int?
-
-  playerId Int    @unique
-  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId   Int    @unique
+  player     Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
   @@map("infos")
 }
 
-// model Coach {
-//   id          Int     @id @default(autoincrement())
-//   first_name  String
-//   second_name String?
+model Master {
+  id   Int    @id @default(autoincrement())
+  name String
 
-//   // events  Event[]
-//   // players Player[]
+  @@map("masters")
+}
 
-//   createdAt DateTime @default(now()) @map("cAt")
-//   updatedAt DateTime @updatedAt @map("uAt")
+model MasterEvent {
+  id Int @id @default(autoincrement())
 
-//   @@unique([first_name, second_name], map: "name")
-//   @@map("coaches")
-// }
+  @@map("masterEvents")
+  @@ignore
+}
 
-// enum Coaches {
-//   Alan
-//   Anton
-// }
+model ReservedTable {
+  id          Int @id @default(autoincrement())
+  coachId     Int
+  playerId    Int
+  eventInfoId Int
+
+  @@map("reserved_tables")
+  @@ignore
+}

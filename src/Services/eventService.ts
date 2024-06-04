@@ -54,7 +54,8 @@ export async function eventCreate(payload: DTO_NewEvent) {
                 title: true,
                 players: true,
                 isDraft: true,
-                eventInfo: true
+                eventInfo: true,
+                pairs: true
             }
         })
         return e
@@ -71,7 +72,7 @@ export async function makeNewEvent(payload: DTO_NewEvent) {
     const existEvent = await prisma.event.findUnique({ where: { date_formated } })
 
     if (existEvent) {
-        return await updateEvent({ id: existEvent.id, _new_data: { players, date_formated, title, isDraft } })
+        return await updateEventPlayers({ id: existEvent.id, _new_data: { players, date_formated, title, isDraft } })
     }
 
     const e = await eventCreate(payload)
@@ -141,7 +142,7 @@ export async function createEvent(payload: EventCreatePayload) {
                     select: {
                         id: true,
                         name: true,
-                        MasterEvent: true
+
                     }
                 },
                 date_formated: true,
@@ -173,7 +174,7 @@ export async function deleteEvent(id: number) {
         revalidatePath('/')
     }
 }
-export async function updateEvent(payload: EventUpdatePayload) {
+export async function updateEventPlayers(payload: EventUpdatePayload) {
     const { id, _new_data } = payload
 
     const { title, players, date_formated, isDraft } = _new_data
@@ -265,7 +266,7 @@ export async function getEventsByMonth(month?: string, year?: number) {
             select: {
                 id: true,
                 date_formated: true,
-                players: { select: { id: true, name: true, MasterEvent: true } },
+                players: { select: { id: true, name: true } },
                 _count: { select: { players: true } }
             },
             orderBy: { date_formated: 'asc' }
@@ -293,7 +294,7 @@ export async function getEventById(eventId: string) {
             select: {
                 id: true, date_formated: true, title: true,
                 players: true, _count: { select: { players: true } },
-                isDraft: true
+                isDraft: true, pairs: true
             }
         })
         return event

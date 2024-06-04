@@ -7,7 +7,7 @@ import { name_letters } from "@/Helpers/stringFns"
 import { useEventControl } from "@/Hooks/useEvents"
 import { useGetAllPlayers } from "@/Hooks/useGetEventPlayers"
 import { useToggle } from "@/Hooks/useToggle"
-import { deleteEvent, updateEvent } from "@/Services/eventService"
+import { deleteEvent, updateEventPlayers } from "@/Services/eventService"
 import { SettingsTwoTone } from "@mui/icons-material"
 import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Avatar, Box, Button, ButtonGroup, ButtonTypeMap, Card, CardActionArea, CardActions, CardContent, CardHeader, Checkbox, Chip, Dialog, DialogContent, DialogTitle, ExtendButtonBase, IconButton, IconButtonTypeMap, ListItem, ListItemButton, Stack, TextField } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
@@ -64,7 +64,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({ event, buttonV
         }
 
         _log({ event_data })
-        await updateEvent({ id: event_data.id, _new_data: event_data }).finally(() => off())
+        await updateEventPlayers({ id: event_data.id, _new_data: event_data }).finally(() => off())
         r.push('/avangard/events/' + id)
 
     }
