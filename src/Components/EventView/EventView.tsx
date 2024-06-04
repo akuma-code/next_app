@@ -25,7 +25,7 @@ interface Pair {
 interface Eventinfo {
     boxProps?: BoxProps
     event: IEvent_Front & { pairs: Pair[] }
-    masters?: { id: number, name?: string | null }[]
+    masters?: { id: number, name: string | null }[]
 
 }
 
@@ -153,7 +153,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
 
 
 interface MenuButtonProps {
-    options: { id: number, name?: string | null }[]
+    options: { id: number, name: string | null }[]
     playerId: number
     eventId: number
 
@@ -175,8 +175,9 @@ const MenuButton = ({ options, eventId, playerId, }: MenuButtonProps) => {
     const handleSubmit = (masterId: number) => async () => {
         if (!mId) setMaster(masterId)
         else { setMaster(null) }
-        mId ? await addPair({ eventId, masterId: mId, playerId })
-            : await removePair({ eventId, mId: masterId, pId: playerId })
+        mId === masterId
+            ? await removePair({ eventId, mId: masterId, pId: playerId })
+            : await addPair({ eventId, masterId, playerId })
         _log({ masterId: mId, playerId, eventId })
 
 

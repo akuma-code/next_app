@@ -21,6 +21,7 @@ interface EventControlProps {
         date_formated: string;
         players: IPlayer[];
         title?: string | null | undefined;
+        isDraft?: boolean
         _count?: { players: number }
     } | null
     allPlayers: IPlayer[]
@@ -34,7 +35,8 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
     const initEventState = {
         players: [],
         date_formated: edate,
-        title: "Тренировка"
+        title: "Тренировка",
+        isDraft: false
     }
     const router = useRouter()
     const pathname = usePathname()
@@ -53,7 +55,7 @@ const EventControl: React.FunctionComponent<EventControlProps> = ({ allPlayers, 
             const data = { event_date: edate, ids }
             try {
 
-                const new_event = await createEvent({ ...data })
+                const new_event = await createEvent({ ...data, isDraft: false })
                 _log(new_event)
                 setBlankEvent(null)
                 return new_event

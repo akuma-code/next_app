@@ -32,13 +32,12 @@ export function useDraftEvent({ players }: { players: Member[] }) {
         return candidate
     }
     async function createEventDraft(members: Member[]) {
-        const inst = await createInstance({ members })
-        return inst
+
     }
     const add = (name: string) => setDraft(prev => ({ ...prev, members: [...prev.members, createMember(name)] }))
     const remove = (id: number) => setDraft(prev => ({ ...prev, members: prev.members.filter(m => m.id !== id) }))
     const clear = () => setDraft(prev => ({ ...prev, members: [] }))
-    const dispatch = { add, remove, clear, createEventDraft }
+    const dispatch = { add, remove, clear }
     return { state: draft, options, dispatch }
 
 }

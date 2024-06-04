@@ -2,13 +2,12 @@
 
 import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 import { useDraftEvent } from "@/Hooks/DEvent/useDraftEventState";
-import { CloseTwoTone, InsertCommentTwoTone, CheckCircleTwoTone } from "@mui/icons-material";
-import { Autocomplete, Box, Button, ButtonGroup, Card, CardActions, CardContent, CardHeader, Chip, FilledInput, Grid, IconButton, ListItemButton, OutlinedInput, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
+import { CheckCircleTwoTone } from "@mui/icons-material";
+import { Button, ButtonGroup, Card, CardActions, CardContent, CardHeader, Grid, IconButton, TextField } from "@mui/material";
 import { Player } from "@prisma/client";
 import dayjs from "dayjs";
-import { useMemo, useState } from "react";
-import { createForm } from 'react-any-shape-form'
+import { useState } from "react";
+import { createForm } from 'react-any-shape-form';
 
 type Member = Pick<Player, 'id' | 'name'>
 interface DraftEventProps {
@@ -41,8 +40,8 @@ const DraftEventForm: React.FC<DraftEventProps> = ({ options }) => {
     return (
         <Card elevation={ 4 }>
             <CardHeader title='Запись на тренировку' subheader={ title_date } />
-            <CardActions>
-                <Button onClick={ async () => await dispatch.createEventDraft(state.members) }>Create</Button> </CardActions>
+            {/* <CardActions> */ }
+            {/* <Button onClick={ async () => await dispatch.createEventDraft(state.members) }>Create</Button> </CardActions> */ }
             <CardContent>
 
                 <form id="ed_form" name="draft_form" action={ onFinish }>

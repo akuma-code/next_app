@@ -54,8 +54,7 @@ export const PlayersEventTranfer: React.FC<PlayersTransferProps> = ({ dbPlayers,
 
 
         // console.log('data: ', payload)
-        const new_event = createEvent.bind(null, payload)
-        await new_event()
+
         // setNames([])
 
     }
