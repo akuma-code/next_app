@@ -4,68 +4,88 @@ import React, { useMemo } from 'react'
 import { IEvent_Front, avatarColor } from "@/ClientComponents/EventsList"
 import { _dbDateParser } from "@/Helpers/dateFuncs"
 import { name_letters } from "@/Helpers/stringFns"
+import { addPair, removePair, updatePair } from '@/Services/eventActions'
 import { FastRewindTwoTone, SettingsTwoTone } from "@mui/icons-material"
-import AddIcon from '@mui/icons-material/Add'
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import { Avatar, Box, BoxProps, Button, ButtonGroup, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
+import { Event, Player } from '@prisma/client'
+import Link from 'next/link'
 import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
-import Link from 'next/link'
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import { Event, Player } from '@prisma/client'
-import { addPair, event_UpsertInfo, removePair, updatePair } from '@/Services/eventActions'
-import { _log } from '@/Helpers/helpersFns'
 
 interface Pair {
-
+    id: number
     eventId: number
     firstPlayerId: number
     secondPlayerId: number
 }
-
+type TEvent = IEvent_Front & { pairs: Pair[] }
 interface Eventinfo {
     boxProps?: BoxProps
-    event: IEvent_Front & { pairs: Pair[] }
-    masters?: { id: number, name: string }[]
+    event: TEvent
+    masters: { id: number, name: string }[]
 
 }
 
+function parseEvent(event: TEvent, masters: { id: number, name: string }[]) {
+    const { pairs, players } = event
+    const withPair = pairs.map(p => {
+        const pl = players.find(pl => pl.id === p.secondPlayerId)
+        const m = masters.find(ma => ma.id === p.firstPlayerId)!
+        return pl ? { ...p, pname: pl.name, master: m?.name } : { ...p, pname: "", master: "" }
+    }
+    )
+    return withPair
+}
 export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => {
     const router = useRouter()
     const pathname = usePathname()
     const { players, date_formated, title, _count, id, pairs } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
+    const pairPlayerIdx = (id: number) => pairs.findIndex(p => p.secondPlayerId === id)
+    const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
+    const handlePairChange = async (master: { id: number, name: string }, playerId: number, pair: Pair | null) => {
+        if (!pair) {
+            return await addPair({ eventId: event.id, playerId, masterId: master.id })
 
-    const menuOptions = useMemo(() => masters ?? [{ id: 1, name: "Алан" }, { id: 2, name: "Антон" }], [])
-    const PAIR = pairs.map(pair => ({
-        master: players.find(p => p.id === pair.firstPlayerId),
-        student: players.find(p => p.id === pair.secondPlayerId),
-    }))
-    const hasPair = (id: number) => pairs.find(pp => pp.secondPlayerId === id)?.firstPlayerId || 0
-    const getMaster = (pId: number) => {
-        // if (pairs.some(pair => pair.secondPlayerId === pId)) return "no pair"
+        } else {
+            return await updatePair(pair.id, { masterId: master.id, playerId })
 
-        const mId = pairs.find(pp => pp.secondPlayerId === pId)
-        if (mId) return players.find(p => p.id === mId.firstPlayerId)?.name ?? ""
-
-
-        return "NO Result"
+        }
     }
-    async function handleAddCoach(event: Event, trener: string, player: Player) {
-        const pp = (id: number) => players.find(p => p.id === id)
-        // const connect = await connectCoachToPlayer(pId, cId, eId)
-        // _log(connect)
-        // return connect
+
+    const player_ = (secondPlayerId: number) => event.players.find(p => p.id === secondPlayerId)
+    const master_ = (firstPlayerId: number) => masters.find(m => m.id === firstPlayerId)
+    const name_pairs = (pairs: Pair[]) => {
+        return pairs.map(pair => ({ id: pair.id, master: master_(pair.firstPlayerId), player: player_(pair.secondPlayerId) }))
     }
+
+    const extendPairs = useMemo(() => name_pairs(event.pairs), [event])
+    const handleDeletePair = async (pair: Pair | null) => {
+        if (!pair) return
+        await removePair(pair.id)
+    }
+    // const menuOptions = useMemo(() => masters ?? [], [])
+    const parsedPlayers = useMemo(() => parseEvent(event, masters), [event, masters])
     const player_pairs = useMemo(() => {
-        const master = (id: number) => masters?.find(m => m.id === id)?.name
 
-        const withPair = players.map(p => {
-            const pair = pairs.find(pp => pp.secondPlayerId === p.id)
-            return pair
-                ? ({ ...p, pair: master(pair.firstPlayerId) })
-                : ({ ...p, pair: null })
+        const _players = players.map(p => {
+            const idx = pairPlayerIdx(p.id)
+            const withpair = idx >= 0 ? { ...p, pair: pairs[idx] } : { ...p, pair: null }
+            return withpair
+
         })
-        return withPair
+        return _players
+
+        // const master = (id: number) => masters?.find(m => m.id === id)?.name
+
+        // const withPair = players.map(p => {
+        //     const pair = pairs.find(pp => pp.secondPlayerId === p.id)
+        //     return pair
+        //         ? ({ ...p, pair: master(pair.firstPlayerId) })
+        //         : ({ ...p, pair: null })
+        // })
+        // return withPair
     }, [pairs, players])
     const pairText = (name?: string | null) => name ? `тренер: ${name}` : null
     return (
@@ -134,14 +154,28 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                             </ListItemAvatar>
                             <ListItemText primary={ p.name }
                                 primaryTypographyProps={ { textAlign: 'left' } }
-                                secondary={ pairText(p.pair) }
+                                secondary={ p.pair && master_(p.pair.firstPlayerId)?.name }
                                 secondaryTypographyProps={ {
                                     fontWeight: 'bold', marginInlineStart: 0, color: 'primary'
                                 } }
                             />
 
 
-                            <MenuButton masters={ menuOptions } eventId={ id } playerId={ p.id } />
+                            <SelectPairButton>
+                                <MenuItem
+                                    sx={ { justifyContent: 'right' } }
+                                    onClick={ () => handleDeletePair(p.pair) } >
+                                    <Avatar sx={ { bgcolor: 'warning.light', } }>X</Avatar>
+                                </MenuItem>
+                                { masters.map(m =>
+
+                                    <MenuItem key={ m.name } onClick={ () => handlePairChange(m, p.id, p.pair) }>
+
+                                        <Avatar />{ m.name }
+
+                                    </MenuItem>
+                                ) }
+                            </SelectPairButton>
                         </ListItem>
                     ))
                 }
@@ -153,61 +187,28 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
 
 
 interface MenuButtonProps {
-    masters: { id: number, name: string }[]
-    playerId: number
-    eventId: number
 
+    children?: React.ReactNode
 
 }
-const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) => {
 
-    const [selected, setMaster] = useState<null | { id: number, name: string }>(null);
-    const [pairId, setPairId] = useState<null | number>(null)
+const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
 
     };
 
-
-    const updateMaster = (master: { id: number, name: string }) => {
-        if (!selected) return setMaster(master)
-        if (master.id === selected.id) setMaster(null)
-        else setMaster(prev => master)
-    }
-
-    const handleMasterChange = (master: { id: number, name: string }) => {
-        updateMaster(master)
-    }
-    const handleUpdatePair = async () => {
-        if (selected) {
-            if (!pairId) {
-                const pair = await addPair({
-                    eventId, playerId, masterId: selected.id
-                }).then(
-                    (r) =>
-                        setPairId(r.id)
-                )
-            } else {
-                await updatePair(pairId, { masterId: selected.id })
-            }
-
-
-
-        }
-        setAnchorEl(null)
-
-    }
     const handleClose = () => {
         setAnchorEl(null);
-        // handleUpdatePair()
     };
+
     return (
         <React.Fragment>
             <Tooltip title="Занятия с тренером">
                 <IconButton
-                    onClick={ handleClick }
+                    onClick={ handleOpen }
                     size="small"
                     sx={ { mx: 1 } }
                     aria-controls={ open ? 'account-menu' : undefined }
@@ -215,8 +216,8 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
                     aria-expanded={ open ? 'true' : undefined }
                     color='primary'
                 >
-                    <Avatar sx={ { bgcolor: (theme) => theme.palette.primary.dark, width: 32, height: 32 } } variant='rounded'>
-                        <SupervisorAccountIcon sx={ { color: 'primary' } } />
+                    <Avatar sx={ { bgcolor: 'primary.dark', width: 32, height: 32 } } variant='rounded'>
+                        <SupervisorAccountIcon sx={ { color: 'primary.light' } } />
                     </Avatar>
                 </IconButton>
             </Tooltip>
@@ -225,8 +226,8 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
                 anchorEl={ anchorEl }
                 id="account-menu"
                 open={ open }
-                onClose={ handleUpdatePair }
-                onClick={ handleUpdatePair }
+                onClose={ handleClose }
+                onClick={ handleClose }
                 slotProps={ {
                     paper: {
                         elevation: 1,
@@ -252,29 +253,28 @@ const MenuButton = ({ masters: options, eventId, playerId, }: MenuButtonProps) =
                                 transform: 'translateY(-50%) rotate(45deg)',
                                 zIndex: 0,
                             },
-                            // '& .MuiMenuItem-root': { bgcolor: 'red' }
+                            '& .Mui-selected': { bgcolor: 'red' }
                         }
                     },
                 } }
                 transformOrigin={ { horizontal: 'right', vertical: 'top' } }
                 anchorOrigin={ { horizontal: 'right', vertical: 'bottom' } }
             >
-                { options && options?.map((m, idx) =>
 
-                    <MenuItem onClick={ () => handleMasterChange(m) } key={ idx } selected={ selected?.id === m.id }>
-                        { selected && m.id === selected.id &&
-                            <Avatar
-                            // sx={ { width: 32, height: 32 } }
-                            /> }
-                        { m.name }
-                    </MenuItem>
-                ) }
-
+                { children }
             </Menu>
 
         </React.Fragment>)
 
 }
+
+SelectPairButton.displayName = "_________Pair Select"
+
+
+const RadioSelector = () => {
+
+}
+
 
 
 EventView.displayName = "______EventIdView"

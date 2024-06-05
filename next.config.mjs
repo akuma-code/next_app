@@ -35,6 +35,7 @@ const nextConfig = {
     reactStrictMode: true,
     // output: 'export',
     distDir: 'output',
+
     async redirects() {
         return [
             {
@@ -43,7 +44,8 @@ const nextConfig = {
                 permanent: true
             }
         ]
-    }
+    },
+    staticPageGenerationTimeout: 60
 
 };
 

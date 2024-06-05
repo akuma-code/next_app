@@ -8,25 +8,37 @@ import dayjs from "dayjs";
 import Link from "next/link";
 
 interface OnePlayerPropsPage {
-    params?: {
+    params: {
         id: string
     },
-    searchParams?: { id: string, action: string }
+    searchParams: { id: string, action: string }
 }
 
+// export const dynamicParams = true
+// export const config = { staticPageGenerationTimeout: 120 }
+// export const staticPageGenerationTimeout = 120
 export async function generateStaticParams() {
-    const players = await allP()
-    return players.map(p => ({ id: `${p.id}` }))
+    try {
+        const players = await allP()
+        const result = players.map(p => ({ ...p, id: `${p.id}` }))
+        return result
+
+    } catch (error) {
+        console.log(error)
+        throw new Error("Generation error")
+    }
 }
 
 const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {
-    const id = params.params?.id ?? params.searchParams?.id
+    const id = params.params.id || null
     if (!id) return <div>Invalid Id</div>
-    const player = await getOnePlayer(+id)
+
+    const player = await getOnePlayer(+id) || null
     if (!player) return <div>No player found, { id }</div>
+
     const { info, name, createdAt } = player;
     const date = dayjs(new Date(createdAt)).format('DD/MM/YYYY')
-    const showEdit = params?.searchParams?.action === 'edit'
+    const showEdit = params.searchParams.action === 'edit'
     return (
         <Stack direction={ 'row' }>
 

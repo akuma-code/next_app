@@ -14,11 +14,11 @@ interface OnePlayerPropsPage {
     searchParams: { id: string, action: string }
 }
 
-export async function generateStaticParams() {
-    const players = await allP()
-    const res = players.map(p => ({ id: `${p.id}` }))
-    return res
-}
+// export async function generateStaticParams() {
+//     const players = await allP()
+//     const res = players.map(p => ({ id: `${p.id}` }))
+//     return res
+// }
 
 const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {
     const id = params.params?.id ?? params.searchParams?.id

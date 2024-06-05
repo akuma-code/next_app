@@ -35,7 +35,8 @@
     ".next/types/**/*.ts",
     "prisma/*",
     "enviroments.d.ts",
-    "output/types/**/*.ts"
+    "output/types/**/*.ts",
+    ".ignore/CalendarAndPlayers.tsx"
   ],
   "exclude": [
     "node_modules",

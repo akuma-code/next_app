@@ -3,6 +3,7 @@
 import prisma from "@/client/client"
 import { DTO_NewEvent, eventCreate, updateEventPlayers } from "./eventService";
 import { revalidatePath } from "next/cache";
+import { _log } from "@/Helpers/helpersFns";
 
 
 const event = prisma.event
@@ -18,66 +19,73 @@ export async function event_ADD(payload: DTO_NewEvent) {
     return await eventCreate(payload)
 }
 
-export async function event_UpsertInfo(payload: {
-    eventId: number,
-    playerId: number,
-    masterId: number,
-
-}) {
-
-    const { eventId, playerId, masterId } = payload;
-
-
-}
-
 export async function addPair(payload: {
     masterId: number,
     eventId: number,
     playerId: number
 }) {
     const { masterId: firstPlayerId, eventId, playerId: secondPlayerId } = payload
+    try {
+        const tsx_pair = await prisma.pair.create({
+            data: {
+                firstPlayerId,
+                secondPlayerId,
+                eventId
+                // event: { connect: { id: eventId } }
 
-    const tsx_pair = await prisma.pair.create({
-        data: {
-            firstPlayerId,
-            secondPlayerId,
-            eventId
-            // event: { connect: { id: eventId } }
+            },
+            select: { id: true }
 
-        },
-        select: { id: true }
+        })
 
-    }).finally((() => revalidatePath('/')))
+        console.log('\ntsx_pair: ', tsx_pair)
+        // console.log('tsx_eventConnect: ', tsx_eventConnect)
 
-    console.log('tsx_pair: ', tsx_pair)
-    // console.log('tsx_eventConnect: ', tsx_eventConnect)
+        return tsx_pair
+    } catch (error) {
+        _log(error)
+        throw new Error("_Create pair error")
+    } finally { revalidatePath('/') }
 
-    return tsx_pair
 }
 
 export async function removePair(pairId: number) {
+    try {
+        const pair = await prisma.pair.delete({
+            where: {
+                id: pairId
+            }
+        })
 
-    const pair = await prisma.pair.delete({
-        where: {
-            id: pairId
-        }
-    }).finally(() => revalidatePath('/'))
+        return pair
+    } catch (error) {
+        _log(error)
+        throw new Error("_Delete pair error")
+    } finally {
+        revalidatePath('/')
+    }
 
-    return pair
 }
-export async function updatePair(pairId: number, payload: { masterId: number, }) {
-    const { masterId: firstPlayerId, } = payload
-    const pair = await prisma.pair.update({
-        where: {
-            id: pairId
+export async function updatePair(pairId: number, payload: { masterId: number, playerId?: number }) {
+    const { masterId: firstPlayerId, playerId } = payload
+    try {
+        const pair = await prisma.pair.update({
+            where: {
+                id: pairId
+            },
+            data: {
+                firstPlayerId, secondPlayerId: playerId
+            }
+        })
 
-        },
-        data: {
-            firstPlayerId
-        }
-    }).finally(() => revalidatePath('/'))
+        return pair
+    } catch (error) {
+        _log(error)
+        throw new Error("_Update pair error")
+    } finally {
+        revalidatePath('/')
+    }
 
-    return pair
 }
 
 export async function getMasters() {
