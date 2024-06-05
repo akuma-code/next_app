@@ -74,7 +74,9 @@ export async function updatePair(pairId: number, payload: { masterId: number, pl
                 id: pairId
             },
             data: {
-                firstPlayerId, secondPlayerId
+
+                firstPlayerId: payload.masterId,
+                //  secondPlayerId:payload.playerId
             },
             select: { id: true }
         })
