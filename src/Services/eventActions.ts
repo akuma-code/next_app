@@ -66,16 +66,17 @@ export async function removePair(pairId: number) {
     }
 
 }
-export async function updatePair(pairId: number, payload: { masterId: number, playerId?: number }) {
-    const { masterId: firstPlayerId, playerId } = payload
+export async function updatePair(pairId: number, payload: { masterId: number, playerId: number }) {
+    const { masterId: firstPlayerId, playerId: secondPlayerId } = payload
     try {
         const pair = await prisma.pair.update({
             where: {
                 id: pairId
             },
             data: {
-                firstPlayerId, secondPlayerId: playerId
-            }
+                firstPlayerId, secondPlayerId
+            },
+            select: { id: true }
         })
 
         return pair

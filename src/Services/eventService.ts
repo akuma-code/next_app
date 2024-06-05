@@ -72,7 +72,8 @@ export async function makeNewEvent(payload: DTO_NewEvent) {
     const existEvent = await prisma.event.findUnique({ where: { date_formated } })
 
     if (existEvent) {
-        return await updateEventPlayers({ id: existEvent.id, _new_data: { players, date_formated, title, isDraft } })
+        const { id } = existEvent
+        return await updateEventPlayers({ id, _new_data: { players, date_formated, title, isDraft } })
     }
 
     const e = await eventCreate(payload)
@@ -178,7 +179,7 @@ export async function updateEventPlayers(payload: EventUpdatePayload) {
     const { id, _new_data } = payload
 
     const { title, players, date_formated, isDraft } = _new_data
-    const _new_players = players.map(p => ({ id: p.id, name: p.name }))
+    const _players = players.map(p => ({ id: p.id, name: p.name }))
     try {
         const ev = await prisma.event.update({
             where: { id },
@@ -188,7 +189,7 @@ export async function updateEventPlayers(payload: EventUpdatePayload) {
                 title,
                 players: {
                     set: [],
-                    connect: _new_players
+                    connect: _players
                 }
             }
         })
