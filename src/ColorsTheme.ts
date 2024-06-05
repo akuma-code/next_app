@@ -6,7 +6,7 @@ export const enum COLOR_DARK {
     SALAD = '#dafc02',
     DARKGREEN = '#12300a',
     YELLOW = '#efe710',
-    LIGHTGREEN = '#749b20',
+    LIGHTGREEN = '#465c16',
     LIGHTGRAY = '#6e7170'
 }
 export const enum COLOR_LIGHT {

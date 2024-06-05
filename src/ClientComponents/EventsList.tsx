@@ -28,7 +28,7 @@ export const avatarColor = (numb: number) => {
         sm: 'darkgreen',
         md: 'orange',
         lg: 'darkorange',
-        xl: 'red'
+        xl: '#f0d90f'
 
     }
     if (numb >= 10) return colors.xl

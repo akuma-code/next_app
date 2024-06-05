@@ -50,7 +50,7 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
         <DivRoot>
             <ColumnCard>
                 <Box display="flex" p={ 2 } gap={ 2 } flexWrap="nowrap">
-                    <AvatarLogo variant={ "rounded" } color={ avatarColor(_c) }>
+                    <AvatarLogo variant={ "rounded" } color={ 'primary.dark' } sx={ { bgcolor: avatarColor(_c) } }>
                         { _c }
                     </AvatarLogo>
                     <Info useStyles={ getInfoApexStyles } sx={ { alignSelf: "center" } }>
@@ -61,7 +61,7 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                 <Box
                     pb={ 0.5 }
                     px={ 1 }
-                    color={ "grey.600" }
+                    color={ "primary.dark" }
                     fontSize={ "1rem" }
                     fontFamily={ "Ubuntu" }
                     flexGrow={ 1 }

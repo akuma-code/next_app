@@ -58,7 +58,7 @@ export const PlayersEventList = ({ event_info }: EventListProps) => {
                                     return <ListItem key={ e.id } divider disablePadding>
                                         <ListItemText
                                             primary={ text(e.date_formated) }
-                                            primaryTypographyProps={ { textAlign: 'left', fontSize: 18, marginInlineStart: 2 } }
+                                            primaryTypographyProps={ { textAlign: 'left', fontSize: 18, marginInlineStart: 2, color: 'primary' } }
                                             secondaryTypographyProps={ { textAlign: 'left', marginInlineStart: 2 } }
                                         />
 

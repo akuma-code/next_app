@@ -20,7 +20,7 @@ const DivRoot = styled("div")(() => ({
     height: "100%",
     content: '""',
     display: "block",
-    backgroundColor: "#d9daf1",
+    backgroundColor: "background",
     borderRadius: "1rem",
     zIndex: 0,
     bottom: 0,
@@ -41,9 +41,9 @@ const ColumnCard = styled("div")(() => ({
   flexDirection: "column",
   zIndex: 1,
   position: "relative",
-  borderRadius: "1rem",
+  borderRadius: '1rem',
   boxShadow: "0 6px 20px 0 #dbdbe8",
-  backgroundColor: "#fff",
+  backgroundColor: "background",
   transition: "0.4s",
   height: "100%",
   border: '2px solid grey'
@@ -56,7 +56,7 @@ const AvatarLogo = styled(Avatar)(() => ({
 }));
 
 const ButtonJoin = styled(Button)(() => ({
-  borderRadius: 10,
+  borderRadius: '1rem',
   textTransform: "initial",
   "&:focus": {
     boxShadow:
@@ -67,7 +67,7 @@ const ButtonJoin = styled(Button)(() => ({
   },
   textShadow: "0 1px 0 rgba(0,0,0,0.2)",
   transition: "0.2s",
-  background: `linear-gradient(to top, #638ef0, #82e7fe)`,
+  background: `linear-gradient(to top, primary.dark, primary.light)`,
   boxShadow:
     "0 4px 6px 2px rgba(0,0,0,0.08), 0px 2px 4px 0px rgba(0,0,0,0.24), inset 0 -3px 0 0 rgba(0,0,0,0.12)",
   "&:hover": {

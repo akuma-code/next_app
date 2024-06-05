@@ -33,7 +33,7 @@ function parseEvent(event: TEvent, masters: { id: number, name: string }[]) {
     const withPair = pairs.map(p => {
         const pl = players.find(pl => pl.id === p.secondPlayerId)
         const m = masters.find(ma => ma.id === p.firstPlayerId)!
-        return pl ? { ...p, pname: pl.name, master: m?.name } : { ...p, pname: "", master: "" }
+        return pl ? { ...p, player: pl.name, master: m?.name } : { ...p, player: "", master: "" }
     }
     )
     return withPair
@@ -46,7 +46,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
     const pairPlayerIdx = (id: number) => pairs.findIndex(p => p.secondPlayerId === id)
     const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
     const handlePairChange = async (master: { id: number, name: string }, playerId: number, pair: Pair | null) => {
-        _log({ eventId: event.id, playerId, masterId: master.id })
+        _log({ eventId: event.id, playerId, masterId: master.id, pair })
         if (!pair) {
             return await addPair({ eventId: event.id, playerId, masterId: master.id })
 
@@ -103,6 +103,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                 boxShadow: "0 2px 6px 0 rgba(0,0,0,0.08)",
                 ...boxProps?.sx,
             } }
+            m={ 2 }
         >
             <Box sx={ { display: "flex", p: 1.5, alignItems: "center", columnGap: 1, justifyContent: 'space-evenly' } }>
 
@@ -120,7 +121,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
             <Divider flexItem>
                 <ButtonGroup variant='contained' fullWidth>
                     <Button
-                        color='warning'
+                        color='error'
                         LinkComponent={ Link }
                         size="small"
                         href={ '/avangard/events' }
@@ -148,8 +149,8 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                     player_pairs.map((p, index) => (
                         <ListItem key={ index } sx={ { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' } } dense divider>
                             <ListItemAvatar >
-                                <Avatar
-                                    sx={ { width: 32, height: 32, bgColor: 'primary.dark', p: 0.5 } }
+                                <Avatar variant='rounded'
+                                    sx={ { width: 32, height: 32, bgColor: 'primary.light', p: 0.5, color: 'primary.main', fontSize: 15 } }
                                 >
 
                                     { name_letters(p.name) }
@@ -159,7 +160,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                                 primaryTypographyProps={ { textAlign: 'left' } }
                                 secondary={ p.pair && master_(p.pair.firstPlayerId)?.name }
                                 secondaryTypographyProps={ {
-                                    fontWeight: 'bold', marginInlineStart: 0, color: 'primary'
+                                    fontWeight: 'normal', marginInlineStart: 0, color: 'primary.light'
                                 } }
                             />
 
@@ -220,7 +221,7 @@ const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
                     color='primary'
                 >
                     <Avatar sx={ { bgcolor: 'primary.dark', width: 32, height: 32 } } variant='rounded'>
-                        <SupervisorAccountIcon sx={ { color: 'primary.light' } } />
+                        <SupervisorAccountIcon sx={ { color: 'primary' } } />
                     </Avatar>
                 </IconButton>
             </Tooltip>
@@ -256,7 +257,7 @@ const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
                                 transform: 'translateY(-50%) rotate(45deg)',
                                 zIndex: 0,
                             },
-                            '& .Mui-selected': { bgcolor: 'red' }
+
                         }
                     },
                 } }

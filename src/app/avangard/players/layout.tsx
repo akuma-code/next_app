@@ -7,7 +7,7 @@ import BlurLinearIcon from '@mui/icons-material/BlurLinear';
 
 async function PlayersLayout({ children }: { children: React.ReactNode }) {
     return (
-        <Box>
+        <Box p={ 2 }>
             <AppBar position="relative" sx={ { mb: 2 } }>
                 <Toolbar variant="dense">
                     <IconButton edge='start' color="warning">
