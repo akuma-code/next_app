@@ -12,6 +12,7 @@ import { Event, Player } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
+import { _log } from '@/Helpers/helpersFns'
 
 interface Pair {
     id: number
@@ -45,6 +46,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
     const pairPlayerIdx = (id: number) => pairs.findIndex(p => p.secondPlayerId === id)
     const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
     const handlePairChange = async (master: { id: number, name: string }, playerId: number, pair: Pair | null) => {
+        _log({ eventId: event.id, playerId, masterId: master.id })
         if (!pair) {
             return await addPair({ eventId: event.id, playerId, masterId: master.id })
 
@@ -61,6 +63,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
     }
 
     const extendPairs = useMemo(() => name_pairs(event.pairs), [event])
+
     const handleDeletePair = async (pair: Pair | null) => {
         if (!pair) return
         await removePair(pair.id)
