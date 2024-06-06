@@ -16,6 +16,7 @@
 # production
 /build
 /output
+/.ignore/
 
 # misc
 .DS_Store
