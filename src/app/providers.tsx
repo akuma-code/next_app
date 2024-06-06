@@ -1,5 +1,6 @@
 'use client'
 
+import { CssBaseline, PaletteMode, useMediaQuery } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -8,10 +9,8 @@ import { QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
-import theme, { getDesignTokens } from '../theme';
-import { CssBaseline, PaletteMode, Paper, useMediaQuery } from '@mui/material';
 import React, { useMemo } from 'react';
-import { _log } from '@/Helpers/helpersFns';
+import { getDesignTokens } from '../theme';
 dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]
@@ -51,7 +50,7 @@ export function getQueryClient() {
 export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
     // console.log('prefersDarkMode: ', prefersDarkMode)
     const savedmode: PaletteMode = prefersDarkMode ? 'dark' : 'light'
 

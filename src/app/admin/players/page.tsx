@@ -1,11 +1,11 @@
 'use server'
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
-import DeleteButton from "@/ClientComponents/UI/DeleteButton";
 import { getPlayers } from "@/Services/playerService";
-import { DeleteTwoTone, EditTwoTone } from "@mui/icons-material";
-import { Box, Button, List, ListItem, ListItemButton, ListItemText, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import Link from "next/link";
+import AdminPlayerList from "./AdminPlayerList";
+
 
 async function AvPlayers(query: { searchParams: { action: string } }) {
 
@@ -29,30 +29,7 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                     }
                 </Box>
                 { players.length > 0 ?
-                    <List dense disablePadding>
-                        { players.map((p, idx) =>
-
-                            <ListItem key={ p.id }>
-                                <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit` }>
-                                    <ListItemText
-                                        secondaryTypographyProps={ { ml: 2 } }
-                                        primary={ p.name }
-
-                                        secondary={
-                                            p.info?.rttf_score &&
-                                            <span> рейтинг: { p.info?.rttf_score }</span>
-                                        }
-                                    />
-                                    <EditTwoTone />
-                                </ListItemButton>
-                                <ListItemButton color="red">
-                                    <DeleteButton deleteId={ +p.id }>
-                                        <DeleteTwoTone />
-                                    </DeleteButton>
-                                </ListItemButton>
-                            </ListItem>
-                        ) }
-                    </List>
+                    <AdminPlayerList players={ players }></AdminPlayerList>
                     : <div>
                         No players found
                     </div>

@@ -10,7 +10,7 @@ export const ToggleThemeColorButton = () => {
     return (
         <IconButton
             onClick={ toggleColorMode }
-            color="info"
+            color="warning"
         >
             <Brightness4Icon />
         </IconButton>

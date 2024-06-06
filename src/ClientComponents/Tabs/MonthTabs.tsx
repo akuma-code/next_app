@@ -1,13 +1,11 @@
 'use client'
 
-import { Box, SvgIcon, Tab, Tabs } from "@mui/material"
-import { TabContainer } from "./EventLayoutTabs"
 import { Month } from "@/Helpers/dateFuncs"
+import { ChromeTabItem, TabsChrome } from "@/mui-treasury/tabs-chrome"
+import { Box } from "@mui/material"
+import dayjs from "dayjs"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import dayjs from "dayjs"
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import { ChromeTabItem, TabsChrome } from "@/mui-treasury/tabs-chrome"
 
 
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -21,15 +19,22 @@ export const MonthTabs = () => {
         setTab(prev => newValue)
         router.push(pathname + `?month=${stringifyMonth(newValue)}`)
     }
+
+    const handleClick = (newValue: number) => {
+        router.push(pathname + `?month=${stringifyMonth(newValue)}`)
+    }
     useEffect(() => {
         // router.push(pathname + `?month=${stringifyMonth(tabNumber)}`)
     }, [])
     return (
         <Box sx={ {
-            maxWidth: { xs: 400, sm: 550, lg: 650 },
+            maxWidth: { sm: 450, md: 600 },
             bgcolor: 'background.default',
             borderTopRightRadius: 8,
-            borderTopLeftRadius: 8
+            borderTopLeftRadius: 8,
+            borderWidth: 2,
+            borderColor: '#000',
+            borderBottom: 0
         } }
 
         >
@@ -46,6 +51,7 @@ export const MonthTabs = () => {
                         key={ Month[n] }
                         value={ n }
                         label={ Month[n] }
+                        onClick={ () => handleClick(n) }
 
                     />
                 ) }

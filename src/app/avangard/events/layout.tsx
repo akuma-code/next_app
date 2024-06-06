@@ -11,15 +11,14 @@ const EventsLayout = async ({ children, params }: { children: React.ReactNode, p
 
 
     return (
-        <>
-            <Stack direction={ 'column' }>
+
+        <Stack direction={ 'column' }>
 
 
-                {/* <MonthTabs /> */ }
-                { children }
-            </Stack>
 
-        </>
+            { children }
+        </Stack>
+
     )
 }
 

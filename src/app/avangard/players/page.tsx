@@ -52,17 +52,20 @@ async function AvPlayers(query: { searchParams: { action: string, event: string 
                                         LinkComponent={ Link }
                                         selected={ p.id === eid } >
                                         <ListItemText
-                                            primaryTypographyProps={ { variant: 'body2', color: 'primary.dark' } }
+                                            color="primary.dark"
+                                            primaryTypographyProps={ { variant: 'body2' } }
                                             primary={ <span>{ idx + 1 }. { p.name }</span> }
                                         />
 
                                         <ListItemAvatar>
                                             <Avatar
+
                                                 variant="rounded"
                                                 sizes="small"
                                                 sx={ {
                                                     maxHeight: 28, maxWidth: 28, ml: 1, border: "2px solid",
                                                     borderColor: 'primary.dark',
+                                                    color: 'primary.dark',
                                                     boxShadow: "0 2px 6px 0 rgba(0,0,0,0.08)",
                                                 } }>{ p._count.events || 0 }</Avatar>
                                         </ListItemAvatar>

@@ -28,7 +28,7 @@ export const avatarColor = (numb: number) => {
         sm: 'darkgreen',
         md: 'orange',
         lg: 'darkorange',
-        xl: '#f0d90f'
+        xl: '#f0610f'
 
     }
     if (numb >= 10) return colors.xl
@@ -49,19 +49,52 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => 
 
     return (
         <Box
-            bgcolor={ 'inherit' }
-            p={ 1 }
+            maxWidth={ { sm: 450, md: 600 } }
+            bgcolor={ 'background.paper' }
+            p={ 2 }
+            m={ 0 }
             sx={ {
                 borderBottomLeftRadius: 6,
                 borderBottomRightRadius: 6,
                 border: '2px solid black',
-                borderTop: 0
+                borderTop: 0,
+                textAlign: 'center'
             } }>
+            <Zoom
+                in={ !!events }
+                timeout={ 300 }
+            // unmountOnExit
+            >
+                <Fab
+                    aria-label={ "add event" }
+                    color={ 'success' }
+                    href="/avangard/events/create"
+                    LinkComponent={ Link }
+                    variant="extended"
+                    sx={ { placeSelf: 'center' } }
+                >
 
-            <Grid container spacing={ 2 } maxWidth={ 500 }>
+                    <AddIcon />
+                    Начать новую тренировку
+
+                </Fab>
+            </Zoom>
+            <Grid
+                container
+                spacing={ 2 }
+                // maxWidth={ { xs: 300, md: 450, lg: 600 } }
+                maxHeight={ { sm: '60vh', md: '70vh', } }
+
+                sx={ { pt: 1, pr: 2, overflowY: 'scroll' } }>
+
+                {/* <Grid item >
+
+
+                </Grid> */}
+
                 { events.map(e =>
 
-                    <Grid key={ e.id } item xs={ 6 } sm={ 4 } >
+                    <Grid key={ e.id } item sm={ 6 } md={ 4 } xl={ 3 } maxWidth={ { sm: 300 } }>
 
                         <EventViewCard
 
@@ -72,28 +105,7 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => 
                         />
                     </Grid>
                 ) }
-                <Grid item >
 
-                    <Zoom
-
-                        in={ !!events }
-                        timeout={ 500 }
-
-                        unmountOnExit
-                    >
-                        <Fab
-                            aria-label={ "add event" }
-                            color={ 'success' }
-                            href="/avangard/events/create"
-                            LinkComponent={ Link }
-
-                        >
-
-                            <AddIcon />
-
-                        </Fab>
-                    </Zoom>
-                </Grid>
             </Grid>
         </Box>
     )

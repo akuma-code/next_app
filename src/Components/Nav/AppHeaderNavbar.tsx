@@ -40,7 +40,8 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
 
     return (
-        <AppBar position='static' color='primary' elevation={ 4 } sx={ { mb: 1 } }>
+        <AppBar position='static' color={ 'primary' } elevation={ 4 } sx={ { mb: 1 } }>
+
             <Toolbar variant='dense' >
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 1 } } >
 
@@ -60,8 +61,11 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                         <Link href={ pageUrl.admin }> Админка </Link>
                     </Typography>
                 </Breadcrumbs>
+
             </Toolbar>
+
         </AppBar>
+
     );
 }
 

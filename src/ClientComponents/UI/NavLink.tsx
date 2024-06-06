@@ -19,8 +19,8 @@ export const NavLink: React.FC<NavLinkProps> = ({ href, children, label }) => {
                         p={ 1 }
                         textAlign={ 'center' }
                         borderRadius={ 3 }
-                        color={ isActive ? 'whitesmoke' : 'inherit' }
-                        bgcolor={ isActive ? 'info.main' : 'inherit' }
+                        color={ isActive ? 'primary.dark' : 'inherit' }
+                        bgcolor={ isActive ? 'warning.main' : 'inherit' }
                     >
                         { children }
                     </Box>

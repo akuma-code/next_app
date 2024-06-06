@@ -4,7 +4,7 @@ import CMCard from "@/mui-treasury/card-team/CardTeam"
 import { getInfoApexStyles } from "@/mui-treasury/info-apex";
 import { InfoTitle, InfoSubtitle, Info } from "@/mui-treasury/info-basic";
 
-import { Box, AvatarGroup, Avatar, IconButton, Stack, SvgIcon, ButtonGroup } from "@mui/material";
+import { Box, AvatarGroup, Avatar, IconButton, Stack, SvgIcon, ButtonGroup, Button } from "@mui/material";
 import mock_events from "./mock_events";
 import AdeptusMechanicus from "@/Components/Icons/AdeptusMechanicus";
 import { avatarColor } from "@/ClientComponents/EventsList";
@@ -48,7 +48,7 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
     const _c = event._count?.players || 0
     return (
         <DivRoot>
-            <ColumnCard>
+            <ColumnCard >
                 <Box display="flex" p={ 2 } gap={ 2 } flexWrap="nowrap">
                     <AvatarLogo variant={ "rounded" } color={ 'primary.dark' } sx={ { bgcolor: avatarColor(_c) } }>
                         { _c }
@@ -83,12 +83,12 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                 >
                     <Box>
                         <AvatarGroup
-                            max={ 4 }
+                            max={ 3 }
                             sx={ {
                                 "& .MuiAvatar-root": {
                                     fontFamily: "Ubuntu",
                                     fontSize: "0.875rem",
-                                    backgroundColor: avatarColor(_c), //"#6d7efc"
+                                    backgroundColor: "#3d54fc",
                                     width: 32,
                                     height: 32,
                                     "&:first-of-type": {
@@ -105,34 +105,30 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                             ) }
                         </AvatarGroup>
                     </Box>
-                    <Stack direction={ 'row' } justifyContent={ 'space-between' }>
+                    {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */ }
 
-                        <ButtonGroup size="small" orientation="vertical" fullWidth variant={ "contained" }>
+                    <ButtonGroup size="small" orientation="vertical" variant={ "outlined" } sx={ { borderRadius: 30 } }>
 
-                            <ButtonJoin
+                        <Button
+                            color="primary"
+                            sx={ { bgcolor: 'primary.dark' } }
+                            LinkComponent={ Link }
+                            href={ pathname + `/${event.id}` }
+                            startIcon={ <OpenWithOutlinedIcon /> }>
+                            Открыть
+                        </Button>
+                        <Button
+                            startIcon={ <SettingsTwoTone /> }
+                            color="secondary"
+                            LinkComponent={ Link }
+                            href={ pathname + `/${event.id}/edit` }
+                            sx={ { bgcolor: 'primary.light' } }
+                        >
+                            Править
+                        </Button>
+                    </ButtonGroup>
 
-                                color='primary'
-                                LinkComponent={ Link }
-                                href={ pathname + `/${event.id}` }
-                                startIcon={ <OpenWithOutlinedIcon /> }>
-                                Открыть
-                            </ButtonJoin>
-                            <ButtonJoin
-                                startIcon={ <SettingsTwoTone /> }
-                                color="primary"
-                                LinkComponent={ Link }
-                                href={ pathname + `/${event.id}/edit` }
-
-                            >
-                                Править
-                            </ButtonJoin>
-                        </ButtonGroup>
-                        {/* <IconButton color="secondary" LinkComponent={ Link } href={ pathname + `/${event.id}/edit` }>
-                            <SvgIcon>
-
-                            </SvgIcon>
-                        </IconButton> */}
-                    </Stack>
+                    {/* </Stack> */ }
 
                 </Box>
             </ColumnCard>

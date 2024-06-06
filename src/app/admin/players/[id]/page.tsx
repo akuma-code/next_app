@@ -1,7 +1,7 @@
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
 import DeleteButton from "@/ClientComponents/UI/DeleteButton";
 import { getOnePlayer } from "@/Services/playerService";
-import allP from "@/utils/playersList";
+import db_players_list from "@/utils/playersList";
 import { DeleteTwoTone } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
@@ -14,11 +14,11 @@ interface OnePlayerPropsPage {
     searchParams: { id: string, action: string }
 }
 
-// export async function generateStaticParams() {
-//     const players = await allP()
-//     const res = players.map(p => ({ id: `${p.id}` }))
-//     return res
-// }
+export async function generateStaticParams() {
+    const players = await db_players_list().then(res => res.map(p => ({ id: `${p.id}` })))
+    // const res = players.map(p => ({ id: `${p.id}` }))
+    return players
+}
 
 const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {
     const id = params.params?.id ?? params.searchParams?.id

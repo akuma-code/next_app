@@ -29,14 +29,14 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({
         <Providers>
 
 
-          <Container maxWidth={ 'md' } >
-            <Paper elevation={ 1 } >
+          <Paper maxWidth={ 'md' } component={ Container } elevation={ 2 } >
 
-              <AppHeader />
-              { children }
+            {/* <Paper elevation={ 1 } sx={ { p: 1 } }> */ }
+            <AppHeader />
+            { children }
 
-            </Paper>
-          </Container>
+            {/* </Paper> */ }
+          </Paper>
           <SpeedInsights />
         </Providers>
       </body>

@@ -42,7 +42,7 @@ const ColumnCard = styled("div")(() => ({
   zIndex: 1,
   position: "relative",
   borderRadius: '1rem',
-  boxShadow: "0 6px 20px 0 #dbdbe8",
+  boxShadow: "0 4px 20px 0 #8e8e94",
   backgroundColor: "background",
   transition: "0.4s",
   height: "100%",
