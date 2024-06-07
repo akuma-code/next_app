@@ -131,11 +131,7 @@ export const players_to_seed2 = [
         "name": "Павел Роднянский",
         "createdAt": "2024-05-29T21:11:31.811Z",
         "updatedAt": "2024-05-31T16:34:53.713Z",
-        "info": {
-            "uuid": "f7986c36-04d6-4053-a9b9-b07ad32b8a24",
-            "rttf_score": 170,
-            "playerId": 11
-        }
+        "info": null,
     },
     {
         "id": 12,
@@ -456,6 +452,20 @@ export const players_to_seed2 = [
             "rttf_score": 0,
             "playerId": 56
         }
+    },
+    {
+        "id": 57,
+        "name": "Егор Лысенко",
+        "createdAt": "2024-05-31T19:10:01.910Z",
+        "updatedAt": "2024-05-31T19:10:01.910Z",
+        "info": null
+    },
+    {
+        "id": 58,
+        "name": "Евгений Понуровский",
+        "createdAt": "2024-05-31T19:10:01.910Z",
+        "updatedAt": "2024-05-31T19:10:01.910Z",
+        "info": null
     }
 ]
 export const masters_to_seed = [

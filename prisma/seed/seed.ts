@@ -57,12 +57,11 @@ export async function seedEvents(seed_events: SeedEvent[]) {
                 title: e.title,
                 id: e.id,
                 isDraft: e.isDraft || false,
-                players: {
-                    connect: e.players.map(p => ({ id: p.id }))
 
-                },
             }
         }))
+
+
         return await prisma.$transaction(seed)
     } catch (error) {
         console.log("\n seed events error \n", error)
