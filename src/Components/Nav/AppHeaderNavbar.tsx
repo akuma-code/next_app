@@ -1,3 +1,4 @@
+import { SignInButton } from '@/ClientComponents/auth/SignInButton';
 import { SettingsDialog } from '@/ClientComponents/SettingsDialog';
 import { ToggleThemeColorButton } from '@/ClientComponents/ToggleThemeButton';
 import { paths } from '@/paths';
@@ -55,8 +56,9 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                 </Breadcrumbs>
 
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
+                    <SignInButton />
                     <ToggleThemeColorButton />
-                    <SettingsDialog />
+                    {/* <SettingsDialog /> */ }
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ pageUrl.admin }> Админка </Link>
                     </Typography>

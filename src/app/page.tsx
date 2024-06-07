@@ -1,7 +1,5 @@
-import { checkAuth } from "@/ClientComponents/clientAuth";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import Link from "next/link";
-import { permanentRedirect } from "next/navigation";
 
 
 function HomePage() {

@@ -97,3 +97,28 @@ model ReservedTable {
   @@map("reserved_tables")
   @@ignore
 }
+
+enum UserRole {
+  ADMIN
+  GUEST
+  MEMBER
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String   @map("hash_password")
+  role     UserRole @default(GUEST)
+
+  profile Profile?
+
+  @@map("users")
+}
+
+model Profile {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
