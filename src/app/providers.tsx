@@ -11,6 +11,7 @@ import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import React, { useMemo } from 'react';
 import { getDesignTokens } from '../theme';
+import { ruRU } from '@mui/material/locale';
 dayjs.extend(weekday)
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0]
@@ -76,7 +77,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     //       suspend because React will throw away the client on the initial
     //       render if it suspends and there is no boundary
     const queryClient = getQueryClient()
-    const THEME = useMemo(() => createTheme({ ...getDesignTokens(mode) }), [mode])
+    const THEME = useMemo(() => createTheme({ ...getDesignTokens(mode) }, ruRU), [mode])
     return (
         <ColorModeContext.Provider value={ colorMode }>
             <ThemeProvider theme={ THEME }>

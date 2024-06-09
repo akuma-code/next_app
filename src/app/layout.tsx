@@ -29,7 +29,7 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({
         <Providers>
 
 
-          <Paper maxWidth={ 'md' } component={ Container } elevation={ 2 } >
+          <Paper maxWidth={ 'md' } component={ Container } elevation={ 2 } color="primary.main">
 
             {/* <Paper elevation={ 1 } sx={ { p: 1 } }> */ }
             <AppHeader />
