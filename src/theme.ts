@@ -22,7 +22,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
         // mode,
 
         ...(mode === 'light'
-            ? palette.light
+            ? palette.yoma_light
             : palette.dark
 
         ),
