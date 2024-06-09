@@ -26,6 +26,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             : palette.dark
 
         ),
+
     },
 
 });
