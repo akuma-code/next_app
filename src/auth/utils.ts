@@ -1,7 +1,7 @@
 import { JWTPayload, SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 import { UserAuthPayload } from './auth'
-
+import bcrypt from "bcrypt"
 
 
 const secretKey = process.env.AUTH_SECRET
@@ -34,4 +34,13 @@ export async function decrypt(user: string) {
         console.log('failed to verify session', e)
 
     }
+}
+
+
+export async function hashPass(password: string) {
+    return await bcrypt.hash(password, 5)
+}
+
+export async function hashCompare(pass: string, compareWith: string) {
+    return await bcrypt.compare(pass, compareWith)
 }

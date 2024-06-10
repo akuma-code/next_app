@@ -4,18 +4,38 @@ import { UserRole } from "@prisma/client"
 import { validateEmail } from "./validator"
 import prisma from "@/client/client"
 import { createUser } from "@/Services/userService"
+import { hashPass } from "./utils"
+import { redirect } from "next/navigation"
 
-export async function registerUser(email: string, password: string, role = UserRole.GUEST) {
+export async function registerUser(payload: { email: string, password: string }) {
+    const { email, password } = payload;
+
+
     const verifiedEmail = validateEmail(email)
     if (!verifiedEmail) {
-        throw new Error("Email is not valid")
+        console.error("Email is not valid")
+        // return null
+        throw new Error()
     }
 
 
     const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
-    if (existUser) throw new Error("Email already in use, try another")
+    if (existUser) {
+        console.error("Email already in use, try another")
+        // return null
+        return
+    }
+
+    const pwHash = await hashPass(password)
+    return await createUser(verifiedEmail, pwHash)
+
+}
 
 
-    return await createUser(verifiedEmail, password, role)
+export async function registerAction(data: FormData) {
+    const { email, password } = Object.fromEntries(data) as { email: string, password: string }
+    await registerUser({ email, password })
+    redirect('/')
+
 
 }

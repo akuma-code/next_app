@@ -8,18 +8,18 @@ import { Payload } from "@prisma/client/runtime/library";
 import bcrypt from "bcrypt"
 import { revalidatePath } from "next/cache";
 
-export async function getOneUser(payload: { email: string }) {
+export async function getOneUser(payload: { email: string }, options?: { withPass?: boolean }) {
     const u = prisma.user
 
 
     const { email } = payload;
 
-    const verifiedEmail = validateEmail(email)
-    if (!verifiedEmail) {
-        throw new Error("Email is not valid")
-    }
+    // const verifiedEmail = validateEmail(email)
+    // if (!verifiedEmail) {
+    //     throw new Error("Email is not valid")
+    // }
     try {
-        const user = await u.findUnique({ where: { email: verifiedEmail }, select: { email: true, role: true } })
+        const user = await u.findUnique({ where: { email }, select: { email: true, role: true, password: !!options?.withPass } })
         return user
 
 
@@ -28,6 +28,8 @@ export async function getOneUser(payload: { email: string }) {
         throw new Error("Find user error")
     }
 }
+
+
 
 export async function registerUser(email: string, password: string, role = UserRole.GUEST) {
     const verifiedEmail = validateEmail(email)
@@ -46,7 +48,7 @@ export async function registerUser(email: string, password: string, role = UserR
 
 
 
-export async function createUser(email: string, password: string, role = UserRole.GUEST) {
+export async function createUser(email: string, password: string, role: UserRole = UserRole.GUEST) {
     const verifiedEmail = validateEmail(email)
 
     if (!verifiedEmail) {

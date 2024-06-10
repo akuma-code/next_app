@@ -1,105 +1,76 @@
 'use client';
 
 
-import { Button, Divider, InputLabel, SvgIcon, TextField } from '@mui/material';
-import { useFormStatus } from 'react-dom';
+import { login } from '@/auth/login';
+import { registerAction, registerUser } from '@/auth/register';
+import { Button, Divider, InputLabel, Stack, TextField } from '@mui/material';
+import { UserRole } from '@prisma/client';
+import { useFormState, useFormStatus } from 'react-dom';
 
 
 
 
 
 type FormState = {
-    nickname: string
+    email: string
     password: string
-    error?: string | null
-} | undefined
+    role: UserRole
+}
 
 const initalState: FormState = {
-    nickname: "",
+    email: "",
     password: "",
+    role: UserRole.GUEST
 }
 export default function LoginForm() {
-    // const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+
 
     return (
         <form
-            // action={  }
+            action={ registerAction }
 
             className="space-y-3" name='loginform' id={ 'loginform' }>
 
-            <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-                <div className="flex justify-between">
+            <div className="flex-1 rounded-lg bg-gray-50 ">
 
-                    {/* <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon> */ }
-                    <h1 className={ ` mb-3 text-2xl text-center` }>
-                        Авторизация
 
-                    </h1>
-                    {/* <SvgIcon sx={ { transform: 'scale(1.7)', m: 1 } }><MemoAdeptusMechanicus fontSize={ 25 } /></SvgIcon> */ }
-                </div>
-                <Divider sx={ { my: 1 } } />
-                <div className="w-full flex flex-col space-y-2">
-                    <div className='flex  mb-2 justify-between'>
+                <Stack rowGap={ 2 } sx={ { bgcolor: 'background.paper', p: 1 } }>
 
-                        <TextField
-                            sx={ { flexGrow: 1, maxWidth: '60%' } }
-                            defaultValue={ "" }
-                            name='nickname'
-                            color='warning'
-                            id='inputname'
-                            size='small'
-                            placeholder='введите имя'
-                            type='text'
-                            required
+                    <TextField
+                        sx={ { flexGrow: 1 } }
+                        defaultValue={ "" }
+                        name='email'
+                        color='warning'
+                        id='inp-email'
+                        size='small'
+                        placeholder='введите email'
+                        type='email'
+                        label="Email"
+                        required
+                        autoComplete='on'
+                    />
 
-                        />
-                        <InputLabel
-                            htmlFor='inputname'
 
-                            sx={ {
-                                alignSelf: 'center',
-                                textTransform: 'capitalize',
-                                fontSize: 20,
-                                flexGrow: 1,
-                                textAlign: 'right',
-                                px: 3,
-                                color: 'white'
-                            } }
-                        >
-                            Имя
-                        </InputLabel>
 
-                    </div>
-                    <div className="mt-4 flex ">
 
-                        <TextField
-                            sx={ { flexGrow: 1, maxWidth: '60%', color: 'white' } }
-                            defaultValue={ "" }
-                            name='password'
-                            color='warning'
-                            id='passinput'
-                            type='password'
-                            autoComplete='on'
-                            size='small'
-                            placeholder='введите пароль'
-                            required
-                        />
-                        <InputLabel htmlFor='passinput'
-                            sx={ {
-                                alignSelf: 'center',
-                                textTransform: 'capitalize',
-                                fontSize: 20,
-                                flexGrow: 1,
-                                textAlign: 'right',
-                                px: 3,
-                                color: 'white'
-                            } }
-                        >
-                            Пароль
-                        </InputLabel>
+                    <TextField
+                        sx={ { flexGrow: 1, } }
+                        defaultValue={ "" }
+                        name='password'
+                        color='warning'
+                        id='passinput'
+                        type='password'
+                        autoComplete='on'
+                        size='small'
+                        placeholder='введите пароль'
+                        required
+                        label="Пароль"
+                    />
 
-                    </div>
-                </div>
+
+
+                    <RegisterButton />
+                </Stack>
 
 
                 <div
@@ -118,8 +89,8 @@ export default function LoginForm() {
                     }
                 </div>
 
-                <LoginButton />
-                <RegisterButton />
+
+
 
             </div>
         </form>
@@ -144,6 +115,7 @@ function RegisterButton() {
             color='secondary'
             sx={ { py: 1, m: 2 } }
             disabled={ pending }
+            type='submit'
         >
             Register
         </Button>

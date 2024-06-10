@@ -76,7 +76,7 @@ model Info {
 
 model Master {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
   @@map("masters")
 }
