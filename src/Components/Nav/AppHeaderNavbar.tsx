@@ -28,46 +28,46 @@ const routes = [
 export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
     const session = await auth()
-    _log({ session })
 
 
     return (
-        <SessionProvider session={ session }>
 
 
-            <AppBar position='static' color={ 'primary' } elevation={ 4 } sx={ { mb: 1 } }>
 
-                <Toolbar variant='dense' sx={ { display: 'flex' } }>
-                    <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 1 } } >
+        <AppBar position='static' color={ 'primary' } elevation={ 4 } sx={ { mb: 1 } }>
 
-                        {
-                            routes.map(r =>
-                                <Typography variant='body1' color={ 'whitesmoke' } key={ r.to }>
-                                    <Link href={ r.to }>{ r.text }</Link>
-                                </Typography>
-                            )
-                        }
-                    </Breadcrumbs>
-                    { session ?
-                        <Typography textAlign={ 'center' } flexGrow={ 1 }>
-                            user: { session?.user?.email }, role: { session?.user.role }
-                        </Typography>
-                        :
-                        <Typography variant='body2'>Пользователь не авторизован</Typography>
+            <Toolbar variant='dense' sx={ { display: 'flex' } }>
+                <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 1 } } >
+
+                    {
+                        routes.map(r =>
+                            <Typography variant='body1' color={ 'whitesmoke' } key={ r.to }>
+                                <Link href={ r.to }>{ r.text }</Link>
+                            </Typography>
+                        )
                     }
-                    <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
-                        {/* <SignInButton /> */ }
-                        <ToggleThemeColorButton />
-                        <LoginDialog />
-                        <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                            <Link href={ pageUrl.admin }> Админка </Link>
-                        </Typography>
-                    </Breadcrumbs>
+                </Breadcrumbs>
 
-                </Toolbar>
+                <Typography textAlign={ 'center' } flexGrow={ 1 }>
+                    { session
+                        ? `user: ${session?.user?.email}, ${session?.user.role}`
+                        : "Пользователь не авторизован"
+                    }
+                </Typography>
 
-            </AppBar>
-        </SessionProvider>
+                <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
+                    {/* <SignInButton /> */ }
+                    <ToggleThemeColorButton />
+                    <LoginDialog />
+                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
+                        <Link href={ pageUrl.admin }> Админка </Link>
+                    </Typography>
+                </Breadcrumbs>
+
+            </Toolbar>
+
+        </AppBar>
+
     );
 }
 

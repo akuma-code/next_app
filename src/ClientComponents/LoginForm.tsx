@@ -3,6 +3,7 @@
 
 import { login } from '@/auth/login';
 import { registerAction, registerUser } from '@/auth/register';
+import { setAdmin } from '@/Services/userService';
 import { Button, Divider, InputLabel, Stack, TextField } from '@mui/material';
 import { UserRole } from '@prisma/client';
 import { useFormState, useFormStatus } from 'react-dom';
@@ -78,7 +79,9 @@ export default function LoginForm() {
                     aria-live="polite"
                     aria-atomic="true"
                 >
-
+                    <Button
+                        onClick={ async () => await setAdmin("nodachi@bk.ru") }
+                    >SetAdmin</Button>
                     {
                         // errorMessage && (
                         //     <>
@@ -113,11 +116,11 @@ function RegisterButton() {
         <Button aria-disabled={ pending }
             variant='contained'
             color='secondary'
-            sx={ { py: 1, m: 2 } }
+            sx={ { m: 2 } }
             disabled={ pending }
             type='submit'
         >
-            Register
+            Зарегестрироваться
         </Button>
     );
 }

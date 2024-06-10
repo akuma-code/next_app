@@ -107,11 +107,11 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                     </Box>
                     {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */ }
 
-                    <ButtonGroup size="small" orientation="vertical" variant={ "outlined" } sx={ { borderRadius: 30 } }>
+                    <ButtonGroup size="small" orientation="vertical" variant={ "contained" } sx={ { borderRadius: 30 } }>
 
                         <Button
+
                             color="primary"
-                            sx={ { bgcolor: 'primary.dark' } }
                             LinkComponent={ Link }
                             href={ pathname + `/${event.id}` }
                             startIcon={ <OpenWithOutlinedIcon /> }>
@@ -122,7 +122,6 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                             color="secondary"
                             LinkComponent={ Link }
                             href={ pathname + `/${event.id}/edit` }
-                            sx={ { bgcolor: 'primary.light' } }
                         >
                             Править
                         </Button>

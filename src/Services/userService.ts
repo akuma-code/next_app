@@ -14,12 +14,15 @@ export async function getOneUser(payload: { email: string }, options?: { withPas
 
     const { email } = payload;
 
-    // const verifiedEmail = validateEmail(email)
-    // if (!verifiedEmail) {
-    //     throw new Error("Email is not valid")
-    // }
     try {
-        const user = await u.findUnique({ where: { email }, select: { email: true, role: true, password: !!options?.withPass } })
+        const user = await u.findUnique({
+            where: { email },
+            select: {
+                email: true,
+                role: true,
+                password: !!options?.withPass
+            }
+        })
         return user
 
 
@@ -38,7 +41,8 @@ export async function registerUser(email: string, password: string, role = UserR
     }
 
 
-    const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
+    // const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
+    const existUser = await getOneUser({ email })
     if (existUser) throw new Error("Email already in use, try another")
 
 
@@ -84,3 +88,69 @@ export async function createUser(email: string, password: string, role: UserRole
         revalidatePath('/')
     }
 }
+
+type UserSearchId = {
+    type: 'id'
+    search: number
+}
+type UserSearchEmail = {
+    type: 'email'
+    search: string
+}
+
+type UserSearchParam = UserSearchEmail | UserSearchId
+export async function updateUser(q: UserSearchParam, _data: { role?: UserRole, password?: string }) {
+
+
+    try {
+        switch (q.type) {
+            case "email": {
+                const { search } = q;
+
+                const user = await prisma.user.update({
+                    where: { email: search }, data: {
+                        ..._data
+                    }, select: {
+                        email: true,
+                        id: true,
+                        role: true,
+                        password: !!_data.password,
+                    }
+                })
+                return user
+            }
+            case "id": {
+                const { search } = q;
+
+                const user = await prisma.user.update({
+                    where: { id: search }, data: {
+                        ..._data
+                    }, select: {
+                        email: true,
+                        id: true,
+                        role: true,
+                        password: !!_data.password,
+                    }
+                })
+                return user
+            }
+            default: throw new Error("Query invalid")
+        }
+
+
+
+
+    } catch (error) {
+        _log(error)
+        throw new Error("____update user error")
+    } finally {
+        _log("data changed: ", _data)
+        revalidatePath('/')
+    }
+}
+
+
+export async function setAdmin(email: string) {
+    return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
+}
+

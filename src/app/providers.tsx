@@ -80,6 +80,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const THEME = useMemo(() => createTheme({ ...getDesignTokens(mode) }, ruRU), [mode])
     return (
         <ColorModeContext.Provider value={ colorMode }>
+
             <ThemeProvider theme={ THEME }>
                 <CssBaseline enableColorScheme />
                 <AppRouterCacheProvider>

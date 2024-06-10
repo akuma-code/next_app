@@ -1,10 +1,12 @@
 import NextAuth, { DefaultSession } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import GitHub from "next-auth/providers/github"
+import VK from "next-auth/providers/vk"
 import { SignJWT, jwtVerify } from "jose"
 import { User, UserRole } from "@prisma/client"
 import { getOneUser } from "@/Services/userService"
 import bcrypt from "bcrypt"
+import { revalidatePath } from "next/cache"
 
 
 
@@ -13,6 +15,8 @@ export type UserAuthPayload = {
     password: string
     // role: UserRole
 }
+
+const apiVersion = "5.199"
 export const { handlers, signIn, signOut, auth } = NextAuth(
     {
         providers: [
@@ -21,8 +25,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                     email: { label: "Email", },
                     password: { label: "Пароль", type: "password" }
                 },
-                name: "Email",
-                type: "credentials",
+                name: "email",
+                // type: "credentials",
                 authorize: async (credentials) => {
                     let user: null | Pick<User, 'email' | 'password' | 'role'> = null
 
@@ -33,14 +37,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                         return null
                     } else return user
                 },
-
-
             }),
-            GitHub
+            GitHub,
+            // VK({
+            //     // authorization:"https://oauth.vk.com/authorize?client_id=51943581&redirect_uri=https://akumadev.vercel.app/avangard/events&scope=friends&response_type=code&v=5.199",
+            //     authorization: `https://oauth.vk.com/access_token?client_id=51943581&client_secret=${process.env.VK_SECRET}v=${apiVersion}`,
+            //     //   requestTokenUrl: `https://oauth.vk.com/access_token?v=${apiVersion}`,
+            //     //   authorizationUrl: `https://oauth.vk.com/authorize?response_type=code&v=${apiVersion}`,
+            //     //   profileUrl: `https://api.vk.com/method/users.get?fields=photo_100&v=${apiVersion}`,
+            // })
         ],
-        debug: true,
+        // debug: true,
         callbacks: {
-            jwt({ token, user }) {
+            jwt({ token, user, trigger }) {
+                if (trigger === 'update') {
+                    console.table(user)
+                }
                 if (user) { // User is available during sign-in
                     token.role = user.role
                 }
@@ -50,7 +62,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                 session.user.role = token.role as UserRole
                 return session
             },
+
         },
+        events: {
+            async createUser(message) {
+                console.table(message.user)
+            },
+            signIn(message) {
+                if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
+                console.table(message.user)
+            },
+        }
+
     })
 
 
