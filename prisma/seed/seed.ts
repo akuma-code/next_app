@@ -2,7 +2,7 @@ import { PrismaClient, UserRole } from '@prisma/client'
 import { masters_to_seed, players_to_seed, players_to_seed2 } from './players'
 import { events_to_seed } from './events';
 import { admin } from './users';
-import { hashPass } from '@/auth/utils';
+
 type SeedEvent = {
     id: number;
     date_formated: string;
@@ -84,10 +84,10 @@ export async function seedMasters(masters: { name: string }[]) {
 
 async function seedAdmin() {
 
-    const pwHash = await hashPass(admin.password)
+
     try {
         const user = prisma.user.create({
-            data: { email: admin.email, password: pwHash, role: UserRole.ADMIN }
+            data: { email: admin.email, password: admin.password, role: UserRole.ADMIN }
         })
         return user
     } catch (e) {
