@@ -2,7 +2,6 @@
   "name": "next_app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/avangard/events",
   "scripts": {
     "dev": "next dev",
     "studio": "npx prisma studio -p 3232",
