@@ -33,8 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                     let user: null | Required<Pick<User, 'email' | 'password' | 'role'>> = null
 
 
-                    user = await getOneUser({ email: credentials.email! as string, }, { withPass: true })
-                    if (!user || !user.email) {
+
+                    user = await getOneUser({ email: credentials.email as string, }, { withPass: true })
+                    if (!user) {
                         console.error("User not found.")
                         return null
                     } else return user
@@ -63,6 +64,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                 }
                 if (user) { // User is available during sign-in
                     token.role = user.role
+
 
                 }
                 return token

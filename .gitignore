@@ -16,7 +16,7 @@
 # production
 /build
 /output
-.ignore_code
+.ignore/
 
 # misc
 .DS_Store
@@ -28,7 +28,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-/.env.*local
+/.env.*local/
 
 # vercel
 .vercel
@@ -38,8 +38,4 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
-<<<<<<< HEAD
-.env.homelocal
-=======
-.env.local
->>>>>>> c2af108 (local)
+.env.*local
