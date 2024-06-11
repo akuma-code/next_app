@@ -1,21 +1,19 @@
 'use client'
 
-import CMCard from "@/mui-treasury/card-team/CardTeam"
+import CMCard from "@/mui-treasury/card-team/CardTeam";
 import { getInfoApexStyles } from "@/mui-treasury/info-apex";
-import { InfoTitle, InfoSubtitle, Info } from "@/mui-treasury/info-basic";
+import { Info, InfoSubtitle, InfoTitle } from "@/mui-treasury/info-basic";
 
-import { Box, AvatarGroup, Avatar, IconButton, Stack, SvgIcon, ButtonGroup, Button } from "@mui/material";
-import mock_events from "./mock_events";
-import AdeptusMechanicus from "@/Components/Icons/AdeptusMechanicus";
 import { avatarColor } from "@/ClientComponents/EventsList";
+import { SettingsTwoTone } from "@mui/icons-material";
+import OpenWithOutlinedIcon from '@mui/icons-material/OpenWithOutlined';
+import { Avatar, AvatarGroup, Box, Button, ButtonGroup } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import dayjs from "dayjs";
-import LinkMui from "@/ClientComponents/UI/LinkMui";
-import { EventViewEditDialog } from "./EventViewEditDialog";
-import { SettingsTwoTone } from "@mui/icons-material";
-import OpenInBrowserOutlinedIcon from '@mui/icons-material/OpenInBrowserOutlined';
-import OpenWithOutlinedIcon from '@mui/icons-material/OpenWithOutlined';
+import mock_events from "./mock_events";
+
+import { _log } from "@/Helpers/helpersFns";
+import { useSession } from "next-auth/react";
 const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard
 
 const event_data = mock_events
@@ -46,6 +44,9 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
     const pathname = usePathname()
     const name_letters = (name: string) => name.split(" ").map(n => n[0]).join("")
     const _c = event._count?.players || 0
+
+    const { status, data } = useSession()
+
     return (
         <DivRoot>
             <ColumnCard >
@@ -117,14 +118,16 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                             startIcon={ <OpenWithOutlinedIcon /> }>
                             Открыть
                         </Button>
-                        <Button
-                            startIcon={ <SettingsTwoTone /> }
-                            color="secondary"
-                            LinkComponent={ Link }
-                            href={ pathname + `/${event.id}/edit` }
-                        >
-                            Править
-                        </Button>
+                        { data?.user.role === 'ADMIN' &&
+
+                            <Button
+                                startIcon={ <SettingsTwoTone /> }
+                                color="secondary"
+                                LinkComponent={ Link }
+                                href={ pathname + `/${event.id}/edit` }
+                            >
+                                Править
+                            </Button> }
                     </ButtonGroup>
 
                     {/* </Stack> */ }

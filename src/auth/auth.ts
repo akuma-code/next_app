@@ -7,6 +7,7 @@ import { User, UserRole } from "@prisma/client"
 import { getOneUser } from "@/Services/userService"
 import bcrypt from "bcrypt"
 import { revalidatePath } from "next/cache"
+import type { Provider } from 'next-auth/providers'
 
 
 
@@ -30,7 +31,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                 authorize: async (credentials) => {
                     let user: null | Pick<User, 'email' | 'password' | 'role'> = null
 
-                    const pwHash = await bcrypt.hash(credentials.password as string, 5)
+
                     user = await getOneUser({ email: credentials.email as string, }, { withPass: true })
                     if (!user) {
                         console.error("User not found.")
@@ -51,10 +52,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
         callbacks: {
             jwt({ token, user, trigger }) {
                 if (trigger === 'update') {
+                    console.log("Updated user: ")
                     console.table(user)
+                    console.table(token)
                 }
                 if (user) { // User is available during sign-in
                     token.role = user.role
+
                 }
                 return token
             },
@@ -65,28 +69,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
 
         },
         events: {
-            async createUser(message) {
+            createUser(message) {
+                console.log("New user created: ")
                 console.table(message.user)
             },
             signIn(message) {
                 if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
                 console.table(message.user)
             },
+            updateUser(message) {
+                console.table(message.user)
+            },
+            signOut(message) {
+                console.log("GoodBye, ", message)
+            },
         }
 
     })
 
+const providers: Provider[] = [GitHub]
 
+export const providerMap = providers.map((provider) => {
+    if (typeof provider === "function") {
+        const providerData = provider()
+        return { id: providerData.id, name: providerData.name }
+    } else {
+        return { id: provider.id, name: provider.name }
+    }
+})
 
 declare module "next-auth" {
     /**
      * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
      */
     interface User {
-
-
         role: string
-
     }
     interface Session {
         user: {

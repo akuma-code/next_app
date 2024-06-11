@@ -1,12 +1,9 @@
 import { auth } from '@/auth/auth';
+import { checkAuth } from '@/auth/utils';
 import LoginDialog from '@/ClientComponents/auth/LoginDialog';
-import { SignInButton } from '@/ClientComponents/auth/SignInButton';
-import { SettingsDialog } from '@/ClientComponents/SettingsDialog';
 import { ToggleThemeColorButton } from '@/ClientComponents/ToggleThemeButton';
-import { _log } from '@/Helpers/helpersFns';
 import { paths } from '@/paths';
 import { AppBar, Breadcrumbs, Toolbar, Typography } from '@mui/material';
-import { getSession, SessionProvider } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 
@@ -28,6 +25,7 @@ const routes = [
 export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
     const session = await auth()
+    const { isAuth, role } = await checkAuth()
 
 
     return (
@@ -59,9 +57,13 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     {/* <SignInButton /> */ }
                     <ToggleThemeColorButton />
                     <LoginDialog />
-                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                        <Link href={ pageUrl.admin }> Админка </Link>
-                    </Typography>
+                    {
+                        role === 'ADMIN' &&
+
+                        <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
+                            <Link href={ pageUrl.admin }> Админка </Link>
+                        </Typography>
+                    }
                 </Breadcrumbs>
 
             </Toolbar>

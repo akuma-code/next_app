@@ -79,9 +79,7 @@ export default function LoginForm() {
                     aria-live="polite"
                     aria-atomic="true"
                 >
-                    <Button
-                        onClick={ async () => await setAdmin("nodachi@bk.ru") }
-                    >SetAdmin</Button>
+
                     {
                         // errorMessage && (
                         //     <>
