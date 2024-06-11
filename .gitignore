@@ -16,7 +16,7 @@
 # production
 /build
 /output
-.ignore/
+.ignore_code
 
 # misc
 .DS_Store
@@ -38,4 +38,4 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
-.env.*local
+
