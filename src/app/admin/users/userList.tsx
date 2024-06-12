@@ -7,8 +7,8 @@ import { UserRole } from "@prisma/client";
 export type DTO_User = {
     id: number;
     email: string;
-    role: UserRole;
-    profile: {
+    role?: UserRole;
+    profile?: {
         id: number;
         userId: number;
     } | null;

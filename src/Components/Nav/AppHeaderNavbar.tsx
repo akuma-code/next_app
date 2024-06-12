@@ -48,7 +48,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
                 <Typography textAlign={ 'center' } flexGrow={ 1 }>
                     { session
-                        ? `user: ${session?.user?.email}, ${session?.user.role}`
+                        ? `user: ${session?.user?.email}, ${session?.user?.role}`
                         : "Пользователь не авторизован"
                     }
                 </Typography>
