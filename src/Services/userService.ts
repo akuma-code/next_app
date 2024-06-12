@@ -38,7 +38,8 @@ export async function getUser(payload: GetOnePayload, options?: { withPass?: boo
                 select: {
                     email: true,
                     role: true,
-                    password: !!options?.withPass
+                    password: !!options?.withPass,
+                    profile: true
                 }
             })
             return user

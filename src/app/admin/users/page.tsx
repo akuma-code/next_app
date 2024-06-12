@@ -1,31 +1,23 @@
 import { getAllUsers } from "@/Services/userService";
-import { Avatar, Box, Button, IconButton, List, ListItem, ListItemText } from "@mui/material";
+import { Avatar, Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, Typography } from "@mui/material";
 import Link from "next/link";
+import UserList from "./userList";
 
 async function UsersPage() {
     const allUsers = await getAllUsers()
 
     return (
-        <Box>
-            Users Page, total users: { allUsers.length }
-            <List>
-                {
-                    allUsers.map(u =>
+        <Box component={ Paper }>
+            <Stack direction={ 'column' } gap={ 2 }>
 
-                        <ListItem key={ u.id }>
-                            <ListItemText
-                                primary={ u.email }
-                                secondary={ `id: ${u.id}, role: ${u.role}` }
-                            />
-                            <IconButton
-                                title="Profile"
-                                LinkComponent={ Link }
-                                href={ `/admin/users/profile/${u.id}` }
-                            ><Avatar /></IconButton>
-                        </ListItem>
-                    )
-                }
-            </List>
+                <Typography variant="body1">
+                    Users Page
+                </Typography>
+                <Typography variant="body2">
+                    total users: { allUsers.length }
+                </Typography>
+                <UserList users={ allUsers } />
+            </Stack>
         </Box>
     )
 }
