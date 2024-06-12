@@ -21,8 +21,8 @@ export type DTO_User = {
         name?: string | null
 
 =======
-    role: UserRole;
-    profile: {
+    role?: UserRole;
+    profile?: {
         id: number;
         userId: number;
 >>>>>>> 397e0a5 (userlist)
@@ -46,38 +46,38 @@ const UserList: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 const UserList: React.FC<{ users: DTO_User[] }> = async ({ users }) => {
     // const users = await getAllUsers()
     return (
-        <Paper elevation={ 2 } sx={ { p: 1 } }>
+            <Paper elevation={ 2 } sx={ { p: 1 } }>
 
 
-            <List sx={ {
-                border: '2px solid',
-                borderColor: (theme) => theme.palette.primary.main,
-                bgcolor: 'InfoBackground'
+                <List sx={ {
+                    border: '2px solid',
+                    borderColor: (theme) => theme.palette.primary.main,
+                    bgcolor: 'InfoBackground'
 
-            } } >
-                {
-                    users.map(u =>
+                } } >
+                    {
+                        users.map(u =>
 
-                        <ListItem key={ u.id } alignItems="center" divider>
+                            <ListItem key={ u.id } alignItems="center" divider>
 
-                            <ListItemButton
-                                color="warning.dark"
-                                title="открыть профиль"
-                                LinkComponent={ Link }
-                                href={ `/admin/users/profile/${u.id}` }>
-                                <ListItemText
-                                    primary={ u.email }
-                                // secondary={ `id: ${u.id}, role: ${u.role}` }
-                                />
+                                <ListItemButton
+                                    color="warning.dark"
+                                    title="открыть профиль"
+                                    LinkComponent={ Link }
+                                    href={ `/admin/users/profile/${u.id}` }>
+                                    <ListItemText
+                                        primary={ u.email }
+                                    // secondary={ `id: ${u.id}, role: ${u.role}` }
+                                    />
 
-                            </ListItemButton>
-                        </ListItem>
-                    )
-                }
-            </List>
+                                </ListItemButton>
+                            </ListItem>
+                        )
+                    }
+                </List>
 >>>>>>> 397e0a5 (userlist)
-        </Paper>
-    )
+            </Paper>
+            )
 }
 
-export default UserList
+            export default UserList
