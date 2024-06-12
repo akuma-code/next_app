@@ -24,7 +24,7 @@ const UserList: React.FC<{ users: DTO_User[] }> = async ({ users }) => {
             <List sx={ {
                 border: '2px solid',
                 borderColor: (theme) => theme.palette.primary.main,
-                bgcolor: 'background.paper'
+                bgcolor: 'InfoBackground'
 
             } } >
                 {
