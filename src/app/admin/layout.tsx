@@ -1,3 +1,4 @@
+import LinkMui from "@/ClientComponents/UI/LinkMui";
 import { Box, List, ListItem, ListItemButton, Paper, Stack } from "@mui/material";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -7,6 +8,10 @@ interface ContainerLayoutProps {
 }
 
 const links = [
+    {
+        href: "/admin/users",
+        label: "Пользователи",
+    },
     {
         href: "/admin/players",
         label: "Игроки",

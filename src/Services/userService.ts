@@ -3,11 +3,53 @@
 import { validateEmail, validateRole } from "@/auth/validator";
 import prisma from "@/client/client"
 import { _log } from "@/Helpers/helpersFns";
-import { User, UserRole } from "@prisma/client";
+import { Prisma, User, UserRole } from "@prisma/client";
 import { Payload } from "@prisma/client/runtime/library";
 import bcrypt from "bcrypt"
 import { revalidatePath } from "next/cache";
+type GetOnePayload = { id: string, } | { email: string }
+export async function getUser(payload: GetOnePayload, options?: { withPass?: boolean }) {
+    const u = prisma.user
+    try {
 
+        if ('id' in payload) {
+
+            const { id } = payload;
+
+
+
+
+
+            const user = await u.findUnique({
+                where: { id: Number(id) },
+                select: {
+                    email: true,
+                    role: true,
+                    password: !!options?.withPass,
+                    profile: true
+                }
+            })
+
+            return user
+        } else {
+            const { email } = payload;
+            const user = await u.findUnique({
+                where: { email },
+                select: {
+                    email: true,
+                    role: true,
+                    password: !!options?.withPass
+                }
+            })
+            return user
+        }
+
+
+    } catch (e) {
+        _log(e)
+        throw new Error("Find user error")
+    }
+}
 export async function getOneUser(payload: { email: string }, options?: { withPass?: boolean }) {
     const u = prisma.user
 
@@ -15,6 +57,9 @@ export async function getOneUser(payload: { email: string }, options?: { withPas
     const { email } = payload;
 
     try {
+
+
+
         const user = await u.findUnique({
             where: { email },
             select: {
@@ -24,6 +69,7 @@ export async function getOneUser(payload: { email: string }, options?: { withPas
             }
         })
         return user
+
 
 
     } catch (e) {
@@ -154,3 +200,17 @@ export async function setAdmin(email: string) {
     return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
 }
 
+export async function getAllUsers(options?: { select?: string[] }) {
+
+
+    const users = await prisma.user.findMany({
+        select: {
+            id: true,
+            email: true,
+            profile: true,
+            role: true
+        },
+    })
+
+    return users
+}

@@ -29,11 +29,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                 name: "email",
                 // type: "credentials",
                 authorize: async (credentials) => {
-                    let user: null | Pick<User, 'email' | 'password' | 'role'> = null
+                    let user: null | Required<Pick<User, 'email' | 'password' | 'role'>> = null
 
 
-                    user = await getOneUser({ email: credentials.email as string, }, { withPass: true })
-                    if (!user) {
+                    user = await getOneUser({ email: credentials.email! as string, }, { withPass: true })
+                    if (!user || !user.email) {
                         console.error("User not found.")
                         return null
                     } else return user
