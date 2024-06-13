@@ -21,9 +21,9 @@ export function validateUser(user: User) {
         passowrd: !validateRequired(user.password)
             ? 'password required!'
             : '',
-        role: !validateRole(user.role)
-            ? 'user role error!'
-            : ''
+        // role: !validateRole(user.role)
+        //     ? 'user role error!'
+        //     : ''
     };
 }
 export function validateRole(role: string) {

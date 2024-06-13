@@ -130,8 +130,8 @@ export async function createUser(email: string, password: string, role: UserRole
     }
 }
 
-export async function createUserWithProfile(payload: Prisma.UserCreateInput, profile?: Partial<Prisma.ProfileCreateInput>) {
-    const { email, password, role } = payload
+export async function createUserWithProfile(user_data: Prisma.UserCreateInput, profile_data?: Partial<Prisma.ProfileCreateInput>) {
+    const { email, password, role } = user_data
 
     const verifiedEmail = validateEmail(email)
 
@@ -150,7 +150,12 @@ export async function createUserWithProfile(payload: Prisma.UserCreateInput, pro
             data: {
                 email: verifiedEmail,
                 password: pwHash,
-                role: role
+                role: role,
+                profile: {
+                    create: {
+                        ...profile_data
+                    }
+                }
             },
             select: {
                 email: true,
@@ -160,24 +165,24 @@ export async function createUserWithProfile(payload: Prisma.UserCreateInput, pro
                 password: true
             }
         })
-        if (profile) {
-            const p = await prisma.profile.create({
-                data: {
-                    name: profile.name,
-                    userId: user.id,
-                },
+        // if (profile_data) {
+        //     const p = await prisma.profile.create({
+        //         data: {
+        //             name: profile_data.name,
+        //             userId: user.id,
+        //         },
 
-            })
-            await prisma.user.update({
-                where: { id: user.id },
-                data: {
-                    profile: {
-                        connect: p
-                    }
-                }
-            })
-            console.table(p)
-        }
+        //     })
+        //     await prisma.user.update({
+        //         where: { id: user.id },
+        //         data: {
+        //             profile: {
+        //                 connect: p
+        //             }
+        //         }
+        //     })
+        //     console.table(p)
+        // }
 
         console.table(user)
         return user
@@ -257,9 +262,20 @@ export async function setAdmin(email: string) {
     return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
 }
 
-export async function getAllUsers(options?: { select?: string[], pass?: boolean }) {
+export async function getAllUsers<T extends keyof User & string>(options?: { select?: T[], pass?: boolean }) {
     const pass = options?.pass
+    if (options?.select !== undefined) {
 
+        const selectfields = options.select.reduce((acc, field) => {
+            const res: Record<string, boolean> = {
+                [`${field}`]: true
+            }
+            let accum: typeof res = {}
+            accum[field] = true
+            return accum
+        }, {} as Record<string, boolean | undefined>)
+        console.table(await prisma.user.findMany({ select: selectfields }))
+    }
     const users = await prisma.user.findMany({
         select: {
             id: true,

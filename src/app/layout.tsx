@@ -34,7 +34,7 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = async ({
           <Providers>
 
 
-            <Paper maxWidth={ 'md' } component={ Container } elevation={ 2 } color="primary.main">
+            <Paper maxWidth={ 'lg' } component={ Container } elevation={ 2 } color="primary.main">
 
 
               <AppHeader />

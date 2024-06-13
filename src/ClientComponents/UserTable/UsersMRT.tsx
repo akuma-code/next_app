@@ -2,7 +2,7 @@
 import { DTO_User } from '@/app/admin/users/userList';
 import { validateUser } from '@/auth/validator';
 import { createUser, createUserWithProfile, updateUser } from '@/Services/userService';
-import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle } from '@mui/material';
+import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid } from '@mui/material';
 import { User, UserRole } from '@prisma/client';
 import {
     MRT_EditActionButtons,
@@ -16,6 +16,7 @@ import {
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import SubmitButton from '../UI/SubmitButton';
 const roles = {
     ADMIN: "Админ",
     MEMBER: "Пользователь",
@@ -24,6 +25,7 @@ const roles = {
 const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
     const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
+    const [profile_, setProfile] = useState({ name: "", email: "", pass: "" })
     const mrt_columns = useMemo(() =>
 
         [
@@ -51,7 +53,8 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 muiTableBodyCellProps: {
                     align: 'center'
                 },
-                Cell: ({ cell, row }) => <Link href={ `/admin/users/profile/${row.original.id}` }><Avatar /></Link>
+                Cell: ({ cell, row }) => <Link href={ `/admin/users/profile/${row.original.id}` }><Avatar /></Link>,
+                enableEditing: false,
 
             },
             // {
@@ -78,8 +81,8 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
         }
         const { email, password, role, id, profile } = values;
         setValidationErrors({})
-        const name = row.original?.profile?.name
-        const new_user = await createUserWithProfile(values)
+        const name = profile_.name
+        const new_user = await createUserWithProfile({ email, password, role }, { name: profile_.name })
         table.setCreatingRow(null)
         return new_user
 
@@ -146,19 +149,24 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     <DialogTitle >
                         Create new user
                     </DialogTitle>
-                    <DialogContent sx={ { gap: 2, display: 'flex', flexDirection: 'column' } }>
-                        { Email }
-                        <Stack direction={ 'row' } gap={ 1 }>
-                            <Box flexGrow={ 2 }>
+                    <Grid container spacing={ 2 } p={ 2 }>
+                        <Grid item md={ 12 }>
+                            <TextField name='name'
+                                value={ profile_.name }
+                                onChange={ (e) => setProfile(prev => ({ ...prev, name: e.target.value })) }
+                                label="Name"
+                                variant='outlined'
+                                fullWidth
 
-                                { Password }
-                            </Box>
-                            <Box flexGrow={ 1 }>
+                                size='small'
+                            />
+                            { Email }
+                            { Password }
+                        </Grid>
 
-                                { Role }
-                            </Box>
-                        </Stack>
-                    </DialogContent>
+
+                    </Grid>
+
                 </>
             )
         },
