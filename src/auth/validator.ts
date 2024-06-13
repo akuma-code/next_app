@@ -23,6 +23,7 @@ export function validateUserCreate(user: Prisma.UserCreateInput & { name?: strin
         passowrd: !validateRequired(user.password)
             ? 'password required!' as const
             : '',
+<<<<<<< HEAD
         name: !user.name
             ? "Не забудьте обновить имя в профиле"
             : ""
@@ -40,6 +41,11 @@ export function validateUserUpdate(user: Prisma.UserCreateInput & { name?: strin
         name: !user.name
             ? "Не забудьте обновить имя в профиле"
             : ""
+=======
+        // role: !validateRole(user.role)
+        //     ? 'user role error!'
+        //     : ''
+>>>>>>> 820e0e3 (sync)
     };
 }
 export function validateRole(role: string) {

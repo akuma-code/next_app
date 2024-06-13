@@ -1,8 +1,14 @@
 'use client'
 import { DTO_User } from '@/app/admin/users/userList';
+<<<<<<< HEAD
 import { validateUserCreate, validateUserUpdate } from '@/auth/validator';
 import { createUserWithProfile, deleteUser, editUser, } from '@/Services/userService';
 import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid, DialogActions, IconButton, MenuItem } from '@mui/material';
+=======
+import { validateUser } from '@/auth/validator';
+import { createUser, createUserWithProfile, updateUser } from '@/Services/userService';
+import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid } from '@mui/material';
+>>>>>>> 820e0e3 (sync)
 import { User, UserRole } from '@prisma/client';
 import {
     MRT_ActionMenuItem,
@@ -16,9 +22,13 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
 import { useMemo, useState } from 'react';
+<<<<<<< HEAD
 import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
 import { _log } from '@/Helpers/helpersFns';
 import { usePathname, useRouter } from 'next/navigation';
+=======
+import SubmitButton from '../UI/SubmitButton';
+>>>>>>> 820e0e3 (sync)
 const roles = {
     ADMIN: "Админ",
     MEMBER: "Пользователь",
@@ -27,9 +37,13 @@ const roles = {
 const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
     const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
+<<<<<<< HEAD
     const [profile_, setProfile] = useState({ name: "", email: "", pass: "", role: "" })
     const router = useRouter()
     const pathname = usePathname()
+=======
+    const [profile_, setProfile] = useState({ name: "", email: "", pass: "" })
+>>>>>>> 820e0e3 (sync)
     const mrt_columns = useMemo(() =>
         [
 
@@ -87,6 +101,11 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     onChange: (e) => setProfile(prev => ({ ...prev, role: e.target.value as string })),
                     // defaultValue: UserRole.GUEST
                 },
+<<<<<<< HEAD
+=======
+                Cell: ({ cell, row }) => <Link href={ `/admin/users/profile/${row.original.id}` }><Avatar /></Link>,
+                enableEditing: false,
+>>>>>>> 820e0e3 (sync)
 
             },
 
@@ -129,6 +148,11 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
 
         setValidationErrors({})
+<<<<<<< HEAD
+=======
+        const name = profile_.name
+        const new_user = await createUserWithProfile({ email, password, role }, { name: profile_.name })
+>>>>>>> 820e0e3 (sync)
         table.setCreatingRow(null)
         // exitCreatingMode()
 
@@ -224,6 +248,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                         Изменить данные
                     </DialogTitle>
                     <Grid container spacing={ 2 } p={ 2 }>
+<<<<<<< HEAD
 
                         { internalEditComponents.map((c, idx) =>
 
@@ -237,6 +262,25 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     <DialogActions sx={ { display: 'flex', justifyContent: 'space-between' } }>
                         <MRT_EditActionButtons variant="text" table={ table } row={ row } />
                     </DialogActions>
+=======
+                        <Grid item md={ 12 }>
+                            <TextField name='name'
+                                value={ profile_.name }
+                                onChange={ (e) => setProfile(prev => ({ ...prev, name: e.target.value })) }
+                                label="Name"
+                                variant='outlined'
+                                fullWidth
+
+                                size='small'
+                            />
+                            { Email }
+                            { Password }
+                        </Grid>
+
+
+                    </Grid>
+
+>>>>>>> 820e0e3 (sync)
                 </>
             )
         },
