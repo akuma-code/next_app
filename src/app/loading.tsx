@@ -8,7 +8,7 @@ interface LoadingStpProps {
 const LoadingStp: React.FC<LoadingStpProps> = () => {
     return (
         <Box sx={ { w: '100%', h: '100%', p: 3 } }>
-            <LinearProgress variant="indeterminate" color="info" />
+            <LinearProgress variant="indeterminate" color="warning" />
         </Box>
     );
 }

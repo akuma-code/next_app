@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary, QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
@@ -86,10 +86,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 <AppRouterCacheProvider>
                     <QueryClientProvider client={ queryClient }>
                         <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
-                            {/* <Paper elevation={ 2 }> */ }
+                            <HydrationBoundary state={ dehydrate(queryClient) }>
 
-                            { children }
-                            {/* </Paper> */ }
+
+                                { children }
+                            </HydrationBoundary>
+
                         </LocalizationProvider>
                     </QueryClientProvider>
                 </AppRouterCacheProvider>

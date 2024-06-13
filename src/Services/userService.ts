@@ -13,20 +13,14 @@ export async function getUser(payload: GetOnePayload, options?: { withPass?: boo
     try {
 
         if ('id' in payload) {
-
             const { id } = payload;
-
-
-
-
-
             const user = await u.findUnique({
                 where: { id: Number(id) },
                 select: {
                     email: true,
                     role: true,
                     password: !!options?.withPass,
-                    profile: true
+                    profile: true,
                 }
             })
 
@@ -39,7 +33,7 @@ export async function getUser(payload: GetOnePayload, options?: { withPass?: boo
                     email: true,
                     role: true,
                     password: !!options?.withPass,
-                    profile: true
+                    profile: true,
                 }
             })
             return user
@@ -66,7 +60,7 @@ export async function getOneUser(payload: { email: string }, options?: { withPas
             select: {
                 email: true,
                 role: true,
-                password: !!options?.withPass
+                password: !!options?.withPass,
             }
         })
         return user
@@ -136,6 +130,66 @@ export async function createUser(email: string, password: string, role: UserRole
     }
 }
 
+export async function createUserWithProfile(payload: Prisma.UserCreateInput, profile?: Partial<Prisma.ProfileCreateInput>) {
+    const { email, password, role } = payload
+
+    const verifiedEmail = validateEmail(email)
+
+    if (!verifiedEmail) {
+        throw new Error("Email is not valid")
+    }
+
+
+    const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
+    if (existUser) throw new Error("Email already in use, try another")
+
+
+    try {
+        const pwHash = await bcrypt.hash(password, 5)
+        const user = await prisma.user.create({
+            data: {
+                email: verifiedEmail,
+                password: pwHash,
+                role: role
+            },
+            select: {
+                email: true,
+                role: true,
+                id: true,
+                profile: true,
+                password: true
+            }
+        })
+        if (profile) {
+            const p = await prisma.profile.create({
+                data: {
+                    name: profile.name,
+                    userId: user.id,
+                },
+
+            })
+            await prisma.user.update({
+                where: { id: user.id },
+                data: {
+                    profile: {
+                        connect: p
+                    }
+                }
+            })
+            console.table(p)
+        }
+
+        console.table(user)
+        return user
+    } catch (e) {
+        _log(e)
+        throw new Error("create user error")
+    } finally {
+        revalidatePath('/')
+    }
+
+}
+
 type UserSearchId = {
     type: 'id'
     search: number
@@ -156,7 +210,8 @@ export async function updateUser(q: UserSearchParam, _data: { role?: UserRole, p
 
                 const user = await prisma.user.update({
                     where: { email: search }, data: {
-                        ..._data
+                        ..._data,
+
                     }, select: {
                         email: true,
                         id: true,
@@ -174,6 +229,7 @@ export async function updateUser(q: UserSearchParam, _data: { role?: UserRole, p
                         ..._data
                     }, select: {
                         email: true,
+
                         id: true,
                         role: true,
                         password: !!_data.password,
@@ -201,15 +257,16 @@ export async function setAdmin(email: string) {
     return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
 }
 
-export async function getAllUsers(options?: { select?: string[] }) {
-
+export async function getAllUsers(options?: { select?: string[], pass?: boolean }) {
+    const pass = options?.pass
 
     const users = await prisma.user.findMany({
         select: {
             id: true,
             email: true,
             profile: true,
-            role: true
+            role: true,
+            password: !!pass
         },
     })
 

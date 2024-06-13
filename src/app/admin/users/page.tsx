@@ -4,18 +4,11 @@ import Link from "next/link";
 import UserList from "./userList";
 
 async function UsersPage() {
-    const allUsers = await getAllUsers()
+    const allUsers = await getAllUsers({ pass: true })
 
     return (
         <Box component={ Paper }>
             <Stack direction={ 'column' } gap={ 2 }>
-
-                <Typography variant="body1">
-                    Users Page
-                </Typography>
-                <Typography variant="body2">
-                    total users: { allUsers.length }
-                </Typography>
                 <UserList users={ allUsers } />
             </Stack>
         </Box>
