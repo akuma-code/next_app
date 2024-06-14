@@ -96,6 +96,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 grow: 1,
                 minSize: 120,
                 enableHiding: true,
+                enableEditing: false,
                 muiEditTextFieldProps: {
                     required: false,
                     error: !!validationErrors?.password,
@@ -250,8 +251,8 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     </Grid>
                     <Grid item >
 
-                        <Typography variant='body2'>
-                            Дополнительная информация:
+                        <Typography variant='subtitle1'>
+                            { row.original.password }
 
                         </Typography>
                     </Grid>

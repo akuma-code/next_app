@@ -111,8 +111,8 @@ model User {
   email    String   @unique
   password String   @map("hash_password")
   role     UserRole @default(GUEST)
-
-  profile Profile?
+  name     String?
+  profile  Profile?
 
   @@map("users")
 }
