@@ -4,7 +4,10 @@ import Link from "next/link";
 import UserList from "./userList";
 
 async function UsersPage() {
-    const allUsers = await getAllUsers({ pass: true })
+    const allUsers = await getAllUsers({ select: ['id', 'email', "role", 'password', 'profile',] }
+        // { select: ['email', 'role', 'password', "id"] }
+
+    )
 
     return (
         <Box component={ Paper }>

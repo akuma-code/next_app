@@ -26,6 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                     email: { label: "Email", },
                     password: { label: "Пароль", type: "password" }
                 },
+
                 name: "email",
                 // type: "credentials",
                 authorize: async (credentials) => {
@@ -48,6 +49,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
             //     //   profileUrl: `https://api.vk.com/method/users.get?fields=photo_100&v=${apiVersion}`,
             // })
         ],
+        pages: {
+            // signIn: '/api/auth/signin',
+            newUser: '/api/auth/register'
+        },
         // debug: true,
         callbacks: {
             jwt({ token, user, trigger }) {

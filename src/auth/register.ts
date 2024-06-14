@@ -32,10 +32,11 @@ export async function registerUser(payload: { email: string, password: string })
 }
 
 
-export async function registerAction(data: FormData) {
+export async function registerAction(prevdata: any, data: FormData) {
     const { email, password } = Object.fromEntries(data) as { email: string, password: string }
-    await registerUser({ email, password })
-    redirect('/')
+    const validEmail = validateEmail(email)
+    if (validEmail !== false) await registerUser({ email: validEmail, password })
+    else return { message: "Email incorrect" }
 
 
 }

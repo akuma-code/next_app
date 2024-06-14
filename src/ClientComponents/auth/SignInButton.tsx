@@ -4,13 +4,14 @@ import { Button } from "@mui/material"
 import { signIn, signOut } from "next-auth/react"
 
 export function SignInButton() {
+
     return (
         <Button
             color="primary"
             variant="contained"
             size="small"
             onClick={ async () => await signIn() }>
-            Sign In
+            Авторизоваться
         </Button>
     )
 }
@@ -21,7 +22,7 @@ export function SignOutButton() {
             variant="contained"
             size="small"
             onClick={ async () => await signOut() }>
-            Sign Out
+            Выйти
         </Button>
     )
 }

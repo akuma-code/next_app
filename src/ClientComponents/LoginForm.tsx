@@ -24,11 +24,11 @@ const initalState: FormState = {
     role: UserRole.GUEST
 }
 export default function LoginForm() {
-
+    const [error, dispatch] = useFormState(registerAction, undefined)
 
     return (
         <form
-            action={ registerAction }
+            action={ dispatch }
 
             className="space-y-3" name='loginform' id={ 'loginform' }>
 
@@ -48,7 +48,7 @@ export default function LoginForm() {
                         type='email'
                         label="Email"
                         required
-                        autoComplete='on'
+
                     />
 
 
@@ -81,12 +81,8 @@ export default function LoginForm() {
                 >
 
                     {
-                        // errorMessage && (
-                        //     <>
-                        //         {/* <ExclamationCircleIcon className="h-5 w-5 text-red-500" /> */ }
-                        //         <p className="text-sm text-red-500">{ errorMessage.message }</p>
-                        //     </>
-                        // ) 
+                        error &&
+                        <p className="text-sm text-red-500">{ error.message }</p>
                     }
                 </div>
 

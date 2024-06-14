@@ -1,13 +1,16 @@
 'use server'
 
-import { validateEmail, validateRole } from "@/auth/validator";
-import prisma from "@/client/client"
+import { hashPass } from "@/auth/utils";
+import { validateEmail } from "@/auth/validator";
+import prisma from "@/client/client";
 import { _log } from "@/Helpers/helpersFns";
-import { Prisma, User, UserRole } from "@prisma/client";
-import { Payload } from "@prisma/client/runtime/library";
-import bcrypt from "bcrypt"
+import { Prisma, UserRole } from "@prisma/client";
+
+import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 type GetOnePayload = { id: string, } | { email: string }
+
+export type RSelectFields<T, P> = T extends keyof P & string ? T[] : never
 export async function getUser(payload: GetOnePayload, options?: { withPass?: boolean }) {
     const u = prisma.user
     try {
@@ -73,7 +76,12 @@ export async function getOneUser(payload: { email: string }, options?: { withPas
     }
 }
 
+export async function deleteUser(id: number) {
+    const u = await prisma.user.delete({ where: { id } })
+    console.log("deleted user: ", u)
+    revalidatePath('/')
 
+}
 
 export async function registerUser(email: string, password: string, role = UserRole.GUEST) {
     const verifiedEmail = validateEmail(email)
@@ -132,6 +140,8 @@ export async function createUser(email: string, password: string, role: UserRole
 
 export async function createUserWithProfile(user_data: Prisma.UserCreateInput, profile_data?: Partial<Prisma.ProfileCreateInput>) {
     const { email, password, role } = user_data
+    const name = profile_data?.name
+
 
     const verifiedEmail = validateEmail(email)
 
@@ -145,7 +155,7 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
 
 
     try {
-        const pwHash = await bcrypt.hash(password, 5)
+        const pwHash = await hashPass(password)
         const user = await prisma.user.create({
             data: {
                 email: verifiedEmail,
@@ -165,24 +175,6 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
                 password: true
             }
         })
-        // if (profile_data) {
-        //     const p = await prisma.profile.create({
-        //         data: {
-        //             name: profile_data.name,
-        //             userId: user.id,
-        //         },
-
-        //     })
-        //     await prisma.user.update({
-        //         where: { id: user.id },
-        //         data: {
-        //             profile: {
-        //                 connect: p
-        //             }
-        //         }
-        //     })
-        //     console.table(p)
-        // }
 
         console.table(user)
         return user
@@ -205,7 +197,7 @@ type UserSearchEmail = {
 }
 
 type UserSearchParam = UserSearchEmail | UserSearchId
-export async function updateUser(q: UserSearchParam, _data: { role?: UserRole, password?: string }) {
+export async function updateUser(q: UserSearchParam, _data: Prisma.UserUpdateInput) {
 
 
     try {
@@ -262,19 +254,24 @@ export async function setAdmin(email: string) {
     return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
 }
 
-export async function getAllUsers<T extends keyof User & string>(options?: { select?: T[], pass?: boolean }) {
-    const pass = options?.pass
-    if (options?.select !== undefined) {
 
-        const selectfields = options.select.reduce((acc, field) => {
-            const res: Record<string, boolean> = {
-                [`${field}`]: true
-            }
-            let accum: typeof res = {}
-            accum[field] = true
-            return accum
-        }, {} as Record<string, boolean | undefined>)
-        console.table(await prisma.user.findMany({ select: selectfields }))
+const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
+
+    // let accum = {} as Record<keyof T & string, boolean>
+    acc[field] = true
+
+    return acc
+}, {} as Record<string, boolean | undefined>)
+
+type UserSelectFields = keyof Prisma.UserSelect
+export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[] }) {
+
+    if (options?.select) {
+
+        const _selected: Prisma.UserSelectScalar = selectfields(options.select)
+        const _users = await prisma.user.findMany({ select: _selected })
+        console.table(_users)
+        return _users
     }
     const users = await prisma.user.findMany({
         select: {
@@ -282,9 +279,56 @@ export async function getAllUsers<T extends keyof User & string>(options?: { sel
             email: true,
             profile: true,
             role: true,
-            password: !!pass
+            password: true
+
         },
     })
-
+    console.table(users)
     return users
+}
+
+export async function editUser(whereArgs: { id: number }, new_user_data: Partial<Prisma.UserUpdateInput>, new_profile_data?: { name: string | null }) {
+    let pwHash: string = ""
+    if (new_user_data.password) pwHash = await hashPass(new_user_data.password as string)
+    try {
+        const { id } = whereArgs
+        const _data = !!new_user_data.password ? {
+
+            email: new_user_data.email,
+            role: new_user_data.role,
+            password: bcrypt.hashSync(new_user_data.password as string, 5),
+
+        } : {
+            email: new_user_data.email,
+            role: new_user_data.role,
+        }
+
+        const _puser = await prisma.user.update({
+            where: { id },
+            data: { ..._data },
+            include: {
+                profile: true
+            }
+
+        })
+
+        if (new_profile_data) {
+            const { name } = new_profile_data || ""
+            const _p = await prisma.profile.upsert({
+                create: { userId: id, name },
+                update: { name },
+                where: { userId: id },
+            })
+            await prisma.user.update({ where: { id: _puser.id }, data: { profile: { connect: { id: _p.id } } } })
+        }
+        console.table(_puser)
+        return _puser
+    } catch (error) {
+        _log(error)
+        throw new Error("____update user error")
+    } finally {
+        // console.table(new_user_data)
+        revalidatePath('/')
+    }
+
 }

@@ -1,7 +1,7 @@
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { UserAuthPayload } from "./auth";
 
-export const validateRequired = (value: string) => !!value.length;
+export const validateRequired = (value: string) => !!value?.length;
 export const validateEmail = (email: string) => {
     const isValid = !!email.length &&
         email.toLowerCase()
@@ -13,17 +13,33 @@ export const validateEmail = (email: string) => {
     else return false
 }
 
-export function validateUser(user: User) {
+export function validateUserCreate(user: Prisma.UserCreateInput & { name?: string }) {
     return {
         email: !validateRequired(user.email)
-            ? 'First Name is Required'
-            : '',
+            ? 'Заполните поле почты' as const
+            : !validateEmail(user.email)
+                ? 'Невалидный адрес почты, проверьте написание' as const
+                : '',
         passowrd: !validateRequired(user.password)
-            ? 'password required!'
+            ? 'password required!' as const
             : '',
-        // role: !validateRole(user.role)
-        //     ? 'user role error!'
-        //     : ''
+        name: !user.name
+            ? "Не забудьте обновить имя в профиле"
+            : ""
+
+    };
+}
+export function validateUserUpdate(user: Prisma.UserCreateInput & { name?: string }) {
+    return {
+        email: !validateRequired(user.email)
+            ? 'Заполните поле почты' as const
+            : !validateEmail(user.email)
+                ? 'Невалидный адрес почты, проверьте написание' as const
+                : '',
+
+        name: !user.name
+            ? "Не забудьте обновить имя в профиле"
+            : ""
     };
 }
 export function validateRole(role: string) {

@@ -1,10 +1,6 @@
 'use client'
-import ProfileMenuButton from "@/ClientComponents/UI/MenuIconButton";
 import UsersMRT from "@/ClientComponents/UserTable/UsersMRT";
-import { getAllUsers } from "@/Services/userService"
-import { UserAuthPayload } from "@/auth/auth"
-import { Settings } from "@mui/icons-material";
-import { Avatar, Box, Grid, IconButton, Link, List, ListItem, ListItemButton, ListItemText, MenuItem, Paper, Stack } from "@mui/material"
+import { Box, Paper } from "@mui/material";
 import { UserRole } from "@prisma/client";
 
 export type DTO_User = {
@@ -12,7 +8,7 @@ export type DTO_User = {
     email: string;
     role?: UserRole;
     password?: string | null
-    profile: {
+    profile?: {
         id: number;
         userId: number;
         name?: string | null

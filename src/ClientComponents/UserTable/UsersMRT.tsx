@@ -1,10 +1,11 @@
 'use client'
 import { DTO_User } from '@/app/admin/users/userList';
-import { validateUser } from '@/auth/validator';
-import { createUser, createUserWithProfile, updateUser } from '@/Services/userService';
-import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid } from '@mui/material';
+import { validateUserCreate, validateUserUpdate } from '@/auth/validator';
+import { createUserWithProfile, deleteUser, editUser, } from '@/Services/userService';
+import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid, DialogActions, IconButton, MenuItem } from '@mui/material';
 import { User, UserRole } from '@prisma/client';
 import {
+    MRT_ActionMenuItem,
     MRT_EditActionButtons,
     MaterialReactTable,
     useMaterialReactTable,
@@ -14,9 +15,10 @@ import {
     type MRT_TableOptions,
 } from 'material-react-table';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
-import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import SubmitButton from '../UI/SubmitButton';
+import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
+import { _log } from '@/Helpers/helpersFns';
+import { usePathname, useRouter } from 'next/navigation';
 const roles = {
     ADMIN: "Админ",
     MEMBER: "Пользователь",
@@ -25,105 +27,155 @@ const roles = {
 const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
     const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
-    const [profile_, setProfile] = useState({ name: "", email: "", pass: "" })
+    const [profile_, setProfile] = useState({ name: "", email: "", pass: "", role: "" })
+    const router = useRouter()
+    const pathname = usePathname()
     const mrt_columns = useMemo(() =>
-
         [
 
             {
                 accessorKey: 'email',
                 header: "Email",
-                minSize: 150
+                minSize: 150,
+                muiEditTextFieldProps: {
+                    required: true,
+                    error: !!validationErrors?.email,
+                    helperText: validationErrors?.email,
+                    variant: 'filled',
+                    onFocus: () =>
+                        setValidationErrors({
+                            ...validationErrors,
+                            email: undefined,
+                        }),
+                    // onChange: (e) =>
+                    //     setProfile(prev => ({ ...prev, email: e.target.value }))
+                },
+            },
+            {
+                accessorKey: 'name',
+                header: "Имя",
+                minSize: 100,
+                muiEditTextFieldProps: {
+                    required: false,
+                    error: !!validationErrors?.name,
+                    helperText: validationErrors?.name,
+                    variant: 'filled',
+                    onFocus: () =>
+                        setValidationErrors({
+                            ...validationErrors,
+                            name: undefined,
+                        }),
+                    // onChange: (e) =>
+                    //     setProfile(prev => ({ ...prev, name: e.target.value }))
+                },
+
+                Cell: ({ row }) => row.original.profile?.name ?? "No name"
             },
             {
                 accessorKey: 'role',
-                header: "Role",
-                grow: false,
-                size: 80,
+                header: "Доступ",
+                grow: 1,
+                minSize: 80,
                 editVariant: 'select',
                 editSelectOptions: [UserRole.ADMIN, UserRole.MEMBER, UserRole.GUEST],
                 enableColumnActions: false,
-                Cell: ({ cell }) => roles[cell.getValue() as UserRole]
-            },
-            {
-                accessorKey: 'profile',
-                header: 'Профиль',
-                minSize: 100,
-                grow: true,
-                muiTableBodyCellProps: {
-                    align: 'center'
+                Cell: ({ cell }) => roles[cell.getValue() as UserRole],
+                muiEditTextFieldProps: {
+                    variant: 'outlined',
+                    error: !!validationErrors?.role,
+                    helperText: validationErrors?.role,
+                    onChange: (e) => setProfile(prev => ({ ...prev, role: e.target.value as string })),
+                    // defaultValue: UserRole.GUEST
                 },
-                Cell: ({ cell, row }) => <Link href={ `/admin/users/profile/${row.original.id}` }><Avatar /></Link>,
-                enableEditing: false,
 
             },
-            // {
-            //     accessorKey: 'name',
-            //     header: "Name",
-            //     minSize: 140
-            // },
+
             {
                 accessorKey: 'password',
-                header: "Password",
-                grow: false,
-                maxSize: 120,
+                header: "Пароль",
+                grow: 1,
+                minSize: 120,
                 enableHiding: true,
+                muiEditTextFieldProps: {
+                    required: false,
+                    error: !!validationErrors?.password,
+                    helperText: validationErrors?.password,
+                    variant: 'filled',
+                    onFocus: () =>
+                        setValidationErrors({
+                            ...validationErrors,
+                            password: undefined,
+                        }),
+                    // onChange: (e) =>
+                    //     setProfile(prev => ({ ...prev, pass: e.target.value }))
+                },
+                Cell: ({ cell }) => `${cell.getValue()}`.toString().slice(0, 8) + ' ....'
             },
 
         ] as MRT_ColumnDef<DTO_User>[], [validationErrors])
 
-    const handleCreateUser: MRT_TableOptions<DTO_User>['onCreatingRowSave'] = async ({ values, table, row }) => {
+    const handleCreateUser: MRT_TableOptions<DTO_User & { name?: string }>['onCreatingRowSave'] = async ({ values, table, row, exitCreatingMode }) => {
 
-        const errors = validateUser(values)
+        const errors = validateUserCreate(values)
         if (Object.values(errors).some((error) => error)) {
             setValidationErrors(errors);
             return;
         }
-        const { email, password, role, id, profile } = values;
+        // _log({ values })
+        const { email, password, role, name } = values;
+
+        await createUserWithProfile({ email, password, role }, { name })
+
+
         setValidationErrors({})
-        const name = profile_.name
-        const new_user = await createUserWithProfile({ email, password, role }, { name: profile_.name })
         table.setCreatingRow(null)
-        return new_user
+        // exitCreatingMode()
+
 
     }
-    const handleUpdateUser: MRT_TableOptions<DTO_User>['onEditingRowSave'] = async ({ values, table, row }) => {
-        // const errors = validateUser(values)
-        // if (Object.values(errors).some((error) => error)) {
-        //     setValidationErrors(errors);
-        //     return;
-        // }
-
+    const handleUpdateUser: MRT_TableOptions<DTO_User & { name?: string }>['onEditingRowSave'] = async ({ exitEditingMode, values, table, row }) => {
+        const errors = validateUserUpdate(values)
+        if (Object.values(errors).some((error) => error)) {
+            setValidationErrors(errors);
+            console.table(errors)
+            return;
+        }
         setValidationErrors({})
-        const { password, profile, role } = values;
-
-        await updateUser({ type: 'id', search: values.id }, values)
+        // _log({ values })
+        const userId = row.original.id
+        // const name = values['profile.name']
+        const { email, password, role, name } = values
+        await editUser({ id: userId }, { email, password, role }, { name })
         table.setEditingRow(null)
+        // exitEditingMode()
     }
-    const table = useMaterialReactTable<DTO_User>({
+
+    const handleDeleteUser = async (id: number) => {
+        confirm("Delete user? ") && await deleteUser(id)
+    }
+    const table = useMaterialReactTable<DTO_User & { name?: string }>({
         columns: mrt_columns,
         data: users,
         layoutMode: 'grid',
         localization: MRT_Localization_RU,
         enableEditing: true,
         createDisplayMode: 'modal',
-        editDisplayMode: 'row',
+        editDisplayMode: 'modal',
         enableRowNumbers: true,
         muiDetailPanelProps: {
-            size: 'small'
+            size: 'small',
+
         },
+
+        enableHiding: true,
+        positionActionsColumn: 'last',
         renderTopToolbarCustomActions: ({ table }) => (
             <Button
                 variant="contained"
                 size='small'
                 onClick={ () => {
-                    table.setCreatingRow(true); //simplest way to open the create row modal with no default values
-                    //or you can pass in a row object to set default values with the `createRow` helper function
-                    // table.setCreatingRow(
-                    //   createRow(table, {
-                    //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
-                    //   }),
-                    // );
+                    table.setCreatingRow(true);
+
                 } }
             >
                 Добавить пользователя
@@ -134,58 +186,132 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             setValidationErrors({})
             table.setCreatingRow(null)
         },
-        onEditingRowSave: handleUpdateUser,
-        renderCreateRowDialogContent: ({ row, table, internalEditComponents }) => {
-            const [
-                Email,
-                Role,
-                Profile,
-                Password,
-            ] = internalEditComponents
 
+        onEditingRowSave: handleUpdateUser,
+        onEditingRowCancel: ({ table }) => {
+            setValidationErrors({})
+            table.setEditingRow(null)
+        },
+        renderCreateRowDialogContent: ({ row, table, internalEditComponents }) => {
 
             return (
                 <>
                     <DialogTitle >
-                        Create new user
+                        Добавить нового пользователя
                     </DialogTitle>
                     <Grid container spacing={ 2 } p={ 2 }>
-                        <Grid item md={ 12 }>
-                            <TextField name='name'
-                                value={ profile_.name }
-                                onChange={ (e) => setProfile(prev => ({ ...prev, name: e.target.value })) }
-                                label="Name"
-                                variant='outlined'
-                                fullWidth
 
-                                size='small'
-                            />
-                            { Email }
-                            { Password }
-                        </Grid>
+                        { internalEditComponents.map((c, idx) =>
+
+                            <Grid item key={ idx / 3 } md={ 12 }>
+                                { c }
+                            </Grid>
+                        ) }
+
+                    </Grid>
+                    <DialogActions sx={ { display: 'flex', justifyContent: 'start' } }>
+                        <MRT_EditActionButtons variant="text" color={ 'warning' } table={ table } row={ row } />
+                    </DialogActions>
+                </>
+            )
+        },
+        renderEditRowDialogContent: ({ row, table, internalEditComponents }) => {
+
+            return (
+                <>
+                    <DialogTitle >
+                        Изменить данные
+                    </DialogTitle>
+                    <Grid container spacing={ 2 } p={ 2 }>
+
+                        { internalEditComponents.map((c, idx) =>
+
+                            <Grid item key={ idx / 3 } md={ 12 }>
+                                { c }
+                            </Grid>
+                        ) }
 
 
                     </Grid>
-
+                    <DialogActions sx={ { display: 'flex', justifyContent: 'space-between' } }>
+                        <MRT_EditActionButtons variant="text" table={ table } row={ row } />
+                    </DialogActions>
                 </>
             )
         },
         renderDetailPanel(props) {
+            const { row, table } = props;
+
             return (
-                <Stack>
-                    <Typography variant='body2'>password: { props.row.original.password }</Typography>
-                </Stack>
+                <Grid gridTemplateRows={ '1fr 1fr' } container spacing={ 2 } direction={ 'column' }>
+                    <Grid item >
+
+                        <Typography variant='body2' fontWeight={ 'bold' }>name: { row.original.profile?.name }</Typography>
+                    </Grid>
+                    <Grid item >
+
+                        <Typography variant='body2'>
+                            Дополнительная информация:
+
+                        </Typography>
+                    </Grid>
+                </Grid>
             )
         },
 
+        displayColumnDefOptions: {
+            'mrt-row-actions': {
+                header: 'Меню', //change header text
+                size: 100, //make actions column wider
+            },
+        },
+
+        renderRowActionMenuItems: ({
+            closeMenu,
+            row
+        }) => [
+                <MenuItem
+                    divider
+                    key={ 1 }
+                    onClick={ async () => await handleDeleteUser(row.original.id).finally(() => closeMenu()) }
+                >
+                    <Stack
+                        direction={ 'row' } width={ '100%' }
+                        gap={ 2 }
+                    >
+                        <DeleteTwoTone className='mx-1' /><Box flexGrow={ 1 }> Удалить</Box>
+                    </Stack>
+                </MenuItem>,
+                <MenuItem key={ 2 }
+
+
+                    onClick={ () => {
+                        router.push(pathname + `/profile/${row.original.id}`)
+                        closeMenu();
+                    } }>
+                    <Stack direction={ 'row' } width={ '100%' } gap={ 2 }>
+
+                        <AccountCircleTwoTone /> <span className='mp-1'> Профиль</span>
+                    </Stack>
+                </MenuItem>,
+                <MenuItem key={ 3 } onClick={ () => {
+                    console.info('Share', row.original);
+                    closeMenu();
+                } }>
+                    <Stack direction={ 'row' } width={ '100%' } gap={ 2 }>
+                        <ShareTwoTone /> Поделиться
+                    </Stack>
+                </MenuItem>
+            ],
         defaultDisplayColumn: {
-            grow: false,
-            maxSize: 80,
+            grow: 1,
+            // maxSize: 120,
             muiTableHeadCellProps: {
                 align: 'center',
                 sx: {
-                    borderRight: '1px solid black',
-                    bgcolor: 'grey',
+                    border: '1px solid black',
+                    bgcolor: 'secondary.light',
+                    color: 'primary.main',
                     fontWeight: 'normal'
                 }
 
@@ -196,12 +322,13 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             }
         },
         defaultColumn: {
-            grow: true,
+            grow: 1,
             muiTableHeadCellProps: {
                 align: 'center',
                 sx: {
-                    bgcolor: '#a0e1ff',
-                    borderRight: '1px solid black',
+                    bgcolor: 'secondary.light',
+                    color: 'primary.main',
+                    border: '1px solid black',
                     fontSize: {
                         xs: '10px',
                         sm: '11px',
@@ -231,21 +358,24 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
         state: {
             density: 'compact',
             columnOrder: [
+
                 'mrt-row-numbers',
                 'mrt-row-expand',
+                'email',
+                'name',
+                'role',
+                'password',
                 'mrt-row-actions',
             ],
 
         },
         initialState: {
-            columnVisibility: {
-                password: false
-            }
+
         },
         muiTableContainerProps: {
             sx: {
-                maxWidth: 660,
-                minWidth: 500,
+                minWidth: 700,
+                // minWidth: 500,
                 border: '2px groove darkgrey',
             }
         },

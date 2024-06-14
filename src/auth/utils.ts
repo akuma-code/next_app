@@ -42,6 +42,9 @@ export async function decrypt(user: string) {
 export async function hashPass(password: string) {
     return await bcrypt.hash(password, 5)
 }
+export function hashPassSync(password: string) {
+    return bcrypt.hashSync(password, 5)
+}
 
 export async function hashCompare(pass: string, compareWith: string) {
     return await bcrypt.compare(pass, compareWith)
