@@ -1,5 +1,6 @@
 'use client'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import UsersMRT from "@/ClientComponents/UserTable/UsersMRT";
 import { Box, Paper } from "@mui/material";
 =======
@@ -7,6 +8,10 @@ import { getAllUsers } from "@/Services/userService"
 import { UserAuthPayload } from "@/auth/auth"
 import { Avatar, IconButton, Link, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material"
 >>>>>>> 397e0a5 (userlist)
+=======
+import UsersMRT from "@/ClientComponents/UserTable/UsersMRT";
+import { Box, Paper } from "@mui/material";
+>>>>>>> 298ba52 (custom signin page)
 import { UserRole } from "@prisma/client";
 
 export type DTO_User = {

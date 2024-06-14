@@ -145,10 +145,15 @@ export async function createUser(email: string, password: string, role: UserRole
 export async function createUserWithProfile(user_data: Prisma.UserCreateInput, profile_data?: Partial<Prisma.ProfileCreateInput>) {
     const { email, password, role } = user_data
 <<<<<<< HEAD
+<<<<<<< HEAD
     const name = profile_data?.name
 
 =======
 >>>>>>> 820e0e3 (sync)
+=======
+    const name = profile_data?.name
+
+>>>>>>> 298ba52 (custom signin page)
 
     const verifiedEmail = validateEmail(email)
 
@@ -183,6 +188,7 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
             }
         })
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         // if (profile_data) {
         //     const p = await prisma.profile.create({
@@ -203,6 +209,8 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
         //     console.table(p)
         // }
 >>>>>>> 820e0e3 (sync)
+=======
+>>>>>>> 298ba52 (custom signin page)
 
         console.table(user)
         return user
@@ -283,6 +291,7 @@ export async function setAdmin(email: string) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
 
@@ -316,6 +325,26 @@ export async function getAllUsers<T extends keyof User & string>(options?: { sel
         }, {} as Record<string, boolean | undefined>)
         console.table(await prisma.user.findMany({ select: selectfields }))
 >>>>>>> 820e0e3 (sync)
+=======
+
+const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
+
+    // let accum = {} as Record<keyof T & string, boolean>
+    acc[field] = true
+
+    return acc
+}, {} as Record<string, boolean | undefined>)
+
+type UserSelectFields = keyof Prisma.UserSelect
+export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[] }) {
+
+    if (options?.select) {
+
+        const _selected: Prisma.UserSelectScalar = selectfields(options.select)
+        const _users = await prisma.user.findMany({ select: _selected })
+        console.table(_users)
+        return _users
+>>>>>>> 298ba52 (custom signin page)
     }
     const users = await prisma.user.findMany({
         select: {
@@ -327,7 +356,11 @@ export async function getAllUsers<T extends keyof User & string>(options?: { sel
 
         },
     })
+<<<<<<< HEAD
     options?.log && console.table(users)
+=======
+    console.table(users)
+>>>>>>> 298ba52 (custom signin page)
     return users
 }
 

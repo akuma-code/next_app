@@ -6,6 +6,11 @@ import UserList from "./userList";
 async function UsersPage() {
     const allUsers = await getAllUsers({ select: ['id', 'email', "role", 'password', 'profile',] }
         // { select: ['email', 'role', 'password', "id"] }
+<<<<<<< HEAD
+=======
+
+    )
+>>>>>>> 298ba52 (custom signin page)
 
 <<<<<<< HEAD
     )
