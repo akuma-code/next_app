@@ -137,9 +137,13 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 minSize: 120,
                 enableHiding: true,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 enableEditing: false,
 =======
 >>>>>>> 298ba52 (custom signin page)
+=======
+                enableEditing: false,
+>>>>>>> 09b08fd (db schema)
                 muiEditTextFieldProps: {
                     required: false,
                     error: !!validationErrors?.password,
@@ -361,12 +365,17 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     <Grid item >
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <Typography variant='subtitle1'>
                             { row.original.password }
 =======
                         <Typography variant='body2'>
                             Дополнительная информация:
 >>>>>>> 298ba52 (custom signin page)
+=======
+                        <Typography variant='subtitle1'>
+                            { row.original.password }
+>>>>>>> 09b08fd (db schema)
 
                         </Typography>
                     </Grid>
