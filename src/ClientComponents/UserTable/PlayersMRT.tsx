@@ -1,7 +1,11 @@
 'use client'
 import { _isArr } from '@/Helpers/helpersFns';
 import { EVResponse, PLResponse } from '@/Services/utils';
+<<<<<<< HEAD
 import { Player, UserRole } from '@prisma/client';
+=======
+import { Player } from '@prisma/client';
+>>>>>>> b401f4c (backup data)
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import {
     MRT_ActionMenuItem,
@@ -15,6 +19,7 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
 import { Suspense, useMemo } from 'react';
+<<<<<<< HEAD
 import { RowProfileCard } from '../MRT/Profile/UserProfileCard';
 export type EVR = Pick<EVResponse, 'date_formated' | 'id' | 'title' | 'pairs' | 'players'>
 export type PLR = Pick<PLResponse, 'name' | 'id'>
@@ -29,10 +34,19 @@ const player_columns: MRT_ColumnDef<PLR>[] = [
         header: 'ID',
         grow: 0,
         maxSize: 150,
+=======
+
+
+const player_columns: MRT_ColumnDef<{ id: number, name: string, info?: { rttf_score?: number } }>[] = [
+    {
+        accessorKey: 'id',
+        header: 'ID',
+>>>>>>> b401f4c (backup data)
     },
     {
         accessorKey: 'name',
         header: 'NAME',
+<<<<<<< HEAD
         grow: 1
     },
 
@@ -62,6 +76,17 @@ export function PlayersTable({ players }: { players: PLR[] }) {
         <MaterialReactTable table={ table } />
     )
 }
+=======
+    },
+    // {
+    //     accessorKey: 'info',
+    //     header: 'INFO',
+    // },
+
+]
+export type EVR = Pick<EVResponse, 'date_formated' | 'id' | 'title' | 'pairs' | 'players'>
+export type PLR = Pick<PLResponse, 'name' | 'id'>
+>>>>>>> b401f4c (backup data)
 const events_columns: MRT_ColumnDef<EVR>[] = [
     {
         accessorKey: 'id',
@@ -75,6 +100,7 @@ const events_columns: MRT_ColumnDef<EVR>[] = [
         accessorKey: 'title',
         header: 'Title'
     },
+<<<<<<< HEAD
 
 
 ]
@@ -84,11 +110,30 @@ export function EventsTable({ events }: { events: EVR[] }) {
     const table = useMaterialReactTable({
         columns: events_columns,
         data: events,
+=======
+    // {
+    //     accessorKey: 'pairs',
+    //     header: 'Pairs'
+    // },
+    // {
+    //     accessorKey: 'players',
+    //     header: 'Players'
+    // }
+
+]
+
+
+export function PlayersTable({ players }: { players: PLR[] }) {
+    const table = useMaterialReactTable({
+        columns: player_columns,
+        data: players
+>>>>>>> b401f4c (backup data)
     })
     return (
         <MaterialReactTable table={ table } />
     )
 }
+<<<<<<< HEAD
 const all_columns: TColumn = {
     db_events: [
 
@@ -220,12 +265,23 @@ export function AllDataTable({ data_all, type }: {
 
 
 
+=======
+export function EventsTable({ events }: { events: EVR[] }) {
+    const table = useMaterialReactTable({
+        columns: events_columns,
+        data: events
+    })
+>>>>>>> b401f4c (backup data)
     return (
         <MaterialReactTable table={ table } />
     )
 }
 
+<<<<<<< HEAD
 export function BackupTable({ restore }: { restore: 'players' | "events" | "all", data: PLR[] | EVR[] }) {
+=======
+export function BackupTable({ restore }: { restore: 'players' | "events", data: PLR[] | EVR[] }) {
+>>>>>>> b401f4c (backup data)
     const s = restore
     const q = useQuery({
         queryKey: [`/api/backup?data=${s}`, s]
@@ -239,12 +295,20 @@ export function BackupTable({ restore }: { restore: 'players' | "events" | "all"
         <Suspense fallback={ <div>Loading data for table</div> }>
             { s === 'players' ?
 
+<<<<<<< HEAD
                 q.isSuccess && <PlayersTable players={ q.data as PLR[] } />
+=======
+                q.isSuccess && PlayersTable({ players: q.data as PLR[] })
+>>>>>>> b401f4c (backup data)
                 : s === 'events' ?
                     q.isSuccess && EventsTable({ events: q.data as EVR[] })
                     : null
             }
         </Suspense>
     )
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> b401f4c (backup data)

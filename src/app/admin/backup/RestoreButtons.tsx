@@ -20,6 +20,7 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
     const isLog = useMemo(() => load === true ? "on" as const : "off" as const, [load])
     // _log(Object.entries(s.))
     return (
+<<<<<<< HEAD
         <ButtonGroup variant="contained" fullWidth size="small">
             <Button LinkComponent={ Link }>
                 <Link
@@ -69,6 +70,49 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
                     Log { load ? "off" : "on" }
                 </Link>
             </Button>
+=======
+        <ButtonGroup>
+            <Link href={ {
+                pathname: path,
+                query: { data: 'players', log: isLog }
+
+            } }>
+                <Button  >
+                    log players
+                </Button>
+            </Link>
+            <Link href={ {
+                pathname: path,
+                query: { data: 'events', log: isLog }
+
+            } }> <Button  >
+                    log events
+                </Button></Link>
+
+            <Link href={ {
+                pathname: path,
+                query: { data: 'users', log: isLog }
+
+            } }><Button  >
+                    log users
+                </Button>
+            </Link>
+            <Button variant="contained" disabled color="error">Logging: { isLog }</Button>
+            <Link href={ {
+                pathname: path,
+                query: { data: prevq, log: isLog }
+            } }
+            >
+                <Button variant="outlined" onClick={ () => {
+
+                    load === false ? on() : off()
+                    router.push(path + `?${prevq}&log=${isLog}`,)
+                } }>
+
+                    Toggle Log
+                </Button>
+            </Link>
+>>>>>>> b401f4c (backup data)
             {/* <Link href={ {
                 pathname: path,
                 query: { data: prevq, log: 'off' }
