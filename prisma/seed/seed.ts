@@ -87,7 +87,7 @@ async function seedAdmin() {
 
     try {
         const user = prisma.user.create({
-            data: { email: admin.email, password: admin.password, role: UserRole.ADMIN }
+            data: { email: admin.email, password: admin.password, role: UserRole.ADMIN, name: admin.name }
         })
         return user
     } catch (e) {

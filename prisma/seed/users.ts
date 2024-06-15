@@ -6,6 +6,7 @@ function hashPass(password: string) {
 export const admin: Omit<User, 'id'> = {
     email: "akumapl86@gmail.com",
     password: hashPass("darks1de"),
-    role: UserRole.ADMIN
+    role: UserRole.ADMIN,
+    name: "Pavel Rodnyansky"
 }
 
