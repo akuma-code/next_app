@@ -40,7 +40,7 @@ const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
 
                         <ListItem key={ link.href }>
                             <ListItemButton LinkComponent={ Link }
-                                href={ link.href }
+                                href={ link.href + '/' }
                             >
                                 { link.label }
                             </ListItemButton>

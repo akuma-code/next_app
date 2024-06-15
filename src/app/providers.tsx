@@ -1,5 +1,5 @@
 'use client'
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { CssBaseline, PaletteMode, useMediaQuery } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -13,11 +13,11 @@ import React, { useMemo } from 'react';
 import { getDesignTokens } from '../theme';
 import { ruRU } from '@mui/material/locale';
 dayjs.extend(weekday)
-export const queryFetch: QueryFunction = async ({ queryKey }) => {
+export const queryFetch: QueryFunction = async ({ queryKey, }) => {
     const fetch_url = queryKey[0]
     if (typeof fetch_url !== 'string') return console.log("Fetch url error: ", fetch_url)
     const data = await fetch(fetch_url)
-    return data
+    return data.json()
 }
 
 function makeQueryClient() {
@@ -85,14 +85,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 <CssBaseline enableColorScheme />
                 <AppRouterCacheProvider>
                     <QueryClientProvider client={ queryClient }>
-                        <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
-                            <HydrationBoundary state={ dehydrate(queryClient) }>
+                        <HydrationBoundary state={ dehydrate(queryClient) }>
+                            <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
 
 
                                 { children }
-                            </HydrationBoundary>
-
-                        </LocalizationProvider>
+                                <ReactQueryDevtools client={ queryClient } initialIsOpen={ false } />
+                            </LocalizationProvider>
+                        </HydrationBoundary>
                     </QueryClientProvider>
                 </AppRouterCacheProvider>
             </ThemeProvider>

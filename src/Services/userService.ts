@@ -264,7 +264,7 @@ const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)
 }, {} as Record<string, boolean | undefined>)
 
 type UserSelectFields = keyof Prisma.UserSelect
-export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[] }) {
+export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[], log?: boolean }) {
 
     if (options?.select) {
 
@@ -283,7 +283,7 @@ export async function getAllUsers<T extends UserSelectFields>(options?: { select
 
         },
     })
-    console.table(users)
+    options?.log && console.table(users)
     return users
 }
 
