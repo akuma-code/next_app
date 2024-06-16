@@ -1,11 +1,11 @@
 'use client'
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { CssBaseline, PaletteMode, useMediaQuery } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary, QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
@@ -13,11 +13,11 @@ import React, { useMemo } from 'react';
 import { getDesignTokens } from '../theme';
 import { ruRU } from '@mui/material/locale';
 dayjs.extend(weekday)
-export const queryFetch: QueryFunction = async ({ queryKey }) => {
+export const queryFetch: QueryFunction = async ({ queryKey, }) => {
     const fetch_url = queryKey[0]
     if (typeof fetch_url !== 'string') return console.log("Fetch url error: ", fetch_url)
     const data = await fetch(fetch_url)
-    return data
+    return data.json()
 }
 
 function makeQueryClient() {
@@ -80,16 +80,19 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const THEME = useMemo(() => createTheme({ ...getDesignTokens(mode) }, ruRU), [mode])
     return (
         <ColorModeContext.Provider value={ colorMode }>
+
             <ThemeProvider theme={ THEME }>
                 <CssBaseline enableColorScheme />
                 <AppRouterCacheProvider>
                     <QueryClientProvider client={ queryClient }>
-                        <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
-                            {/* <Paper elevation={ 2 }> */ }
+                        <HydrationBoundary state={ dehydrate(queryClient) }>
+                            <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
 
-                            { children }
-                            {/* </Paper> */ }
-                        </LocalizationProvider>
+
+                                { children }
+                                <ReactQueryDevtools client={ queryClient } initialIsOpen={ false } />
+                            </LocalizationProvider>
+                        </HydrationBoundary>
                     </QueryClientProvider>
                 </AppRouterCacheProvider>
             </ThemeProvider>

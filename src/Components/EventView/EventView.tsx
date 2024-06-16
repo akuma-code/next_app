@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { _log } from '@/Helpers/helpersFns'
+import { useSession } from 'next-auth/react'
 
 interface Pair {
     id: number
@@ -41,6 +42,7 @@ function parseEvent(event: TEvent, masters: { id: number, name: string }[]) {
 export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => {
     const router = useRouter()
     const pathname = usePathname()
+    const { data } = useSession()
     const { players, date_formated, title, _count, id, pairs } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
     const pairPlayerIdx = (id: number) => pairs.findIndex(p => p.secondPlayerId === id)

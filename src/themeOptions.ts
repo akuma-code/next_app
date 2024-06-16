@@ -53,7 +53,7 @@ const light: PaletteOptions = {
 
 const dark: PaletteOptions = {
     // palette values for dark mode
-    mode: 'dark',
+    mode: 'dark' as const,
     primary: {
         main: '#414344',
         dark: '#01579b',
@@ -125,8 +125,9 @@ const yoma_light = {
 
     },
     info: {
-        main: '#1ba1bf',
-        dark: '#183f8c',
+        main: '#ddf037',
+        dark: '#76772f',
+        light: '#f1f397',
     },
     divider: '#183f8c',
     warning: {
@@ -135,9 +136,9 @@ const yoma_light = {
         light: '#f38758',
     },
     error: {
-        main: '#bb2d0a',
-        light: '#f54d25',
-        dark: '#a41f01',
+        main: '#bb0a0a',
+        light: '#f86464',
+        dark: '#660303',
     },
     success: {
         main: '#779f3c',

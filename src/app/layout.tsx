@@ -6,6 +6,8 @@ import { AppHeader } from '../Components/Nav/AppHeaderNavbar';
 import "./globals.css";
 import Providers from "./providers";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth/auth";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -16,29 +18,33 @@ export const metadata: Metadata = {
 
 };
 
-const RootLayout: React.FC<{ children: React.ReactNode }> = ({
+const RootLayout: React.FC<{ children: React.ReactNode }> = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-
+  const session = await auth()
   const cls = [inter.className, 'bg-[#7ad5f3c9]'].join(" ")
   return (
     <html lang="ru">
       <body className={ cls } >
-        <Providers>
+        <SessionProvider session={ session }>
 
 
-          <Paper maxWidth={ 'md' } component={ Container } elevation={ 2 } color="primary.main">
+          <Providers>
 
-            {/* <Paper elevation={ 1 } sx={ { p: 1 } }> */ }
-            <AppHeader />
-            { children }
 
-            {/* </Paper> */ }
-          </Paper>
-          <SpeedInsights />
-        </Providers>
+            <Paper maxWidth={ 'lg' } component={ Container } elevation={ 2 } color="primary.main">
+
+
+              <AppHeader />
+              { children }
+
+
+            </Paper>
+            <SpeedInsights />
+          </Providers>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -90,7 +90,3 @@ export async function updatePair(pairId: number, payload: { masterId: number, pl
     }
 
 }
-
-export async function getMasters() {
-    return await prisma.master.findMany()
-}

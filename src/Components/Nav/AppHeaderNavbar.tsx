@@ -1,4 +1,6 @@
-import { SettingsDialog } from '@/ClientComponents/SettingsDialog';
+import { auth } from '@/auth/auth';
+import { checkAuth } from '@/auth/utils';
+import LoginDialog from '@/ClientComponents/auth/LoginDialog';
 import { ToggleThemeColorButton } from '@/ClientComponents/ToggleThemeButton';
 import { paths } from '@/paths';
 import { AppBar, Breadcrumbs, Toolbar, Typography } from '@mui/material';
@@ -12,37 +14,27 @@ interface AppHeaderProps {
 const { apiUrl, pageUrl } = paths;
 
 const routes = [
-    // {
-    //     to: pageUrl.root,
-    //     text: 'Home'
-    // },
-    // {
-    //     to: pageUrl.stps,
-    //     text: 'Data list'
-    // },
-    // {
-    //     to: pageUrl.users,
-    //     text: 'Users'
-    // },
+
     {
         to: '/avangard/events',
         text: 'Авангард'
     },
-    // {
-    //     to: '/avangard/players',
-    //     text: 'Игроки'
-    // }
+
 ]
 
 export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
-
+    const session = await auth()
+    const { isAuth, role } = await checkAuth()
 
 
     return (
+
+
+
         <AppBar position='static' color={ 'primary' } elevation={ 4 } sx={ { mb: 1 } }>
 
-            <Toolbar variant='dense' >
+            <Toolbar variant='dense' sx={ { display: 'flex' } }>
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 1 } } >
 
                     {
@@ -54,12 +46,24 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     }
                 </Breadcrumbs>
 
+                <Typography textAlign={ 'center' } flexGrow={ 1 }>
+                    { session
+                        ? `user: ${session?.user?.email}, ${session?.user?.role}`
+                        : "Пользователь не авторизован"
+                    }
+                </Typography>
+
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
+                    {/* <SignInButton /> */ }
                     <ToggleThemeColorButton />
-                    <SettingsDialog />
-                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                        <Link href={ pageUrl.admin }> Админка </Link>
-                    </Typography>
+                    <LoginDialog />
+                    {
+                        role === 'ADMIN' &&
+
+                        <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
+                            <Link href={ pageUrl.admin }> Админка </Link>
+                        </Typography>
+                    }
                 </Breadcrumbs>
 
             </Toolbar>

@@ -1,9 +1,17 @@
 'use client'
 
+import { queryFetch } from "@/app/providers"
 import { _log } from "@/Helpers/helpersFns"
-import { Box, Typography } from "@mui/material"
+import { Box, LinearProgress, Typography } from "@mui/material"
+import { useQuery } from "@tanstack/react-query"
 import { NextApiResponse } from "next"
 import useSWR from "swr"
+import React, { useEffect } from 'react'
+import { BackupTable, EVR, PlayersTable, PLR } from "@/ClientComponents/UserTable/PlayersMRT"
+import { PlayerWithInfo } from "@/Services/playerService"
+import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
+import { DTO_User } from "@/app/admin/users/userList"
+
 
 interface BackupApiResponse {
     tsx: string
@@ -30,20 +38,46 @@ type ApiEventsResponse = {
     updatedAt: Date;
     players?: ApiPlayersResponse
 }[]
-export const CommonBackup = () => {
-    const { data, error, isLoading } = useSWR<[ApiPlayersResponse, ApiEventsResponse]>('/api/backup', fetcher)
+
+type FetchedPlayers = Pick<PlayerWithInfo, 'id' | 'name'> & { info: { rttf_score?: number } }
+export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
+
+    // const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
+    const query = useQuery({
+        queryKey: [`/api/backup?data=${restore}`, restore],
+        // queryFn: queryFetch,
+        // enabled: !!restore
+    })
+    // const { data: pdata, error: perror, isLoading: pIsLoadinf } = useSWR('/api/backup', fetcher)
     const json = (item: object) => JSON.stringify(item, null, 2)
-    if (isLoading) return <Box>Loading data...</Box>
-    if (error) return <Box>{ error }</Box>
-    if (!data) return <Box>No data Fetched</Box>
-    console.table(data && data[0])
-    console.table(data && data[1])
-    const [players, events] = data
+    if (query.isLoading) return <Box height={ '2rem' } p={ 4 }><LinearProgress variant="indeterminate" color={ 'primary' } /></Box>
+    if (query.error) return <Box>{ query.error.message }</Box>
+    if (!query.data) return <Box>No data Fetched</Box>
+    const splitted = query.data as any[]
+
+    if ((restore === 'players' || restore === 'events')) {
+        _log({ restore })
+        const _d = restore === 'players' ? query.data as PLR[] : query.data as EVR[]
+        return <BackupTable restore={ restore } data={ _d } />
+    }
     return (
         <Box>
-            { players.map(p =>
-                <PlayerRow player={ p } key={ p.name } />
-            ) }
+            { query.isSuccess &&
+                restore === 'users' ?
+                <UsersMRT users={ query.data as DTO_User[] } />
+
+                : null
+            }
+            {/* {
+                Array.isArray(splitted) &&
+                splitted?.map((data, idx) =>
+                    <div key={ idx }>
+                        { json(data) }
+                        <br />
+                    </div>
+                ) } */}
+
+
 
         </Box>
     )
@@ -70,5 +104,5 @@ const EventRow = (event: { id: number, title?: string, date_formated: string, pl
         </Typography>)
 
 }
-
+CommonBackup.displayname = "___BACKUP"
 const fetcher = (resource: string, init?: RequestInit | undefined) => fetch(resource, init).then(res => res.json())

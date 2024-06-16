@@ -15,6 +15,8 @@ model Player {
   updatedAt DateTime @updatedAt @map("uAt")
   info      Info?
   events    Event[]  @relation("EventToPlayer")
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId Int?     @unique
 
   @@map("players")
 }
@@ -76,7 +78,7 @@ model Info {
 
 model Master {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
   @@map("masters")
 }
@@ -96,4 +98,32 @@ model ReservedTable {
 
   @@map("reserved_tables")
   @@ignore
+}
+
+enum UserRole {
+  ADMIN
+  GUEST
+  MEMBER
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String   @map("hash_password")
+  role     UserRole @default(GUEST)
+  name     String?
+  profile  Profile?
+
+  @@map("users")
+}
+
+model Profile {
+  id   Int     @id @default(autoincrement())
+  name String?
+
+  player Player?
+  userId Int     @unique
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
 }

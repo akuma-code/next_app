@@ -87,10 +87,7 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => 
 
                 sx={ { pt: 1, pr: 2, overflowY: 'scroll' } }>
 
-                {/* <Grid item >
 
-
-                </Grid> */}
 
                 { events.map(e =>
 
