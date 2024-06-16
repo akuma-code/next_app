@@ -9,6 +9,8 @@ import useSWR from "swr"
 import React, { useEffect } from 'react'
 import { BackupTable, EVR, PlayersTable, PLR } from "@/ClientComponents/UserTable/PlayersMRT"
 import { PlayerWithInfo } from "@/Services/playerService"
+import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
+import { DTO_User } from "@/app/admin/users/userList"
 <<<<<<< HEAD
 import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
 import { DTO_User } from "@/app/admin/users/userList"
@@ -48,9 +50,9 @@ export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
 
     // const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
 =======
-export const CommonBackup = ({ restore }: { restore?: string }) => {
+export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
 
-    const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
+    // const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
 >>>>>>> b401f4c (backup data)
     const query = useQuery({
         queryKey: [`/api/backup?data=${restore}`, restore],
@@ -63,7 +65,7 @@ export const CommonBackup = ({ restore }: { restore?: string }) => {
 <<<<<<< HEAD
     if (query.error) return <Box>{ query.error.message }</Box>
 =======
-    if (query.error) return <Box>{ error.message }</Box>
+    if (query.error) return <Box>{ query.error.message }</Box>
 >>>>>>> b401f4c (backup data)
     if (!query.data) return <Box>No data Fetched</Box>
     const splitted = query.data as any[]
@@ -76,18 +78,25 @@ export const CommonBackup = ({ restore }: { restore?: string }) => {
     return (
         <Box>
 <<<<<<< HEAD
+    {
+        query.isSuccess &&
+        restore === 'users' ?
+        <UsersMRT users={ query.data as DTO_User[] } />
+
+        : null
+    }
+    {/* {
+                Array.isArray(splitted) &&
+=======
             { query.isSuccess &&
                 restore === 'users' ?
                 <UsersMRT users={ query.data as DTO_User[] } />
 
+>>>>>>> b401f4c (backup data)
                 : null
             }
             {/* {
                 Array.isArray(splitted) &&
-=======
-            { query.isSuccess && Array.isArray(splitted) &&
-
->>>>>>> b401f4c (backup data)
                 splitted?.map((data, idx) =>
                     <div key={ idx }>
                         { json(data) }
@@ -98,11 +107,12 @@ export const CommonBackup = ({ restore }: { restore?: string }) => {
 
 
 =======
-                )
-            }
+                ) } */}
+
+
 >>>>>>> b401f4c (backup data)
 
-        </Box>
+        </Box >
     )
 }
 

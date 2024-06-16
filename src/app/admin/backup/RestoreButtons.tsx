@@ -71,49 +71,57 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
                 </Link>
             </Button>
 =======
-        <ButtonGroup>
-            <Link href={ {
-                pathname: path,
-                query: { data: 'players', log: isLog }
+        <ButtonGroup variant="contained" fullWidth size="small">
+                <Button LinkComponent={ Link }>
+                    <Link
+                        color="secondary"
+                        href={ {
+                            pathname: path,
+                            query: { data: 'players', log: isLog }
 
-            } }>
+                        } } >
+
+
+                        Игроки
+                    </Link>
+                </Button>
                 <Button  >
-                    log players
+                    <Link href={ {
+                        pathname: path,
+                        query: { data: 'events', log: isLog }
+
+                    } }>
+                        Тренировки
+                    </Link>
                 </Button>
-            </Link>
-            <Link href={ {
-                pathname: path,
-                query: { data: 'events', log: isLog }
+                <Button  >
+                    <Link href={ {
+                        pathname: path,
+                        query: { data: 'users', log: isLog }
 
-            } }> <Button  >
-                    log events
-                </Button></Link>
-
-            <Link href={ {
-                pathname: path,
-                query: { data: 'users', log: isLog }
-
-            } }><Button  >
-                    log users
+                    } }>
+                        Пользователи
+                    </Link>
                 </Button>
-            </Link>
-            <Button variant="contained" disabled color="error">Logging: { isLog }</Button>
-            <Link href={ {
-                pathname: path,
-                query: { data: prevq, log: isLog }
-            } }
-            >
-                <Button variant="outlined" onClick={ () => {
+                {/* <Button variant="contained" disabled color="error">Logging: { isLog }</Button> */ }
+                <Button color={ load ? "error" : "success" }
+                    variant="contained"
+                    onClick={ () => {
 
-                    load === false ? on() : off()
-                    router.push(path + `?${prevq}&log=${isLog}`,)
-                } }>
+                        !load ? on() : off()
+                        // router.push(path + `?${prevq}&log=${isLog}`,)
+                    } }>
+                    <Link href={ {
+                        pathname: path,
+                        query: { data: prevq, log: isLog }
+                    } }
+                    >
 
-                    Toggle Log
+                        Log { load ? "off" : "on" }
+                    </Link>
                 </Button>
-            </Link>
 >>>>>>> b401f4c (backup data)
-            {/* <Link href={ {
+                {/* <Link href={ {
                 pathname: path,
                 query: { data: prevq, log: 'off' }
             } }
@@ -123,7 +131,7 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
                     Log off
                 </Button>
             </Link> */}
-        </ButtonGroup>
-    )
+            </ButtonGroup>
+            )
 }
 

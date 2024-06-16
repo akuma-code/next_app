@@ -19,11 +19,7 @@ export type BackupResponse = NextResponse<{
 }>
 export async function GET(request: Request, context?: { searchParams: { data: string } }) {
     const u = new URL(request.url)
-<<<<<<< HEAD
     const query = u.searchParams.get('data') ?? 'all'
-=======
-    const query = u.searchParams.get('data')
->>>>>>> b401f4c (backup data)
     // _log({ request })
     try {
         const withLog = u.searchParams.get('log') === 'on'

@@ -13,21 +13,15 @@ export default async function BackupPage({ searchParams }: { searchParams: { dat
         <Box display={ 'flex' } flexDirection={ 'column' } gap={ 2 } p={ 1 }>
             <RestoreButtons restore={ log } />
 =======
-    const { data } = searchParams;
+    const { data, log } = searchParams;
 
 
-    return (
-        <Box display={ 'flex' } flexDirection={ 'column' }>
-            <Divider>
-                <Stack spacing={ 2 } direction={ 'row' }>
-                    <RestoreButtons />
-
-
-                </Stack>
-            </Divider>
+            return (
+            <Box display={ 'flex' } flexDirection={ 'column' } gap={ 2 } p={ 1 }>
+                <RestoreButtons restore={ log } />
 >>>>>>> b401f4c (backup data)
-            <CommonBackup restore={ data } />
-        </Box>
-    )
+                <CommonBackup restore={ data } />
+            </Box>
+            )
 }
 
