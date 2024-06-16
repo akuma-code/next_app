@@ -20,47 +20,55 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
     const isLog = useMemo(() => load === true ? "on" as const : "off" as const, [load])
     // _log(Object.entries(s.))
     return (
-        <ButtonGroup>
-            <Link href={ {
-                pathname: path,
-                query: { data: 'players', log: isLog }
+        <ButtonGroup variant="contained" fullWidth size="small">
+            <Button LinkComponent={ Link }>
+                <Link
+                    color="secondary"
+                    href={ {
+                        pathname: path,
+                        query: { data: 'players', log: isLog }
 
-            } }>
-                <Button  >
-                    log players
-                </Button>
-            </Link>
-            <Link href={ {
-                pathname: path,
-                query: { data: 'events', log: isLog }
+                    } } >
 
-            } }> <Button  >
-                    log events
-                </Button></Link>
 
-            <Link href={ {
-                pathname: path,
-                query: { data: 'users', log: isLog }
+                    Игроки
+                </Link>
+            </Button>
+            <Button  >
+                <Link href={ {
+                    pathname: path,
+                    query: { data: 'events', log: isLog }
 
-            } }><Button  >
-                    log users
-                </Button>
-            </Link>
-            <Button variant="contained" disabled color="error">Logging: { isLog }</Button>
-            <Link href={ {
-                pathname: path,
-                query: { data: prevq, log: isLog }
-            } }
-            >
-                <Button variant="outlined" onClick={ () => {
-
-                    load === false ? on() : off()
-                    router.push(path + `?${prevq}&log=${isLog}`,)
                 } }>
+                    Тренировки
+                </Link>
+            </Button>
+            <Button  >
+                <Link href={ {
+                    pathname: path,
+                    query: { data: 'users', log: isLog }
 
-                    Toggle Log
-                </Button>
-            </Link>
+                } }>
+                    Пользователи
+                </Link>
+            </Button>
+            {/* <Button variant="contained" disabled color="error">Logging: { isLog }</Button> */ }
+            <Button color={ load ? "error" : "success" }
+                variant="contained"
+                onClick={ () => {
+
+                    !load ? on() : off()
+                    // router.push(path + `?${prevq}&log=${isLog}`,)
+                } }>
+                <Link href={ {
+                    pathname: path,
+                    query: { data: prevq, log: isLog }
+                } }
+                >
+
+                    Log { load ? "off" : "on" }
+                </Link>
+            </Button>
             {/* <Link href={ {
                 pathname: path,
                 query: { data: prevq, log: 'off' }

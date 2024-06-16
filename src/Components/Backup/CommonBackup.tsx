@@ -9,6 +9,8 @@ import useSWR from "swr"
 import React, { useEffect } from 'react'
 import { BackupTable, EVR, PlayersTable, PLR } from "@/ClientComponents/UserTable/PlayersMRT"
 import { PlayerWithInfo } from "@/Services/playerService"
+import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
+import { DTO_User } from "@/app/admin/users/userList"
 
 
 interface BackupApiResponse {
@@ -38,9 +40,9 @@ type ApiEventsResponse = {
 }[]
 
 type FetchedPlayers = Pick<PlayerWithInfo, 'id' | 'name'> & { info: { rttf_score?: number } }
-export const CommonBackup = ({ restore }: { restore?: string }) => {
+export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
 
-    const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
+    // const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
     const query = useQuery({
         queryKey: [`/api/backup?data=${restore}`, restore],
         // queryFn: queryFetch,
@@ -49,7 +51,7 @@ export const CommonBackup = ({ restore }: { restore?: string }) => {
     // const { data: pdata, error: perror, isLoading: pIsLoadinf } = useSWR('/api/backup', fetcher)
     const json = (item: object) => JSON.stringify(item, null, 2)
     if (query.isLoading) return <Box height={ '2rem' } p={ 4 }><LinearProgress variant="indeterminate" color={ 'primary' } /></Box>
-    if (query.error) return <Box>{ error.message }</Box>
+    if (query.error) return <Box>{ query.error.message }</Box>
     if (!query.data) return <Box>No data Fetched</Box>
     const splitted = query.data as any[]
 
@@ -60,15 +62,22 @@ export const CommonBackup = ({ restore }: { restore?: string }) => {
     }
     return (
         <Box>
-            { query.isSuccess && Array.isArray(splitted) &&
+            { query.isSuccess &&
+                restore === 'users' ?
+                <UsersMRT users={ query.data as DTO_User[] } />
 
+                : null
+            }
+            {/* {
+                Array.isArray(splitted) &&
                 splitted?.map((data, idx) =>
                     <div key={ idx }>
                         { json(data) }
                         <br />
                     </div>
-                )
-            }
+                ) } */}
+
+
 
         </Box>
     )
