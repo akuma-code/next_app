@@ -283,7 +283,7 @@ const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)
 type UserSelectFields = keyof Prisma.UserSelect
 export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[], log?: boolean }) {
 
-    if (options?.select) {
+    if (options && options.select) {
 
         const _selected: Prisma.UserSelectScalar = selectfields(options.select)
         const _users = await prisma.user.findMany({ select: _selected })
@@ -291,7 +291,15 @@ export async function getAllUsers<T extends UserSelectFields>(options?: { select
         console.table(_users)
         return _users
     } else {
-        const users = await prisma.user.findMany({ where: { email: {} } })
+        const users = await prisma.user.findMany({
+            select: {
+                email: true,
+                id: true,
+                name: true,
+                image: true,
+                role: true
+            }
+        })
         _log("___users")
         console.table(users)
         return users

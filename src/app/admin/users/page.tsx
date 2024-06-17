@@ -5,7 +5,7 @@ import UserList from "./UserList";
 
 
 async function UsersPage() {
-    const allUsers = await getAllUsers({ select: ['id', 'email', "role", 'password', 'profile'] }
+    const allUsers = await getAllUsers({ select: ['id', 'email', "role", 'password'] }
         // { select: ['email', 'role', 'password', "id"] }
 
     )
