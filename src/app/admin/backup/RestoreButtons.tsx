@@ -20,7 +20,6 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
     const isLog = useMemo(() => load === true ? "on" as const : "off" as const, [load])
     // _log(Object.entries(s.))
     return (
-<<<<<<< HEAD
         <ButtonGroup variant="contained" fullWidth size="small">
             <Button LinkComponent={ Link }>
                 <Link
@@ -70,58 +69,7 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
                     Log { load ? "off" : "on" }
                 </Link>
             </Button>
-=======
-        <ButtonGroup variant="contained" fullWidth size="small">
-                <Button LinkComponent={ Link }>
-                    <Link
-                        color="secondary"
-                        href={ {
-                            pathname: path,
-                            query: { data: 'players', log: isLog }
-
-                        } } >
-
-
-                        Игроки
-                    </Link>
-                </Button>
-                <Button  >
-                    <Link href={ {
-                        pathname: path,
-                        query: { data: 'events', log: isLog }
-
-                    } }>
-                        Тренировки
-                    </Link>
-                </Button>
-                <Button  >
-                    <Link href={ {
-                        pathname: path,
-                        query: { data: 'users', log: isLog }
-
-                    } }>
-                        Пользователи
-                    </Link>
-                </Button>
-                {/* <Button variant="contained" disabled color="error">Logging: { isLog }</Button> */ }
-                <Button color={ load ? "error" : "success" }
-                    variant="contained"
-                    onClick={ () => {
-
-                        !load ? on() : off()
-                        // router.push(path + `?${prevq}&log=${isLog}`,)
-                    } }>
-                    <Link href={ {
-                        pathname: path,
-                        query: { data: prevq, log: isLog }
-                    } }
-                    >
-
-                        Log { load ? "off" : "on" }
-                    </Link>
-                </Button>
->>>>>>> b401f4c (backup data)
-                {/* <Link href={ {
+            {/* <Link href={ {
                 pathname: path,
                 query: { data: prevq, log: 'off' }
             } }
@@ -131,7 +79,7 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
                     Log off
                 </Button>
             </Link> */}
-            </ButtonGroup>
-            )
+        </ButtonGroup>
+    )
 }
 
