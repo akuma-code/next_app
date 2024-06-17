@@ -1,6 +1,6 @@
 import { getAllUsers } from "@/Services/userService";
 import { Box, Paper, Stack } from "@mui/material";
-import { UserList } from "./UserList";
+import { UserList } from "../../../ClientComponents/userList";
 
 
 async function UsersPage() {

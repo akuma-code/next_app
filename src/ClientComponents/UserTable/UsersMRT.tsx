@@ -1,5 +1,6 @@
 'use client'
-import { DTO_User } from '@/app/admin/users/UserList';
+
+import { DTO_User } from '@/ClientComponents/userList';
 import { validateUserCreate, validateUserUpdate } from '@/auth/validator';
 import { createUserWithProfile, deleteUser, editUser, } from '@/Services/userService';
 import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
@@ -16,12 +17,6 @@ import {
     type MRT_TableOptions,
 } from 'material-react-table';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
-// import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
-// import { _log } from '@/Helpers/helpersFns';
-// import { usePathname, useRouter } from 'next/navigation';
-// import SubmitButton from '../UI/SubmitButton';
-// import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
-// import { _log } from '@/Helpers/helpersFns';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 

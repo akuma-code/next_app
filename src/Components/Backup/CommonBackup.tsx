@@ -10,7 +10,7 @@ import React, { useEffect } from 'react'
 import { BackupTable, EVR, PlayersTable, PLR } from "@/ClientComponents/UserTable/PlayersMRT"
 import { PlayerWithInfo } from "@/Services/playerService"
 import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
-import { DTO_User } from "@/app/admin/users/UserList"
+import { DTO_User } from "@/ClientComponents/userList"
 
 
 interface BackupApiResponse {
