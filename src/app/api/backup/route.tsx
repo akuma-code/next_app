@@ -25,7 +25,7 @@ export async function GET(request: Request, context?: { searchParams: { data: st
         const withLog = u.searchParams.get('log') === 'on'
         const db_events = await getEventsData({ log: true })
         const db_players = await getPlayersData({ log: true })
-        const db_users = await getAllUsers()
+        const db_users = await getAllUsers({ select: ['id', 'email', 'name', "role"] })
         if (query === 'players') {
             // console.clear()
             console.info("___ ___ restore players")

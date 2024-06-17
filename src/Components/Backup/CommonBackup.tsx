@@ -10,7 +10,7 @@ import React, { useEffect } from 'react'
 import { BackupTable, EVR, PlayersTable, PLR } from "@/ClientComponents/UserTable/PlayersMRT"
 import { PlayerWithInfo } from "@/Services/playerService"
 import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
-import { DTO_User } from "@/app/admin/users/userList"
+import { DTO_User } from "@/app/admin/users/UserList"
 
 
 interface BackupApiResponse {
@@ -68,14 +68,16 @@ export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
 
                 : null
             }
-            {/* {
-                Array.isArray(splitted) &&
-                splitted?.map((data, idx) =>
-                    <div key={ idx }>
-                        { json(data) }
-                        <br />
-                    </div>
-                ) } */}
+            {
+                restore === 'all' &&
+                <>
+                    <Typography>
+                        Fetched data keys:
+                    </Typography>
+                    [{ Object.keys(query.data).join(", ") }]
+                </>
+
+            }
 
 
 

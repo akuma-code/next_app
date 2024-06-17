@@ -1,5 +1,5 @@
 'use client'
-import { DTO_User } from '@/app/admin/users/userList';
+import { DTO_User } from '@/app/admin/users/UserList';
 import { validateUserCreate, validateUserUpdate } from '@/auth/validator';
 import { createUserWithProfile, deleteUser, editUser, } from '@/Services/userService';
 import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
@@ -76,7 +76,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     //     setProfile(prev => ({ ...prev, name: e.target.value }))
                 },
 
-                Cell: ({ row }) => row.original.profile?.name ?? "No name"
+                Cell: ({ row }) => row.original?.profile?.name ?? "No name"
             },
             {
                 accessorKey: 'role',

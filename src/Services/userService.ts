@@ -275,10 +275,7 @@ export async function setAdmin(email: string) {
 
 
 const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
-
-    // let accum = {} as Record<keyof T & string, boolean>
     acc[field] = true
-
     return acc
 }, {} as Record<string, boolean | undefined>)
 
@@ -289,9 +286,17 @@ export async function getAllUsers<T extends UserSelectFields>(options?: { select
 
         const _selected: Prisma.UserSelectScalar = selectfields(options.select)
         const _users = await prisma.user.findMany({ select: _selected })
+        _log("___users")
         console.table(_users)
         return _users
+    } else {
+        const users = await prisma.user.findMany({ where: { email: {} } })
+        _log("___users")
+        console.table(users)
+        return users
     }
+
+
 }
 // export async function getAllUsers<T extends keyof User & string>(options?: { select?: T[], pass?: boolean }) {
 //     const pass = options?.pass
