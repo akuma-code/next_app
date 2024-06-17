@@ -1,4 +1,5 @@
 import NextAuth, { DefaultSession } from "next-auth"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import Credentials from "next-auth/providers/credentials"
 import GitHub from "next-auth/providers/github"
 import VK from "next-auth/providers/vk"
@@ -8,7 +9,8 @@ import { getOneUser } from "@/Services/userService"
 import bcrypt from "bcrypt"
 import { revalidatePath } from "next/cache"
 import type { Provider } from 'next-auth/providers'
-
+import prisma from "@/client/client"
+import authConfig from './auth.config'
 
 
 export type UserAuthPayload = {
@@ -18,38 +20,10 @@ export type UserAuthPayload = {
 }
 
 const apiVersion = "5.199"
-export const { handlers, signIn, signOut, auth } = NextAuth(
+export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
-        providers: [
-            Credentials({
-                credentials: {
-                    email: { label: "Email", },
-                    password: { label: "Пароль", type: "password" }
-                },
-
-                name: "email",
-                // type: "credentials",
-                authorize: async (credentials) => {
-                    let user: null | Required<Pick<User, 'email' | 'password' | 'role'>> = null
-
-
-
-                    user = await getOneUser({ email: credentials.email as string, }, { withPass: true })
-                    if (!user) {
-                        console.error("User not found.")
-                        return null
-                    } else return user
-                },
-            }),
-            GitHub,
-            // VK({
-            //     // authorization:"https://oauth.vk.com/authorize?client_id=51943581&redirect_uri=https://akumadev.vercel.app/avangard/events&scope=friends&response_type=code&v=5.199",
-            //     authorization: `https://oauth.vk.com/access_token?client_id=51943581&client_secret=${process.env.VK_SECRET}v=${apiVersion}`,
-            //     //   requestTokenUrl: `https://oauth.vk.com/access_token?v=${apiVersion}`,
-            //     //   authorizationUrl: `https://oauth.vk.com/authorize?response_type=code&v=${apiVersion}`,
-            //     //   profileUrl: `https://api.vk.com/method/users.get?fields=photo_100&v=${apiVersion}`,
-            // })
-        ],
+        adapter: PrismaAdapter(prisma),
+        session: { strategy: "jwt" },
         pages: {
             // signIn: '/api/auth/signin',
             newUser: '/api/auth/register'
@@ -75,22 +49,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
             },
 
         },
-        events: {
-            createUser(message) {
-                console.log("New user created: ")
-                console.table(message.user)
-            },
-            signIn(message) {
-                if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
-                console.table(message.user)
-            },
-            updateUser(message) {
-                console.table(message.user)
-            },
-            signOut(message) {
-                console.log("GoodBye, ", message)
-            },
-        }
+        // events: {
+        //     createUser(message) {
+        //         console.log("New user created: ")
+        //         console.table(message.user)
+        //     },
+        //     signIn(message) {
+        //         if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
+        //         console.table(message.user)
+        //     },
+        //     updateUser(message) {
+        //         console.table(message.user)
+        //     },
+        //     signOut(message) {
+        //         console.log("GoodBye, ", message)
+        //     },
+        // },
+        ...authConfig,
 
     })
 

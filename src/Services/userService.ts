@@ -119,7 +119,8 @@ export async function createUser(email: string, password: string, role: UserRole
             data: {
                 email: verifiedEmail,
                 password: pwHash,
-                role: role
+                role: role,
+                profile: {}
             },
             select: {
                 email: true,

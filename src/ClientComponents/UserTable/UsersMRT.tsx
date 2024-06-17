@@ -121,9 +121,10 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 Cell: ({ cell }) => `${cell.getValue()}`.toString().slice(0, 8) + ' ....'
             },
 
+
         ] as MRT_ColumnDef<DTO_User>[], [validationErrors])
 
-    const handleCreateUser: MRT_TableOptions<DTO_User & { name?: string }>['onCreatingRowSave'] = async ({ values, table, row, exitCreatingMode }) => {
+    const handleCreateUser: MRT_TableOptions<DTO_User>['onCreatingRowSave'] = async ({ values, table, row, exitCreatingMode }) => {
 
         const errors = validateUserCreate(values)
         if (Object.values(errors).some((error) => error)) {
@@ -144,7 +145,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
 
     }
-    const handleUpdateUser: MRT_TableOptions<DTO_User & { name?: string }>['onEditingRowSave'] = async ({ exitEditingMode, values, table, row }) => {
+    const handleUpdateUser: MRT_TableOptions<DTO_User>['onEditingRowSave'] = async ({ exitEditingMode, values, table, row }) => {
         const errors = validateUserUpdate(values)
         if (Object.values(errors).some((error) => error)) {
             setValidationErrors(errors);
@@ -164,7 +165,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
     const handleDeleteUser = async (id: number) => {
         confirm("Delete user? ") && await deleteUser(id)
     }
-    const table = useMaterialReactTable<DTO_User & { name?: string }>({
+    const table = useMaterialReactTable<DTO_User>({
         columns: mrt_columns,
         data: users,
         layoutMode: 'grid',

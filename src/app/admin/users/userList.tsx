@@ -3,7 +3,7 @@ import UsersMRT from "@/ClientComponents/UserTable/UsersMRT";
 import { getAllUsers } from "@/Services/userService"
 import { UserAuthPayload } from "@/auth/auth"
 import { Avatar, Box, IconButton, Link, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material"
-import { UserRole } from "@prisma/client";
+import { Prisma, User, UserRole } from "@prisma/client";
 
 export type DTO_User = {
     id: number;
