@@ -21,7 +21,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
         pages: {
-            // signIn: '/api/auth/signin',
+            signIn: '/api/auth/signin',
             newUser: '/api/auth/register',
         },
         // debug: true,
@@ -65,7 +65,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
     })
 
-const providers: Provider[] = [GitHub]
+const providers: Provider[] = authConfig.providers
 
 export const providerMap = providers.map((provider) => {
     if (typeof provider === "function") {
