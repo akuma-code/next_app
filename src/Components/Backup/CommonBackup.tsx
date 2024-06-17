@@ -11,11 +11,6 @@ import { BackupTable, EVR, PlayersTable, PLR } from "@/ClientComponents/UserTabl
 import { PlayerWithInfo } from "@/Services/playerService"
 import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
 import { DTO_User } from "@/app/admin/users/userList"
-<<<<<<< HEAD
-import UsersMRT from "@/ClientComponents/UserTable/UsersMRT"
-import { DTO_User } from "@/app/admin/users/userList"
-=======
->>>>>>> b401f4c (backup data)
 
 
 interface BackupApiResponse {
@@ -45,15 +40,9 @@ type ApiEventsResponse = {
 }[]
 
 type FetchedPlayers = Pick<PlayerWithInfo, 'id' | 'name'> & { info: { rttf_score?: number } }
-<<<<<<< HEAD
 export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
 
     // const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
-=======
-export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
-
-    // const { data, error, isLoading } = useSWR(`/api/backup?data=${restore}`, fetcher)
->>>>>>> b401f4c (backup data)
     const query = useQuery({
         queryKey: [`/api/backup?data=${restore}`, restore],
         // queryFn: queryFetch,
@@ -62,11 +51,7 @@ export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
     // const { data: pdata, error: perror, isLoading: pIsLoadinf } = useSWR('/api/backup', fetcher)
     const json = (item: object) => JSON.stringify(item, null, 2)
     if (query.isLoading) return <Box height={ '2rem' } p={ 4 }><LinearProgress variant="indeterminate" color={ 'primary' } /></Box>
-<<<<<<< HEAD
     if (query.error) return <Box>{ query.error.message }</Box>
-=======
-    if (query.error) return <Box>{ query.error.message }</Box>
->>>>>>> b401f4c (backup data)
     if (!query.data) return <Box>No data Fetched</Box>
     const splitted = query.data as any[]
 
@@ -77,22 +62,10 @@ export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
     }
     return (
         <Box>
-<<<<<<< HEAD
-    {
-        query.isSuccess &&
-        restore === 'users' ?
-        <UsersMRT users={ query.data as DTO_User[] } />
-
-        : null
-    }
-    {/* {
-                Array.isArray(splitted) &&
-=======
             { query.isSuccess &&
                 restore === 'users' ?
                 <UsersMRT users={ query.data as DTO_User[] } />
 
->>>>>>> b401f4c (backup data)
                 : null
             }
             {/* {
@@ -102,15 +75,9 @@ export const CommonBackup = ({ restore = 'all' }: { restore?: string }) => {
                         { json(data) }
                         <br />
                     </div>
-<<<<<<< HEAD
                 ) } */}
 
 
-=======
-                ) } */}
-
-
->>>>>>> b401f4c (backup data)
 
         </Box >
     )
