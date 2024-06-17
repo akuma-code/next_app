@@ -17,7 +17,7 @@ export type DTO_User = {
 }
 
 
-const UserList: React.FC<{ users: DTO_User[] }> = ({ users }) => {
+export const UserList: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
     return (
         <Paper elevation={ 2 } sx={ { p: 1 } }>

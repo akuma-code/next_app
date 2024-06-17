@@ -1,7 +1,6 @@
 import { getAllUsers } from "@/Services/userService";
-import { Avatar, Box, Button, IconButton, List, ListItem, ListItemText, Paper, Stack, Typography } from "@mui/material";
-import Link from "next/link";
-import UserList from "./UserList";
+import { Box, Paper, Stack } from "@mui/material";
+import { UserList } from "./UserList";
 
 
 async function UsersPage() {
@@ -13,7 +12,7 @@ async function UsersPage() {
     return (
         <Box component={ Paper }>
             <Stack direction={ 'column' } gap={ 2 }>
-                { allUsers && <UserList users={ allUsers } /> }
+                <UserList users={ allUsers } />
             </Stack>
         </Box>
     )

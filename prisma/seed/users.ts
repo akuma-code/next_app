@@ -4,9 +4,11 @@ function hashPass(password: string) {
     return bcrypt.hashSync(password, 5)
 }
 export const admin: Omit<User, 'id'> = {
-    email: "akumapl86@gmail.com",
-    password: hashPass("darks1de"),
+    email: "nodachi@bk.ru",
+    password: hashPass("aa"),
     role: UserRole.ADMIN,
-    name: "Pavel Rodnyansky"
+    name: "Pavel Rodnyansky",
+    image: "",
+    emailVerified: null
 }
 
