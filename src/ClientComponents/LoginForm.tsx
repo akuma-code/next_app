@@ -1,10 +1,8 @@
 'use client';
 
 
-import { login } from '@/auth/login';
-import { registerAction, registerUser } from '@/auth/register';
-import { setAdmin } from '@/Services/userService';
-import { Button, Divider, InputLabel, Stack, TextField } from '@mui/material';
+import { registerAction } from '@/auth/register';
+import { Button, Stack, TextField } from '@mui/material';
 import { UserRole } from '@prisma/client';
 import { useFormState, useFormStatus } from 'react-dom';
 

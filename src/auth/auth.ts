@@ -1,15 +1,11 @@
-import NextAuth, { DefaultSession } from "next-auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import Credentials from "next-auth/providers/credentials"
-import GitHub from "next-auth/providers/github"
-import VK from "next-auth/providers/vk"
-import { SignJWT, jwtVerify } from "jose"
-import { User, UserRole } from "@prisma/client"
-import { getOneUser } from "@/Services/userService"
-import bcrypt from "bcrypt"
-import { revalidatePath } from "next/cache"
-import type { Provider } from 'next-auth/providers'
 import prisma from "@/client/client"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { type Adapter } from '@auth/core/adapters'
+import { UserRole } from "@prisma/client"
+import NextAuth, { DefaultSession } from "next-auth"
+import type { Provider } from 'next-auth/providers'
+import GitHub from "next-auth/providers/github"
+
 import authConfig from './auth.config'
 
 
@@ -26,7 +22,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         session: { strategy: "jwt" },
         pages: {
             // signIn: '/api/auth/signin',
-            newUser: '/api/auth/register'
+            newUser: '/api/auth/register',
         },
         // debug: true,
         callbacks: {
