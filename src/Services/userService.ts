@@ -36,11 +36,7 @@ export async function getUser(payload: GetOnePayload, options?: { withPass?: boo
                     email: true,
                     role: true,
                     password: !!options?.withPass,
-<<<<<<< HEAD
-                    profile: true,
-=======
                     profile: true
->>>>>>> 397e0a5 (userlist)
                 }
             })
             return user
@@ -144,16 +140,9 @@ export async function createUser(email: string, password: string, role: UserRole
 
 export async function createUserWithProfile(user_data: Prisma.UserCreateInput, profile_data?: Partial<Prisma.ProfileCreateInput>) {
     const { email, password, role } = user_data
-<<<<<<< HEAD
-<<<<<<< HEAD
     const name = profile_data?.name
 
-=======
->>>>>>> 820e0e3 (sync)
-=======
-    const name = profile_data?.name
 
->>>>>>> 298ba52 (custom signin page)
 
     const verifiedEmail = validateEmail(email)
 
@@ -187,9 +176,6 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
                 password: true
             }
         })
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         // if (profile_data) {
         //     const p = await prisma.profile.create({
         //         data: {
@@ -208,9 +194,6 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
         //     })
         //     console.table(p)
         // }
->>>>>>> 820e0e3 (sync)
-=======
->>>>>>> 298ba52 (custom signin page)
 
         console.table(user)
         return user
@@ -290,8 +273,6 @@ export async function setAdmin(email: string) {
     return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
 
@@ -310,63 +291,64 @@ export async function getAllUsers<T extends UserSelectFields>(options?: { select
         const _users = await prisma.user.findMany({ select: _selected })
         console.table(_users)
         return _users
-=======
-export async function getAllUsers<T extends keyof User & string>(options?: { select?: T[], pass?: boolean }) {
-    const pass = options?.pass
-    if (options?.select !== undefined) {
-
-        const selectfields = options.select.reduce((acc, field) => {
-            const res: Record<string, boolean> = {
-                [`${field}`]: true
-            }
-            let accum: typeof res = {}
-            accum[field] = true
-            return accum
-        }, {} as Record<string, boolean | undefined>)
-        console.table(await prisma.user.findMany({ select: selectfields }))
->>>>>>> 820e0e3 (sync)
-=======
-
-const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
-
-    // let accum = {} as Record<keyof T & string, boolean>
-    acc[field] = true
-
-    return acc
-}, {} as Record<string, boolean | undefined>)
-
-type UserSelectFields = keyof Prisma.UserSelect
-export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[], log?: boolean }) {
-
-    if (options?.select) {
-
-        const _selected: Prisma.UserSelectScalar = selectfields(options.select)
-        const _users = await prisma.user.findMany({ select: _selected })
-        console.table(_users)
-        return _users
->>>>>>> 298ba52 (custom signin page)
     }
-    const users = await prisma.user.findMany({
-        select: {
-            id: true,
-            email: true,
-            profile: true,
-            role: true,
-            password: true
-
-        },
-    })
-<<<<<<< HEAD
-<<<<<<< HEAD
-    options?.log && console.table(users)
-=======
-    console.table(users)
->>>>>>> 298ba52 (custom signin page)
-=======
-    options?.log && console.table(users)
->>>>>>> b401f4c (backup data)
-    return users
 }
+// export async function getAllUsers<T extends keyof User & string>(options?: { select?: T[], pass?: boolean }) {
+//     const pass = options?.pass
+//     if (options?.select !== undefined) {
+
+//         const selectfields = options.select.reduce((acc, field) => {
+//             const res: Record<string, boolean> = {
+//                 [`${field}`]: true
+//             }
+//             let accum: typeof res = {}
+//             accum[field] = true
+//             return accum
+//         }, {} as Record<string, boolean | undefined>)
+//         console.table(await prisma.user.findMany({ select: selectfields }))
+// >>>>>>> 820e0e3 (sync)
+// =======
+
+// const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
+
+//     // let accum = {} as Record<keyof T & string, boolean>
+//     acc[field] = true
+
+//     return acc
+// }, {} as Record<string, boolean | undefined>)
+
+// type UserSelectFields = keyof Prisma.UserSelect
+// export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[], log?: boolean }) {
+
+//     if (options?.select) {
+
+//         const _selected: Prisma.UserSelectScalar = selectfields(options.select)
+//         const _users = await prisma.user.findMany({ select: _selected })
+//         console.table(_users)
+//         return _users
+// >>>>>>> 298ba52 (custom signin page)
+//     }
+//     const users = await prisma.user.findMany({
+//         select: {
+//             id: true,
+//             email: true,
+//             profile: true,
+//             role: true,
+//             password: true
+
+//         },
+//     })
+// <<<<<<< HEAD
+// <<<<<<< HEAD
+//     options?.log && console.table(users)
+// =======
+//     console.table(users)
+// >>>>>>> 298ba52 (custom signin page)
+// =======
+//     options?.log && console.table(users)
+// >>>>>>> b401f4c (backup data)
+//     return users
+// }
 
 export async function editUser(whereArgs: { id: number }, new_user_data: Partial<Prisma.UserUpdateInput>, new_profile_data?: { name: string | null }) {
     let pwHash: string = ""

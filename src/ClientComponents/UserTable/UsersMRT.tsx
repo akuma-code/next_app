@@ -1,20 +1,9 @@
 'use client'
 import { DTO_User } from '@/app/admin/users/userList';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { validateUserCreate, validateUserUpdate } from '@/auth/validator';
 import { createUserWithProfile, deleteUser, editUser, } from '@/Services/userService';
 import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid, DialogActions, IconButton, MenuItem } from '@mui/material';
-=======
-import { validateUser } from '@/auth/validator';
-import { createUser, createUserWithProfile, updateUser } from '@/Services/userService';
-import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid } from '@mui/material';
->>>>>>> 820e0e3 (sync)
-=======
-import { validateUserCreate, validateUserUpdate } from '@/auth/validator';
-import { createUserWithProfile, deleteUser, editUser, } from '@/Services/userService';
-import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid, DialogActions, IconButton, MenuItem } from '@mui/material';
->>>>>>> 298ba52 (custom signin page)
+
 import { User, UserRole } from '@prisma/client';
 import {
     MRT_ActionMenuItem,
@@ -28,19 +17,14 @@ import {
 } from 'material-react-table';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
 import { useMemo, useState } from 'react';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
-import { _log } from '@/Helpers/helpersFns';
+// import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
+// import { _log } from '@/Helpers/helpersFns';
+// import { usePathname, useRouter } from 'next/navigation';
+// import SubmitButton from '../UI/SubmitButton';
+// import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
+// import { _log } from '@/Helpers/helpersFns';
 import { usePathname, useRouter } from 'next/navigation';
-=======
-import SubmitButton from '../UI/SubmitButton';
->>>>>>> 820e0e3 (sync)
-=======
-import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
-import { _log } from '@/Helpers/helpersFns';
-import { usePathname, useRouter } from 'next/navigation';
->>>>>>> 298ba52 (custom signin page)
+import { DeleteTwoTone, AccountCircleTwoTone, ShareTwoTone } from '@mui/icons-material';
 const roles = {
     ADMIN: "Админ",
     MEMBER: "Пользователь",
@@ -49,19 +33,9 @@ const roles = {
 const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
     const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const [profile_, setProfile] = useState({ name: "", email: "", pass: "", role: "" })
     const router = useRouter()
-    const pathname = usePathname()
-=======
     const [profile_, setProfile] = useState({ name: "", email: "", pass: "" })
->>>>>>> 820e0e3 (sync)
-=======
-    const [profile_, setProfile] = useState({ name: "", email: "", pass: "", role: "" })
-    const router = useRouter()
     const pathname = usePathname()
->>>>>>> 298ba52 (custom signin page)
     const mrt_columns = useMemo(() =>
         [
 
@@ -119,14 +93,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     onChange: (e) => setProfile(prev => ({ ...prev, role: e.target.value as string })),
                     // defaultValue: UserRole.GUEST
                 },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-                Cell: ({ cell, row }) => <Link href={ `/admin/users/profile/${row.original.id}` }><Avatar /></Link>,
                 enableEditing: false,
->>>>>>> 820e0e3 (sync)
-=======
->>>>>>> 298ba52 (custom signin page)
 
             },
 
@@ -136,14 +103,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 grow: 1,
                 minSize: 120,
                 enableHiding: true,
-<<<<<<< HEAD
-<<<<<<< HEAD
                 enableEditing: false,
-=======
->>>>>>> 298ba52 (custom signin page)
-=======
-                enableEditing: false,
->>>>>>> 09b08fd (db schema)
                 muiEditTextFieldProps: {
                     required: false,
                     error: !!validationErrors?.password,
@@ -176,14 +136,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
 
         setValidationErrors({})
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        const name = profile_.name
         const new_user = await createUserWithProfile({ email, password, role }, { name: profile_.name })
->>>>>>> 820e0e3 (sync)
-=======
->>>>>>> 298ba52 (custom signin page)
         table.setCreatingRow(null)
         // exitCreatingMode()
 
@@ -249,82 +202,43 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             table.setEditingRow(null)
         },
         renderCreateRowDialogContent: ({ row, table, internalEditComponents }) => {
-<<<<<<< HEAD
 
             return (
-                <>
+                <Box>
+
                     <DialogTitle >
-                        Добавить нового пользователя
-                    </DialogTitle>
-                    <Grid container spacing={ 2 } p={ 2 }>
-
-                        { internalEditComponents.map((c, idx) =>
-
-                            <Grid item key={ idx / 3 } md={ 12 }>
-                                { c }
-                            </Grid>
-                        ) }
-
-                    </Grid>
-                    <DialogActions sx={ { display: 'flex', justifyContent: 'start' } }>
-                        <MRT_EditActionButtons variant="text" color={ 'warning' } table={ table } row={ row } />
-                    </DialogActions>
-                </>
-            )
-        },
-        renderEditRowDialogContent: ({ row, table, internalEditComponents }) => {
-=======
->>>>>>> 298ba52 (custom signin page)
-
-            return (
-                <>
-                    <DialogTitle >
-<<<<<<< HEAD
                         Изменить данные
                     </DialogTitle>
                     <Grid container spacing={ 2 } p={ 2 }>
-<<<<<<< HEAD
-
-                        { internalEditComponents.map((c, idx) =>
-
-                            <Grid item key={ idx / 3 } md={ 12 }>
-                                { c }
-                            </Grid>
-                        ) }
-
-
-                    </Grid>
-                    <DialogActions sx={ { display: 'flex', justifyContent: 'space-between' } }>
-                        <MRT_EditActionButtons variant="text" table={ table } row={ row } />
-                    </DialogActions>
-=======
                         <Grid item md={ 12 }>
                             <TextField name='name'
                                 value={ profile_.name }
                                 onChange={ (e) => setProfile(prev => ({ ...prev, name: e.target.value })) }
                                 label="Name"
                                 variant='outlined'
-                                fullWidth
-=======
-                        Добавить нового пользователя
-                    </DialogTitle>
-                    <Grid container spacing={ 2 } p={ 2 }>
->>>>>>> 298ba52 (custom signin page)
+                                fullWidth>
+                                Добавить нового пользователя
+                            </TextField>
+                        </Grid>
+                        <Grid container spacing={ 2 } p={ 2 }>
 
-                        { internalEditComponents.map((c, idx) =>
+                            { internalEditComponents.map((c, idx) =>
 
-                            <Grid item key={ idx / 3 } md={ 12 }>
-                                { c }
-                            </Grid>
-                        ) }
+                                <Grid item key={ idx / 3 } md={ 12 }>
+                                    { c }
+                                </Grid>
+                            ) }
 
+                        </Grid>
                     </Grid>
                     <DialogActions sx={ { display: 'flex', justifyContent: 'start' } }>
                         <MRT_EditActionButtons variant="text" color={ 'warning' } table={ table } row={ row } />
                     </DialogActions>
-                </>
+                </Box>
+
             )
         },
+
         renderEditRowDialogContent: ({ row, table, internalEditComponents }) => {
 
             return (
@@ -342,14 +256,10 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                         ) }
 
 
-<<<<<<< HEAD
->>>>>>> 820e0e3 (sync)
-=======
                     </Grid>
                     <DialogActions sx={ { display: 'flex', justifyContent: 'space-between' } }>
                         <MRT_EditActionButtons variant="text" table={ table } row={ row } />
                     </DialogActions>
->>>>>>> 298ba52 (custom signin page)
                 </>
             )
         },
@@ -364,18 +274,11 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     </Grid>
                     <Grid item >
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        <Typography variant='subtitle1'>
-                            { row.original.password }
-=======
                         <Typography variant='body2'>
                             Дополнительная информация:
->>>>>>> 298ba52 (custom signin page)
-=======
+                        </Typography>
                         <Typography variant='subtitle1'>
                             { row.original.password }
->>>>>>> 09b08fd (db schema)
 
                         </Typography>
                     </Grid>
