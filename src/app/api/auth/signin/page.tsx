@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { _log } from "@/Helpers/helpersFns";
 
-async function SignInPage({ request }: { request: NextRequest }) {
+async function SignInPage() {
 
     // const { url } = request
     // const { href } = new URL(await request.url)
