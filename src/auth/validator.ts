@@ -40,9 +40,6 @@ export function validateUserUpdate(user: Prisma.UserCreateInput & { name?: strin
         name: !user.name
             ? "Не забудьте обновить имя в профиле"
             : ""
-        // role: !validateRole(user.role)
-        //     ? 'user role error!'
-        //     : ''
     };
 }
 export function validateRole(role: string) {

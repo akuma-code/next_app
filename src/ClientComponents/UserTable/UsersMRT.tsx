@@ -2,8 +2,8 @@
 import { DTO_User } from '@/app/admin/users/userList';
 import { validateUserCreate, validateUserUpdate } from '@/auth/validator';
 import { createUserWithProfile, deleteUser, editUser, } from '@/Services/userService';
+import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
 import { Stack, Typography, Button, Avatar, Box, DialogContent, DialogTitle, TextField, Grid, DialogActions, IconButton, MenuItem } from '@mui/material';
-
 import { User, UserRole } from '@prisma/client';
 import {
     MRT_ActionMenuItem,
@@ -16,7 +16,6 @@ import {
     type MRT_TableOptions,
 } from 'material-react-table';
 import { MRT_Localization_RU } from 'material-react-table/locales/ru';
-import { useMemo, useState } from 'react';
 // import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
 // import { _log } from '@/Helpers/helpersFns';
 // import { usePathname, useRouter } from 'next/navigation';
@@ -24,7 +23,8 @@ import { useMemo, useState } from 'react';
 // import { AccountCircleTwoTone, DeleteTwoTone, ShareTwoTone } from '@mui/icons-material';
 // import { _log } from '@/Helpers/helpersFns';
 import { usePathname, useRouter } from 'next/navigation';
-import { DeleteTwoTone, AccountCircleTwoTone, ShareTwoTone } from '@mui/icons-material';
+import { useMemo, useState } from 'react';
+
 const roles = {
     ADMIN: "Админ",
     MEMBER: "Пользователь",
@@ -33,8 +33,9 @@ const roles = {
 const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
     const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
+
+    const [profile_, setProfile] = useState({ name: "", email: "", pass: "", role: "" })
     const router = useRouter()
-    const [profile_, setProfile] = useState({ name: "", email: "", pass: "" })
     const pathname = usePathname()
     const mrt_columns = useMemo(() =>
         [
@@ -93,7 +94,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     onChange: (e) => setProfile(prev => ({ ...prev, role: e.target.value as string })),
                     // defaultValue: UserRole.GUEST
                 },
-                enableEditing: false,
+
 
             },
 
@@ -136,6 +137,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
 
         setValidationErrors({})
+        // const name = profile_.name
         const new_user = await createUserWithProfile({ email, password, role }, { name: profile_.name })
         table.setCreatingRow(null)
         // exitCreatingMode()
@@ -228,6 +230,8 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                                     { c }
                                 </Grid>
                             ) }
+
+
 
                         </Grid>
                     </Grid>

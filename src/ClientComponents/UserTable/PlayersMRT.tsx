@@ -23,6 +23,7 @@ export type PLR = Pick<PLResponse, 'name' | 'id'>
 
 
 
+
 const player_columns: MRT_ColumnDef<PLR>[] = [
     {
         accessorKey: 'id',
