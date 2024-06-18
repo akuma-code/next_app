@@ -10,7 +10,7 @@ export function SignInButton() {
             color="primary"
             variant="contained"
             size="small"
-            onClick={ async () => await signIn() }>
+            onClick={ () => signIn() }>
             Авторизоваться
         </Button>
     )

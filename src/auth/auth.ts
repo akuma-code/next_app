@@ -21,7 +21,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
         pages: {
-            signIn: '/api/auth/signin',
+            // signIn: '/api/auth/signin',
             newUser: '/api/auth/register',
         },
         // debug: true,
@@ -45,22 +45,23 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
             },
 
         },
-        // events: {
-        //     createUser(message) {
-        //         console.log("New user created: ")
-        //         console.table(message.user)
-        //     },
-        //     signIn(message) {
-        //         if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
-        //         console.table(message.user)
-        //     },
-        //     updateUser(message) {
-        //         console.table(message.user)
-        //     },
-        //     signOut(message) {
-        //         console.log("GoodBye, ", message)
-        //     },
-        // },
+        events: {
+            createUser(message) {
+                console.log("New user created: ")
+                console.table(message.user)
+            },
+            signIn(message) {
+                if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
+
+                console.table(message.user)
+            },
+            updateUser(message) {
+                console.table(message.user)
+            },
+            signOut(message) {
+                console.log("GoodBye, ", message)
+            },
+        },
         ...authConfig,
 
     })

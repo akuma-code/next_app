@@ -2,6 +2,7 @@ import { auth } from '@/auth/auth';
 import { checkAuth } from '@/auth/utils';
 import LoginDialog from '@/ClientComponents/auth/LoginDialog';
 import { ToggleThemeColorButton } from '@/ClientComponents/ToggleThemeButton';
+import { NavMenu } from '@/ClientComponents/UI/NavMenu';
 import { paths } from '@/paths';
 import { AppBar, Breadcrumbs, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -56,7 +57,8 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
                     {/* <SignInButton /> */ }
                     <ToggleThemeColorButton />
-                    <LoginDialog />
+                    {/* <LoginDialog /> */ }
+                    <NavMenu />
                     {
                         role === 'ADMIN' &&
 

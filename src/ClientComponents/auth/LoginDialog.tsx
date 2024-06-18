@@ -2,11 +2,12 @@
 
 import { useToggle } from "@/Hooks/useToggle";
 
-import { IconButton, Dialog, DialogTitle, DialogContent, ButtonGroup, Avatar } from "@mui/material";
+import { IconButton, Dialog, DialogTitle, DialogContent, ButtonGroup, Avatar, Button } from "@mui/material";
 
 import { SignInButton, SignOutButton } from "./SignInButton";
-import LoginForm from "../LoginForm";
+import RegisterForm from "../RegisterForm";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 // import { _log } from "@/Helpers/helpersFns";
 
 
@@ -28,10 +29,15 @@ const LoginDialog: React.FC<LoginDialogProps> = () => {
                     Регистрация
                 </DialogTitle>
                 <DialogContent>
-                    <LoginForm />
-                    <ButtonGroup fullWidth >
-                        <SignInButton />
 
+                    <ButtonGroup fullWidth orientation="vertical" variant="contained">
+                        <SignInButton />
+                        <Button color="warning" size="small"
+                            href={ '/api/auth/register' }
+                            LinkComponent={ Link }
+                        >
+                            Зарегестрироватсья
+                        </Button>
                         {
                             canLogout &&
                             <SignOutButton />

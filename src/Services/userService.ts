@@ -101,7 +101,7 @@ export async function registerUser(email: string, password: string, role = UserR
 
 
 
-export async function createUser(email: string, password: string, role: UserRole = UserRole.GUEST) {
+export async function createUser(email: string, password: string, name?: string) {
     const verifiedEmail = validateEmail(email)
 
     if (!verifiedEmail) {
@@ -119,16 +119,21 @@ export async function createUser(email: string, password: string, role: UserRole
             data: {
                 email: verifiedEmail,
                 password: pwHash,
-                role: role,
-                profile: {}
+                name,
+                profile: {
+                    create: {
+                        name
+                    }
+                }
             },
             select: {
                 email: true,
                 role: true,
-                id: true
+                id: true,
+                name: true
             }
         })
-
+        console.log("User created")
         console.table(user)
         return user
     } catch (e) {
@@ -140,8 +145,8 @@ export async function createUser(email: string, password: string, role: UserRole
 }
 
 export async function createUserWithProfile(user_data: Prisma.UserCreateInput, profile_data?: Partial<Prisma.ProfileCreateInput>) {
-    const { email, password, role } = user_data
-    const name = profile_data?.name
+    const { email, password, role, name } = user_data
+
 
 
 
@@ -163,6 +168,7 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
                 email: verifiedEmail,
                 password: pwHash,
                 role: role,
+                name,
                 profile: {
                     create: {
                         ...profile_data
@@ -177,24 +183,7 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
                 password: true
             }
         })
-        // if (profile_data) {
-        //     const p = await prisma.profile.create({
-        //         data: {
-        //             name: profile_data.name,
-        //             userId: user.id,
-        //         },
 
-        //     })
-        //     await prisma.user.update({
-        //         where: { id: user.id },
-        //         data: {
-        //             profile: {
-        //                 connect: p
-        //             }
-        //         }
-        //     })
-        //     console.table(p)
-        // }
 
         console.table(user)
         return user

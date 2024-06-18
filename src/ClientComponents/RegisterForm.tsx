@@ -2,9 +2,10 @@
 
 
 import { registerAction } from '@/auth/register';
-import { Button, Stack, TextField } from '@mui/material';
+import { Box, Button, ButtonGroup, Stack, TextField, Typography } from '@mui/material';
 import { UserRole } from '@prisma/client';
 import { useFormState, useFormStatus } from 'react-dom';
+import BackButton from './UI/BackButton';
 
 
 
@@ -21,8 +22,8 @@ const initalState: FormState = {
     password: "",
     role: UserRole.GUEST
 }
-export default function LoginForm() {
-    const [error, dispatch] = useFormState(registerAction, undefined)
+export default function RegisterForm() {
+    const [error, dispatch] = useFormState(registerAction, { message: "" })
 
     return (
         <form
@@ -32,8 +33,15 @@ export default function LoginForm() {
 
             <div className="flex-1 rounded-lg bg-gray-50 ">
 
-
-                <Stack rowGap={ 2 } sx={ { bgcolor: 'background.paper', p: 1 } }>
+                <Stack rowGap={ 2 }
+                    sx={ {
+                        bgcolor: 'background.paper',
+                        p: 2,
+                        maxWidth: 400,
+                        border: '1px solid black',
+                        borderRadius: '1rem'
+                    } }>
+                    <Typography>Регистрация нового пользователя</Typography>
 
                     <TextField
                         sx={ { flexGrow: 1 } }
@@ -48,7 +56,17 @@ export default function LoginForm() {
                         required
 
                     />
-
+                    <TextField
+                        sx={ { flexGrow: 1 } }
+                        defaultValue={ "" }
+                        name='name'
+                        color='warning'
+                        id='inp-name'
+                        size='small'
+                        placeholder='введите имя'
+                        type='text'
+                        label="Name"
+                    />
 
 
 
@@ -67,8 +85,12 @@ export default function LoginForm() {
                     />
 
 
+                    <ButtonGroup fullWidth>
 
-                    <RegisterButton />
+                        <RegisterButton />
+                        <BackButton />
+                    </ButtonGroup>
+
                 </Stack>
 
 
@@ -108,7 +130,7 @@ function RegisterButton() {
         <Button aria-disabled={ pending }
             variant='contained'
             color='secondary'
-            sx={ { m: 2 } }
+            // sx={ { m: 2 } }
             disabled={ pending }
             type='submit'
         >

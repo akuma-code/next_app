@@ -23,14 +23,15 @@ export default {
                     return null
                 } else {
                     const db_pass = user.password
-                    const c_pass = await hash(credentials.password as string, 5)
-                    const isPassCorrect = db_pass === c_pass
+                    // console.log({ db_pass, c_pass: credentials.password })
+                    // const c_pass = await hash(credentials.password as string, 5)
+                    const isPassCorrect = db_pass === credentials.password as string
                     if (!isPassCorrect) {
-                        console.log({ db_pass, c_pass }, "not equal!")
+                        console.log({ db_pass }, "not equal!")
                         return null
                     } else return user
                 }
-                return null
+
             },
         }),
         github,
