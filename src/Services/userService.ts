@@ -166,7 +166,7 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
         const user = await prisma.user.create({
             data: {
                 email: verifiedEmail,
-                password: pwHash,
+                password: password,
                 role: role,
                 name,
                 profile: {
