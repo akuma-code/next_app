@@ -16,11 +16,12 @@ export const CredentialsLoginForm = ({ provider }: { provider: { id: string, nam
     async function onFinish(prev: any, data: FormData) {
         return await login(prev, data).then(
             res => {
-                router.push("/")
-                console.table(res)
-                return { message: "Success" }
+                !error && router.push("/")
+                console.log(res)
+                return res
             },
             err => {
+                _log(err)
                 return { message: "Login error, check pass or email" }
 
             }

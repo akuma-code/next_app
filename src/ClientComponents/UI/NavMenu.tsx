@@ -10,6 +10,12 @@ export const NavMenu = () => {
 
     const { status } = useSession()
     const canLogout = status === 'authenticated'
+    const lang = {
+        authenticated: "в системе!",
+        loading: "Загрузка...",
+        unauthenticated: "Не авторизован"
+
+    }
     return (
         <MenuButton >
             <MenuItem divider>
@@ -26,16 +32,15 @@ export const NavMenu = () => {
                     Регистрация
                 </Button>
             </MenuItem>
-            {
-                canLogout &&
-                <MenuItem>
-                    <Button color="error" size="small"
-                        onClick={ () => signOut() }
-                    >
-                        Выйти
-                    </Button>
-                </MenuItem>
-            }
+
+            <MenuItem divider>
+                <Button color="error" size="small"
+                    onClick={ () => signOut() }
+                >
+                    Выйти
+                </Button>
+            </MenuItem>
+            <MenuItem disabled>{ lang[status] }</MenuItem>
         </MenuButton>
     )
 }

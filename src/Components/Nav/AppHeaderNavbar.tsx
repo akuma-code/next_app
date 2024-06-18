@@ -1,8 +1,7 @@
 import { auth } from '@/auth/auth';
-import { checkAuth } from '@/auth/utils';
-import LoginDialog from '@/ClientComponents/auth/LoginDialog';
 import { ToggleThemeColorButton } from '@/ClientComponents/ToggleThemeButton';
 import { NavMenu } from '@/ClientComponents/UI/NavMenu';
+import { _log } from '@/Helpers/helpersFns';
 import { paths } from '@/paths';
 import { AppBar, Breadcrumbs, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -26,8 +25,8 @@ const routes = [
 export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
     const session = await auth()
-    const { isAuth, role } = await checkAuth()
 
+    _log({ session })
 
     return (
 
@@ -49,7 +48,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
                 <Typography textAlign={ 'center' } flexGrow={ 1 }>
                     { session
-                        ? `user: ${session?.user?.email}, ${session?.user?.role}`
+                        ? `user: ${session?.user?.email}, ${session?.user?.name}`
                         : "Пользователь не авторизован"
                     }
                 </Typography>
@@ -59,13 +58,10 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     <ToggleThemeColorButton />
                     {/* <LoginDialog /> */ }
                     <NavMenu />
-                    {
-                        role === 'ADMIN' &&
 
-                        <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                            <Link href={ pageUrl.admin }> Админка </Link>
-                        </Typography>
-                    }
+                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
+                        <Link href={ pageUrl.admin }> Админка </Link>
+                    </Typography>
                 </Breadcrumbs>
 
             </Toolbar>

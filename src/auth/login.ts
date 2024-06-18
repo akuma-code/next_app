@@ -23,10 +23,12 @@ export async function login(prev: any, payload: FormData) {
 
     try {
 
-        await signIn('credentials', payload)
+        await signIn('credentials', { email, password })
+        err.message = ""
+        return err
 
 
     } catch (error) {
-        throw error
+        throw new Error("Auth error")
     }
 }
