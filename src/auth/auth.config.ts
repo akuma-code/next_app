@@ -1,5 +1,6 @@
 import { getOneUser } from "@/Services/userService"
 import { User } from "@prisma/client"
+import { hash, hashSync } from "bcrypt"
 import { NextAuthConfig } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import github from "next-auth/providers/github"
@@ -20,7 +21,16 @@ export default {
                 if (!user) {
                     console.error("User not found.")
                     return null
-                } else return user
+                } else {
+                    const db_pass = user.password
+                    const c_pass = await hash(credentials.password as string, 5)
+                    const isPassCorrect = db_pass === c_pass
+                    if (!isPassCorrect) {
+                        console.log({ db_pass, c_pass }, "not equal!")
+                        return null
+                    } else return user
+                }
+                return null
             },
         }),
         github,
