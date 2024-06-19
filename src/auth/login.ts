@@ -5,6 +5,7 @@ import { User } from "@prisma/client"
 import { Payload } from "@prisma/client/runtime/library"
 import bcrypt from "bcrypt"
 import { signIn } from "./auth"
+import { redirect } from "next/navigation"
 // import { signIn } from "next-auth/react"
 
 
@@ -23,7 +24,7 @@ export async function login(prev: any, payload: FormData) {
 
     try {
 
-        await signIn('credentials', { email, password })
+        await signIn('credentials', payload)
         err.message = ""
         return err
 

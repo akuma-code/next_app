@@ -4,6 +4,7 @@ import prisma from "@/client/client"
 import { createUserWithProfile } from "@/Services/userService"
 import { hashPass } from "./utils"
 import { validateEmail } from "./validator"
+import { redirect } from "next/navigation"
 
 export async function registerUser(payload: { email: string, password: string, name?: string }) {
     const { email, password, name } = payload;
@@ -25,7 +26,8 @@ export async function registerUser(payload: { email: string, password: string, n
     }
 
     const pwHash = await hashPass(password)
-    return await createUserWithProfile({ email: verifiedEmail, password, name })
+    const user = await createUserWithProfile({ email: verifiedEmail, password, name })
+    redirect(`/admin/user/profile/${user.id}`)
 
 }
 
