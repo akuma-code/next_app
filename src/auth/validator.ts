@@ -37,9 +37,9 @@ export function validateUserUpdate(user: Prisma.UserCreateInput & { name?: strin
                 ? 'Невалидный адрес почты, проверьте написание' as const
                 : '',
 
-        name: !user.name
-            ? "Не забудьте обновить имя в профиле"
-            : ""
+        // name: !user.name
+        //     ? "Не забудьте обновить имя в профиле"
+        //     : ""
     };
 }
 export function validateRole(role: string) {

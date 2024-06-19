@@ -4,6 +4,7 @@ import { hashPass } from "@/auth/utils";
 import { validateEmail } from "@/auth/validator";
 import prisma from "@/client/client";
 import { _log } from "@/Helpers/helpersFns";
+import { _UserSelect, P_ProfileCreateArgs, P_UserCreateArgs, P_UserFindArgs } from "@/Types";
 import { Prisma, UserRole } from "@prisma/client";
 
 import bcrypt from "bcrypt";
@@ -11,7 +12,7 @@ import { revalidatePath } from "next/cache";
 type GetOnePayload = { id: string, } | { email: string }
 
 export type RSelectFields<T, P> = T extends keyof P & string ? T[] : never
-export async function getUser(payload: GetOnePayload, options?: { withPass?: boolean }) {
+export async function getUser(payload: Prisma.UserWhereUniqueInput, options?: { withPass?: boolean }) {
     const u = prisma.user
     try {
 
@@ -19,12 +20,7 @@ export async function getUser(payload: GetOnePayload, options?: { withPass?: boo
             const { id } = payload;
             const user = await u.findUnique({
                 where: { id: Number(id) },
-                select: {
-                    email: true,
-                    role: true,
-                    password: !!options?.withPass,
-                    profile: true,
-                }
+                select: _UserSelect.all
             })
 
             return user
@@ -32,12 +28,7 @@ export async function getUser(payload: GetOnePayload, options?: { withPass?: boo
             const { email } = payload;
             const user = await u.findUnique({
                 where: { email },
-                select: {
-                    email: true,
-                    role: true,
-                    password: !!options?.withPass,
-                    profile: true
-                }
+                select: _UserSelect.all
             })
             return user
         }
@@ -48,7 +39,7 @@ export async function getUser(payload: GetOnePayload, options?: { withPass?: boo
         throw new Error("Find user error")
     }
 }
-export async function getOneUser(payload: { email: string }, options?: { withPass?: boolean }) {
+export async function getOneUser(payload: P_UserFindArgs, options?: { withPass?: boolean }) {
     const u = prisma.user
 
 
@@ -83,55 +74,40 @@ export async function deleteUser(id: number) {
 
 }
 
-export async function registerUser(email: string, password: string, role = UserRole.GUEST) {
-    const verifiedEmail = validateEmail(email)
-    if (!verifiedEmail) {
-        throw new Error("Email is not valid")
-    }
-
-
-    // const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
-    const existUser = await getOneUser({ email })
-    if (existUser) throw new Error("Email already in use, try another")
-
-
-    return await createUser(verifiedEmail, password, role)
-
-}
 
 
 
-export async function createUser(email: string, password: string, name?: string) {
+
+export async function createUser({ email, password, name }: P_UserCreateArgs, new_profile?: P_ProfileCreateArgs) {
     const verifiedEmail = validateEmail(email)
 
     if (!verifiedEmail) {
-        throw new Error("Email is not valid")
+
+        console.error("Email is not valid")
+        return null
     }
-
-
-    const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
-    if (existUser) throw new Error("Email already in use, try another")
 
 
     try {
+        const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
+        if (existUser) {
+            console.error("Email already in use, try another")
+            return null
+        }
+        let _profile: object | Prisma.ProfileCreateInput = new_profile ? new_profile : {}
+
+
+
         const pwHash = await bcrypt.hash(password, 5)
         const user = await prisma.user.create({
             data: {
                 email: verifiedEmail,
-                password: pwHash,
+                password: password,
                 name,
-                profile: {
-                    create: {
-                        name
-                    }
-                }
+                profile: { create: new_profile }
+
             },
-            select: {
-                email: true,
-                role: true,
-                id: true,
-                name: true
-            }
+            select: _UserSelect.no_pass
         })
         console.log("User created")
         console.table(user)
@@ -144,11 +120,8 @@ export async function createUser(email: string, password: string, name?: string)
     }
 }
 
-export async function createUserWithProfile(user_data: Prisma.UserCreateInput, profile_data?: Partial<Prisma.ProfileCreateInput>) {
+export async function createUserWithProfile(user_data: Prisma.UserCreateInput, profile_data?: Prisma.ProfileCreateInput) {
     const { email, password, role, name } = user_data
-
-
-
 
     const verifiedEmail = validateEmail(email)
 
@@ -175,13 +148,7 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
                     }
                 }
             },
-            select: {
-                email: true,
-                role: true,
-                id: true,
-                profile: true,
-                password: true
-            }
+            select: _UserSelect.all
         })
 
 
@@ -296,6 +263,60 @@ export async function getAllUsers<T extends UserSelectFields>(options?: { select
 
 
 }
+
+
+export async function editUser(whereArgs: { id: number }, new_user_data: Prisma.UserUpdateInput, new_profile_data?: Prisma.ProfileUpdateInput) {
+    let pwHash: string = ""
+    if (new_user_data.password) pwHash = await hashPass(new_user_data.password as string)
+    try {
+        const { id } = whereArgs
+
+
+        const _puser = await prisma.user.update({
+            where: { id },
+            data: { ...new_user_data },
+            include: {
+                profile: true
+            }
+
+        })
+
+        if (new_profile_data) {
+            const { name } = new_profile_data || ""
+            const _p = await prisma.profile.upsert({
+                create: { userId: id },
+                update: { ...new_profile_data },
+                where: { userId: id },
+            })
+            await prisma.user.update({ where: { id: _puser.id }, data: { profile: { connect: { id: _p.id } } } })
+        }
+        console.info(_puser)
+        return _puser
+    } catch (error) {
+        _log(error)
+        throw new Error("____update user error")
+    } finally {
+        // console.table(new_user_data)
+        revalidatePath('/')
+    }
+
+}
+
+// export async function registerUser(email: string, password: string, role = UserRole.GUEST) {
+//     const verifiedEmail = validateEmail(email)
+//     if (!verifiedEmail) {
+//         throw new Error("Email is not valid")
+//     }
+
+
+//     // const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
+//     const existUser = await getOneUser({ email })
+//     if (existUser) throw new Error("Email already in use, try another")
+
+
+//     return await createUser(verifiedEmail, password, role)
+
+// }
 // export async function getAllUsers<T extends keyof User & string>(options?: { select?: T[], pass?: boolean }) {
 //     const pass = options?.pass
 //     if (options?.select !== undefined) {
@@ -352,49 +373,3 @@ export async function getAllUsers<T extends UserSelectFields>(options?: { select
 // >>>>>>> b401f4c (backup data)
 //     return users
 // }
-
-export async function editUser(whereArgs: { id: number }, new_user_data: Partial<Prisma.UserUpdateInput>, new_profile_data?: { name: string | null }) {
-    let pwHash: string = ""
-    if (new_user_data.password) pwHash = await hashPass(new_user_data.password as string)
-    try {
-        const { id } = whereArgs
-        const _data = !!new_user_data.password ? {
-
-            email: new_user_data.email,
-            role: new_user_data.role,
-            password: bcrypt.hashSync(new_user_data.password as string, 5),
-
-        } : {
-            email: new_user_data.email,
-            role: new_user_data.role,
-        }
-
-        const _puser = await prisma.user.update({
-            where: { id },
-            data: { ..._data },
-            include: {
-                profile: true
-            }
-
-        })
-
-        if (new_profile_data) {
-            const { name } = new_profile_data || ""
-            const _p = await prisma.profile.upsert({
-                create: { userId: id, name },
-                update: { name },
-                where: { userId: id },
-            })
-            await prisma.user.update({ where: { id: _puser.id }, data: { profile: { connect: { id: _p.id } } } })
-        }
-        console.table(_puser)
-        return _puser
-    } catch (error) {
-        _log(error)
-        throw new Error("____update user error")
-    } finally {
-        // console.table(new_user_data)
-        revalidatePath('/')
-    }
-
-}

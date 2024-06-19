@@ -1,11 +1,9 @@
 'use server'
 
-import { UserRole } from "@prisma/client"
-import { validateEmail } from "./validator"
 import prisma from "@/client/client"
-import { createUser, createUserWithProfile } from "@/Services/userService"
+import { createUserWithProfile } from "@/Services/userService"
 import { hashPass } from "./utils"
-import { redirect } from "next/navigation"
+import { validateEmail } from "./validator"
 
 export async function registerUser(payload: { email: string, password: string, name?: string }) {
     const { email, password, name } = payload;

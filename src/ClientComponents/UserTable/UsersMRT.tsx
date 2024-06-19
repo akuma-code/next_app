@@ -29,7 +29,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
 
     const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
 
-    const [profile_, setProfile] = useState({ name: "", email: "", pass: "", role: "" })
+    // const [profile_, setProfile] = useState({ name: "", email: "", pass: "", role: "" })
     const router = useRouter()
     const pathname = usePathname()
     const mrt_columns = useMemo(() =>
@@ -40,6 +40,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 header: "Email",
                 minSize: 150,
                 muiEditTextFieldProps: {
+                    type: 'email',
                     required: true,
                     error: !!validationErrors?.email,
                     helperText: validationErrors?.email,
@@ -58,6 +59,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 header: "Имя",
                 minSize: 100,
                 muiEditTextFieldProps: {
+                    type: 'text',
                     required: false,
                     error: !!validationErrors?.name,
                     helperText: validationErrors?.name,
@@ -71,7 +73,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     //     setProfile(prev => ({ ...prev, name: e.target.value }))
                 },
 
-                Cell: ({ row }) => row.original?.profile?.name ?? "No name"
+                // Cell: ({ row }) => row.original?.name
             },
             {
                 accessorKey: 'role',
@@ -86,8 +88,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     variant: 'outlined',
                     error: !!validationErrors?.role,
                     helperText: validationErrors?.role,
-                    onChange: (e) => setProfile(prev => ({ ...prev, role: e.target.value as string })),
-                    // defaultValue: UserRole.GUEST
+                    defaultValue: UserRole.GUEST
                 },
 
 
@@ -99,8 +100,9 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 grow: 1,
                 minSize: 120,
                 enableHiding: true,
-                enableEditing: false,
+                enableEditing: true,
                 muiEditTextFieldProps: {
+                    type: 'password',
                     required: false,
                     error: !!validationErrors?.password,
                     helperText: validationErrors?.password,
@@ -113,7 +115,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     // onChange: (e) =>
                     //     setProfile(prev => ({ ...prev, pass: e.target.value }))
                 },
-                Cell: ({ cell }) => `${cell.getValue()}`.toString().slice(0, 8) + ' ....'
+                Cell: ({ cell }) => `${cell.getValue()}`
             },
 
 
@@ -126,15 +128,10 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             setValidationErrors(errors);
             return;
         }
-        // _log({ values })
-        const { email, password, role, name } = values;
-
-        await createUserWithProfile({ email, password, role }, { name })
-
 
         setValidationErrors({})
         // const name = profile_.name
-        const new_user = await createUserWithProfile({ email, password, role }, { name: profile_.name })
+        await createUserWithProfile(values)
         table.setCreatingRow(null)
         // exitCreatingMode()
 
@@ -152,7 +149,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
         const userId = row.original.id
         // const name = values['profile.name']
         const { email, password, role, name } = values
-        await editUser({ id: userId }, { email, password, role }, { name })
+        await editUser({ id: userId }, { email, password, role, name })
         table.setEditingRow(null)
         // exitEditingMode()
     }
@@ -205,18 +202,18 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 <Box>
 
                     <DialogTitle >
-                        Изменить данные
+                        Создать нового пользователя
                     </DialogTitle>
                     <Grid container spacing={ 2 } p={ 2 }>
                         <Grid item md={ 12 }>
-                            <TextField name='name'
+                            {/* <TextField name='name'
                                 value={ profile_.name }
                                 onChange={ (e) => setProfile(prev => ({ ...prev, name: e.target.value })) }
                                 label="Name"
                                 variant='outlined'
                                 fullWidth>
                                 Добавить нового пользователя
-                            </TextField>
+                            </TextField> */}
                         </Grid>
                         <Grid container spacing={ 2 } p={ 2 }>
 

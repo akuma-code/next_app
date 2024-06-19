@@ -6,6 +6,7 @@ import { UserRole } from "@prisma/client";
 export type DTO_User = {
     id: number;
     email: string;
+    name?: string | null
     role?: UserRole;
     password?: string | null
     profile?: {

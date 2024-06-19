@@ -1,14 +1,34 @@
 import bcrypt from 'bcrypt'
 import { User, UserRole } from "@prisma/client";
-function hashPass(password: string) {
-    return bcrypt.hashSync(password, 5)
-}
-export const admin: Omit<User, 'id'> = {
-    email: "nodachi@bk.ru",
-    password: hashPass("aa"),
-    role: UserRole.ADMIN,
-    name: "Pavel Rodnyansky",
-    image: "",
-    emailVerified: null
-}
+import { P_UserCreateArgs } from '@/Types';
 
+
+
+export const members_seed: P_UserCreateArgs[] = [
+    {
+        email: "nodachi@bk.ru",
+        password: 'aa',
+        role: UserRole.ADMIN,
+        name: "Pavel Rodnyansky",
+        image: "",
+        emailVerified: null
+    },
+    {
+        email: 'aa@aa.ru',
+        password: 'aa',
+        role: UserRole.MEMBER,
+        name: "First"
+    },
+    {
+        email: 'bb@bb.ru',
+        password: 'bb',
+        role: UserRole.MEMBER,
+        name: "second"
+    },
+    {
+        email: 'cc@cc.ru',
+        password: 'cc',
+        role: UserRole.MEMBER,
+        name: "third"
+    },
+]

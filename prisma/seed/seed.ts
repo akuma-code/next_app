@@ -1,7 +1,7 @@
-import { PrismaClient, UserRole } from '@prisma/client'
-import { masters_to_seed, players_to_seed, players_to_seed2 } from './players'
+import { PrismaClient } from '@prisma/client';
 import { events_to_seed } from './events';
-import { admin } from './users';
+import { masters_to_seed, players_to_seed2 } from './players';
+import { members_seed } from './users';
 
 type SeedEvent = {
     id: number;
@@ -11,8 +11,8 @@ type SeedEvent = {
     players: {
         id: number;
         name: string;
-        createdAt: string;
-        updatedAt: string;
+        // createdAt: string;
+        // updatedAt: string;
     }[];
 }
 
@@ -82,15 +82,17 @@ export async function seedMasters(masters: { name: string }[]) {
 
 }
 
-async function seedAdmin() {
+async function seedUsers() {
+
 
 
 
     try {
-        const user = prisma.user.create({
-            data: { email: admin.email, password: admin.password, role: UserRole.ADMIN, name: admin.name }
-        })
-        return user
+        const users = members_seed.map(user => prisma.user.create({ data: user }))
+        // const user = prisma.user.create({
+        //     data: { email: admin.email, password: admin.password, role: UserRole.ADMIN, name: admin.name }
+        // })
+        return await prisma.$transaction(users)
     } catch (e) {
         console.log(e)
         throw new Error("Seed admin error")
@@ -101,7 +103,7 @@ export async function seed_db() {
     const players_seed = seedObjectPlayers(players_to_seed2).finally(console.table)
     const masters_seed = seedMasters(masters_to_seed).finally(console.table)
     const events_seed = seedEvents(events_to_seed).finally(console.table)
-    const user_seed = seedAdmin().finally(console.table)
+    const user_seed = seedUsers().finally(console.table)
     return Promise.all([
         players_seed,
         masters_seed,

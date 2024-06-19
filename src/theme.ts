@@ -15,7 +15,7 @@ const roboto = Roboto({
 
 export const getDesignTokens = (mode: PaletteMode) => ({
     palette: {
-        contrastThreshold: 4.5,
+        contrastThreshold: 4,
         typography: {
             fontFamily: roboto.style.fontFamily,
         },

@@ -15,7 +15,7 @@ export default {
 
             name: "email",
             // type: "credentials",
-            authorize: async (credentials) => {
+            authorize: async (credentials, context) => {
                 let user: null | Required<Pick<User, 'email' | 'password' | 'role'>> = null
                 user = await getOneUser({ email: credentials.email as string, }, { withPass: true })
                 if (!user) {

@@ -103,15 +103,17 @@ const dark: PaletteOptions = {
 const yoma_light = {
 
     mode: 'light' as const,
+
     primary: {
         main: '#0c2659',
         light: '#262d31',
         dark: '#010626',
-        contrastText: '#ffffff',
+        contrastText: '#fff',
     },
     secondary: {
         main: '#f57435',
         light: '#ac8d5f',
+        dark: '#a53e0a',
         contrastText: '#0c2659',
     },
     background: {
@@ -120,7 +122,7 @@ const yoma_light = {
     },
     text: {
         primary: '#010626',
-        secondary: '#010626',
+        secondary: '#4959c2',
         disabled: '#010626',
 
     },
