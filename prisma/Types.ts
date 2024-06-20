@@ -1,3 +1,4 @@
+import { getOneUserByEmail } from "@/Services/userService";
 import { Prisma } from "@prisma/client";
 
 export type P_UserSelect = Prisma.UserSelectScalar
@@ -23,5 +24,7 @@ export const _UserSelect: Record<'all' | "no_pass", P_UserSelect> = {
     },
 
 }
+
+export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail>
 
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput

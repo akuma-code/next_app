@@ -1,4 +1,4 @@
-import { CredentialsLoginForm } from "@/ClientComponents/auth/CredentialsForm";
+import { CredentialsLogin, CredentialsLoginForm } from "@/ClientComponents/auth/CredentialsForm";
 import { _log } from "@/Helpers/helpersFns";
 import { signIn } from "@/auth/auth";
 import { Button, Container, Stack } from "@mui/material";
@@ -13,12 +13,24 @@ async function SignInPage() {
     return (
         <Container maxWidth={ 'md' } >
             <Stack direction={ { sm: 'column', md: 'row' } } gap={ 2 } justifyContent={ 'center' } p={ 2 }>
-                <CredentialsLoginForm provider={ { id: 'credentials', name: "Credentials" } } />
-                {/* { Object.values(providerMap).map((provider) => {
-                    if (provider.name === "Github") return <GitHubsLoginForm provider={ provider } key={ provider.id } />
-                    if (provider.name === 'Credentials') return <CredentialsLoginForm provider={ provider } key={ provider.id } />
+                <form
+                    action={ 
+                        async (fd) => {
+                        "use server"
+                        await signIn('credentials', fd)
+                        // try {
+                        // } catch (error) {
+                        //     console.log(Object.fromEntries(fd))
 
-                }) } */}
+                        //     _log("_______error", error)
+                        //     throw new Error("SigninPage error")
+                        // }
+                    } }
+                >
+
+                    <CredentialsLogin />
+                </form>
+
             </Stack>
         </Container>
     )

@@ -1,4 +1,5 @@
-import { getOneUser } from "@/Services/userService"
+import { getOneUserByEmail } from "@/Services/userService"
+import { P_UserCreateArgs, UserPersonalData } from "@/Types"
 import { User } from "@prisma/client"
 import { hash, hashSync } from "bcrypt"
 import { NextAuthConfig } from "next-auth"
@@ -14,23 +15,24 @@ export default {
             },
 
             name: "email",
-            // type: "credentials",
-            authorize: async (credentials, context) => {
-                let user: null | Required<Pick<User, 'email' | 'password' | 'role'>> = null
-                user = await getOneUser({ email: credentials.email as string, }, { withPass: true })
+            type: "credentials",
+            authorize: async (credentials, req) => {
+                let user: null | UserPersonalData = null
+                user = await getOneUserByEmail({ email: credentials.email as string, }, { withPass: true })
                 if (!user) {
-                    console.error("User not found.")
+                    console.error(`Юзверь с мылом ${credentials.email} не найден`)
                     return null
-                } else {
-                    const db_pass = user.password
-                    // console.log({ db_pass, c_pass: credentials.password })
-                    // const c_pass = await hash(credentials.password as string, 5)
-                    const isPassCorrect = db_pass === credentials.password as string
-                    if (!isPassCorrect) {
-                        console.log({ db_pass }, "not equal!")
-                        return null
-                    } else return user
                 }
+                const db_pass = user.password
+                // console.log({ db_pass, c_pass: credentials.password })
+                // const c_pass = await hash(credentials.password as string, 5)
+                const isPassCorrect = db_pass === credentials.password as string
+                if (!isPassCorrect) {
+                    console.log({ db_pass }, "not equal!")
+                    return null
+                }
+
+                return user
 
             },
 

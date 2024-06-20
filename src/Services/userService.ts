@@ -39,19 +39,20 @@ export async function getUser(payload: Prisma.UserWhereUniqueInput, options?: { 
         throw new Error("Find user error")
     }
 }
-export async function getOneUser(payload: P_UserFindArgs, options?: { withPass?: boolean }) {
-    const u = prisma.user
-
-
-    const { email } = payload;
-
+export async function getOneUserByEmail(payload: { email: string }, options?: { withPass?: boolean }) {
     try {
+        const u = prisma.user
+
+
+        const { email } = payload;
+
 
 
 
         const user = await u.findUnique({
             where: { email },
             select: {
+                name: true,
                 email: true,
                 role: true,
                 password: !!options?.withPass,

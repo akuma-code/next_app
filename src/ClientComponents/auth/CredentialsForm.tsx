@@ -1,5 +1,5 @@
 'use client'
-import { signIn } from "@/auth/auth";
+
 import { _log } from "@/Helpers/helpersFns";
 import { Button, ButtonGroup, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
@@ -7,26 +7,30 @@ import BackButton from "../UI/BackButton";
 import { Container } from "@mui/material";
 import { useFormState } from "react-dom";
 import { login } from "@/auth/login";
-import { useRouter } from "next/navigation";
+
+import { authenticate } from "./authFn";
+import { signIn } from "@/auth/auth";
+// import { signIn } from "next-auth/react";
+
 
 export const CredentialsLoginForm = ({ provider }: { provider: { id: string, name: string } }) => {
-    const [error, dispatch] = useFormState(onFinish, { message: "" })
-    const router = useRouter()
 
-    async function onFinish(prev: any, data: FormData) {
-        return await login(prev, data).then(
-            res => {
-                !error && router.push("/")
-                console.log(res)
-                return res
-            },
-            err => {
-                _log(err)
-                return { message: "Login error, check pass or email" }
+    const [error, dispatch] = useFormState(authenticate, { message: "", callbackUrl: "" })
 
-            }
-        )
-    }
+    // async function onFinish(prev: any, data: FormData) {
+    //     return await login(prev, data).then(
+    //         res => {
+    //             error && router.push("/")
+    //             console.log(res)
+    //             return res
+    //         },
+    //         err => {
+    //             _log(err)
+    //             return { message: "Login error, check pass or email" }
+
+    //         }
+    //     )
+    // }
     return (
         <form key={ provider.id }
             action={ dispatch }
@@ -57,7 +61,10 @@ export const CredentialsLoginForm = ({ provider }: { provider: { id: string, nam
                     placeholder='введите email'
                     type='email'
                     label="Email"
-                    required />
+                    required
+                    error={ !!error?.message }
+                    helperText={ error?.message }
+                />
 
                 <TextField
                     sx={ { flexGrow: 1, } }
@@ -70,7 +77,10 @@ export const CredentialsLoginForm = ({ provider }: { provider: { id: string, nam
                     size='small'
                     placeholder='введите пароль'
                     required
-                    label="Пароль" />
+                    label="Пароль"
+                    error={ !!error?.message }
+                // helperText={ error.message }
+                />
                 <ButtonGroup fullWidth>
 
                     <Button type="submit" variant="contained">
@@ -89,3 +99,87 @@ export const CredentialsLoginForm = ({ provider }: { provider: { id: string, nam
         </form>
     );
 }
+export const CredentialsLogin = () => {
+
+    // const [error, dispatch] = useFormState(authenticate, { message: "", callbackUrl: "" })
+
+    // async function onFinish(prev: any, data: FormData) {
+    //     return await login(prev, data).then(
+    //         res => {
+    //             error && router.push("/")
+    //             console.log(res)
+    //             return res
+    //         },
+    //         err => {
+    //             _log(err)
+    //             return { message: "Login error, check pass or email" }
+
+    //         }
+    //     )
+    // }
+    return (
+        // <form
+        //     action={ async (fd) => {
+
+        //         try {
+        //             await signIn('credentials', fd)
+        //         } catch (error) {
+        //             console.log(Object.fromEntries(fd))
+
+        //             _log(error)
+        //             throw new Error("Credentials error")
+        //         }
+        //     } }
+        // >
+
+
+
+        <Stack rowGap={ 2 } sx={ { bgcolor: 'background.paper', p: 2, maxWidth: 400, border: '1px solid black', borderRadius: '1rem' } } >
+            <Typography>Авторизация</Typography>
+            <TextField
+                sx={ { flexGrow: 1 } }
+                defaultValue={ "" }
+                name='email'
+                color='warning'
+                id='inp-email'
+                size='small'
+                placeholder='введите email'
+                type='email'
+                label="Email"
+                required
+            // error={ !!error?.message }
+            // helperText={ error?.message }
+            />
+
+            <TextField
+                sx={ { flexGrow: 1, } }
+                defaultValue={ "" }
+                name='password'
+                color='warning'
+                id='passinput'
+                type='password'
+                autoComplete='on'
+                size='small'
+                placeholder='введите пароль'
+                required
+                label="Пароль"
+            // error={ !!error?.message }
+            // helperText={ error.message }
+            />
+            <ButtonGroup fullWidth>
+
+                <Button type="submit" variant="contained">
+                    Войти
+                </Button>
+                <Button type="reset">
+                    Сбросить
+                </Button>
+                <BackButton />
+            </ButtonGroup>
+
+        </Stack>
+
+        // </form>
+    );
+}
+

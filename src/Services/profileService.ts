@@ -23,3 +23,20 @@ export async function changeUserPassword({ id, new_password }: { id: number, new
     console.table(user)
     return user
 }
+
+export async function changeUserImage({ id, image }: { id: number, image: string }) {
+    const user = await prisma.user.findFirst({
+        where: { id },
+        select: _UserSelect.no_pass
+    })
+    if (!user) {
+        console.error("User not found!")
+        return null
+    }
+    await prisma.user.update({
+        where: { id: user.id },
+        data: { image },
+        select: _UserSelect.no_pass
+    })
+    console.table(user)
+}

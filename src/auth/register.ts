@@ -27,16 +27,15 @@ export async function registerUser(payload: { email: string, password: string, n
 
     const pwHash = await hashPass(password)
     const user = await createUserWithProfile({ email: verifiedEmail, password, name })
-    redirect(`/admin/user/profile/${user.id}`)
+    // redirect(`/admin/user/profile/${user.id}`)
 
 }
 
 
 export async function registerAction(prevdata: any, data: FormData) {
     const { email, password, name } = Object.fromEntries(data) as { email: string, password: string, name?: string }
-    const validEmail = validateEmail(email)
-    if (validEmail !== false) await registerUser({ email: validEmail, password, name })
-    else return { message: "Email incorrect" }
+    await registerUser({ email, password, name })
+
 
 
 }

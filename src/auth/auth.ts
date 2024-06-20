@@ -20,6 +20,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
+        ...authConfig,
         pages: {
             signIn: '/api/auth/login',
             newUser: '/api/auth/register',
@@ -27,7 +28,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         },
         debug: true,
         callbacks: {
-            async jwt({ token, user, trigger, account, profile }) {
+            jwt({ token, user, trigger, account, profile }) {
                 // if (trigger === 'update') {
                 //     console.log("Updated user: ")
                 //     console.table(user)
@@ -52,23 +53,27 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                         user: userProfile,
                     }
                 }
-                if (Date.now() < Number(token.expires_at) * 1000) {
-                    // Subsequent logins, if the `access_token` is still valid, return the JWT
-                    return token
-                }
                 if (user) { // User is available during sign-in
                     token.role = user.role
                     token.name = user.name
                     token.email = user.email
+
+
+
                     token.user = user
-
-
+                    token.email = user.email
                 }
-                return { ...token, }
+                // if (Date.now() < Number(token.expires_at) * 1000) {
+                //     // Subsequent logins, if the `access_token` is still valid, return the JWT
+                //     return token
+                // }
+                return token
             },
-            async session({ session, token, user }) {
+            session({ session, token, user }) {
                 session.user.role = token.role as UserRole
                 session.user.name = token.name
+
+
 
                 // console.log({ session, token })
                 return session
@@ -95,7 +100,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("GoodBye, ", message)
             },
         },
-        ...authConfig,
+
 
     })
 
@@ -122,12 +127,20 @@ declare module "next-auth" {
      * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
      */
     interface User {
+        id?: string
         role: string
         name?: string | null
     }
+    interface JWT {
+        access_token: string
+        expires_at: number
+        refresh_token: string
+        error?: "RefreshAccessTokenError"
+        user: User
+    }
     interface Session {
         user: {
-            id: number
+            id?: string
             role: string
             name?: string | null
             //      By default, TypeScript merges new interface properties and overwrites existing ones.
@@ -136,13 +149,25 @@ declare module "next-auth" {
             //      you need to add them back into the newly declared interface.
 
         } & DefaultSession["user"]
+        jwt: {
+            access_token: string
+            expires_at: number
+            refresh_token: string
+            error?: "RefreshAccessTokenError"
+            user: User
+        }
     }
+
+
+
+
+}
+
+declare module "next-auth" {
     interface JWT {
         access_token: string
         expires_at: number
         refresh_token: string
         error?: "RefreshAccessTokenError"
     }
-
 }
-

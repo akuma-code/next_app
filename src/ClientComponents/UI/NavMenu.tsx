@@ -8,38 +8,49 @@ import Link from "next/link"
 
 export const NavMenu = () => {
 
-    const { status } = useSession()
-    const canLogout = status === 'authenticated'
+    const { status, data } = useSession()
+
     const lang = {
         authenticated: "в системе!",
         loading: "Загрузка...",
         unauthenticated: "Не авторизован"
 
     }
+
+    const userId = data?.user?.id as unknown as number
     return (
         <MenuButton >
-            <MenuItem divider>
-                <Button color="primary" size="small"
-                    href={ '/api/auth/signin' }
-                    LinkComponent={ Link }
-                >Авторизация</Button>
-            </MenuItem>
-            <MenuItem divider>
+            {
+                !data ? <MenuItem divider>
+                    <Button color="primary" size="small"
+                        href={ '/api/auth/signin' }
+                        LinkComponent={ Link }
+                    >Авторизация</Button>
+                </MenuItem>
+                    :
+                    <MenuItem divider>
+                        <Button color="primary" size="small"
+                            href={ '/admin/users/profile/' + userId }
+                            LinkComponent={ Link }
+                        >Профиль</Button>
+                    </MenuItem>
+            }
+            { !data && <MenuItem divider>
                 <Button color="secondary" size="small"
                     href={ '/api/auth/register' }
                     LinkComponent={ Link }
                 >
                     Регистрация
                 </Button>
-            </MenuItem>
+            </MenuItem> }
 
-            <MenuItem divider>
+            { !!data && <MenuItem divider>
                 <Button color="error" size="small"
                     onClick={ () => signOut() }
                 >
                     Выйти
                 </Button>
-            </MenuItem>
+            </MenuItem> }
             <MenuItem disabled>{ lang[status] }</MenuItem>
         </MenuButton>
     )
