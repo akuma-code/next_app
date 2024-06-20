@@ -28,7 +28,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         },
         debug: true,
         callbacks: {
-            jwt({ token, user, trigger, account, profile }) {
+            async jwt({ token, user, trigger, account, profile }) {
                 // if (trigger === 'update') {
                 //     console.log("Updated user: ")
                 //     console.table(user)
@@ -69,7 +69,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // }
                 return token
             },
-            session({ session, token, user }) {
+            async session({ session, token, user }) {
                 session.user.role = token.role as UserRole
                 session.user.name = token.name
 

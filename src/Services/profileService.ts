@@ -14,11 +14,12 @@ export async function changeUserPassword({ id, new_password }: { id: number, new
         return null
     }
 
-    await prisma.user.update({
+    const edited = await prisma.user.update({
         where: { id },
         data: { password: new_password },
         select: _UserSelect.all
     })
+    return edited
     console.log(`Password changed from ${old} to ${new_password}`)
     console.table(user)
     return user
@@ -33,10 +34,11 @@ export async function changeUserImage({ id, image }: { id: number, image: string
         console.error("User not found!")
         return null
     }
-    await prisma.user.update({
+    const updated = await prisma.user.update({
         where: { id: user.id },
         data: { image },
         select: _UserSelect.no_pass
     })
+    return updated
     console.table(user)
 }

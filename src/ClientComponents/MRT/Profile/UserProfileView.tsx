@@ -88,9 +88,10 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
     const currentImageTitle = useMemo(() => initIcons[index].title, [index])
     const [img, setImg] = useState(user.image ?? "")
     const currentImage = useMemo(() => initIcons.find(i => i.title === img), [img])
-    const { data, error, isSuccess, mutateAsync } = useMutation({
+    const { data: db_user, error, isSuccess, mutateAsync } = useMutation({
         mutationKey: ['profileId', profile.id],
-        mutationFn: changeUserImage
+        mutationFn: changeUserImage,
+        gcTime: 5000
     })
     function handleSelect(id: number) {
         if (!user) return
