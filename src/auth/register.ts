@@ -34,7 +34,13 @@ export async function registerUser(payload: { email: string, password: string, n
 
 export async function registerAction(prevdata: any, data: FormData) {
     const { email, password, name } = Object.fromEntries(data) as { email: string, password: string, name?: string }
-    await registerUser({ email, password, name })
+    try {
+
+        await registerUser({ email, password, name })
+    } catch (error) {
+        const { message } = error as { message: string }
+        return { message }
+    }
 
 
 
