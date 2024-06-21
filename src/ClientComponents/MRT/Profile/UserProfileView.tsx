@@ -1,19 +1,11 @@
 'use client'
-import { Avatar, Box, Button, ButtonGroup, Card, CardActions, CardContent, CardHeader, Container, createSvgIcon, Stack, SvgIcon, Typography, Grid, Dialog, DialogContent } from "@mui/material"
-import { Prisma, User } from "@prisma/client"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import Xenos from '@/Components/Icons/svg/Xenos'
-import Mym from '@/Components/Icons/svg/Mymeara.svg'
-import Image from "next/image"
-import Icon from '@mdi/react';
-import {
-    mdiAccount, mdiAccountHardHatOutline, mdiAccountBoxOutline, mdiAccountHeartOutline,
-    mdiAccountCowboyHatOutline, mdiAccountGroupOutline, mdiAccountSupervisorCircleOutline, mdiAccountSchoolOutline, mdiAccountTieHatOutline
-} from '@mdi/js';
-import { UserPersonalData } from "@/Types"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { profileIcons } from "@/Components/Icons/mdi/ProfileIcons"
 import { changeUserImage } from "@/Services/profileService"
-
+import Icon from '@mdi/react'
+import { Box, Button, Card, CardContent, CardHeader, Dialog, DialogContent, Grid, Stack, Typography } from "@mui/material"
+import { Prisma } from "@prisma/client"
+import { useMutation } from "@tanstack/react-query"
+import { useMemo, useState } from "react"
 type UserProfileProps = {
     user: Prisma.$UserPayload['scalars'] | null
 }
@@ -25,94 +17,40 @@ type ProfileIcon = {
 
 }
 
-const initIcons = [
-    {
 
-        title: "Default Accaunt",
-        path: mdiAccount,
-
-    },
-    {
-
-        title: "HardHat",
-        path: mdiAccountHardHatOutline,
-
-    },
-    {
-
-        title: "AccountBox",
-        path: mdiAccountBoxOutline,
-
-    },
-    {
-
-        title: "Accaunt heart",
-        path: mdiAccountHeartOutline,
-
-    },
-    {
-
-        title: "Cowboy",
-        path: mdiAccountCowboyHatOutline,
-
-    },
-    {
-
-        title: "Group",
-        path: mdiAccountGroupOutline,
-
-    },
-    {
-
-        title: "Supervisor",
-        path: mdiAccountSupervisorCircleOutline,
-
-    },
-    {
-
-        title: "School",
-        path: mdiAccountSchoolOutline,
-
-    },
-    {
-
-        title: "TieHat",
-        path: mdiAccountTieHatOutline,
-
-    },
-]
 export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
-    const [profile, setProfile] = useState(user)
+    // const [profile, setProfile] = useState()
     const [index, setIndex] = useState(0)
-    if (!profile || !user) return null
-    const currentImageTitle = useMemo(() => initIcons[index].title, [index])
+    if (!user) return null
+    // const currentImageTitle = useMemo(() => profileIcons[index].title, [index])
     const [img, setImg] = useState(user.image ?? "")
-    const currentImage = useMemo(() => initIcons.find(i => i.title === img), [img])
+    const currentImage = useMemo(() => profileIcons.find(i => i.title === img), [img])
     const { data: db_user, error, isSuccess, mutateAsync } = useMutation({
-        mutationKey: ['profileId', profile.id],
+        mutationKey: ['profileId', user.id],
         mutationFn: changeUserImage,
         gcTime: 5000
     })
-    function handleSelect(id: number) {
+    async function handleSelect(id: number) {
         if (!user) return
         setIndex(prev => id)
-        setImg(initIcons[id].title)
-        mutateAsync({ id: user.id, image: img })
-        // console.table(data)
+        setImg(prev => profileIcons[id].title)
+        await mutateAsync({ id: user.id, image: img })
+
     }
-    // useEffect(() => {
-    //     const updated = { ...profile, image: currentImageTitle }
-    //     setProfile(updated as typeof profile)
-    // }, [index])
+
     return (
         <Card sx={ { bgcolor: 'primary.main', maxWidth: 600 } }
 
         >
-            <CardHeader
-                title={ `Profile Id: ${profile?.id}` }
-                titleTypographyProps={ { color: 'primary.contrastText' } }
-            />
+            <Box direction={ 'row' } justifyContent={ 'space-around' } component={ Stack } alignItems={ 'flex-start' }>
 
+                <CardHeader
+                    title={ `Profile Id: ${user?.id}` }
+                    titleTypographyProps={ { color: 'primary.contrastText' } }
+                />
+
+
+            </Box>
             <CardContent sx={ { m: 2 } }>
                 <Grid
                     container
@@ -124,7 +62,7 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
                 >
                     <Grid item md={ 5 } border={ '2px solid white' } p={ 1 }>
                         {
-                            profile && Object.entries(profile).map(([k, v]) => {
+                            user && Object.entries(user).map(([k, v]) => {
 
                                 if (typeof v === 'string' || typeof v === 'number')
                                     return <Typography color={ 'primary.contrastText' } key={ v }>{ k }: { v }</Typography>
@@ -157,7 +95,7 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
 
                         <Button variant="outlined" color="warning">Change Pass</Button>
                         <Button variant="outlined" color="warning">Change Name</Button>
-                        <ChangeIconDialog btn_title="Icons" icons={ initIcons } selectIcon={ handleSelect } />
+                        <ChangeIconDialog btn_title="Icons" icons={ profileIcons } selectIcon={ handleSelect } />
                         {/* </ButtonGroup> */ }
 
                     </Grid>
@@ -188,6 +126,7 @@ const ChangeIconDialog: React.FC<ChangeIconDProps> = ({ btn_title, icons, select
             <Button color="secondary" variant="contained" onClick={ () => setOpen(true) }>{ btn_title }</Button>
             <Dialog open={ open }
                 onClose={ () => setOpen(false) }
+
             >
                 <DialogContent>
                     <Grid container
@@ -199,7 +138,7 @@ const ChangeIconDialog: React.FC<ChangeIconDProps> = ({ btn_title, icons, select
                         { icons.map((i, idx) =>
                             <Grid item key={ i.title }
                                 onClick={ () => selectIcon(idx) }
-                                sx={ { border: '1px solid grey', cursor: 'pointer' } }
+                                sx={ { border: '1px solid grey', cursor: 'pointer', p: 1 } }
                                 display={ 'flex' }
                                 justifyContent={ 'center' }
                                 alignItems={ 'center' }
@@ -209,10 +148,12 @@ const ChangeIconDialog: React.FC<ChangeIconDProps> = ({ btn_title, icons, select
                             >
 
                                 <Icon
+                                    title={ i.title }
                                     path={ i.path }
                                     size={ 4 }
                                     aria-labelledby={ `icon_labeledby_${idx}` }
                                 />
+                                { i.title }
                             </Grid>
                         ) }
 
