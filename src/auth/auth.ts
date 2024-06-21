@@ -34,6 +34,12 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //     console.table(user)
                 //     console.table(token)
                 // }
+                if (user) { // User is available during sign-in
+                    token.role = user.role
+                    token.name = user.name
+                    token.user = user
+                    token.email = user.email
+                }
                 if (account) {
                     // First login, save the `access_token`, `refresh_token`, and other
                     // details into the JWT
@@ -46,23 +52,16 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                         role: user.role
                     }
 
-                    return {
+                    token = {
+                        ...token,
                         access_token: account.access_token,
                         expires_at: account.expires_at,
                         refresh_token: account.refresh_token,
                         user: userProfile,
                     }
+
                 }
-                if (user) { // User is available during sign-in
-                    token.role = user.role
-                    token.name = user.name
-                    token.email = user.email
 
-
-
-                    token.user = user
-                    token.email = user.email
-                }
                 // if (Date.now() < Number(token.expires_at) * 1000) {
                 //     // Subsequent logins, if the `access_token` is still valid, return the JWT
                 //     return token

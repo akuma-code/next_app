@@ -5,6 +5,7 @@ import { createUserWithProfile } from "@/Services/userService"
 import { hashPass } from "./utils"
 import { validateEmail } from "./validator"
 import { redirect } from "next/navigation"
+import { revalidatePath } from "next/cache"
 
 export async function registerUser(payload: { email: string, password: string, name?: string }) {
     const { email, password, name } = payload;
@@ -40,6 +41,8 @@ export async function registerAction(prevdata: any, data: FormData) {
     } catch (error) {
         const { message } = error as { message: string }
         return { message }
+    } finally {
+        revalidatePath("/")
     }
 
 
