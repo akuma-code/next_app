@@ -64,11 +64,11 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
                 // }
 
-                if (Date.now() > Number(token.expires_at) * 1000) {
-                    console.log("success", { expires: Number(token.expires_at) * 1000 })
-                    // Subsequent logins, if the `access_token` is still valid, return the JWT
-                    return token
-                }
+                // if (Date.now() > Number(token.expires_at) * 1000) {
+                //     console.log("success", { expires: Number(token.expires_at) * 1000 })
+                //     // Subsequent logins, if the `access_token` is still valid, return the JWT
+                //     return token
+                // }
                 // console.log("jwt returns: \n", { token })
                 return token
             },
