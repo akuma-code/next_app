@@ -4,7 +4,7 @@ import prisma from "@/client/client"
 import { NextAuthConfig, type User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 
-export default {
+const config = {
     providers: [
         Credentials({
             credentials: {
@@ -58,3 +58,5 @@ async function getUserByEmail({ email }: { email: string }) {
 
     return user
 }
+
+export default config
