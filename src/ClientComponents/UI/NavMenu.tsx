@@ -1,11 +1,9 @@
 'use client'
 
-import { signOut, useSession } from "next-auth/react"
-import MenuButton from "./MenuIconButton"
-import { SignInButton, SignOutButton } from "../auth/SignInButton"
 import { Button, MenuItem } from "@mui/material"
+import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
-import { signIn } from "@/auth/auth"
+import MenuButton from "./MenuIconButton"
 
 export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
 
