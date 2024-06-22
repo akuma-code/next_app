@@ -1,10 +1,8 @@
 
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { type Adapter } from '@auth/core/adapters'
-import { Prisma, PrismaClient, UserRole } from "@prisma/client"
-import NextAuth, { DefaultSession, type User } from "next-auth"
+import { PrismaClient, UserRole } from "@prisma/client"
+import NextAuth, { DefaultSession } from "next-auth"
 import type { Provider } from 'next-auth/providers'
-import GitHub from "next-auth/providers/github"
 
 import authConfig from './auth.config'
 
@@ -20,7 +18,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
-        ...authConfig,
+
         pages: {
             signIn: '/api/auth/login',
             newUser: '/api/auth/register',
@@ -66,12 +64,12 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
                 // }
 
-                if (Date.now() < Number(token.expires_at) * 1000) {
-                    console.log("success")
+                if (Date.now() > Number(token.expires_at) * 1000) {
+                    console.log("success", { expires: Number(token.expires_at) * 1000 })
                     // Subsequent logins, if the `access_token` is still valid, return the JWT
                     return token
                 }
-                console.log("jwt returns: \n", { token })
+                // console.log("jwt returns: \n", { token })
                 return token
             },
             async session({ session, token, user }) {
@@ -81,7 +79,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
 
 
-                console.log("session returns \n", { session })
+                // console.log("session returns \n", { session })
                 return session
             },
 
@@ -105,9 +103,15 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("events fires: out")
                 console.log("GoodBye, ", message)
             },
+            session(message) {
+                console.log("session fires: ")
+                console.log({ session: message.session })
+                console.log("token fires: ")
+                console.log({ token: message.token })
+            },
         },
 
-
+        ...authConfig,
     })
 
 const providers: Provider[] = authConfig.providers

@@ -1,28 +1,9 @@
 // 'use server'
 import prisma from "@/client/client"
-import { getOneUserByEmail } from "@/Services/userService"
-import { P_UserCreateArgs, UserPersonalData } from "@/Types"
 // import { User } from "@prisma/client"
-import { hash, hashSync } from "bcrypt"
 import { NextAuthConfig, type User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import github from "next-auth/providers/github"
-async function getUserByEmail({ email }: { email: string }) {
-    let user = await prisma.user.findFirst({
-        where: { email }, select: {
-            email: true,
-            // id: true,
-            name: true,
-            password: true,
-            image: true,
-            role: true
-        }
-    })
-    if (!user) return null
-    // const result = { ...user, db_id: user.id, id: user.id.toString() }
 
-    return user
-}
 export default {
     providers: [
         Credentials({
@@ -60,3 +41,20 @@ export default {
 } satisfies NextAuthConfig
 
 
+async function getUserByEmail({ email }: { email: string }) {
+    'use server'
+    let user = await prisma.user.findFirst({
+        where: { email }, select: {
+            email: true,
+            // id: true,
+            name: true,
+            password: true,
+            image: true,
+            role: true
+        }
+    })
+    if (!user) return null
+    // const result = { ...user, db_id: user.id, id: user.id.toString() }
+
+    return user
+}
