@@ -1,4 +1,5 @@
 // 'use server'
+import { getOneUserByEmail } from "@/Services/userService"
 import prisma from "@/client/client"
 // import { User } from "@prisma/client"
 import { NextAuthConfig, type User } from "next-auth"
@@ -15,8 +16,8 @@ const config = {
             name: "email",
             type: "credentials",
             authorize: async (credentials, req) => {
-                let user: null | User = null
-                user = await getUserByEmail({ email: credentials.email as string, })
+                let user: null | any = null
+                user = await getOneUserByEmail({ email: credentials.email as string, }, { withPass: true })
                 if (!user) {
                     console.error(`________Юзверь с мылом ${credentials.email} не найден______`)
                     return null
@@ -41,22 +42,22 @@ const config = {
 } satisfies NextAuthConfig
 
 
-async function getUserByEmail({ email }: { email: string }) {
-    'use server'
-    let user = await prisma.user.findFirst({
-        where: { email }, select: {
-            email: true,
-            // id: true,
-            name: true,
-            password: true,
-            image: true,
-            role: true
-        }
-    })
-    if (!user) return null
-    // const result = { ...user, db_id: user.id, id: user.id.toString() }
+// async function getUserByEmail({ email }: { email: string }) {
+//     'use server'
+//     let user = await prisma.user.findFirst({
+//         where: { email }, select: {
+//             email: true,
+//             // id: true,
+//             name: true,
+//             password: true,
+//             image: true,
+//             role: true
+//         }
+//     })
+//     if (!user) return null
+//     // const result = { ...user, db_id: user.id, id: user.id.toString() }
 
-    return user
-}
+//     return user
+// }
 
 export default config

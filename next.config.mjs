@@ -7,7 +7,7 @@ const nextConfig = {
     experimental: {
         serverComponentsExternalPackages: [
             '@casl/ability',
-            '@casl/prisma',
+            '@prisma/client',
         ]
     },
     async redirects() {

@@ -59,7 +59,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     {/* <SignInButton /> */ }
                     <ToggleThemeColorButton />
                     {/* <LoginDialog /> */ }
-                    <NavMenu user_id={ user?.id } />
+                    <NavMenu />
 
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ pageUrl.admin }> Админка </Link>

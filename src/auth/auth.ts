@@ -18,7 +18,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
-
+        ...authConfig,
         pages: {
             signIn: '/api/auth/login',
             newUser: '/api/auth/register',
@@ -56,6 +56,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                     token.name = user.name
                     token.user = user
                     token.email = user.email
+                    return token
                 }
                 // if (account) {
                 //     // First login, save the `access_token`, `refresh_token`, and other
@@ -118,14 +119,14 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("GoodBye, ", message)
             },
             session(message) {
-                console.log("session fires: ")
-                console.log({ session: message.session })
-                console.log("token fires: ")
-                console.log({ token: message.token })
+                // console.log("session fires: ")
+                // console.log({ session: message.session })
+                // console.log("token fires: ")
+                // console.log({ token: message.token })
             },
         },
 
-        ...authConfig,
+
     })
 
 const providers: Provider[] = authConfig.providers
@@ -192,11 +193,3 @@ declare module "next-auth" {
 
 }
 
-declare module "next-auth" {
-    interface JWT {
-        access_token: string
-        expires_at: number
-        refresh_token: string
-        error?: "RefreshAccessTokenError"
-    }
-}

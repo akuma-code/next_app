@@ -7,7 +7,7 @@ import MenuButton from "./MenuIconButton"
 
 export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
 
-    const { status, data, update } = useSession()
+    const { status, data } = useSession()
 
     const lang = {
         authenticated: "в системе!",
@@ -29,8 +29,8 @@ export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
                     :
                     <MenuItem divider>
                         <Button color="primary" size="small"
-                            href={ '/admin/users/profile/' + user_id }
-                            LinkComponent={ Link }
+                        // href={ '/admin/users/profile/' + user_id }
+                        // LinkComponent={ Link }
                         >Профиль</Button>
                     </MenuItem>
             }
