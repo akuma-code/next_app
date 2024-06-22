@@ -4,7 +4,12 @@ const nextConfig = {
     reactStrictMode: true,
     // output: 'export',
     distDir: 'output',
-
+    experimental: {
+        serverComponentsExternalPackages: [
+            '@casl/ability',
+            '@casl/prisma',
+        ]
+    },
     async redirects() {
         return [
             {
@@ -14,7 +19,7 @@ const nextConfig = {
             }
         ]
     },
-    staticPageGenerationTimeout: 60
+    // staticPageGenerationTimeout: 60
 
 };
 
