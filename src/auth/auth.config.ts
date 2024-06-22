@@ -1,11 +1,28 @@
+// 'use server'
+import prisma from "@/client/client"
 import { getOneUserByEmail } from "@/Services/userService"
 import { P_UserCreateArgs, UserPersonalData } from "@/Types"
-import { User } from "@prisma/client"
+// import { User } from "@prisma/client"
 import { hash, hashSync } from "bcrypt"
-import { NextAuthConfig } from "next-auth"
+import { NextAuthConfig, type User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import github from "next-auth/providers/github"
+async function getUserByEmail({ email }: { email: string }) {
+    let user = await prisma.user.findFirst({
+        where: { email }, select: {
+            email: true,
+            id: true,
+            name: true,
+            password: true,
+            image: true,
+            role: true
+        }
+    })
+    if (!user) return null
+    const result = { ...user, db_id: user.id, id: user.id.toString() }
 
+    return result
+}
 export default {
     providers: [
         Credentials({
@@ -17,8 +34,8 @@ export default {
             name: "email",
             type: "credentials",
             authorize: async (credentials, req) => {
-                let user: null | UserPersonalData = null
-                user = await getOneUserByEmail({ email: credentials.email as string, }, { withPass: true })
+                let user: null | User = null
+                user = await getUserByEmail({ email: credentials.email as string, })
                 if (!user) {
                     console.error(`Юзверь с мылом ${credentials.email} не найден`)
                     return null
@@ -37,7 +54,9 @@ export default {
             },
 
         }),
-        github,
+        // github,
 
     ],
 } satisfies NextAuthConfig
+
+
