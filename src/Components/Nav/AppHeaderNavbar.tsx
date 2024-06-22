@@ -3,6 +3,7 @@ import { ToggleThemeColorButton } from '@/ClientComponents/ToggleThemeButton';
 import { NavMenu } from '@/ClientComponents/UI/NavMenu';
 import { _log } from '@/Helpers/helpersFns';
 import { paths } from '@/paths';
+import { getOneUserByEmail } from '@/Services/userService';
 import { AppBar, Breadcrumbs, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
@@ -25,8 +26,9 @@ const routes = [
 export const AppHeader: React.FC<AppHeaderProps> = async () => {
 
     const session = await auth()
+    let user = session?.user?.email ? await getOneUserByEmail({ email: session?.user?.email }) : null
 
-    _log({ session })
+    // _log({ session })
 
     return (
 
@@ -46,9 +48,9 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     }
                 </Breadcrumbs>
 
-                <Typography textAlign={ 'center' } flexGrow={ 1 }>
+                <Typography textAlign={ 'center' } variant='body2' flexGrow={ 1 }>
                     { session
-                        ? `user: ${session?.user?.email}, ${session?.user?.name}`
+                        ? ` ${session?.user?.email}`
                         : "Пользователь не авторизован"
                     }
                 </Typography>
@@ -57,7 +59,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                     {/* <SignInButton /> */ }
                     <ToggleThemeColorButton />
                     {/* <LoginDialog /> */ }
-                    <NavMenu />
+                    <NavMenu user_id={ user?.id } />
 
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
                         <Link href={ pageUrl.admin }> Админка </Link>

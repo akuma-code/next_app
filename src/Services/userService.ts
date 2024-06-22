@@ -52,6 +52,7 @@ export async function getOneUserByEmail(payload: { email: string }, options?: { 
         const user = await u.findUnique({
             where: { email },
             select: {
+                id: true,
                 name: true,
                 email: true,
                 role: true,

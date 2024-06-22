@@ -1,9 +1,7 @@
-import { CredentialsLogin, CredentialsLoginForm } from "@/ClientComponents/auth/CredentialsForm";
+import { CredentialsInputs } from "@/ClientComponents/auth/CredentialsForm";
 import { _log } from "@/Helpers/helpersFns";
 import { signIn } from "@/auth/auth";
 import { Button, Container, Stack } from "@mui/material";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 
 
@@ -20,12 +18,15 @@ async function SignInPage() {
                         async (fd) => {
                             "use server"
                             await signIn('credentials', fd)
-                            redirect("/avangard")
 
+
+                            //     _log("_______error", error)
+                            //     throw new Error("SigninPage error")
+                            // }
                         } }
                 >
 
-                    <CredentialsLogin />
+                    <CredentialsInputs />
                 </form>
 
             </Stack>
