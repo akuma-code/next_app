@@ -11,7 +11,7 @@ async function getUserByEmail({ email }: { email: string }) {
     let user = await prisma.user.findFirst({
         where: { email }, select: {
             email: true,
-            id: true,
+            // id: true,
             name: true,
             password: true,
             image: true,
@@ -19,9 +19,9 @@ async function getUserByEmail({ email }: { email: string }) {
         }
     })
     if (!user) return null
-    const result = { ...user, db_id: user.id, id: user.id.toString() }
+    // const result = { ...user, db_id: user.id, id: user.id.toString() }
 
-    return result
+    return user
 }
 export default {
     providers: [
@@ -37,7 +37,7 @@ export default {
                 let user: null | User = null
                 user = await getUserByEmail({ email: credentials.email as string, })
                 if (!user) {
-                    console.error(`Юзверь с мылом ${credentials.email} не найден`)
+                    console.error(`________Юзверь с мылом ${credentials.email} не найден______`)
                     return null
                 }
                 const db_pass = user.password
