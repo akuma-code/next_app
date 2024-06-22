@@ -32,15 +32,30 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //     console.table(user)
                 //     console.table(token)
                 // }
-                if (user) { // User is available during sign-in
+                // if (account) {
+                //     // First login, save the `access_token`, `refresh_token`, and other
+                //     // details into the JWT
 
-                    token.user = user
+                //     const userProfile: User = {
+                //         id: token.sub,
+                //         name: profile?.name,
+                //         email: profile?.email,
+                //         image: token?.picture,
+                //         role: user.role
+                //     }
+
+                //     return {
+                //         access_token: account.access_token,
+                //         expires_at: account.expires_at,
+                //         refresh_token: account.refresh_token,
+                //         user: userProfile,
+                //     }
+                // }
+                if (user) { // User is available during sign-in
                     token.role = user.role
                     token.name = user.name
+                    token.user = user
                     token.email = user.email
-                    // token.db_id = user.db_id
-                    console.log("______token get userdata", { token })
-                    // return token
                 }
                 // if (account) {
                 //     // First login, save the `access_token`, `refresh_token`, and other
@@ -51,21 +66,20 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //         name: profile?.name,
                 //         email: profile?.email,
                 //         image: token?.picture,
-                //         role: user?.role
+                //         role: user.role
                 //     }
 
-                // token = {
-                //     ...token,
-                //     access_token: account.access_token,
-                //     expires_at: account.expires_at,
-                //     refresh_token: account.refresh_token,
-                //     user: userProfile,
-                // }
+                //     token = {
+                //         ...token,
+                //         access_token: account.access_token,
+                //         expires_at: account.expires_at,
+                //         refresh_token: account.refresh_token,
+                //         user: userProfile,
+                //     }
 
                 // }
 
-                // if (Date.now() > Number(token.expires_at) * 1000) {
-                //     console.log("success", { expires: Number(token.expires_at) * 1000 })
+                // if (Date.now() < Number(token.expires_at) * 1000) {
                 //     // Subsequent logins, if the `access_token` is still valid, return the JWT
                 //     return token
                 // }
