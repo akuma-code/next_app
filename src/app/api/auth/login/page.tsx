@@ -1,7 +1,8 @@
-import { CredentialsLogin, CredentialsLoginForm } from "@/ClientComponents/auth/CredentialsForm";
+import { CredentialsInputs } from "@/ClientComponents/auth/CredentialsForm";
 import { _log } from "@/Helpers/helpersFns";
 import { signIn } from "@/auth/auth";
 import { Button, Container, Stack } from "@mui/material";
+import { redirect } from "next/navigation";
 
 
 
@@ -14,21 +15,21 @@ async function SignInPage() {
         <Container maxWidth={ 'md' } >
             <Stack direction={ { sm: 'column', md: 'row' } } gap={ 2 } justifyContent={ 'center' } p={ 2 }>
                 <form
-                    action={ 
+                    action={
                         async (fd) => {
-                        "use server"
-                        await signIn('credentials', fd)
-                        // try {
-                        // } catch (error) {
-                        //     console.log(Object.fromEntries(fd))
+                            "use server"
+                            try {
+                                await signIn('credentials', fd)
+                                redirect("/avangard")
+                            } catch (error) {
+                                _log(error)
+                            }
 
-                        //     _log("_______error", error)
-                        //     throw new Error("SigninPage error")
-                        // }
-                    } }
+
+                        } }
                 >
 
-                    <CredentialsLogin />
+                    <CredentialsInputs />
                 </form>
 
             </Stack>

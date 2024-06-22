@@ -5,10 +5,11 @@ import MenuButton from "./MenuIconButton"
 import { SignInButton, SignOutButton } from "../auth/SignInButton"
 import { Button, MenuItem } from "@mui/material"
 import Link from "next/link"
+import { signIn } from "@/auth/auth"
 
-export const NavMenu = () => {
+export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
 
-    const { status, data } = useSession()
+    const { status, data, update } = useSession()
 
     const lang = {
         authenticated: "в системе!",
@@ -17,7 +18,7 @@ export const NavMenu = () => {
 
     }
 
-    const userId = data?.user?.id as unknown as number
+
     return (
         <MenuButton >
             {
@@ -30,7 +31,7 @@ export const NavMenu = () => {
                     :
                     <MenuItem divider>
                         <Button color="primary" size="small"
-                            href={ '/admin/users/profile/' + userId }
+                            href={ '/admin/users/profile/' + user_id }
                             LinkComponent={ Link }
                         >Профиль</Button>
                     </MenuItem>
@@ -51,7 +52,7 @@ export const NavMenu = () => {
                     Выйти
                 </Button>
             </MenuItem> }
-            <MenuItem disabled>{ lang[status] }</MenuItem>
+            {/* <MenuItem>{ lang[status] }</MenuItem> */ }
         </MenuButton>
     )
 }

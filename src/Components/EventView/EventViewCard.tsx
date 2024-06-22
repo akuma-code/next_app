@@ -118,7 +118,7 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                             startIcon={ <OpenWithOutlinedIcon /> }>
                             Открыть
                         </Button>
-                        { data?.user.role === 'ADMIN' &&
+                        { data?.user &&
 
                             <Button
                                 startIcon={ <SettingsTwoTone /> }

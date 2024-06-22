@@ -14,6 +14,9 @@ import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { _log } from '@/Helpers/helpersFns'
 import { useSession } from 'next-auth/react'
+import PreHeresy from '../Icons/svg/PreHeresy'
+import AdeptusMechanicus from '../Icons/AdeptusMechanicus'
+import { AddPlayerDialog } from './AddPlayerDialog'
 
 interface Pair {
     id: number
@@ -47,8 +50,10 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
     const pairPlayerIdx = (id: number) => pairs.findIndex(p => p.secondPlayerId === id)
     const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
+
+
     const handlePairChange = async (master: { id: number, name: string }, playerId: number, pair: Pair | null) => {
-        _log({ eventId: event.id, playerId, masterId: master.id, pair })
+        // _log({ eventId: event.id, playerId, masterId: master.id, pair })
         if (!pair) {
             return await addPair({ eventId: event.id, playerId, masterId: master.id })
 
@@ -82,17 +87,9 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
         })
         return _players
 
-        // const master = (id: number) => masters?.find(m => m.id === id)?.name
 
-        // const withPair = players.map(p => {
-        //     const pair = pairs.find(pp => pp.secondPlayerId === p.id)
-        //     return pair
-        //         ? ({ ...p, pair: master(pair.firstPlayerId) })
-        //         : ({ ...p, pair: null })
-        // })
-        // return withPair
     }, [pairs, players])
-    const pairText = (name?: string | null) => name ? `тренер: ${name}` : null
+    // const pairText = (name?: string | null) => name ? `тренер: ${name}` : null
     return (
         <Box
             { ...boxProps }
@@ -106,6 +103,7 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                 ...boxProps?.sx,
             } }
             m={ 2 }
+            p={ 1 }
         >
             <Box sx={ { display: "flex", p: 1.5, alignItems: "center", columnGap: 1, justifyContent: 'space-evenly' } }>
 
@@ -124,28 +122,27 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
                 <ButtonGroup variant='contained' fullWidth>
                     <Button
                         color='error'
-                        LinkComponent={ Link }
                         size="small"
-                        href={ '/avangard/events' }
+                        onClick={ router.back }
                         startIcon={ <FastRewindTwoTone /> }>
                         Назад
                     </Button>
                     <Button
                         color='warning'
-                        LinkComponent={ Link }
                         size="small"
                         onClick={ () => router.push(pathname + '/edit') }
                         startIcon={ <SettingsTwoTone /> }
                         sx={ { px: 2 } }
                     >
-
-
                         Изменить
 
                     </Button>
 
                 </ButtonGroup>
             </Divider>
+            <Box mx={ 2 } mt={ 1 }>
+                <AddPlayerDialog event_players={ players } event_id={ id } />
+            </Box>
             <List>
                 {
                     player_pairs.map((p, index) => (

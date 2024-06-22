@@ -369,3 +369,27 @@ export async function connectPlayersToEvent(id: number, players: { id: number }[
     }
 
 }
+
+export async function connectOnePlayer(eventId: number, playerId: number) {
+    try {
+        const p = await prisma.player.update({
+            where: { id: playerId },
+            data: {
+                events: {
+                    connect: { id: eventId }
+                },
+            }, select: {
+                id: true, name: true
+            }
+
+        })
+        return p
+    } catch (error) {
+        console.log(error)
+        return null
+    } finally { revalidatePath("/") }
+
+
+
+
+}
