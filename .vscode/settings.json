@@ -1,6 +1,6 @@
 {
     "svg.preview.background": "transparent",
-    "eslint.enable": false,
-    "eslint.format.enable": false,
+    "eslint.enable": true,
+    "eslint.format.enable": true,
     "eslint.run": "onSave"
 }

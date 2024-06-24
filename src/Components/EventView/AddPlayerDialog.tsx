@@ -4,9 +4,8 @@ import { _log } from "@/Helpers/helpersFns"
 import { useToggle } from "@/Hooks/useToggle"
 import { connectOnePlayer } from "@/Services/eventService"
 import { getPlayers } from "@/Services/playerService"
-import { getPlayersData } from "@/Services/utils"
-import { Add, HdrPlusOutlined, PlusOne, PlusOneOutlined } from "@mui/icons-material"
-import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, LinearProgress, Stack } from "@mui/material"
+import { Add } from "@mui/icons-material"
+import { Box, Button, Dialog, DialogContent, DialogTitle, LinearProgress, Stack } from "@mui/material"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
 

@@ -4,7 +4,7 @@ import { getEventsByMonth } from "@/Services/eventService"
 import { Box, Container } from "@mui/material"
 
 
-const EventsPage = async ({ searchParams }: { searchParams: { date: string, month?: string } }) => {
+async function EventsPage({ searchParams }: { searchParams: { date: string, month?: string } }) {
     const month = searchParams.month
     const monthEvets = await getEventsByMonth(month)
     return (

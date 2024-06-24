@@ -1,4 +1,4 @@
-'use server'
+
 
 import prisma from "@/client/client"
 import { User } from "@prisma/client"

@@ -1,8 +1,11 @@
 {
-  "extends": "next",
+  "extends": [
+    "next/core-web-vitals",
+    "next"
+  ],
   "rules": {
     "react-hooks/exhaustive-deps": 1,
     "import/no-anonymous-default-export": 0,
-    "react/jsx-key": 1
+    "react/jsx-key": 0
   }
 }

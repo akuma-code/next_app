@@ -1,5 +1,4 @@
-'use server'
-import prisma from "@/client/client"
+
 import { getUserByEmail } from "@/Services/userService"
 // import { User } from "@prisma/client"
 import { NextAuthConfig, type User } from "next-auth"

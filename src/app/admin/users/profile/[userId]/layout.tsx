@@ -13,7 +13,7 @@ export default async function ProfileLayOut(params: { params: { userId: string }
 
                     { children }
                 </Container>
-                <ButtonGroup variant="contained">
+                {/* <ButtonGroup variant="contained">
                     <Button disabled
                         LinkComponent={ Link }
                         href={ `/admin/users/profile/${params.params.userId}/edit` }
@@ -22,7 +22,7 @@ export default async function ProfileLayOut(params: { params: { userId: string }
                     <Button color="error">Delete</Button>
                     <Button disabled>Logout</Button>
 
-                </ButtonGroup>
+                </ButtonGroup> */}
             </Stack>
         </Box>
     )

@@ -23,7 +23,7 @@ const routes = [
 
 ]
 
-export const AppHeader: React.FC<AppHeaderProps> = async () => {
+export async function AppHeader() {
 
     const session = await auth()
     let user = session?.user?.email ? await getOneUserByEmail({ email: session?.user?.email }) : null
@@ -56,9 +56,7 @@ export const AppHeader: React.FC<AppHeaderProps> = async () => {
                 </Typography>
 
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
-                    {/* <SignInButton /> */ }
                     <ToggleThemeColorButton />
-                    {/* <LoginDialog /> */ }
                     <NavMenu user_id={ user?.id } />
 
                     <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>

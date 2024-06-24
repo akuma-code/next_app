@@ -2,6 +2,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient, UserRole } from "@prisma/client"
 import NextAuth, { DefaultSession } from "next-auth"
+import { JWTOptions } from 'next-auth/jwt'
 import type { Provider } from 'next-auth/providers'
 
 import authConfig from './auth.config'
@@ -18,13 +19,13 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
-        ...authConfig,
         pages: {
             signIn: '/api/auth/login',
             newUser: '/api/auth/register',
 
         },
         debug: true,
+        ...authConfig,
         callbacks: {
             async jwt({ token, user, trigger, account, profile }) {
                 // if (trigger === 'update') {
@@ -57,7 +58,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                     token.role = user.role
                     token.name = user.name
                     token.email = user.email
-                    return token
+                    // return token
                 }
                 // if (account) {
                 //     // First login, save the `access_token`, `refresh_token`, and other
@@ -141,14 +142,14 @@ export const providerMap = providers.map((provider) => {
         return { id: provider.id, name: provider.name }
     }
 })
-// declare module "next-auth/jwt" {
-//     interface JWT {
-//         access_token: string
-//         expires_at: number
-//         refresh_token: string
-//         error?: "RefreshAccessTokenError"
-//     }
-// }
+declare module "next-auth/jwt" {
+    interface JWT {
+        access_token: string
+        expires_at: number
+        refresh_token: string
+        error?: "RefreshAccessTokenError"
+    }
+}
 declare module "next-auth" {
     /**
      * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -161,13 +162,7 @@ declare module "next-auth" {
         password?: string
 
     }
-    interface JWT {
-        access_token: string
-        expires_at: number
-        refresh_token: string
-        error?: "RefreshAccessTokenError"
-        user: User
-    }
+
     interface Session {
         user: {
             // db_id?: number
@@ -181,13 +176,7 @@ declare module "next-auth" {
             //      you need to add them back into the newly declared interface.
 
         } & DefaultSession["user"]
-        jwt: {
-            access_token: string
-            expires_at: number
-            refresh_token: string
-            error?: "RefreshAccessTokenError"
-            user: User
-        }
+
     }
 
 
