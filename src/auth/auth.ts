@@ -1,10 +1,8 @@
 
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { type Adapter } from '@auth/core/adapters'
-import { Prisma, PrismaClient, UserRole } from "@prisma/client"
-import NextAuth, { DefaultSession, type User } from "next-auth"
+import { PrismaClient, UserRole } from "@prisma/client"
+import NextAuth, { DefaultSession } from "next-auth"
 import type { Provider } from 'next-auth/providers'
-import GitHub from "next-auth/providers/github"
 
 import authConfig from './auth.config'
 
@@ -20,7 +18,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
-        ...authConfig,
+
         pages: {
             signIn: '/api/auth/login',
             newUser: '/api/auth/register',
@@ -35,37 +33,43 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //     console.table(token)
                 // }
                 if (user) { // User is available during sign-in
+
+                    token.user = user
                     token.role = user.role
                     token.name = user.name
-                    token.user = user
                     token.email = user.email
+                    // token.db_id = user.db_id
+                    console.log("______token get userdata", { token })
+                    // return token
                 }
-                if (account) {
-                    // First login, save the `access_token`, `refresh_token`, and other
-                    // details into the JWT
+                // if (account) {
+                //     // First login, save the `access_token`, `refresh_token`, and other
+                //     // details into the JWT
 
-                    const userProfile: User = {
-                        id: token.sub,
-                        name: profile?.name,
-                        email: profile?.email,
-                        image: token?.picture,
-                        role: user.role
-                    }
+                //     const userProfile: User = {
+                //         id: token.sub,
+                //         name: profile?.name,
+                //         email: profile?.email,
+                //         image: token?.picture,
+                //         role: user?.role
+                //     }
 
-                    token = {
-                        ...token,
-                        access_token: account.access_token,
-                        expires_at: account.expires_at,
-                        refresh_token: account.refresh_token,
-                        user: userProfile,
-                    }
+                // token = {
+                //     ...token,
+                //     access_token: account.access_token,
+                //     expires_at: account.expires_at,
+                //     refresh_token: account.refresh_token,
+                //     user: userProfile,
+                // }
 
-                }
+                // }
 
-                // if (Date.now() < Number(token.expires_at) * 1000) {
+                // if (Date.now() > Number(token.expires_at) * 1000) {
+                //     console.log("success", { expires: Number(token.expires_at) * 1000 })
                 //     // Subsequent logins, if the `access_token` is still valid, return the JWT
                 //     return token
                 // }
+                // console.log("jwt returns: \n", { token })
                 return token
             },
             async session({ session, token, user }) {
@@ -74,7 +78,8 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
 
 
-                // console.log({ session, token })
+
+                // console.log("session returns \n", { session })
                 return session
             },
 
@@ -98,9 +103,15 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("events fires: out")
                 console.log("GoodBye, ", message)
             },
+            session(message) {
+                console.log("session fires: ")
+                console.log({ session: message.session })
+                console.log("token fires: ")
+                console.log({ token: message.token })
+            },
         },
 
-
+        ...authConfig,
     })
 
 const providers: Provider[] = authConfig.providers
@@ -126,9 +137,12 @@ declare module "next-auth" {
      * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
      */
     interface User {
+        // db_id?: number
         id?: string
-        role: string
+        role?: string
         name?: string | null
+        password?: string
+
     }
     interface JWT {
         access_token: string
@@ -139,9 +153,11 @@ declare module "next-auth" {
     }
     interface Session {
         user: {
+            // db_id?: number
             id?: string
             role: string
             name?: string | null
+            password?: string
             //      By default, TypeScript merges new interface properties and overwrites existing ones.
             //      In this case, the default session user properties will be overwritten,
             //      with the new ones defined above. To keep the default session user properties,
