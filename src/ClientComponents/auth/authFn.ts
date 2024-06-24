@@ -9,12 +9,11 @@ interface LoginError {
     message?: string
     callbackUrl?: string
 }
-export async function authenticate(prevState: LoginError, data: FormData) {
-    'use server'
-    let errorState = {} as LoginError
+export async function authenticate(prevState: any, data: FormData) {
+    let errorState = { callbackUrl: "" } as LoginError
     try {
         return await signIn('credentials', data)
-
+        console.info("Login success")
     } catch (e) {
         if (e instanceof AuthError) {
             switch (e.type) {
@@ -56,9 +55,10 @@ export async function authenticate(prevState: LoginError, data: FormData) {
 
                 }
             }
-        } throw e
+        }
+        throw e
     }
-    return errorState
+
 
 }
 

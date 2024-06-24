@@ -19,6 +19,7 @@ const config = {
                 user = await getUserByEmail({ email: credentials.email as string, })
                 if (!user) {
                     console.error(`________Юзверь с мылом ${credentials.email} не найден______`)
+                    console.error(`________Юзверь с мылом ${credentials.email} не найден______`)
                     return null
                 }
                 const db_pass = user.password

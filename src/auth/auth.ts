@@ -32,15 +32,32 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //     console.table(user)
                 //     console.table(token)
                 // }
+                // if (account) {
+                //     // First login, save the `access_token`, `refresh_token`, and other
+                //     // details into the JWT
+
+                //     const userProfile: User = {
+                //         id: token.sub,
+                //         name: profile?.name,
+                //         email: profile?.email,
+                //         image: token?.picture,
+                //         role: user.role
+                //     }
+
+                //     return {
+                //         access_token: account.access_token,
+                //         expires_at: account.expires_at,
+                //         refresh_token: account.refresh_token,
+                //         user: userProfile,
+                //     }
+                // }
                 if (user) { // User is available during sign-in
 
                     token.user = user
                     token.role = user.role
                     token.name = user.name
                     token.email = user.email
-                    // token.db_id = user.db_id
-                    console.log("______token get userdata", { token })
-                    // return token
+                    return token
                 }
                 // if (account) {
                 //     // First login, save the `access_token`, `refresh_token`, and other
@@ -51,16 +68,16 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //         name: profile?.name,
                 //         email: profile?.email,
                 //         image: token?.picture,
-                //         role: user?.role
+                //         role: user.role
                 //     }
 
-                // token = {
-                //     ...token,
-                //     access_token: account.access_token,
-                //     expires_at: account.expires_at,
-                //     refresh_token: account.refresh_token,
-                //     user: userProfile,
-                // }
+                //     token = {
+                //         ...token,
+                //         access_token: account.access_token,
+                //         expires_at: account.expires_at,
+                //         refresh_token: account.refresh_token,
+                //         user: userProfile,
+                //     }
 
                 // }
 
@@ -104,10 +121,10 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("GoodBye, ", message)
             },
             session(message) {
-                console.log("session fires: ")
-                console.log({ session: message.session })
-                console.log("token fires: ")
-                console.log({ token: message.token })
+                // console.log("session fires: ")
+                // console.log({ session: message.session })
+                // console.log("token fires: ")
+                // console.log({ token: message.token })
             },
         },
 
@@ -178,11 +195,3 @@ declare module "next-auth" {
 
 }
 
-declare module "next-auth" {
-    interface JWT {
-        access_token: string
-        expires_at: number
-        refresh_token: string
-        error?: "RefreshAccessTokenError"
-    }
-}
