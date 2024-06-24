@@ -1,6 +1,0 @@
-{
-    "svg.preview.background": "transparent",
-    "eslint.enable": true,
-    "eslint.format.enable": true,
-    "eslint.run": "onSave"
-}
