@@ -6,7 +6,7 @@ const nextConfig = {
     distDir: 'output',
     experimental: {
         serverComponentsExternalPackages: [
-            '@casl/ability',
+            // '@casl/ability',
             '@prisma/client',
         ]
     },

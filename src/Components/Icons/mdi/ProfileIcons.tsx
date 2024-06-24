@@ -1,5 +1,14 @@
-import { mdiAccount, mdiAccountHardHatOutline, mdiAccountBoxOutline, mdiAccountHeartOutline, mdiAccountCowboyHatOutline, mdiAccountGroupOutline, mdiAccountSupervisorCircleOutline, mdiAccountSchoolOutline, mdiAccountTieHatOutline } from "@mdi/js";
-import PreHeresy from '@/Components/Icons/svg/Pre-Heresy-yey-of-Horus.svg'
+import {
+    mdiAccount,
+    mdiAccountBoxOutline,
+    mdiAccountCowboyHatOutline,
+    mdiAccountGroupOutline,
+    mdiAccountHardHatOutline,
+    mdiAccountHeartOutline,
+    mdiAccountSchoolOutline,
+    mdiAccountSupervisorCircleOutline,
+    mdiAccountTieHatOutline,
+} from "@mdi/js";
 export const profileIcons = [
     {
 
@@ -56,4 +65,5 @@ export const profileIcons = [
 
     },
 ]
+
 

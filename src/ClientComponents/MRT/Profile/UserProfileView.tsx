@@ -2,19 +2,14 @@
 import { profileIcons } from "@/Components/Icons/mdi/ProfileIcons"
 import { changeUserImage } from "@/Services/profileService"
 import Icon from '@mdi/react'
-import { Box, Button, Card, CardContent, CardHeader, Dialog, DialogContent, Grid, Stack, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardHeader, FormControl, FormControlLabel, FormHelperText, Grid, IconButton, InputBase, List, ListItem, ListItemSecondaryAction, ListItemText, OutlinedInput, Paper, Stack, TextField, Typography } from "@mui/material"
 import { Prisma } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
+import { ChangeIconDialog } from "./ChangeIconDialog"
+import { mdiAccountEdit, mdiCheck, mdiLinkEdit, mdiPencil, mdiTagEdit } from "@mdi/js"
 type UserProfileProps = {
     user: Prisma.$UserPayload['scalars'] | null
-}
-
-type ProfileIcon = {
-    // _id?: number,
-    title: string,
-    path: string,
-
 }
 
 
@@ -37,7 +32,10 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
 
     }
 
+
+
     if (!user) return null
+    const { email, id, image, name, role, password } = user;
     return (
         <Card sx={ { bgcolor: 'primary.main', maxWidth: 600 } }
 
@@ -56,19 +54,93 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
                     container
                     gridTemplateColumns={ 3 }
                     spacing={ 0 }
-                    columns={ { xs: 8, md: 12 } }
+                    columns={ { xs: 8, md: 10 } }
                     direction={ 'row' }
                     justifyContent={ 'stretch' }
                 >
-                    <Grid item md={ 5 } border={ '2px solid white' } p={ 1 }>
-                        {
-                            user && Object.entries(user).map(([k, v]) => {
+                    <Grid item md={ 6 } border={ '2px solid white' } p={ 1 }>
+                        <Paper>
+                            <List disablePadding sx={ { pr: 1 } }>
+                                <ListItem divider>
+                                    <Stack gap={ 1 } direction={ 'row' } justifyContent={ 'space-between' }>
 
-                                if (typeof v === 'string' || typeof v === 'number')
-                                    return <Typography color={ 'primary.contrastText' } key={ v }>{ k }: { v }</Typography>
-                            })
+                                        <ListItemText
+                                            primary={ email }
+                                            secondary="Email"
+                                            sx={ { width: 'fit-content' } }
+                                        />
+
+                                        <ListItemSecondaryAction >
+                                            <IconButton title="check" color="secondary" sx={ { bgcolor: "lightblue", ml: 1 } } edge='end'>
+                                                <Icon path={ mdiPencil } size={ .7 } />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </Stack>
+                                </ListItem>
+                                <ListItem divider>
+                                    <Stack gap={ 1 } direction={ 'row' } justifyContent={ 'space-between' }>
+
+                                        <ListItemText
+                                            primary={ name }
+                                            secondary="name"
+                                            sx={ { width: 'fit-content' } }
+                                        />
+
+                                        <ListItemSecondaryAction >
+                                            <IconButton title="check" color="secondary" sx={ { bgcolor: "lightblue", ml: 1 } } edge='end'>
+                                                <Icon path={ mdiPencil } size={ .7 } />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </Stack>
+                                </ListItem>
+                                <ListItem divider>
+                                    <Stack gap={ 1 } direction={ 'row' } justifyContent={ 'space-between' }>
+
+                                        <ListItemText
+                                            primary={ role }
+                                            secondary="role"
+                                            sx={ { width: 'fit-content' } }
+                                        />
+
+                                        <ListItemSecondaryAction >
+                                            <IconButton title="check" color="secondary" sx={ { bgcolor: "lightblue", ml: 1 } } edge='end'>
+                                                <Icon path={ mdiPencil } size={ .7 } />
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </Stack>
+                                </ListItem>
+                            </List>
+                        </Paper>
+                        {/* 
+                            <FormControl >
+
+                                <TextField color="warning"
+                                id="email"
+                                name="email"
+                                defaultValue={ email }
+                                variant="filled"
+                                label="Email"
+                                helperText="Change email"
+                                InputProps={ {
+                                    endAdornment: <IconButton title="check" color="secondary" sx={ { bgcolor: "lightblue" } }><Icon path={ mdiCheck } size={ 1 } /> </IconButton>
+                                } }
+
+                            /> 
+                            </FormControl>
+                            */}
+
+                        {
+                            // user && Object.entries(user).map(([k, v]) => {
+
+                            //     if (typeof v === 'string' || typeof v === 'number')
+                            //         return <Typography color={ 'primary.contrastText' } key={ v }>{ k }: { v }</Typography>
+                            // })
                         }
                     </Grid>
+
+
+
+
                     <Grid item
                         md={ 4 }
                         border={ '2px solid white' }
@@ -80,26 +152,26 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
                     >
                         { currentImage &&
                             <Icon
+
                                 { ...currentImage }
                                 aria-labelledby={ `icon_labeledby_${index}` }
                                 color="#fff"
                                 size={ 4 }
+
                             />
                         }
+
                         <Typography color="secondary">{ img || "no title" }</Typography>
                     </Grid>
-
-
-                    <Grid item md={ 3 } border={ '2px solid white' } p={ 1 } spacing={ 2 } direction={ 'column' } display={ 'flex' } gap={ 2 }>
+                    <Grid item md={ 10 } border={ '2px solid white' } p={ 1 } spacing={ 2 } direction={ 'column' } display={ 'flex' } gap={ 2 }>
                         {/* <ButtonGroup size="small" color="warning" fullWidth orientation="vertical"> */ }
 
-                        <Button variant="outlined" color="warning">Change Pass</Button>
-                        <Button variant="outlined" color="warning">Change Name</Button>
+                        {/* <Button variant="outlined" color="warning" size="small">Change Pass</Button> */ }
+                        {/* <Button variant="outlined" color="warning" size="small">Change Name</Button> */ }
                         <ChangeIconDialog btn_title="Icons" icons={ profileIcons } selectIcon={ handleSelect } />
                         {/* </ButtonGroup> */ }
 
                     </Grid>
-
                 </Grid>
 
 
@@ -113,57 +185,5 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
         </Card>
     )
 }
-type ChangeIconDProps = {
-    btn_title: string,
-    icons: { title: string, path: string, }[]
-    selectIcon: (id: number) => void
-}
-const ChangeIconDialog: React.FC<ChangeIconDProps> = ({ btn_title, icons, selectIcon }) => {
-    const [open, setOpen] = useState(false)
 
-    return (
-        <>
-            <Button color="secondary" variant="contained" onClick={ () => setOpen(true) }>{ btn_title }</Button>
-            <Dialog open={ open }
-                onClose={ () => setOpen(false) }
-
-            >
-                <DialogContent>
-                    <Grid container
-                        gap={ 1 }
-                        // gridTemplateColumns={ 3 }
-                        // gridTemplateRows={ 4 }
-                        columns={ { xs: 12, md: 9 } }
-                    >
-                        { icons.map((i, idx) =>
-                            <Grid item key={ i.title }
-                                onClick={ () => selectIcon(idx) }
-                                sx={ { border: '1px solid grey', cursor: 'pointer', p: 1 } }
-                                display={ 'flex' }
-                                justifyContent={ 'center' }
-                                alignItems={ 'center' }
-                                direction={ 'column' }
-                                sm={ 3 }
-                                md={ 2 }
-                            >
-
-                                <Icon
-                                    title={ i.title }
-                                    path={ i.path }
-                                    size={ 4 }
-                                    aria-labelledby={ `icon_labeledby_${idx}` }
-                                />
-                                { i.title }
-                            </Grid>
-                        ) }
-
-                    </Grid>
-                </DialogContent>
-            </Dialog>
-        </>
-    )
-}
-
-
-ChangeIconDialog.displayName = "____IconsDialog"
 UserProfileView.displayName = "___UserProfile"
