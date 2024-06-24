@@ -18,7 +18,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
         adapter: PrismaAdapter(prisma),
         session: { strategy: "jwt" },
-
+        ...authConfig,
         pages: {
             signIn: '/api/auth/login',
             newUser: '/api/auth/register',
@@ -128,7 +128,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
             },
         },
 
-        ...authConfig,
+
     })
 
 const providers: Provider[] = authConfig.providers

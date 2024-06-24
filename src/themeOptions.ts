@@ -150,4 +150,6 @@ const yoma_light = {
 
 }
 
-export default { dark, light, yoma_light }
+
+const colorThemes = { dark, light: yoma_light }
+export default colorThemes

@@ -1,0 +1,8 @@
+{
+  "extends": "next",
+  "rules": {
+    "react-hooks/exhaustive-deps": 1,
+    "import/no-anonymous-default-export": 0,
+    "react/jsx-key": 1
+  }
+}

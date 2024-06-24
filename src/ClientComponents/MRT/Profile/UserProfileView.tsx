@@ -21,12 +21,11 @@ type ProfileIcon = {
 export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
     // const [profile, setProfile] = useState()
     const [index, setIndex] = useState(0)
-    if (!user) return null
     // const currentImageTitle = useMemo(() => profileIcons[index].title, [index])
-    const [img, setImg] = useState(user.image ?? "")
+    const [img, setImg] = useState(user?.image ?? "")
     const currentImage = useMemo(() => profileIcons.find(i => i.title === img), [img])
     const { data: db_user, error, isSuccess, mutateAsync } = useMutation({
-        mutationKey: ['profileId', user.id],
+        mutationKey: ['profileId', user?.id],
         mutationFn: changeUserImage,
         gcTime: 5000
     })
@@ -38,6 +37,7 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
 
     }
 
+    if (!user) return null
     return (
         <Card sx={ { bgcolor: 'primary.main', maxWidth: 600 } }
 

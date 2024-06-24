@@ -63,7 +63,5 @@ const GitHubsLoginForm = ({ provider }: { provider: { id: string, name: string }
         </form>
     );
 }
-async function authAction(formdata: FormData) {
 
-}
 export default SignInPage

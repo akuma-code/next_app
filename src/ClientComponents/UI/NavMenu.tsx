@@ -1,61 +1,58 @@
 'use client'
 
+// import { signOut } from "@/auth/auth"
 import { Button, MenuItem } from "@mui/material"
-import { signOut, useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import Link from "next/link"
-import MenuButton from "./MenuIconButton"
-import { SignInButton, SignOutButton } from "../auth/SignInButton"
-import { Button, MenuItem } from "@mui/material"
-import Link from "next/link"
-import { signIn } from "@/auth/auth"
+import MenuIconButton from "./MenuIconButton"
 
 export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
-    export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
 
-        const { status, data, update } = useSession()
+    const { status, data, update } = useSession()
 
-        const lang = {
-            authenticated: "в системе!",
-            loading: "Загрузка...",
-            unauthenticated: "Не авторизован"
+    const lang = {
+        authenticated: "в системе!",
+        loading: "Загрузка...",
+        unauthenticated: "Не авторизован"
 
-        }
-
-
-        return (
-            <MenuButton >
-                {
-                    !data ? <MenuItem divider>
-                        <Button color="primary" size="small"
-                            href={ '/api/auth/signin' }
-                            LinkComponent={ Link }
-                        >Авторизация</Button>
-                    </MenuItem>
-                        :
-                        <MenuItem divider>
-                            <Button color="primary" size="small"
-                                href={ '/admin/users/profile/' + user_id }
-                                LinkComponent={ Link }
-                            >Профиль</Button>
-                        </MenuItem>
-                }
-                { !data && <MenuItem divider>
-                    <Button color="secondary" size="small"
-                        href={ '/api/auth/register' }
-                        LinkComponent={ Link }
-                    >
-                        Регистрация
-                    </Button>
-                </MenuItem> }
-
-                { !!data && <MenuItem divider>
-                    <Button color="error" size="small"
-                        onClick={ () => signOut() }
-                    >
-                        Выйти
-                    </Button>
-                </MenuItem> }
-                {/* <MenuItem>{ lang[status] }</MenuItem> */ }
-            </MenuButton>
-        )
     }
+
+
+    return (
+        <MenuIconButton >
+            {
+                !data ? <MenuItem divider>
+                    <Button color="primary" size="small"
+                        href={ '/api/auth/signin' }
+                        LinkComponent={ Link }
+                    >Авторизация</Button>
+                </MenuItem>
+                    :
+                    user_id ? <MenuItem divider>
+                        <Button color="primary" size="small"
+                            href={ '/admin/users/profile/' + user_id }
+                            LinkComponent={ Link }
+                        >Профиль</Button>
+                    </MenuItem>
+                        : null
+            }
+            { !data && <MenuItem divider>
+                <Button color="secondary" size="small"
+                    href={ '/api/auth/register' }
+                    LinkComponent={ Link }
+                >
+                    Регистрация
+                </Button>
+            </MenuItem> }
+
+            { !!data && <MenuItem divider>
+                <Button color="error" size="small"
+                    onClick={ () => signOut() }
+                >
+                    Выйти
+                </Button>
+            </MenuItem> }
+            {/* <MenuItem>{ lang[status] }</MenuItem> */ }
+        </MenuIconButton>
+    )
+}

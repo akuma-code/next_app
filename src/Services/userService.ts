@@ -39,6 +39,23 @@ export async function getUser(payload: Prisma.UserWhereUniqueInput, options?: { 
         throw new Error("Find user error")
     }
 }
+export async function getUserByEmail({ email }: { email: string }) {
+
+    let user = await prisma.user.findFirst({
+        where: { email }, select: {
+            email: true,
+            // id: true,
+            name: true,
+            password: true,
+            image: true,
+            role: true
+        }
+    })
+    if (!user) return null
+    // const result = { ...user, db_id: user.id, id: user.id.toString() }
+
+    return user
+}
 export async function getOneUserByEmail(payload: { email: string }, options?: { withPass?: boolean }) {
     try {
         const u = prisma.user

@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client"
 
 
 declare let global: { prisma: PrismaClient }
-const pool = new Pool({ connectionString: process.env.POSTGRES_PRISMA_URL })
+const pool = new Pool({ connectionString: process.env.POSTGRES_URL_NON_POOLING })
 const adapter = new PrismaPg(pool)
 
 let prisma: PrismaClient

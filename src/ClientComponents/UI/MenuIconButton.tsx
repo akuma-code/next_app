@@ -9,7 +9,7 @@ interface MenuButtonProps {
 
 }
 
-const MenuButton: React.FC<MenuButtonProps> = ({ children, title, icon }) => {
+const MenuIconButton: React.FC<MenuButtonProps> = ({ children, title, icon }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -88,7 +88,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ children, title, icon }) => {
 
 }
 
-MenuButton.displayName = "_________Pair Select"
+MenuIconButton.displayName = "_________IconButtonMenu"
 
 
-export default MenuButton
+export default MenuIconButton

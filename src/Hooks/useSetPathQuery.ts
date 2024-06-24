@@ -7,6 +7,6 @@ export function useSetPathQuery(label: string, value: string) {
     const query = `${label}=${value}`
     useEffect(() => {
         router.push(pathname + '?' + query)
-    }, [])
+    }, [pathname, query, router ])
     return query
 }

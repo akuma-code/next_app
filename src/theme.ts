@@ -1,10 +1,9 @@
 'use client';
-import { Roboto } from 'next/font/google';
+import { PaletteMode } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
+import { ruRU } from '@mui/material/locale';
 import { createTheme } from '@mui/material/styles';
-import { ruRU } from '@mui/material/locale'
-import { PaletteMode, ThemeOptions } from '@mui/material';
-import { amber, blue, deepOrange, deepPurple, green, grey, } from '@mui/material/colors';
-import { COLOR_LIGHT, COLOR_DARK } from './ColorsTheme';
+import { Roboto } from 'next/font/google';
 import palette from './themeOptions';
 
 const roboto = Roboto({
@@ -20,9 +19,9 @@ export const getDesignTokens = (mode: PaletteMode) => ({
             fontFamily: roboto.style.fontFamily,
         },
         // mode,
-
+        ruRU,
         ...(mode === 'light'
-            ? palette.yoma_light
+            ? palette.light
             : palette.dark
 
         ),
@@ -64,7 +63,7 @@ const theme = createTheme({
 
     }
 
-}, ruRU,
+},
 );
 
 

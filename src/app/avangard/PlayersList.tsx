@@ -29,9 +29,9 @@ export const PlayersList: React.FC<PlayersListProps> = ({ players, title, getSel
             <List >
                 { players.length > 0 ?
                     players.map(p =>
-                        <Grow in={ players.length > 0 } timeout={ 800 }>
+                        <Grow in={ players.length > 0 } timeout={ 800 } key={ p.id }>
 
-                            <ListItem key={ p.id }
+                            <ListItem
                                 disablePadding
                                 dense
                                 sx={ {
