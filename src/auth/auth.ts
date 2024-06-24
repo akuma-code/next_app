@@ -6,8 +6,9 @@ import { JWTOptions } from 'next-auth/jwt'
 import type { Provider } from 'next-auth/providers'
 
 import authConfig from './auth.config'
+import prisma from "@/client/client"
 
-const prisma = new PrismaClient()
+
 export type UserAuthPayload = {
     email: string
     password: string
@@ -18,6 +19,7 @@ const apiVersion = "5.199"
 export const { handlers, signIn, signOut, auth, } = NextAuth(
     {
         adapter: PrismaAdapter(prisma),
+        ...authConfig,
         session: { strategy: "jwt" },
         pages: {
             signIn: '/api/auth/login',
@@ -25,7 +27,6 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
         },
         debug: true,
-        ...authConfig,
         callbacks: {
             async jwt({ token, user, trigger, account, profile }) {
                 // if (trigger === 'update') {
@@ -58,7 +59,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                     token.role = user.role
                     token.name = user.name
                     token.email = user.email
-                    // return token
+                    return token
                 }
                 // if (account) {
                 //     // First login, save the `access_token`, `refresh_token`, and other
@@ -122,10 +123,10 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("GoodBye, ", message)
             },
             session(message) {
-                // console.log("session fires: ")
-                // console.log({ session: message.session })
-                // console.log("token fires: ")
-                // console.log({ token: message.token })
+                console.log("session fires: ")
+                console.log({ session: message.session })
+                console.log("token fires: ")
+                console.log({ token: message.token })
             },
         },
 
