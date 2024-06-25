@@ -93,7 +93,13 @@ export async function deleteUser(id: number) {
 
 }
 
+export async function testGetUser(email?: string | null) {
+    if (!email) return null
+    const u = prisma.user.findUnique({ where: { email }, include: { profile: true } })
+    revalidatePath("/")
+    return u
 
+}
 
 
 

@@ -28,7 +28,7 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = async ({
   return (
     <html lang="ru">
       <body className={ cls } >
-        <SessionProvider session={ session }>
+        <SessionProvider session={ session } refetchOnWindowFocus >
 
 
           <Providers>

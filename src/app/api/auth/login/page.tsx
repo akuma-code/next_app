@@ -18,11 +18,7 @@ async function SignInPage() {
                         async (fd) => {
                             "use server"
                             await signIn('credentials', fd)
-
-
-                            //     _log("_______error", error)
-                            //     throw new Error("SigninPage error")
-                            // }
+                            // redirect("/admin")
                         } }
                 >
 

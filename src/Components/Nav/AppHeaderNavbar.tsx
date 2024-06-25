@@ -26,9 +26,7 @@ const routes = [
 export async function AppHeader() {
 
     const session = await auth()
-    let user = session?.user?.email ? await getOneUserByEmail({ email: session?.user?.email }) : null
 
-    // _log({ session })
 
     return (
 
@@ -46,6 +44,10 @@ export async function AppHeader() {
                             </Typography>
                         )
                     }
+
+                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
+                        <Link href={ pageUrl.admin }> Админка </Link>
+                    </Typography>
                 </Breadcrumbs>
 
                 <Typography textAlign={ 'center' } variant='body2' flexGrow={ 1 }>
@@ -57,11 +59,9 @@ export async function AppHeader() {
 
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
                     <ToggleThemeColorButton />
-                    <NavMenu user_id={ user?.id } />
+                    <NavMenu user_id={ session?.user_id } />
 
-                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                        <Link href={ pageUrl.admin }> Админка </Link>
-                    </Typography>
+
                 </Breadcrumbs>
 
             </Toolbar>

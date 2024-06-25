@@ -471,6 +471,8 @@ export const players_to_seed2 = [
 export const masters_to_seed = [
     { name: "Алан Заикин" },
     { name: "Антон Козлов" },
+    { name: "Надежда Отпетова" },
+    { name: "Максим Ушкарев" },
 ]
 
 export const backup_players_1506 = [

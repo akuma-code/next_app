@@ -14,6 +14,7 @@ const config = {
 
             name: "email",
             type: "credentials",
+            // id: "Credentials",
             authorize: async (credentials, req) => {
                 let user: null | User = null
                 user = await getUserByEmail({ email: credentials.email as string, })
@@ -29,7 +30,6 @@ const config = {
                     console.log({ db_pass }, "not equal!")
                     return null
                 }
-
                 return user
 
             },
