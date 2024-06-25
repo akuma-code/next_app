@@ -1,4 +1,5 @@
 import LinkMui from "@/ClientComponents/UI/LinkMui";
+import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { Box, List, ListItem, ListItemButton, Paper, Stack } from "@mui/material";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -32,22 +33,31 @@ export const metadata: Metadata = {
 
 const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
     return (
-        <Stack direction={ 'row' } gap={ 2 }>
+        <Stack direction={ { md: 'row', sm: "column" } } m={ 1 }>
 
-            <List>
-                <Paper>
+            <Paper >
+                <List sx={ {
+                    display: 'flex',
+                    flexDirection: { sm: "row", md: 'column' },
+                    bgcolor: 'background.default',
+                    justifyContent: 'space-between',
+                    p: 1
+                    // justifyItems: 'center'
+                } }>
                     { links.map(link =>
 
-                        <ListItem key={ link.href }>
-                            <ListItemButton LinkComponent={ Link }
-                                href={ link.href + '/' }
-                            >
+                        <NavLink key={ link.href }
+                            href={ link.href }
+                            label={ link.label }
+                        // className="text-center flex-grow"
+                        >
+                            <ListItem disableGutters sx={ { flexGrow: 1, textAlign: 'center' } } divider>
                                 { link.label }
-                            </ListItemButton>
-                        </ListItem>
+                            </ListItem>
+                        </NavLink>
                     ) }
-                </Paper>
-            </List>
+                </List>
+            </Paper>
             <Box>
 
                 { children }

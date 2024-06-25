@@ -232,7 +232,30 @@ export const EditPopoverButton: React.FC<EditPopoverProps> = ({ input, action })
                     vertical: 'bottom',
                     horizontal: 'center',
                 } }
+                slotProps={ {
+                    paper: {
+                        elevation: 1,
+                        sx: {
+                            overflow: 'visible',
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            mt: -2,
 
+                            '&::before': {
+                                content: '""',
+                                display: 'block',
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 180,
+                                width: 20,
+                                height: 20,
+                                bgcolor: 'background.paper',
+                                transform: 'translateY(50%) rotate(135deg)',
+                                zIndex: 0,
+                            },
+
+                        }
+                    },
+                } }
             >
 
 

@@ -8,6 +8,8 @@ import MenuIconButton from "./MenuIconButton"
 
 import { useMemo } from "react"
 import { usePathname } from "next/navigation"
+import Icon from "@mdi/react"
+import { mdiAccountSettings, mdiEyeSettings } from "@mdi/js"
 
 export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
 
@@ -22,10 +24,14 @@ export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
     }
 
     const ID = useMemo(() => {
+
         return data?.user_id
     }, [data?.user_id])
     return (
-        <MenuIconButton >
+        <MenuIconButton icon={ <Icon path={ mdiAccountSettings } size={ 1 } /> } title="Settings" avatar_bg={ data ? "primary.dark" : "#890ac4" }>
+            <MenuItem divider disabled>
+                { data?.user.email ?? "Не авторизован!" }
+            </MenuItem>
             {
                 ID ?
                     <MenuItem divider>

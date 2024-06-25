@@ -52,6 +52,8 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
             async signIn() {
                 return true
             },
+
+
             async jwt({ token, user, account }) {
                 // if (trigger === 'update') {
                 //     console.log("Updated user: ")

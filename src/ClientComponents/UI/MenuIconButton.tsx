@@ -6,10 +6,11 @@ interface MenuButtonProps {
     title?: string
     icon?: React.ReactNode
     children?: React.ReactNode
+    avatar_bg?: string
 
 }
 
-const MenuIconButton: React.FC<MenuButtonProps> = ({ children, title, icon }) => {
+const MenuIconButton: React.FC<MenuButtonProps> = ({ children, title, icon, avatar_bg }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -33,7 +34,7 @@ const MenuIconButton: React.FC<MenuButtonProps> = ({ children, title, icon }) =>
                     aria-expanded={ open ? 'true' : undefined }
                     color='primary'
                 >
-                    <Avatar sx={ { bgcolor: 'primary.dark', width: 32, height: 32 } } variant='rounded'>
+                    <Avatar sx={ { bgcolor: avatar_bg ?? 'primary.dark', width: 32, height: 32 } } variant='rounded'>
                         { icon ? icon
                             :
                             <SupervisorAccountTwoTone sx={ { color: 'primary' } } />

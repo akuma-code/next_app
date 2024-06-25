@@ -50,12 +50,12 @@ export async function AppHeader() {
                     </Typography>
                 </Breadcrumbs>
 
-                <Typography textAlign={ 'center' } variant='body2' flexGrow={ 1 }>
+                {/* <Typography textAlign={ 'center' } variant='body2' flexGrow={ 1 }>
                     { session
                         ? ` ${session?.user?.email}`
                         : "Пользователь не авторизован"
                     }
-                </Typography>
+                </Typography> */}
 
                 <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
                     <ToggleThemeColorButton />
