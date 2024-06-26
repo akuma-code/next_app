@@ -13,6 +13,7 @@ export const _UserSelect: Record<'all' | "no_pass", P_UserSelect> = {
         role: true,
         image: true,
         password: true,
+
     },
     no_pass: {
         email: true,
@@ -25,6 +26,14 @@ export const _UserSelect: Record<'all' | "no_pass", P_UserSelect> = {
 
 }
 
+export const _ProfileSelect: Record<keyof Prisma.ProfileUncheckedCreateInput, boolean> = {
+    id: true,
+    name: true,
+    playerId: true,
+    userId: true
+}
+
 export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail>
 
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput
+export type P_UserAndProfile = Prisma.$UserPayload['scalars'] & { profile?: Prisma.$ProfilePayload['scalars'] | null }
