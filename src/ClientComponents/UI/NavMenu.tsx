@@ -28,20 +28,20 @@ export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
         return data?.user_id
     }, [data?.user_id])
     return (
-        <MenuIconButton icon={ <Icon path={ mdiAccountSettings } size={ 1 } /> } title="Settings" avatar_bg={ data ? "primary.dark" : "#890ac4" }>
+        <MenuIconButton icon={<Icon path={mdiAccountSettings} size={1} />} title="Settings" avatar_bg={data ? "primary.dark" : "#890ac4"}>
             <MenuItem divider disabled>
-                { data?.user.email ?? "Не авторизован!" }
+                {data?.user.email ?? "Не авторизован!"}
             </MenuItem>
             {
                 ID ?
                     <MenuItem divider>
                         <Link
                             color="primary"
-                            href={ {
+                            href={{
                                 pathname: `/admin/users/profile/${ID}`,
-                                query: {},
 
-                            } }
+
+                            }}
 
                         >Профиль
                         </Link>
@@ -49,7 +49,7 @@ export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
                     :
                     <MenuItem divider>
                         <Link
-                            href={ '/api/auth/login' }
+                            href={'/api/auth/login'}
 
                         >
                             Авторизация
@@ -57,24 +57,24 @@ export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
                     </MenuItem>
 
             }
-            { !ID && <MenuItem divider>
+            {!ID && <MenuItem divider>
                 <Link
                     color="secondary"
-                    href={ '/api/auth/register' }
+                    href={'/api/auth/register'}
 
                 >
                     Регистрация
                 </Link>
-            </MenuItem> }
+            </MenuItem>}
 
             <MenuItem divider>
                 <Button color="error" size="small"
-                    onClick={ () => signOut() }
+                    onClick={() => signOut()}
                 >
                     Выйти
                 </Button>
             </MenuItem>
-            {/* <MenuItem>{ lang[status] }</MenuItem> */ }
+            {/* <MenuItem>{ lang[status] }</MenuItem> */}
         </MenuIconButton>
     )
 }
