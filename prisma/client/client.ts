@@ -18,7 +18,8 @@ const adapter = new PrismaPg(pool)
 //     prisma = global.prisma
 // }
 const prismaClientSingleton = () => {
-    return new PrismaClient({ adapter }).$extends(withAccelerate());
+    return new PrismaClient({ adapter })
+    // .$extends(withAccelerate());
 };
 
 declare const globalThis: {
