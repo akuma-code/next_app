@@ -1,16 +1,19 @@
 'use client'
 import { profileIcons } from "@/Components/Icons/mdi/ProfileIcons"
-import { changeUserImage } from "@/Services/profileService"
+import { changeUserImage, linkUserToPlayer } from "@/Services/profileService"
 import { mdiCheck, mdiClose, mdiFormTextboxPassword, mdiLink, mdiPencil, mdiReply } from "@mdi/js"
 import Icon from '@mdi/react'
-import { Box, Button, ButtonGroup, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemButton, ListItemSecondaryAction, ListItemText, Paper, Popover, Stack, SvgIcon, TextField, Typography } from "@mui/material"
+import { Box, Button, ButtonGroup, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemButton, ListItemSecondaryAction, ListItemText, Paper, Popover, Stack, SvgIcon, TextField, Typography, useFormControl } from "@mui/material"
 import { Prisma } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
 import { ChangeIconDialog } from "./ChangeIconDialog"
-import { editUser } from "@/Services/userService"
+import { editUser, getUserByName } from "@/Services/userService"
+import { P_UserAndProfile } from "@/Types"
+import { createPlayer } from "@/Services/playerService"
+import Link from "next/link"
 type UserProfileProps = {
-    user: Prisma.$UserPayload['scalars'] | null
+    user: P_UserAndProfile | null
 }
 
 
@@ -25,11 +28,37 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
         mutationFn: changeUserImage,
         gcTime: 5000
     })
+    const { mutateAsync: linkUser } = useMutation({
+        mutationKey: ['link', user?.id, user?.profile?.id],
+        mutationFn: linkUserToPlayer,
+        gcTime: 5000
+    });
 
 
     if (!user) return null
-    const { email, id, image, name, role, password } = user;
+    const { email, id, image, name, role, password, profile } = user;
+    async function linkWithUserName(user_name: string) {
+        let player_id: null | number = null
+        const player = await getUserByName(user_name)
+        if (player) player_id = player.id
+        else {
+            const new_player = await createPlayer(user_name)
+            player_id = new_player.id
+        }
+        return await linkUser({ user_id: id, player_id })
+    }
+    async function handleLink() {
 
+        if (name) {
+            await linkWithUserName(name)
+            return
+        } else {
+            alert("Нужно ввести имя!")
+            return
+        }
+
+
+    }
 
     async function handleSelect(id: number) {
         if (!user) return
@@ -54,13 +83,28 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
         <Card sx={ { bgcolor: 'primary.main', maxWidth: 600 } }
 
         >
-            <Box direction={ 'row' } justifyContent={ 'space-around' } component={ Stack } alignItems={ 'flex-start' }>
+            <Box direction={ 'row' } justifyContent={ 'space-around' } component={ Stack } alignItems={ 'center' }>
 
                 <CardHeader
                     title={ `Profile Id: ${user?.id}` }
                     titleTypographyProps={ { color: 'primary.contrastText' } }
+                    subheader={ user.profile?.name }
+                    subheaderTypographyProps={ { color: 'primary.contrastText' } }
                 />
+                <Box mt={ 1 }>
+                    { currentImage &&
+                        <Icon
 
+                            { ...currentImage }
+                            aria-labelledby={ `icon_labeledby_${index}` }
+                            color="#fff"
+                            size={ 3 }
+
+                        />
+                    }
+
+                    <Typography color="secondary">{ img || "no title" }</Typography>
+                </Box>
 
             </Box>
             <CardContent sx={ { m: 2 } }>
@@ -72,7 +116,7 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
                     direction={ 'row' }
                     justifyContent={ 'stretch' }
                 >
-                    <Grid item md={ 6 } border={ '2px solid white' } p={ 1 }>
+                    <Grid item md={ 10 } border={ '2px solid white' } p={ 1 }>
                         <Paper>
 
 
@@ -109,27 +153,54 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
                                     </Stack>
                                 </ListItem>
 
-                                <ListItemButton
+                                {/* <ListItemButton
                                     color="success"
                                     sx={ { flexGrow: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }
                                     }
                                     title="Изменить пароль учетной записи"
                                     divider>
+
                                     <ListItemText
                                         primary={ "Изменить пароль" }
                                     />
                                     <Icon path={ mdiFormTextboxPassword } color={ 'grey' } size={ 1.3 } />
-                                </ListItemButton>
-                                <ListItemButton
-                                    color="success"
-                                    sx={ { flexGrow: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' } }
-                                    title="Привязать учетку к игроку"
-                                    divider>
-                                    <ListItemText
-                                        primary={ "Привязать профиль" }
-                                    />
-                                    <Icon path={ mdiLink } color={ 'green' } size={ 1.3 } />
-                                </ListItemButton>
+                                </ListItemButton> */}
+                                <ListItem divider dense>
+                                    <Stack gap={ 1 } direction={ 'row' } justifyContent={ 'space-between' }>
+
+                                        <ListItemText
+                                            primary={ "Пароль" }
+                                            secondary={ "пароль учетной записи" }
+                                        // secondaryTypographyProps={ { fontSize: 10 } }
+                                        // primaryTypographyProps={ { textAlign: 'left' } }
+                                        />
+                                        <ListItemSecondaryAction>
+
+                                            <EditPopoverButton
+                                                input={ { type: 'password', value: password } }
+                                                action={ handleSubmit }
+
+                                            />
+                                        </ListItemSecondaryAction>
+                                    </Stack>
+                                </ListItem>
+                                { user.profile?.playerId
+                                    ? <ListItem divider alignItems="center" dense>
+                                        <ListItemText primary={ "Профиль уже связан!" } secondary={ `Id игрока: ${user.profile.playerId}` } />
+                                    </ListItem>
+
+                                    : <ListItemButton
+                                        onClick={ () => handleLink() }
+                                        color="success"
+                                        sx={ { flexGrow: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' } }
+                                        title="Привязать учетку к игроку"
+                                        divider>
+                                        <ListItemText
+                                            primary={ "Привязать профиль" }
+                                        />
+                                        <Icon path={ mdiLink } color={ 'green' } size={ 1.3 } />
+                                    </ListItemButton>
+                                }
 
 
                             </List>
@@ -141,28 +212,7 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
 
 
 
-                    <Grid item
-                        md={ 4 }
-                        border={ '2px solid white' }
-                        // p={ 1 }
-                        display={ 'flex' }
-                        justifyContent={ 'center' }
-                        alignItems={ 'center' }
-                        direction={ 'column' }
-                    >
-                        { currentImage &&
-                            <Icon
 
-                                { ...currentImage }
-                                aria-labelledby={ `icon_labeledby_${index}` }
-                                color="#fff"
-                                size={ 4 }
-
-                            />
-                        }
-
-                        <Typography color="secondary">{ img || "no title" }</Typography>
-                    </Grid>
                     <Grid item md={ 10 } border={ '2px solid white' } p={ 1 } spacing={ 2 } direction={ 'column' } display={ 'flex' } gap={ 2 }>
 
                         <ChangeIconDialog btn_title="Icons" icons={ profileIcons } selectIcon={ handleSelect } />
@@ -187,10 +237,10 @@ export type EditPopoverProps = {
         value: string | null
         type: string
     }
-
+    customBtn?: { element: React.ReactNode, props?: any, icon?: React.ReactNode }
     action: (formData: FormData) => void
 }
-export const EditPopoverButton: React.FC<EditPopoverProps> = ({ input, action }) => {
+export const EditPopoverButton: React.FC<EditPopoverProps> = ({ input, action, customBtn }) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [state, setState] = useState(input)
 
@@ -217,10 +267,29 @@ export const EditPopoverButton: React.FC<EditPopoverProps> = ({ input, action })
     }
     const show = Boolean(anchorEl)
     return (
-        <>
-            <IconButton title="check" color="secondary" sx={ { bgcolor: "lightblue", ml: 1 } } edge='end' onClick={ handleOpen }>
-                <Icon path={ mdiPencil } size={ .7 } />
-            </IconButton>
+        <>{
+            customBtn ?
+                <Button
+                    fullWidth
+                    title="check"
+                    endIcon={ customBtn.icon }
+                    onClick={ handleOpen }
+                    size="small"
+                    { ...customBtn.props }
+                >
+                    { customBtn.element }
+                </Button>
+                :
+                <IconButton
+                    title="check"
+                    color="secondary"
+                    sx={ { bgcolor: "lightblue", ml: 1 } }
+                    edge='end'
+                    onClick={ handleOpen }
+                    size="small">
+                    <Icon path={ mdiFormTextboxPassword } size={ 1 } />
+                </IconButton>
+        }
 
 
             <Popover open={ show } onClose={ handleClose } anchorEl={ anchorEl }
@@ -264,8 +333,6 @@ export const EditPopoverButton: React.FC<EditPopoverProps> = ({ input, action })
                     m={ 1 }
                     p={ 2 }
 
-                    // component={ Paper }
-                    // elevation={ 2 }
                     display={ 'flex' }
                     alignItems={ 'start' }
                     flexDirection={ 'row' }
@@ -280,6 +347,8 @@ export const EditPopoverButton: React.FC<EditPopoverProps> = ({ input, action })
                         onChange={ (e) => setState(prev => ({ ...prev, value: e.target.value })) }
                         variant="outlined"
                         label={ `Введите ${state.type}` }
+
+
                     />
                     <ButtonGroup sx={ { pt: 0 } } size="large">
 

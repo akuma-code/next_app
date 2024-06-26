@@ -9,6 +9,8 @@ import { Prisma, UserRole } from "@prisma/client";
 
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
+import { createPlayer } from "./playerService";
+import { linkUserToPlayer } from "./profileService";
 type GetOnePayload = { id: string, } | { email: string }
 
 export type RSelectFields<T, P> = T extends keyof P & string ? T[] : never
@@ -20,7 +22,8 @@ export async function getUser(payload: Prisma.UserWhereUniqueInput, options?: { 
             const { id } = payload;
             const user = await u.findUnique({
                 where: { id: Number(id) },
-                select: _UserSelect.all
+                select: { profile: true, ..._UserSelect.all, },
+
             })
 
             return user
@@ -28,7 +31,7 @@ export async function getUser(payload: Prisma.UserWhereUniqueInput, options?: { 
             const { email } = payload;
             const user = await u.findUnique({
                 where: { email },
-                select: _UserSelect.all
+                select: { profile: true, ..._UserSelect.all, }
             })
             return user
         }
@@ -169,14 +172,29 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
                 name,
                 profile: {
                     create: {
+                        name,
                         ...profile_data
                     }
                 }
             },
-            select: _UserSelect.all
+            include: {
+                profile: true,
+
+            }
         })
-
-
+        if (name) {
+            const player = await getUserByName(name)
+            if (!player) {
+                const new_player = await createPlayer(name)
+                const player_id = new_player.id
+                const p = await linkUserToPlayer({ user_id: user.id, player_id })
+                console.log("new player created, ", p.player)
+            }
+            else {
+                const p = await linkUserToPlayer({ user_id: user.id, player_id: player.id })
+                console.log("player connected: ", p.player)
+            }
+        }
         console.table(user)
         return user
     } catch (e) {
@@ -188,72 +206,72 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
 
 }
 
-type UserSearchId = {
-    type: 'id'
-    search: number
-}
-type UserSearchEmail = {
-    type: 'email'
-    search: string
-}
+// type UserSearchId = {
+//     type: 'id'
+//     search: number
+// }
+// type UserSearchEmail = {
+//     type: 'email'
+//     search: string
+// }
 
-type UserSearchParam = UserSearchEmail | UserSearchId
-export async function updateUser(q: UserSearchParam, _data: Prisma.UserUpdateInput) {
-
-
-    try {
-        switch (q.type) {
-            case "email": {
-                const { search } = q;
-
-                const user = await prisma.user.update({
-                    where: { email: search }, data: {
-                        ..._data,
-
-                    }, select: {
-                        email: true,
-                        id: true,
-                        role: true,
-                        password: !!_data.password,
-                    }
-                })
-                return user
-            }
-            case "id": {
-                const { search } = q;
-
-                const user = await prisma.user.update({
-                    where: { id: search }, data: {
-                        ..._data
-                    }, select: {
-                        email: true,
-
-                        id: true,
-                        role: true,
-                        password: !!_data.password,
-                    }
-                })
-                return user
-            }
-            default: throw new Error("Query invalid")
-        }
+// type UserSearchParam = UserSearchEmail | UserSearchId
+// export async function updateUser(q: UserSearchParam, _data: Prisma.UserUpdateInput) {
 
 
+//     try {
+//         switch (q.type) {
+//             case "email": {
+//                 const { search } = q;
+
+//                 const user = await prisma.user.update({
+//                     where: { email: search }, data: {
+//                         ..._data,
+
+//                     }, select: {
+//                         email: true,
+//                         id: true,
+//                         role: true,
+//                         password: !!_data.password,
+//                     }
+//                 })
+//                 return user
+//             }
+//             case "id": {
+//                 const { search } = q;
+
+//                 const user = await prisma.user.update({
+//                     where: { id: search }, data: {
+//                         ..._data
+//                     }, select: {
+//                         email: true,
+
+//                         id: true,
+//                         role: true,
+//                         password: !!_data.password,
+//                     }
+//                 })
+//                 return user
+//             }
+//             default: throw new Error("Query invalid")
+//         }
 
 
-    } catch (error) {
-        _log(error)
-        throw new Error("____update user error")
-    } finally {
-        _log("data changed: ", _data)
-        revalidatePath('/')
-    }
-}
 
 
-export async function setAdmin(email: string) {
-    return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
-}
+//     } catch (error) {
+//         _log(error)
+//         throw new Error("____update user error")
+//     } finally {
+//         _log("data changed: ", _data)
+//         revalidatePath('/')
+//     }
+// }
+
+
+// export async function setAdmin(email: string) {
+//     return await updateUser({ type: 'email', search: email }, { role: 'ADMIN' })
+// }
 
 
 const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
@@ -279,7 +297,8 @@ export async function getAllUsers<T extends UserSelectFields>(options?: { select
                 name: true,
                 image: true,
                 role: true
-            }
+            },
+
         })
         _log("___users")
         console.table(users)
@@ -316,6 +335,7 @@ export async function editUser(whereArgs: { id: number }, new_user_data: Prisma.
             await prisma.user.update({ where: { id: _puser.id }, data: { profile: { connect: { id: _p.id } } } })
         }
         console.info(_puser)
+
         return _puser
     } catch (error) {
         _log(error)
@@ -327,74 +347,14 @@ export async function editUser(whereArgs: { id: number }, new_user_data: Prisma.
 
 }
 
-// export async function registerUser(email: string, password: string, role = UserRole.GUEST) {
-//     const verifiedEmail = validateEmail(email)
-//     if (!verifiedEmail) {
-//         throw new Error("Email is not valid")
-//     }
+export async function getUserByName(name: string) {
+    const p = await prisma.player.findFirst({
+        where: { name },
+        include: {
+            profile: true,
+            info: true
+        }
+    })
 
-
-//     // const existUser = await prisma.user.findUnique({ where: { email: verifiedEmail } })
-//     const existUser = await getOneUser({ email })
-//     if (existUser) throw new Error("Email already in use, try another")
-
-
-//     return await createUser(verifiedEmail, password, role)
-
-// }
-// export async function getAllUsers<T extends keyof User & string>(options?: { select?: T[], pass?: boolean }) {
-//     const pass = options?.pass
-//     if (options?.select !== undefined) {
-
-//         const selectfields = options.select.reduce((acc, field) => {
-//             const res: Record<string, boolean> = {
-//                 [`${field}`]: true
-//             }
-//             let accum: typeof res = {}
-//             accum[field] = true
-//             return accum
-//         }, {} as Record<string, boolean | undefined>)
-//         console.table(await prisma.user.findMany({ select: selectfields }))
-// >>>>>>> 820e0e3 (sync)
-// =======
-
-// const selectfields = <T extends { [x: string]: any }>(fields: (keyof T & string)[]) => fields.reduce((acc, field) => {
-
-//     // let accum = {} as Record<keyof T & string, boolean>
-//     acc[field] = true
-
-//     return acc
-// }, {} as Record<string, boolean | undefined>)
-
-// type UserSelectFields = keyof Prisma.UserSelect
-// export async function getAllUsers<T extends UserSelectFields>(options?: { select?: T[], log?: boolean }) {
-
-//     if (options?.select) {
-
-//         const _selected: Prisma.UserSelectScalar = selectfields(options.select)
-//         const _users = await prisma.user.findMany({ select: _selected })
-//         console.table(_users)
-//         return _users
-// >>>>>>> 298ba52 (custom signin page)
-//     }
-//     const users = await prisma.user.findMany({
-//         select: {
-//             id: true,
-//             email: true,
-//             profile: true,
-//             role: true,
-//             password: true
-
-//         },
-//     })
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-//     options?.log && console.table(users)
-// =======
-//     console.table(users)
-// >>>>>>> 298ba52 (custom signin page)
-// =======
-//     options?.log && console.table(users)
-// >>>>>>> b401f4c (backup data)
-//     return users
-// }
+    return p
+}

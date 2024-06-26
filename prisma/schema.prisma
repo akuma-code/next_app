@@ -4,9 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  // directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
 }
 
 model Player {
@@ -16,8 +16,9 @@ model Player {
   updatedAt DateTime @updatedAt @map("uAt")
   info      Info?
   events    Event[]  @relation("EventToPlayer")
-  profile   Profile? @relation(fields: [profileId], references: [id])
+  profile   Profile?
   profileId Int?     @unique
+  // Profile   Profile?
 
   @@map("players")
 }
@@ -125,12 +126,12 @@ model User {
 }
 
 model Profile {
-  id   Int     @id @default(autoincrement())
-  name String?
-
-  player Player?
-  userId Int     @unique
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id       Int     @id @default(autoincrement())
+  name     String?
+  playerId Int?    @unique
+  player   Player? @relation(fields: [playerId], references: [id])
+  userId   Int     @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("profiles")
 }

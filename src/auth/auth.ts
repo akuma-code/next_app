@@ -49,8 +49,9 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         // trustHost: true,
         debug: true,
         callbacks: {
-            async signIn() {
-                return true
+            async signIn({ user, email }) {
+                if (!user.userId) return true
+                return `/profile/${user.userId}`
             },
 
 
@@ -141,10 +142,10 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("GoodBye, ", message)
             },
             session(message) {
-                console.log("session fires: ")
-                console.log({ session: message.session })
-                console.log("tokenUser: ")
-                console.log({ user: message.token.user })
+                // console.log("session fires: ")
+                // console.log({ session: message.session })
+                // console.log("tokenUser: ")
+                // console.log({ user: message.token.user })
             },
         },
 
