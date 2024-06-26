@@ -3,6 +3,7 @@ import { getUserByEmail } from "@/Services/userService"
 // import { User } from "@prisma/client"
 import { NextAuthConfig, type User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { revalidatePath } from "next/cache"
 
 const config = {
     providers: [
@@ -30,6 +31,8 @@ const config = {
                     console.log({ db_pass }, "not equal!")
                     return null
                 }
+
+                revalidatePath("/")
                 return user
 
             },

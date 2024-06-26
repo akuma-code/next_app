@@ -212,28 +212,7 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
 
 
 
-                    {/* <Grid item
-                        md={ 4 }
-                        border={ '2px solid white' }
-                        // p={ 1 }
-                        display={ 'flex' }
-                        justifyContent={ 'center' }
-                        alignItems={ 'center' }
-                        direction={ 'column' }
-                    >
-                        { currentImage &&
-                            <Icon
 
-                                { ...currentImage }
-                                aria-labelledby={ `icon_labeledby_${index}` }
-                                color="#fff"
-                                size={ 4 }
-
-                            />
-                        }
-
-                        <Typography color="secondary">{ img || "no title" }</Typography>
-                    </Grid> */}
                     <Grid item md={ 10 } border={ '2px solid white' } p={ 1 } spacing={ 2 } direction={ 'column' } display={ 'flex' } gap={ 2 }>
 
                         <ChangeIconDialog btn_title="Icons" icons={ profileIcons } selectIcon={ handleSelect } />
