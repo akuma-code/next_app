@@ -52,7 +52,7 @@ export const EventBlank: React.FC<EventCreateProps> = (props) => {
     const selectedPlayers = useMemo(() => {
         const select = players.filter(p => selected.includes(p.id))
         return select
-    }, [selected])
+    }, [players, selected])
 
 
 

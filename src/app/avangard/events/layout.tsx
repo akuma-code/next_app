@@ -1,7 +1,5 @@
-import { MonthTabs } from "@/ClientComponents/Tabs/MonthTabs"
-import { getEventsByMonth } from "@/Services/eventService"
-import { Stack } from "@mui/material"
-import dayjs from "dayjs"
+import { OrderFilterControls } from "@/ClientComponents/UI/Filters/OrderFiltersControl"
+import { AppBar, Stack, Toolbar } from "@mui/material"
 
 
 
@@ -12,8 +10,13 @@ const EventsLayout = async ({ children, params }: { children: React.ReactNode, p
 
     return (
 
-        <Stack direction={ 'column' }>
-
+        <Stack direction={ 'column' } gap={ 1 }>
+            <AppBar position="relative" color="primary" sx={ { borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' } }>
+                <Toolbar variant="dense" sx={ { display: 'flex', justifyContent: 'center' } }>
+                    <OrderFilterControls />
+                </Toolbar>
+                {/* <Toolbar /> */ }
+            </AppBar>
 
 
             { children }

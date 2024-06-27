@@ -45,3 +45,5 @@ export const _dbDateParser = (date: string) => {
     const dd_mmmm = obj.format("DD MMMM")
     return { dd_mm_yyyy, dd_mmmm, _dayjs: obj }
 }
+
+export const stringifyMonth = (newValue: number) => newValue < 10 ? '0' + (newValue + 1) : `${(newValue + 1)}`

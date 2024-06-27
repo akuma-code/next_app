@@ -1,6 +1,8 @@
+import { OrderFilterControls } from "@/ClientComponents/UI/Filters/OrderFiltersControl";
 import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { _formated_date } from "@/Helpers/dateFuncs";
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import Icon from "@mdi/react";
+import { Box, Divider, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { Metadata } from "next";
 
@@ -39,6 +41,10 @@ export const metadata: Metadata = {
     icons: "icon1.ico"
 
 };
+
+
+
+
 const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ children }) => {
 
     return (
@@ -50,7 +56,7 @@ const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ childr
             spacing={ 2 }
         // bgcolor={ 'background' }
         >
-            <Box maxWidth={ 250 } px={ 1 } display={ 'flex' } flexDirection={ { xs: 'row', sm: 'column' } }
+            <Box maxWidth={ 250 } p={ 1 } display={ 'flex' } flexDirection={ { xs: 'row', sm: 'column' } }
                 sx={ {
                     [`& :hover.MuiTypography-root`]: { textUnderlineOffset: 2, textDecoration: 'underline' }
                 } }
@@ -65,7 +71,8 @@ const AvangardLayout: React.FC<{ children?: React.ReactNode }> = async ({ childr
                         </NavLink>
                     )
                 }
-
+                {/* <Divider flexItem sx={ { m: 1 } }></Divider> */ }
+                {/* <OrderFilterControls /> */ }
             </Box>
 
 

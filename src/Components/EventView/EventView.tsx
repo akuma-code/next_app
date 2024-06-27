@@ -48,8 +48,8 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
     const { data } = useSession()
     const { players, date_formated, title, _count, id, pairs } = event
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
-    const pairPlayerIdx = (id: number) => pairs.findIndex(p => p.secondPlayerId === id)
-    const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
+
+    // const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
 
 
     const handlePairChange = async (master: { id: number, name: string }, playerId: number, pair: Pair | null) => {
@@ -69,16 +69,16 @@ export const EventView: React.FC<Eventinfo> = ({ boxProps, event, masters }) => 
         return pairs.map(pair => ({ id: pair.id, master: master_(pair.firstPlayerId), player: player_(pair.secondPlayerId) }))
     }
 
-    const extendPairs = useMemo(() => name_pairs(event.pairs), [event])
+    // const extendPairs = useMemo(() => name_pairs(event.pairs), [event])
 
     const handleDeletePair = async (pair: Pair | null) => {
         if (!pair) return
         await removePair(pair.id)
     }
     // const menuOptions = useMemo(() => masters ?? [], [])
-    const parsedPlayers = useMemo(() => parseEvent(event, masters), [event, masters])
+    // const parsedPlayers = useMemo(() => parseEvent(event, masters), [event, masters])
     const player_pairs = useMemo(() => {
-
+        const pairPlayerIdx = (id: number) => pairs.findIndex(p => p.secondPlayerId === id)
         const _players = players.map(p => {
             const idx = pairPlayerIdx(p.id)
             const withpair = idx >= 0 ? { ...p, pair: pairs[idx] } : { ...p, pair: null }

@@ -8,6 +8,7 @@ import Providers from "./providers";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth/auth";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -18,10 +19,12 @@ export const metadata: Metadata = {
 
 };
 
-const RootLayout: React.FC<{ children: React.ReactNode }> = async ({
-  children,
+const RootLayout: React.FC<{ children: React.ReactNode, modal: React.ReactNode }> = async ({
+  children, modal
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode,
+  modal: React.ReactNode
+
 }>) => {
   const session = await auth()
   const cls = [inter.className, 'bg-[#7ad5f3c9]'].join(" ")
@@ -40,9 +43,9 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = async ({
               <AppHeader />
               { children }
 
-
             </Paper>
             <SpeedInsights />
+
           </Providers>
         </SessionProvider>
       </body>
