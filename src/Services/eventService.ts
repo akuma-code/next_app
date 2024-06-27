@@ -251,7 +251,7 @@ export async function getEventsByMonth(month?: string, year?: number) {
                     id: true,
                     date_formated: true,
                     players: { select: { id: true, name: true } },
-                    _count: { select: { players: true } }
+                    _count: { select: { players: true } },
                 }
             })
             return events

@@ -94,7 +94,7 @@ export function OrderFilterControls() {
                 {/* <Divider flexItem>Выбор даты</Divider> */ }
                 <DatePicker
                     views={ ['month'] }
-
+                    selectedSections={ "month" }
                     // value={ dayjs(filters.month) }
                     onChange={ handleChangeDate }
                     name="month"

@@ -5,7 +5,7 @@ import { withAccelerate } from "@prisma/extension-accelerate"
 
 
 declare let global: { prisma: PrismaClient }
-const pool = new Pool({ connectionString: process.env.POSTGRES_URL_NON_POOLING })
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 const adapter = new PrismaPg(pool)
 
 // let prisma: PrismaClient
