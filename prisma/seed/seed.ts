@@ -1,3 +1,4 @@
+
 import { PrismaClient } from '@prisma/client';
 import { events_to_seed } from './events';
 import { masters_to_seed, players_to_seed2 } from './players';

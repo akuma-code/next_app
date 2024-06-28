@@ -28,3 +28,16 @@ export async function createMaster({ name }: { name: string }) {
     }
 
 }
+
+export async function removeMaster(master_id?: number) {
+    if (master_id) {
+
+        const m = await prisma.master.delete({ where: { id: master_id } })
+        return m
+    } else {
+        const m = await prisma.master.deleteMany()
+        return m
+    }
+
+
+}
