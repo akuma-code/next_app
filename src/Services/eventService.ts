@@ -238,15 +238,16 @@ async function getEventsWithPlayers() {
     return ev
 }
 
-export async function getEventsByMonth(month?: string, year?: number) {
+export async function getEventsByMonth(month?: string, order?: 'asc' | 'desc', year?: number,) {
     const y = year ? year : 2024
     const e = prisma.event
+    const _order = order ? order : 'asc'
     try {
         if (!month) {
             // if month omit return all avents with players
             const events = e.findMany({
                 where: { AND: { players: {}, isDraft: false } },
-                orderBy: { id: 'asc' },
+                orderBy: { id: _order },
                 select: {
                     id: true,
                     date_formated: true,
@@ -270,7 +271,7 @@ export async function getEventsByMonth(month?: string, year?: number) {
                 players: { select: { id: true, name: true } },
                 _count: { select: { players: true } }
             },
-            orderBy: { date_formated: 'asc' }
+            orderBy: { date_formated: _order }
 
         })
 

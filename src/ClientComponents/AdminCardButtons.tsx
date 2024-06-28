@@ -15,7 +15,8 @@ export const AdminCard = ({ seedAction }: { seedAction?: () => void }) => {
                 </Grid>
                 <Grid item >
 
-                    <Button onClick={ () => seedAction && seedAction() }
+                    <Button
+                        //  onClick={ () => seedAction && seedAction() }
                         variant="outlined"
                         color="primary"
 

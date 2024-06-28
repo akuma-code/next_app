@@ -40,7 +40,7 @@ export function OrderFilterControls() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const [_days, setDays] = useState<number[]>([1, 13, 22])
-    console.log("🚀 ~ OrderFilterControls ~ _days:", _days)
+
     const [open, setOpen] = useState(false)
 
     function handleSortOrder(e: any, value: FilterState['order']) {
