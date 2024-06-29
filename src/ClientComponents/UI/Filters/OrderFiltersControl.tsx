@@ -22,6 +22,7 @@ import { _log } from "@/Helpers/helpersFns";
 import { PickersMonth, PickersMonthProps } from "@mui/x-date-pickers/MonthCalendar/PickersMonth";
 import ButtonField from "./PickMonthButton";
 import { useToggle } from "@/Hooks/useToggle";
+import { useQuerySearch } from "@/Hooks/useQuerySearch";
 
 //TODO: textfield=>button
 //TODO: handle filteration
@@ -40,12 +41,12 @@ export function OrderFilterControls() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const [_days, setDays] = useState<number[]>([1, 13, 22])
-
+    const qcreate = useQuerySearch(searchParams.toString())
     const [open, setOpen] = useState(false)
 
     function handleSortOrder(e: any, value: FilterState['order']) {
         setFilters(prev => ({ ...prev, order: value }))
-        const search = value ? createQueryString('order', value) : ""
+        const search = value ? qcreate('order', value) : ""
 
         value !== null
             ? router.push(`${pathname}?${search}`)
@@ -58,18 +59,15 @@ export function OrderFilterControls() {
     ) {
 
         setFilters(prev => ({ ...prev, month: dayjs(value).month() }))
-        const search = createQueryString('month', stringifyMonth(dayjs(value).month()))
+        const search = qcreate('month', stringifyMonth(dayjs(value).month()))
+
+
+
         router.push(`${pathname}?${search}`)
         // router.push('?month=' + stringifyMonth(dayjs(value).month()))
     }
 
-    const createQueryString = useCallback((name: string, value: string) => {
-        const params = new URLSearchParams(searchParams.toString())
-        params.set(name, value)
 
-        return params.toString()
-    }, [searchParams]
-    )
 
 
     return (

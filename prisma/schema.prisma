@@ -4,20 +4,20 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
   // directUrl = env("DATABASE_URL")
 }
 
 model Player {
   id        Int      @id @default(autoincrement())
   name      String
-  createdAt DateTime @default(now()) @map("cAt")
-  updatedAt DateTime @updatedAt @map("uAt")
   info      Info?
   events    Event[]  @relation("EventToPlayer")
   profile   Profile?
   profileId Int?     @unique
+  createdAt DateTime @default(now()) @map("cAt")
+  updatedAt DateTime @updatedAt @map("uAt")
   // Profile   Profile?
 
   @@map("players")

@@ -20,7 +20,7 @@ export async function getUser(payload: Prisma.UserWhereUniqueInput, options?: { 
 
         if ('id' in payload) {
             const { id } = payload;
-            const user = await u.findUnique({
+            const user = await u.findFirst({
                 where: { id: Number(id) },
                 select: { profile: true, ..._UserSelect.all, },
 
