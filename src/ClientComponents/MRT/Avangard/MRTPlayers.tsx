@@ -22,6 +22,9 @@ import router from "next/router";
 import { deletePlayer } from "@/Services/playerService";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
 import dayjs from "dayjs";
+import Icon from "@mdi/react";
+import { mdiAccountSync, mdiSigma } from "@mdi/js";
+import { MonthMiniTable } from "./MonthMiniTable";
 
 export type PLAYER = Prisma.$PlayerPayload["scalars"];
 type EVENT = Prisma.$EventPayload["scalars"];
@@ -62,14 +65,14 @@ const player_columns: MRT_ColumnDef<PrismaPlayer>[] = [
         accessorKey: "id",
         header: "ID",
         grow: 0,
-        maxSize: 150,
+        maxSize: 100,
         enableEditing: false,
     },
     {
         accessorKey: "name",
         header: "Игрок",
         grow: 1,
-        minSize: 250,
+        minSize: 220,
         editVariant: "text",
         Cell({ row }) {
             const { id, name } = row.original;
@@ -77,12 +80,19 @@ const player_columns: MRT_ColumnDef<PrismaPlayer>[] = [
                 <Stack
                     direction={"row"}
                     // gap={2}
+                    flexGrow={1}
                     justifyContent={"space-between"}
+                    flexWrap={"nowrap"}
                 >
                     <div>{name}</div>
-                    <code>[id: {id}]</code>
+                    <div>
+                        <code>[id: {id}]</code>
+                    </div>
                 </Stack>
             );
+        },
+        muiTableBodyCellProps: {
+            align: "left",
         },
     },
     {
@@ -90,18 +100,19 @@ const player_columns: MRT_ColumnDef<PrismaPlayer>[] = [
         header: "Посещений",
         grow: 0,
         maxSize: 150,
+        Header: () => (
+            <Icon path={mdiSigma} size={1} title={"Посещений всего"} />
+        ),
         muiTableBodyCellProps: {
-            align: "right",
+            align: "center",
         },
         muiTableHeadCellProps: {
-            align: "right",
+            align: "center",
         },
     },
 ];
 export function MRTPlayers({ players }: { players: PrismaPlayer[] }) {
     const data = players.map((p) => ({ ...p, eventCount: p._count.events }));
-
-    console.log("🚀 ~ MRTPlayers ~ data:", data[0]);
 
     const table = useMaterialReactTable({
         columns: player_columns,
@@ -109,15 +120,50 @@ export function MRTPlayers({ players }: { players: PrismaPlayer[] }) {
         muiTableContainerProps: {
             sx: { maxHeight: "60vh" },
         },
+        defaultColumn: {
+            muiTableBodyCellProps: {
+                align: "left",
+            },
+        },
+        defaultDisplayColumn: {
+            muiTableBodyCellProps: {
+                align: "left",
+            },
+        },
+        displayColumnDefOptions: {
+            "mrt-row-actions": {
+                muiTableHeadCellProps: {
+                    align: "left",
+                },
+                muiTableBodyCellProps: {
+                    align: "left",
+                },
+                size: 100,
+            },
+        },
         layoutMode: "grid",
         enableMultiRowSelection: true,
         enableRowSelection: true,
         enableCellActions: true,
         enableRowActions: true,
         editDisplayMode: "row",
+        enableRowNumbers: true,
         localization: MRT_Localization_RU,
         initialState: {
             columnVisibility: { id: false },
+            pagination: {
+                pageIndex: 0,
+                pageSize: 50,
+            },
+            density: "compact",
+        },
+        state: {
+            columnOrder: [
+                "mrt-row-select",
+                "mrt-row-numbers",
+                // "mrt-row-actions",
+                "mrt-row-expand",
+            ],
         },
         renderDetailPanel: ({ row }) => {
             const { original } = row;
@@ -140,6 +186,7 @@ export function MRTPlayers({ players }: { players: PrismaPlayer[] }) {
                     <Typography textAlign={"right"}>
                         Посещений: {original._count.events}
                     </Typography>
+                    {/* <MonthMiniTable /> */}
                 </Box>
             );
 
@@ -192,8 +239,8 @@ export function MRTPlayers({ players }: { players: PrismaPlayer[] }) {
         ],
     });
 
-    async function handleDeletePlayer({ player_id }: { player_id: number }) {
-        await deletePlayer({ id: player_id });
-    }
     return <MaterialReactTable table={table} />;
+}
+async function handleDeletePlayer({ player_id }: { player_id: number }) {
+    await deletePlayer({ id: player_id });
 }
