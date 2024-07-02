@@ -2,11 +2,12 @@ import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import Link from "next/link";
+import { EventHeader } from "@/Components/Nav/EventsHeader";
 
 async function PlayersLayout({ children }: { children: React.ReactNode }) {
     return (
         <Box p={2}>
-            <AppBar position="relative" sx={{ mb: 2 }}>
+            {/* <AppBar position="relative" sx={{ mb: 2 }}>
                 <Toolbar variant="dense">
                     <Link href={{ query: { view: "list" } }}>
                         <IconButton edge="start" color="warning">
@@ -19,7 +20,8 @@ async function PlayersLayout({ children }: { children: React.ReactNode }) {
                         </IconButton>
                     </Link>
                 </Toolbar>
-            </AppBar>
+            </AppBar> */}
+            <EventHeader />
             {children}
         </Box>
     );

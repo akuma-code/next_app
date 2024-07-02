@@ -168,7 +168,7 @@ export async function getPlayers(includes?: P_PlayerIncludes): Promise<
         },
         { id: "asc" },
       ],
-      distinct: "name",
+      // distinct: "name",
     });
     return p;
   } catch (error) {
