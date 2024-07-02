@@ -78,49 +78,57 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
     console.log("Seed aborted!")
     return null
   }
-  if (options.clear === true) await prisma.event.deleteMany()
-  const ev_array = eventsMap.map(e => {
+  try {
+    if (options.clear === true) await prisma.event.deleteMany()
+    const ev_array = eventsMap.map(e => {
 
-    const p = prisma.event.create({
+      const p = prisma.event.create({
+        data: {
+          date_formated: e.date_formated,
+          title: e.title,
+          // players: { create: e.players }
+        },
+        select: {
+          id: true,
+          pairs: true,
+          date_formated: true,
+          players: { select: { id: true, name: true } },
+        }
+      })
+
+      return p
+    })
+    const connected = eventsMap.map(e => ({ date: e.date_formated, players: e.players }))
+    // const events = await prisma.$transaction(ev_array)
+    // const result = events.map(async (e) => {
+    //   const pls = eventsMap.find(ev => ev.date_formated === e.date_formated)?.players ?? []
+    //   const up = await prisma.event.update({
+    //     where: { id: e.id },
+    //     data: {
+    //       players: { connect: pls }
+    //     }
+    //   })
+    //   console.table(pls)
+    //   return up
+    // })
+
+    const cc = connected.map(c => prisma.event.update({
+      where: { date_formated: c.date },
       data: {
-        date_formated: e.date_formated,
-        title: e.title,
-        // players: { create: e.players }
+        players: { connect: c.players }
       },
-      select: {
-        id: true,
-        pairs: true,
-        date_formated: true,
-        players: { select: { id: true, name: true } },
-      }
-    })
-
-    return p
-  })
-  const events = await prisma.$transaction(ev_array)
-  const connected = eventsMap.map(e => ({ date: e.date_formated, players: e.players }))
-  const result = events.map(async (e) => {
-    const pls = eventsMap.find(ev => ev.date_formated === e.date_formated)?.players ?? []
-    const up = await prisma.event.update({
-      where: { id: e.id },
-      data: {
-        players: { connect: pls }
-      }
-    })
-    console.table(pls)
-    return up
-  })
-
-  const cc = connected.map(c => prisma.event.update({
-    where: { date_formated: c.date }, data: {
-      players: { connect: c.players }
-    }
-  }))
-  const res2 = await prisma.$transaction(cc)
-  console.table(res2)
-  return res2
+      select: { id: true, date_formated: true, players: true, pairs: true }
+    }))
+    await prisma.$transaction(ev_array)
+    const res2 = await prisma.$transaction(cc)
+    console.table(res2)
+    return res2
 
 
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 export async function seedEvents(seed_events: SeedEvent[], options?: SeedOptions) {
   const ev = prisma.event;

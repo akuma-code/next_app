@@ -257,7 +257,7 @@ async function handleDeletePlayer({ player_id }: { player_id: number }) {
 }
 
 export function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
-    const [open, { toggle }] = useToggle(false);
+    const [open, { toggle }] = useToggle(true);
     const { original } = row;
     const { _count, events, profile } = original;
     const _det = monthReducer(events);
@@ -271,7 +271,7 @@ export function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
         month: m,
         dates: c,
     }));
-    console.log(days_array);
+    // console.log(days_array);
     return (
         <Grid
             container
