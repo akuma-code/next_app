@@ -1,5 +1,5 @@
-/* eslint-disable import/no-anonymous-default-export */
 'use server'
+/* eslint-disable import/no-anonymous-default-export */
 
 import prisma from "@/client/client"
 import { _log } from "@/Helpers/helpersFns"
@@ -31,7 +31,21 @@ export async function reseedEvents() {
 }
 
 export async function backupEvents() {
-    const p = await prisma.event.findMany({
+    const data = await getBackupEvents()
+    const today = dayjs().format("DD.MM.YYYY").toString()
+    const backup = {
+        date: today,
+        events: data
+    }
+    // console.log({ backup })
+    return {
+        date: today,
+        data
+    }
+}
+
+export async function getBackupEvents() {
+    return await prisma.event.findMany({
         select: {
             id: true,
             date_formated: true,
@@ -45,11 +59,4 @@ export async function backupEvents() {
             isDraft: true
         }
     })
-
-    const backup = {
-        date: dayjs().format("DD.MM.YYYY"),
-        events: p
-    }
-    console.log({ backup })
-    return backup
 }

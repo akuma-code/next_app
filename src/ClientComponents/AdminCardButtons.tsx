@@ -1,10 +1,22 @@
 "use client";
 
-import { Card, CardContent, Grid, Button } from "@mui/material";
+import { backupEvents, getBackupEvents } from "@/app/admin/actions";
+import { useQueryBackup } from "@/Hooks/Queries/useQueryBackup";
+import { Card, CardContent, Grid, Button, CardHeader } from "@mui/material";
+
 import Link from "next/link";
-export const AdminCard = ({ seedAction }: { seedAction?: () => void }) => {
+export const AdminCard = ({
+    seedAction,
+    actions,
+}: {
+    seedAction?: () => void;
+    actions: ((...args: any[]) => void)[];
+}) => {
+    const [a, b] = actions;
+    const q = useQueryBackup();
     return (
         <Card variant="outlined">
+            <div>{q?.error?.message}</div>
             <CardContent component={Grid} container spacing={1}>
                 <Grid item>
                     <Link href={{ query: { show: "true" } }}>

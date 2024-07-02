@@ -8,8 +8,10 @@ async function AministratorPage(params: { searchParams: { show: string } }) {
     const b = await backupEvents();
     return (
         <Container maxWidth="md">
-            <AdminCard seedAction={backupEvents.bind(null)} />
-            {show === "true" && <Box>{JSON.stringify(b.events, null, 2)}</Box>}
+            <AdminCard
+                // seedAction={reseedEvents.bind(null)}
+                actions={[backupEvents, reseedEvents]}
+            />
         </Container>
     );
 }
