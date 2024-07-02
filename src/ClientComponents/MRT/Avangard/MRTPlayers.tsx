@@ -12,7 +12,7 @@ import {
 } from "material-react-table";
 import { Suspense, useMemo } from "react";
 import { RowProfileCard } from "../Profile/UserProfileCard";
-import { Box, Grid, MenuItem, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, MenuItem, Stack, Typography } from "@mui/material";
 import {
     DeleteTwoTone,
     AccountCircleTwoTone,
@@ -33,6 +33,7 @@ import {
 } from "@/Helpers/dateFuncs";
 import { monthReducer } from "@/Helpers/eventsMonthParser";
 import { _log } from "@/Helpers/helpersFns";
+import { useToggle } from "@/Hooks/useToggle";
 
 export type PLAYER = Prisma.$PlayerPayload["scalars"];
 type EVENT = Prisma.$EventPayload["scalars"];
@@ -255,21 +256,26 @@ async function handleDeletePlayer({ player_id }: { player_id: number }) {
     await deletePlayer({ id: player_id });
 }
 
-function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
+export function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
+    const [open, { toggle }] = useToggle(false);
     const { original } = row;
     const { _count, events, profile } = original;
     const _det = monthReducer(events);
     if (!_det) return null;
-    const { year, months } = _det;
+    const { year, months, days } = _det;
     const months_array = Object.entries(months).map(([m, c]) => ({
         month: m,
         count: c,
     }));
-
+    const days_array = Object.entries(days).map(([m, c]) => ({
+        month: m,
+        dates: c,
+    }));
+    console.log(days_array);
     return (
         <Grid
             container
-            // gridAutoRows={3}
+            gridRow={4}
             columnGap={0}
             rowGap={1}
             sx={{
@@ -288,12 +294,12 @@ function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
                     <Grid item justifyContent={"center"}>
                         {d.month}
                     </Grid>
-                    <Grid item textAlign={"center"}>
-                        <></>
-                        {d.count}
+                    <Grid item justifyContent={"center"}>
+                        {open ? d.count : days_array[idx].dates.join(", ")}
                     </Grid>
                 </Grid>
             ))}
+
             <Grid ml={1}>
                 <Grid item justifyContent={"end"}>
                     <b>{year}</b>
@@ -301,6 +307,11 @@ function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
                 <Grid item>
                     <b> Итого: {_count.events}</b>
                 </Grid>
+            </Grid>
+            <Grid item>
+                <Button onClick={toggle} variant="outlined">
+                    Даты / Кол-во
+                </Button>
             </Grid>
         </Grid>
     );

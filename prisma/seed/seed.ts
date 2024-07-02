@@ -18,7 +18,7 @@ type SeedEvent = {
 type SeedOptions = {
   force?: boolean
 }
-export const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export async function seedPlayers(seed_names: string[], options?: SeedOptions) {
   const existing = await prisma.player.findMany()
@@ -48,7 +48,7 @@ export async function seedObjectPlayers(
   options?: SeedOptions
 ) {
   const existing = await prisma.player.findMany()
-  if (existing.length > 0) {
+  if (existing.length > 0 || !options?.force) {
     if (options?.force === false) {
       console.log("Players list not empty, players count: ", { existing: existing.length })
 
@@ -123,6 +123,10 @@ async function seedUsers(options?: SeedOptions) {
 }
 
 export async function seed_db(options?: SeedOptions) {
+  if (!seed_enabled) {
+    console.log("Seed is turned off")
+    return null
+  }
 
   const players_seed = seedObjectPlayers(players_to_seed2, options).finally(
     console.info
@@ -135,13 +139,14 @@ export async function seed_db(options?: SeedOptions) {
     (e) => console.log("SEED ERROR!", e)
   );
 }
-const force = process.env.DB_SEED_FORCE
-const options = { force: JSON.parse(force ?? 'false') }
+const seed_enabled = process.env.DB_SEED_ENABLE
+const options = { force: JSON.parse(seed_enabled ?? 'false') }
 
 
-console.log("options:", options)
 
-seed_db()
+
+
+seed_db(options)
   .then(async () => {
     await prisma.$disconnect();
   })
@@ -149,4 +154,5 @@ seed_db()
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);
-  });
+  })
+// : console.log("Seed is turned off", { enable: seed_enabled })
