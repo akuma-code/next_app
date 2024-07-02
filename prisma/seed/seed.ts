@@ -15,10 +15,21 @@ type SeedEvent = {
     // updatedAt: string;
   }[];
 };
-
+type SeedOptions = {
+  force?: boolean
+}
 export const prisma = new PrismaClient();
 
-export async function seedPlayers(seed_names: string[]) {
+export async function seedPlayers(seed_names: string[], options?: SeedOptions) {
+  const existing = await prisma.player.findMany()
+  if (existing.length > 0) {
+    if (options?.force === false) {
+      console.log("Players list not empty, players count: ", { existing: existing.length })
+
+      return existing
+    }
+    else await prisma.player.deleteMany()
+  }
   try {
     const seedArray = seed_names.map((s) =>
       prisma.player.create({
@@ -33,12 +44,24 @@ export async function seedPlayers(seed_names: string[]) {
   }
 }
 export async function seedObjectPlayers(
-  seed_players: { id: number; name: string }[]
+  seed_players: { id: number; name: string }[],
+  options?: SeedOptions
 ) {
+  const existing = await prisma.player.findMany()
+  if (existing.length > 0) {
+    if (options?.force === false) {
+      console.log("Players list not empty, players count: ", { existing: existing.length })
+
+      return existing
+    }
+    else await prisma.player.deleteMany()
+  }
+
   try {
     const seedArray = seed_players.map((s) =>
       prisma.player.create({
         data: {
+          id: s.id,
           name: s.name,
         },
       })
@@ -50,7 +73,7 @@ export async function seedObjectPlayers(
   }
 }
 
-export async function seedEvents(seed_events: SeedEvent[]) {
+export async function seedEvents(seed_events: SeedEvent[], options?: SeedOptions) {
   const ev = prisma.event;
 
   try {
@@ -73,7 +96,7 @@ export async function seedEvents(seed_events: SeedEvent[]) {
   }
 }
 
-export async function seedMasters(masters: { name: string }[]) {
+export async function seedMasters(masters: { name: string }[], options?: SeedOptions) {
   try {
     const seed = masters.map((m) => prisma.master.create({ data: m }));
 
@@ -84,7 +107,7 @@ export async function seedMasters(masters: { name: string }[]) {
   }
 }
 
-async function seedUsers() {
+async function seedUsers(options?: SeedOptions) {
   try {
     const users = members_seed.map((user) =>
       prisma.user.create({ data: user })
@@ -99,18 +122,24 @@ async function seedUsers() {
   }
 }
 
-export async function seed_db() {
-  const players_seed = seedObjectPlayers(players_to_seed2).finally(
+export async function seed_db(options?: SeedOptions) {
+
+  const players_seed = seedObjectPlayers(players_to_seed2, options).finally(
     console.info
   );
-  const masters_seed = seedMasters(masters_to_seed).finally(console.table);
-  const events_seed = seedEvents(events_to_seed).finally(console.table);
-  const user_seed = seedUsers().finally(console.table);
+  const masters_seed = seedMasters(masters_to_seed, options).finally(console.table);
+  const events_seed = seedEvents(events_to_seed, options).finally(console.table);
+  const user_seed = seedUsers(options).finally(console.table);
   return Promise.all([players_seed, masters_seed, events_seed, user_seed]).then(
     () => console.log("Database seeded succesful"),
     (e) => console.log("SEED ERROR!", e)
   );
 }
+const force = process.env.DB_SEED_FORCE
+const options = { force: JSON.parse(force ?? 'false') }
+
+
+console.log("options:", options)
 
 seed_db()
   .then(async () => {
