@@ -653,7 +653,7 @@ export const backup_players_1506 = [
     },
     {
         "id": 28,
-        "name": "Володя однорукий",
+        "name": "Володя Иванов",
         "createdAt": "2024-05-29T21:11:31.811Z",
         "updatedAt": "2024-05-29T21:11:31.811Z",
         "info": null
@@ -852,14 +852,14 @@ export const backup_players_1506 = [
         }
     },
     {
-        "id": 57,
+        "id": 11,
         "name": "Павел Роднянский",
         "createdAt": "2024-06-05T14:47:26.000Z",
         "updatedAt": "2024-06-05T14:47:26.000Z",
         "info": {
             "uuid": "3502e454-3d9c-4ef5-87e9-5c01f41bbd2d",
             "rttf_score": 170,
-            "playerId": 57
+            "playerId": 11
         }
     },
     {
