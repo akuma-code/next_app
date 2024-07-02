@@ -99,23 +99,12 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
       return p
     })
     const connected = eventsMap.map(e => ({ date: e.date_formated, players: e.players }))
-    // const events = await prisma.$transaction(ev_array)
-    // const result = events.map(async (e) => {
-    //   const pls = eventsMap.find(ev => ev.date_formated === e.date_formated)?.players ?? []
-    //   const up = await prisma.event.update({
-    //     where: { id: e.id },
-    //     data: {
-    //       players: { connect: pls }
-    //     }
-    //   })
-    //   console.table(pls)
-    //   return up
-    // })
+
 
     const cc = connected.map(c => prisma.event.update({
       where: { date_formated: c.date },
       data: {
-        players: { connect: c.players }
+        players: { set: c.players }
       },
       select: { id: true, date_formated: true, players: true, pairs: true }
     }))
