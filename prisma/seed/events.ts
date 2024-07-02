@@ -1089,3 +1089,6 @@ export const backup_events_1506 = [
         "eventInfo": null
     }
 ]
+
+
+export const eventsMap = backup_events_1506.map(event => ({ ...event, players: event.players.map(p => ({ name: p.name, id: p.id })) }))

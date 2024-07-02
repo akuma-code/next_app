@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { events_to_seed } from "./events";
-import { masters_to_seed, players_to_seed2 } from "./players";
 import { members_seed } from "./users";
-
+import { EventsMapObject } from "./seedFn";
+// import prisma from "@/client/client";
+const prisma = new PrismaClient();
 type SeedEvent = {
   id: number;
   date_formated: string;
@@ -15,10 +15,10 @@ type SeedEvent = {
     // updatedAt: string;
   }[];
 };
-type SeedOptions = {
+export type SeedOptions = {
   force?: boolean
 }
-const prisma = new PrismaClient();
+
 
 export async function seedPlayers(seed_names: string[], options?: SeedOptions) {
   const existing = await prisma.player.findMany()
@@ -72,7 +72,56 @@ export async function seedObjectPlayers(
     throw new Error("SEED PLAYERS ERROR");
   }
 }
+export async function seedEventsMap(eventsMap: EventsMapObject[], options = { abortSygnal: false, clear: false }) {
+  // const connect_player = (player_id: number, event_id: number) => prisma.player.update({ where: { id: player_id }, data: { events: { connect: { id: event_id } } } })
+  if (options.abortSygnal) {
+    console.log("Seed aborted!")
+    return null
+  }
+  if (options.clear === true) await prisma.event.deleteMany()
+  const ev_array = eventsMap.map(e => {
 
+    const p = prisma.event.create({
+      data: {
+        date_formated: e.date_formated,
+        title: e.title,
+        // players: { create: e.players }
+      },
+      select: {
+        id: true,
+        pairs: true,
+        date_formated: true,
+        players: { select: { id: true, name: true } },
+      }
+    })
+
+    return p
+  })
+  const events = await prisma.$transaction(ev_array)
+  const connected = eventsMap.map(e => ({ date: e.date_formated, players: e.players }))
+  const result = events.map(async (e) => {
+    const pls = eventsMap.find(ev => ev.date_formated === e.date_formated)?.players ?? []
+    const up = await prisma.event.update({
+      where: { id: e.id },
+      data: {
+        players: { connect: pls }
+      }
+    })
+    console.table(pls)
+    return up
+  })
+
+  const cc = connected.map(c => prisma.event.update({
+    where: { date_formated: c.date }, data: {
+      players: { connect: c.players }
+    }
+  }))
+  const res2 = await prisma.$transaction(cc)
+  console.table(res2)
+  return res2
+
+
+}
 export async function seedEvents(seed_events: SeedEvent[], options?: SeedOptions) {
   const ev = prisma.event;
 
@@ -107,7 +156,7 @@ export async function seedMasters(masters: { name: string }[], options?: SeedOpt
   }
 }
 
-async function seedUsers(options?: SeedOptions) {
+export async function seedUsers(options?: SeedOptions) {
   try {
     const users = members_seed.map((user) =>
       prisma.user.create({ data: user })
@@ -122,37 +171,5 @@ async function seedUsers(options?: SeedOptions) {
   }
 }
 
-export async function seed_db(options?: SeedOptions) {
-  if (!seed_enabled) {
-    console.log("Seed is turned off")
-    return null
-  }
 
-  const players_seed = seedObjectPlayers(players_to_seed2, options).finally(
-    console.info
-  );
-  const masters_seed = seedMasters(masters_to_seed, options).finally(console.table);
-  const events_seed = seedEvents(events_to_seed, options).finally(console.table);
-  const user_seed = seedUsers(options).finally(console.table);
-  return Promise.all([players_seed, masters_seed, events_seed, user_seed]).then(
-    () => console.log("Database seeded succesful"),
-    (e) => console.log("SEED ERROR!", e)
-  );
-}
-const seed_enabled = process.env.DB_SEED_ENABLE
-const options = { force: JSON.parse(seed_enabled ?? 'false') }
-
-
-
-
-
-seed_db(options)
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  })
 // : console.log("Seed is turned off", { enable: seed_enabled })

@@ -2,8 +2,9 @@
 'use server'
 
 import { _log } from "@/Helpers/helpersFns"
+import { eventsMap } from "@/seed/events"
 import { masters_to_seed, players_to_seed2 } from "@/seed/players"
-import { seedMasters, seedObjectPlayers } from "@/seed/seed"
+import { seedEventsMap, seedMasters, seedObjectPlayers } from "@/seed/seed"
 import { getMasters, removeMaster } from "@/Services/masterService"
 export async function reseedMasters() {
 
@@ -21,4 +22,8 @@ export async function reseedMasters() {
 export async function reseedPlayers(force = false) {
     // const force = JSON.parse(process.env.DB_SEED_FORCE ?? "false") as boolean;
     await seedObjectPlayers(players_to_seed2, { force });
+}
+
+export async function reseedEvents() {
+    return await seedEventsMap(eventsMap, { clear: true, abortSygnal: false })
 }

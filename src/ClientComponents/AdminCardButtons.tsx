@@ -17,7 +17,7 @@ export const AdminCard = ({ seedAction }: { seedAction?: () => void }) => {
                         variant="outlined"
                         color="primary"
                     >
-                        Reseed Players
+                        Reseed
                     </Button>
                 </Grid>
             </CardContent>
