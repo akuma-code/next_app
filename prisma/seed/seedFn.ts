@@ -58,12 +58,12 @@ export async function seed_db(options?: SeedOptions) {
         return null
     }
 
-    const players_seed = seedObjectPlayers(backup_players_1506, { force: true })
-    const masters_seed = seedMasters(masters_to_seed, options)
     const events_seed = seedEventsMap(eventsMap)
+    // const players_seed = seedObjectPlayers(backup_players_1506, { force: true })
+    const masters_seed = seedMasters(masters_to_seed, options)
     const user_seed = seedUsers(options)
     // return prisma.$transaction([players_seed, masters_seed, events_seed, user_seed])
-    return Promise.allSettled([players_seed, masters_seed, events_seed, user_seed]).then(
+    return Promise.allSettled([masters_seed, events_seed, user_seed]).then(
         (r) => console.log("Database seeded succesful", r),
         (e) => console.log("SEED ERROR!", e)
     );
