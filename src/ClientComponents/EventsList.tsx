@@ -23,16 +23,16 @@ export interface IEvent_Front {
 
 export const avatarColor = (numb: number) => {
     const colors = {
-        xs: "#01ff38",
+        xs: "#00771a",
         sm: "#d3ff6e",
-        md: "#6ba732",
+        md: "#588891",
         lg: "#ffa600",
         xl: "#ff0000",
     };
     if (numb >= 16) return colors.xl;
     if (numb >= 12) return colors.lg;
     if (numb >= 9) return colors.md;
-    if (numb > 6) return colors.sm;
+    if (numb >= 6) return colors.sm;
     if (numb >= 0) return colors.xs;
     return colors.md;
 };

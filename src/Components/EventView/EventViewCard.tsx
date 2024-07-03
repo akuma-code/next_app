@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import CMCard from "@/mui-treasury/card-team/CardTeam";
 import { getInfoApexStyles } from "@/mui-treasury/info-apex";
@@ -6,17 +6,17 @@ import { Info, InfoSubtitle, InfoTitle } from "@/mui-treasury/info-basic";
 
 import { avatarColor } from "@/ClientComponents/EventsList";
 import { SettingsTwoTone } from "@mui/icons-material";
-import OpenWithOutlinedIcon from '@mui/icons-material/OpenWithOutlined';
+import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
 import { Avatar, AvatarGroup, Box, Button, ButtonGroup } from "@mui/material";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import mock_events from "./mock_events";
 
 import { _log } from "@/Helpers/helpersFns";
 import { useSession } from "next-auth/react";
-const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard
+const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard;
 
-const event_data = mock_events
+const event_data = mock_events;
 interface EventData {
     id: number;
     date_formated: string;
@@ -24,11 +24,10 @@ interface EventData {
         id: number;
         name: string;
     }[];
-    title?: string | null
+    title?: string | null;
     _count?: {
         players: number;
     };
-
 }
 interface EventCardProps {
     title: string;
@@ -38,54 +37,74 @@ interface EventCardProps {
     event: EventData;
 }
 
-export const EventViewCard = ({ title, subtitle, description, thumbnail, event }: EventCardProps) => {
-    const d = event.date_formated.replaceAll("_", ".")
+export const EventViewCard = ({
+    title,
+    subtitle,
+    description,
+    thumbnail,
+    event,
+}: EventCardProps) => {
+    const d = event.date_formated.replaceAll("_", ".");
+    const router = useRouter();
+    const pathname = usePathname();
+    const name_letters = (name: string) =>
+        name
+            .split(" ")
+            .map((n) => n[0])
+            .join("");
+    const _c = event._count?.players || 0;
 
-    const pathname = usePathname()
-    const name_letters = (name: string) => name.split(" ").map(n => n[0]).join("")
-    const _c = event._count?.players || 0
-
-    const { status, data } = useSession()
+    const { status, data } = useSession();
 
     return (
         <DivRoot>
-            <ColumnCard >
-                <Box display="flex" p={ 2 } gap={ 2 } flexWrap="nowrap">
-                    <AvatarLogo variant={ "rounded" } color={ 'primary.dark' } sx={ { bgcolor: avatarColor(_c) } }>
-                        { _c }
+            <ColumnCard>
+                <Box display="flex" p={2} gap={2} flexWrap="nowrap">
+                    <AvatarLogo
+                        variant={"rounded"}
+                        sx={{ bgcolor: avatarColor(_c), color: "primary.dark" }}
+                    >
+                        {_c}
                     </AvatarLogo>
-                    <Info useStyles={ getInfoApexStyles } sx={ { alignSelf: "center" } }>
-                        <InfoTitle>{ title }</InfoTitle>
-                        <InfoSubtitle sx={ { textAlign: 'end', fontWeight: 'bold' } }>{ subtitle }</InfoSubtitle>
+                    <Info
+                        useStyles={getInfoApexStyles}
+                        sx={{ alignSelf: "center" }}
+                    >
+                        <InfoTitle>{title}</InfoTitle>
+                        <InfoSubtitle
+                            sx={{ textAlign: "end", fontWeight: "bold" }}
+                        >
+                            {subtitle}
+                        </InfoSubtitle>
                     </Info>
                 </Box>
                 <Box
-                    pb={ 0.5 }
-                    px={ 1 }
-                    color={ "primary.dark" }
-                    fontSize={ "1rem" }
-                    fontFamily={ "Ubuntu" }
-                    flexGrow={ 1 }
-                    textAlign={ 'center' }
+                    pb={0.5}
+                    px={1}
+                    color={"primary.dark"}
+                    fontSize={"1rem"}
+                    fontFamily={"Ubuntu"}
+                    flexGrow={1}
+                    textAlign={"center"}
                 >
-                    { description }
+                    {description}
                 </Box>
                 <Box
                     display="flex"
-                    p={ 2 }
-                    gap={ 2 }
-                    sx={ {
+                    p={2}
+                    gap={2}
+                    sx={{
                         flexWrap: "wrap",
                         justifyContent: "space-between",
                         "&& > *": {
                             minWidth: `clamp(0px, (248px + 1px - 100%) * 999, 100%)`,
                         },
-                    } }
+                    }}
                 >
                     <Box>
                         <AvatarGroup
-                            max={ 3 }
-                            sx={ {
+                            max={3}
+                            sx={{
                                 "& .MuiAvatar-root": {
                                     fontFamily: "Ubuntu",
                                     fontSize: "0.875rem",
@@ -96,44 +115,49 @@ export const EventViewCard = ({ title, subtitle, description, thumbnail, event }
                                         marginRight: "auto",
                                     },
                                 },
-                            } }
+                            }}
                         >
-                            { event.players.map(p =>
-                                <Avatar key={ p.name } >
-                                    { name_letters(p.name) }
+                            {event.players.map((p) => (
+                                <Avatar key={p.name}>
+                                    {name_letters(p.name)}
                                 </Avatar>
-
-                            ) }
+                            ))}
                         </AvatarGroup>
                     </Box>
-                    {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */ }
+                    {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */}
 
-                    <ButtonGroup size="small" orientation="vertical" variant={ "contained" } sx={ { borderRadius: 30 } }>
-
+                    <ButtonGroup
+                        size="small"
+                        orientation="vertical"
+                        variant={"contained"}
+                        sx={{ borderRadius: 30 }}
+                    >
                         <Button
-
                             color="primary"
-                            LinkComponent={ Link }
-                            href={ pathname + `/${event.id}` }
-                            startIcon={ <OpenWithOutlinedIcon /> }>
+                            // LinkComponent={Link}
+                            // href={pathname + `/${event.id}`}
+                            onClick={() =>
+                                router.push(`${pathname}/${event.id}`)
+                            }
+                            startIcon={<OpenWithOutlinedIcon />}
+                        >
                             Открыть
                         </Button>
-                        { data?.user &&
-
+                        {data?.user && (
                             <Button
-                                startIcon={ <SettingsTwoTone /> }
+                                startIcon={<SettingsTwoTone />}
                                 color="secondary"
-                                LinkComponent={ Link }
-                                href={ pathname + `/${event.id}/edit` }
+                                LinkComponent={Link}
+                                href={pathname + `/${event.id}/edit`}
                             >
                                 Править
-                            </Button> }
+                            </Button>
+                        )}
                     </ButtonGroup>
 
-                    {/* </Stack> */ }
-
+                    {/* </Stack> */}
                 </Box>
             </ColumnCard>
         </DivRoot>
-    )
+    );
 };

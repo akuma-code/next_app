@@ -111,9 +111,9 @@ const yoma_light = {
         contrastText: '#fff',
     },
     secondary: {
-        main: '#f57435',
-        light: '#ac8d5f',
-        dark: '#a53e0a',
+        main: '#5b9ea3',
+        light: '#7adaf7',
+        dark: '#074d49',
         contrastText: '#0c2659',
     },
     background: {
