@@ -2,7 +2,15 @@
 
 import { backupEvents, getBackupEvents } from "@/app/admin/actions";
 import { useQueryBackup } from "@/Hooks/Queries/useQueryBackup";
-import { Card, CardContent, Grid, Button, CardHeader } from "@mui/material";
+import { useQueryProduction } from "@/Hooks/Queries/useQueryProductuon";
+import {
+    Card,
+    CardContent,
+    Grid,
+    Button,
+    CardHeader,
+    Alert,
+} from "@mui/material";
 
 import Link from "next/link";
 export const AdminCard = ({
@@ -12,11 +20,17 @@ export const AdminCard = ({
     seedAction?: () => void;
     actions: ((...args: any[]) => void)[];
 }) => {
-    const [a, b] = actions;
-    const q = useQueryBackup();
+    // const [a, b] = actions;
+    // const q = useQueryBackup();
+
+    // const prod = useQueryProduction();
+
     return (
         <Card variant="outlined">
-            <div>{q?.error?.message}</div>
+            <Alert variant="outlined" color="error">
+                {/* {prod.error && prod?.error?.message} */}
+            </Alert>
+            {/* <div>{q?.error?.message}</div> */}
             <CardContent component={Grid} container spacing={1}>
                 <Grid item>
                     <Link href={{ query: { show: "true" } }}>

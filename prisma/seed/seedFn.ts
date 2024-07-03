@@ -10,7 +10,7 @@ export interface EventsMapObject {
     date_formated: string;
     title: string;
     isDraft: boolean;
-    eventInfo: null;
+    eventInfo?: null;
 }
 // async function seedEventsMap(eventsMap: EventsMapObject[], options = { abortSygnal: false, clear: false }) {
 //     // const connect_player = (player_id: number, event_id: number) => prisma.player.update({ where: { id: player_id }, data: { events: { connect: { id: event_id } } } })
@@ -51,7 +51,7 @@ export interface EventsMapObject {
 
 // }
 
-
+const seed_enabled = process.env.DB_SEED_ENABLE
 export async function seed_db(options?: SeedOptions) {
     if (!seed_enabled) {
         console.log("Seed is turned off")
@@ -59,16 +59,17 @@ export async function seed_db(options?: SeedOptions) {
     }
 
     const events_seed = seedEventsMap(eventsMap)
-    // const players_seed = seedObjectPlayers(backup_players_1506, { force: true })
+
     const masters_seed = seedMasters(masters_to_seed, options)
     const user_seed = seedUsers(options)
     // return prisma.$transaction([players_seed, masters_seed, events_seed, user_seed])
-    return Promise.allSettled([masters_seed, events_seed, user_seed]).then(
-        (r) => console.log("Database seeded succesful", r),
-        (e) => console.log("SEED ERROR!", e)
-    );
+    return Promise.all([masters_seed, events_seed, user_seed])
+        .then(
+            (r) => console.log("Database seeded succesful", r),
+            (e) => console.log("SEED ERROR!", e)
+        );
 }
-const seed_enabled = process.env.DB_SEED_ENABLE
+
 const options = { force: JSON.parse(seed_enabled ?? 'false') }
 
 

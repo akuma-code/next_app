@@ -17,7 +17,7 @@ import {
     MRT_Row,
     useMaterialReactTable,
     // createRow,
-    type MRT_ColumnDef
+    type MRT_ColumnDef,
 } from "material-react-table";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
 
@@ -37,13 +37,13 @@ type PrismaPlayer = {
     updatedAt: Date;
     profileId: number | null;
     events?:
-    | {
-        id: number;
-        date_formated: string;
-        //   isDraft: boolean | null;
-        //   title: string | null;
-    }[]
-    | [];
+        | {
+              id: number;
+              date_formated: string;
+              //   isDraft: boolean | null;
+              //   title: string | null;
+          }[]
+        | [];
     info?: { uuid: string; rttf_score: number | null; playerId: number } | null;
     profile: {
         id: number;
@@ -73,15 +73,15 @@ const player_columns: MRT_ColumnDef<PrismaPlayer>[] = [
             const { id, name } = row.original;
             return (
                 <Stack
-                    direction={ "row" }
+                    direction={"row"}
                     // gap={2}
-                    flexGrow={ 1 }
-                    justifyContent={ "space-between" }
-                    flexWrap={ "nowrap" }
+                    flexGrow={1}
+                    justifyContent={"space-between"}
+                    flexWrap={"nowrap"}
                 >
-                    <div>{ name }</div>
+                    <div>{name}</div>
                     <div>
-                        <code>[id: { id }]</code>
+                        <code>[id: {id}]</code>
                     </div>
                 </Stack>
             );
@@ -95,7 +95,9 @@ const player_columns: MRT_ColumnDef<PrismaPlayer>[] = [
         header: "Посещений",
         grow: 0,
         maxSize: 150,
-        Header: () => <Icon path={ mdiSigma } size={ 1 } title={ "Посещений всего" } />,
+        Header: () => (
+            <Icon path={mdiSigma} size={1} title={"Посещений всего"} />
+        ),
         muiTableBodyCellProps: {
             align: "center",
         },
@@ -158,82 +160,57 @@ export function MRTPlayers({ players }: { players: PrismaPlayer[] }) {
                 // "mrt-row-actions",
             ],
         },
-        // renderDetailPanel: ({ row }) => {
-        //     const { original } = row;
-        //     // const mnames = original?.events?.map(e => getMonthNumberFromDate(e.date_formated).month).map(n => Month[n]) ?? []
-        //     // mnames.length > 0 && console.log(mnames)
 
-        //     return (
-        //         <Box
-        //             width={"full"}
-        //             flexGrow={1}
-        //             textAlign={"right"}
-        //             justifyContent={"space-around"}
-        //             display={"flex"}
-        //             flexDirection={"column"}
-        //             gap={1}
-        //         >
-        //             <Typography textAlign={"right"}>
-        //                 Создан:{" "}
-        //                 {dayjs(original.createdAt.toString()).format(
-        //                     "DD/MM/YYYY"
-        //                 )}
-        //             </Typography>
-        //             <Typography textAlign={"right"}>
-        //                 Посещений: {original._count.events}
-        //             </Typography>
-        //         </Box>
-        //     );
-        // },
         renderDetailPanel: PlayerDetail,
         renderRowActionMenuItems: ({ closeMenu, row }) => [
-            <MenuItem divider key={ 0 }>
-                <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
+            <MenuItem divider key={0}>
+                <Stack direction={"row"} width={"100%"} gap={2}>
                     <EditTwoTone className="mx-1" />
-                    <Box flexGrow={ 1 }> Изменить</Box>
+                    <Box flexGrow={1}> Изменить</Box>
                 </Stack>
             </MenuItem>,
             <MenuItem
                 divider
-                key={ 1 }
-                onClick={ async () =>
+                key={1}
+                onClick={async () =>
                     await handleDeletePlayer({
                         player_id: row.original.id,
                     }).finally(() => closeMenu())
                 }
             >
-                <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
+                <Stack direction={"row"} width={"100%"} gap={2}>
                     <DeleteTwoTone className="mx-1" />
-                    <Box flexGrow={ 1 }> Удалить</Box>
+                    <Box flexGrow={1}> Удалить</Box>
                 </Stack>
             </MenuItem>,
             <MenuItem
-                key={ 2 }
-            // onClick={() => {
-            //     router.push(pathname + `/profile/${row.original.id}`);
-            //     closeMenu();
-            // }}
+                key={2}
+                // onClick={() => {
+                //     router.push(pathname + `/profile/${row.original.id}`);
+                //     closeMenu();
+                // }}
             >
-                <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
-                    <AccountCircleTwoTone /> <span className="mp-1"> Профиль</span>
+                <Stack direction={"row"} width={"100%"} gap={2}>
+                    <AccountCircleTwoTone />{" "}
+                    <span className="mp-1"> Профиль</span>
                 </Stack>
             </MenuItem>,
             <MenuItem
-                key={ 3 }
-                onClick={ () => {
+                key={3}
+                onClick={() => {
                     console.clear();
                     console.info("user: ", monthReducer(row.original.events));
                     closeMenu();
-                } }
+                }}
             >
-                <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
+                <Stack direction={"row"} width={"100%"} gap={2}>
                     <ShareTwoTone /> Консоль
                 </Stack>
             </MenuItem>,
         ],
     });
 
-    return <MaterialReactTable table={ table } />;
+    return <MaterialReactTable table={table} />;
 }
 async function handleDeletePlayer({ player_id }: { player_id: number }) {
     await deletePlayer({ id: player_id });
@@ -258,10 +235,10 @@ export function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
     return (
         <Grid
             container
-            gridRow={ 4 }
-            columnGap={ 0 }
-            rowGap={ 1 }
-            sx={ {
+            gridRow={4}
+            columnGap={0}
+            rowGap={1}
+            sx={{
                 [`& .MuiGrid-item`]: {
                     border: "1px solid grey",
                     p: 1,
@@ -270,29 +247,29 @@ export function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
                     // justifyContent: "space-between",
                     gap: 1,
                 },
-            } }
+            }}
         >
-            { months_array.map((d, idx) => (
-                <Grid key={ idx * 0.3 } textAlign={ "center" }>
-                    <Grid item justifyContent={ "center" }>
-                        { d.month }
+            {months_array.map((d, idx) => (
+                <Grid key={idx * 0.3} textAlign={"center"}>
+                    <Grid item justifyContent={"center"}>
+                        {d.month}
                     </Grid>
-                    <Grid item justifyContent={ "center" }>
-                        { open ? d.count : days_array[idx].dates.join(", ") }
+                    <Grid item justifyContent={"center"}>
+                        {open ? d.count : days_array[idx].dates.join(", ")}
                     </Grid>
                 </Grid>
-            )) }
+            ))}
 
-            <Grid ml={ 1 }>
-                <Grid item justifyContent={ "end" }>
-                    <b>{ year }</b>
+            <Grid ml={1}>
+                <Grid item justifyContent={"end"}>
+                    <b>{year}</b>
                 </Grid>
                 <Grid item>
-                    <b> Итого: { _count.events }</b>
+                    <b> Итого: {_count.events}</b>
                 </Grid>
             </Grid>
             <Grid item>
-                <Button onClick={ toggle } variant="outlined">
+                <Button onClick={toggle} variant="outlined">
                     Даты / Кол-во
                 </Button>
             </Grid>

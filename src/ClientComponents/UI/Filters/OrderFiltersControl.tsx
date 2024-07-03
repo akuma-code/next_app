@@ -23,6 +23,8 @@ import {
     mdiOpenInApp,
     mdiAccountSync,
     mdiCloseOctagon,
+    mdiCard,
+    mdiChartTimeline,
 } from "@mdi/js";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import LinkMui from "../LinkMui";
@@ -56,18 +58,20 @@ import { useQuerySearch } from "@/Hooks/useQuerySearch";
 export interface FilterState {
     order: "asc" | "desc" | null;
     month: number;
+    view: "card" | "table" | null;
 }
 
 export function OrderFilterControls() {
     const [filters, setFilters] = useState<FilterState>({
         order: "asc",
         month: dayjs().month(),
+        view: "card",
     });
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const [_days, setDays] = useState<number[]>([1, 13, 22]);
     const qcreate = useQuerySearch(searchParams.toString());
+    const [_days, setDays] = useState<number[]>([1, 13, 22]);
     const [open, setOpen] = useState(false);
 
     function handleSortOrder(e: any, value: FilterState["order"]) {
@@ -78,17 +82,22 @@ export function OrderFilterControls() {
             ? router.push(`${pathname}?${search}`)
             : router.push(pathname);
     }
-    function handleChangeDate(
-        value: Dayjs | null
-        //  context: PickerChangeHandlerContext<DateValidationError>
-    ) {
-        setFilters((prev) => ({ ...prev, month: dayjs(value).month() }));
-        const search = qcreate("month", stringifyMonth(dayjs(value).month()));
+    // function handleChangeDate(
+    //     value: Dayjs | null
+    //     //  context: PickerChangeHandlerContext<DateValidationError>
+    // ) {
+    //     setFilters((prev) => ({ ...prev, month: dayjs(value).month() }));
+    //     const search = qcreate("month", stringifyMonth(dayjs(value).month()));
 
-        router.push(`${pathname}?${search}`);
-        // router.push('?month=' + stringifyMonth(dayjs(value).month()))
+    //     router.push(`${pathname}?${search}`);
+    //     // router.push('?month=' + stringifyMonth(dayjs(value).month()))
+    // }
+    function handleViewChange(e: any, view: FilterState["view"]) {
+        const v = view === null ? "table" : view;
+        const path = `${pathname}?${qcreate("view", v)}`;
+        router.push(path);
+        setFilters((prev) => ({ ...prev, view: v }));
     }
-
     return (
         <Paper
             variant="outlined"
@@ -102,14 +111,11 @@ export function OrderFilterControls() {
                 justifySelf={"center"}
                 flexGrow={1}
             >
-                {/* <Divider flexItem>Сортировка</Divider> */}
                 <ToggleButtonGroup
                     orientation={"horizontal"}
                     exclusive
                     value={filters.order}
                     onChange={handleSortOrder}
-                    // color="secondary"
-                    // fullWidth
                     size="small"
                     sx={{
                         [`& .Mui-selected`]: {
@@ -154,43 +160,37 @@ export function OrderFilterControls() {
                         {/* <code>По возрастанию</code> */}
                     </ToggleButton>
                 </ToggleButtonGroup>
-                <MobileDatePicker
-                    views={["month"]}
-                    selectedSections={"month"}
-                    onMonthChange={handleChangeDate}
-                    name="month"
-                    openTo="month"
-                    label="Укажите месяц"
-                    // open={ open }
-                    // onClose={ () => setOpen(false) }
-                    // onOpen={ () => setOpen(true) }
-                    slots={{
-                        day: highlightDate,
-                    }}
-                    slotProps={{
-                        layout: {
-                            sx: {
-                                mt: 1,
-                                color: "#000000",
-                                borderRadius: "4px",
-                                borderWidth: "3px",
-                                borderColor: "#2196f3",
-                                border: "3px solid",
-                                backgroundColor: "#90caf9",
-                                textAlign: "center",
-                            },
-                        },
-                        day: {
-                            highlightedDays: _days,
-                        } as any,
-                        monthButton: {
-                            sx: {
-                                borderRadius: ".7rem",
-                            },
-                        },
-                        field: { clearable: true },
-                    }}
-                />
+                <ToggleButtonGroup
+                    orientation={"horizontal"}
+                    exclusive
+                    value={filters.view}
+                    onChange={handleViewChange}
+                >
+                    <ToggleButton
+                        value="card"
+                        color="secondary"
+                        title="Представление: Карточки"
+                        sx={{
+                            p: 1,
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Icon path={mdiCard} size={1} />
+                    </ToggleButton>
+                    <ToggleButton
+                        value="table"
+                        color="secondary"
+                        title="Представление: Таблица"
+                        sx={{
+                            p: 1,
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Icon path={mdiChartTimeline} size={1} />
+                    </ToggleButton>
+                </ToggleButtonGroup>
             </Stack>
         </Paper>
     );
