@@ -32,7 +32,31 @@ export const _ProfileSelect: Record<keyof Prisma.ProfileUncheckedCreateInput, bo
     playerId: true,
     userId: true
 }
-
+export type PrismaPlayer = {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+    profileId: number | null;
+    events?:
+    | {
+        id: number;
+        date_formated: string;
+        //   isDraft: boolean | null;
+        //   title: string | null;
+    }[]
+    | [];
+    info?: { uuid: string; rttf_score: number | null; playerId: number } | null;
+    profile: {
+        id: number;
+        name: string | null;
+        playerId: number | null;
+        userId: number;
+    } | null;
+    _count: {
+        events: number;
+    };
+};
 export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail>
 
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput

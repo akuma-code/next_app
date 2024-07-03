@@ -2,6 +2,7 @@
 import { monthReducer } from "@/Helpers/eventsMonthParser";
 import { useToggle } from "@/Hooks/useToggle";
 import { deletePlayer } from "@/Services/playerService";
+import { PrismaPlayer } from "@/Types";
 import { mdiSigma } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
@@ -20,6 +21,7 @@ import {
     type MRT_ColumnDef,
 } from "material-react-table";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
+import { mrt_players_options } from "../mrt.config";
 
 export type PLAYER = Prisma.$PlayerPayload["scalars"];
 type EVENT = Prisma.$EventPayload["scalars"];
@@ -30,31 +32,7 @@ type EVENT = Prisma.$EventPayload["scalars"];
 //     profile: Prisma.$ProfilePayload["scalars"] | null;
 //     _count?: { events: number };
 // };
-type PrismaPlayer = {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    profileId: number | null;
-    events?:
-        | {
-              id: number;
-              date_formated: string;
-              //   isDraft: boolean | null;
-              //   title: string | null;
-          }[]
-        | [];
-    info?: { uuid: string; rttf_score: number | null; playerId: number } | null;
-    profile: {
-        id: number;
-        name: string | null;
-        playerId: number | null;
-        userId: number;
-    } | null;
-    _count: {
-        events: number;
-    };
-};
+
 const player_columns: MRT_ColumnDef<PrismaPlayer>[] = [
     {
         accessorKey: "id",
@@ -112,54 +90,55 @@ export function MRTPlayers({ players }: { players: PrismaPlayer[] }) {
     const table = useMaterialReactTable({
         columns: player_columns,
         data: players,
-        muiTableContainerProps: {
-            sx: { maxHeight: "60vh" },
-        },
-        defaultColumn: {
-            muiTableBodyCellProps: {
-                align: "left",
-            },
-        },
-        defaultDisplayColumn: {
-            muiTableBodyCellProps: {
-                align: "left",
-            },
-        },
-        displayColumnDefOptions: {
-            "mrt-row-actions": {
-                muiTableHeadCellProps: {
-                    align: "left",
-                },
-                muiTableBodyCellProps: {
-                    align: "left",
-                },
-                size: 100,
-            },
-        },
-        layoutMode: "grid",
-        enableMultiRowSelection: true,
-        enableRowSelection: false,
-        enableCellActions: true,
-        enableRowActions: true,
-        editDisplayMode: "row",
-        enableRowNumbers: true,
-        localization: MRT_Localization_RU,
-        initialState: {
-            columnVisibility: { id: false },
-            pagination: {
-                pageIndex: 0,
-                pageSize: 50,
-            },
-            density: "compact",
-        },
-        state: {
-            columnOrder: [
-                "mrt-row-select",
-                "mrt-row-expand",
-                "mrt-row-numbers",
-                // "mrt-row-actions",
-            ],
-        },
+        ...mrt_players_options,
+        // muiTableContainerProps: {
+        //     sx: { maxHeight: "60vh" },
+        // },
+        // defaultColumn: {
+        //     muiTableBodyCellProps: {
+        //         align: "left",
+        //     },
+        // },
+        // defaultDisplayColumn: {
+        //     muiTableBodyCellProps: {
+        //         align: "left",
+        //     },
+        // },
+        // displayColumnDefOptions: {
+        //     "mrt-row-actions": {
+        //         muiTableHeadCellProps: {
+        //             align: "left",
+        //         },
+        //         muiTableBodyCellProps: {
+        //             align: "left",
+        //         },
+        //         size: 100,
+        //     },
+        // },
+        // layoutMode: "grid",
+        // enableMultiRowSelection: true,
+        // enableRowSelection: false,
+        // enableCellActions: true,
+        // enableRowActions: true,
+        // editDisplayMode: "row",
+        // enableRowNumbers: true,
+        // localization: MRT_Localization_RU,
+        // initialState: {
+        //     columnVisibility: { id: false },
+        //     pagination: {
+        //         pageIndex: 0,
+        //         pageSize: 50,
+        //     },
+        //     density: "compact",
+        // },
+        // state: {
+        //     columnOrder: [
+        //         "mrt-row-select",
+        //         "mrt-row-expand",
+        //         "mrt-row-numbers",
+        //         // "mrt-row-actions",
+        //     ],
+        // },
 
         renderDetailPanel: PlayerDetail,
         renderRowActionMenuItems: ({ closeMenu, row }) => [
@@ -233,40 +212,45 @@ export function PlayerDetail({ row }: { row: MRT_Row<PrismaPlayer> }) {
     }));
     // console.log(days_array);
     return (
-        <Grid
-            container
-            gridRow={4}
-            columnGap={0}
-            rowGap={1}
-            sx={{
-                [`& .MuiGrid-item`]: {
-                    border: "1px solid grey",
-                    p: 1,
-                    alignItems: "center",
-                    display: "flex",
-                    // justifyContent: "space-between",
-                    gap: 1,
-                },
-            }}
-        >
-            {months_array.map((d, idx) => (
-                <Grid key={idx * 0.3} textAlign={"center"}>
-                    <Grid item justifyContent={"center"}>
-                        {d.month}
+        <Grid container>
+            <Grid
+                item
+                container
+                gridRow={4}
+                columnGap={0}
+                rowGap={1}
+                sx={{
+                    [`& .MuiGrid-item`]: {
+                        border: "1px solid grey",
+                        p: 1,
+                        alignItems: "center",
+                        display: "flex",
+                        // justifyContent: "space-between",
+                        gap: 1,
+                    },
+                }}
+            >
+                {months_array.map((d, idx) => (
+                    <Grid key={idx * 0.3} textAlign={"center"}>
+                        <Grid item justifyContent={"center"}>
+                            {d.month}
+                        </Grid>
+                        <Grid item justifyContent={"center"}>
+                            {open ? d.count : days_array[idx].dates.join(", ")}
+                        </Grid>
                     </Grid>
-                    <Grid item justifyContent={"center"}>
-                        {open ? d.count : days_array[idx].dates.join(", ")}
-                    </Grid>
-                </Grid>
-            ))}
+                ))}
 
-            <Grid ml={1}>
-                <Grid item justifyContent={"end"}>
-                    <b>{year}</b>
+                <Grid item direction={"column"}>
+                    {/* <Grid ml={1} item> */}
+                    <Grid justifyContent={"end"}>
+                        <b>{year}</b>
+                    </Grid>
+                    <Grid>
+                        <b> Итого: {_count.events}</b>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <b> Итого: {_count.events}</b>
-                </Grid>
+                {/* </Grid> */}
             </Grid>
             <Grid item>
                 <Button onClick={toggle} variant="outlined">
