@@ -176,7 +176,7 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
         }),
         renderDetailPanel: EventDetailInfo,
         muiDetailPanelProps: {
-            sx: { bgcolor: "#ff7a7a", pl: 4 },
+            sx: { bgcolor: "#ff7a7a", pl: 2, width: 650, m: "auto" },
         },
     });
 
