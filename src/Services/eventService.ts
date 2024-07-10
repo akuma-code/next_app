@@ -5,6 +5,8 @@ import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
 import prisma from "@/client/client";
 import { db_events } from "@/dataStore/backup_db";
+import { getMasters } from "./masterService";
+import { getPlayers } from "./playerService";
 
 export interface EventCreatePayload {
     event_date: string;
@@ -239,12 +241,12 @@ async function getEventsWithPlayers() {
 
 export async function getEventsByMonth(
     month?: string,
-    order?: "asc" | "desc",
+    order: "asc" | "desc" = 'desc',
     year?: number
 ) {
     const y = year ? year : 2024;
     const e = prisma.event;
-    const _order = order ? order : "asc";
+    const _order = order ? order : "desc";
     try {
         if (!month) {
             // if month omit return all avents with players
@@ -255,6 +257,7 @@ export async function getEventsByMonth(
                     id: true,
                     date_formated: true,
                     title: true,
+                    pairs: true,
                     players: { select: { id: true, name: true } },
                     _count: { select: { players: true } },
                 },
@@ -266,12 +269,15 @@ export async function getEventsByMonth(
             where: {
                 AND: {
                     players: {},
+                    isDraft: false,
                     date_formated: { endsWith: searchM },
                 },
             },
             select: {
                 id: true,
                 date_formated: true,
+                title: true,
+                pairs: true,
                 players: { select: { id: true, name: true } },
                 _count: { select: { players: true } },
             },
@@ -286,7 +292,17 @@ export async function getEventsByMonth(
         revalidatePath("/");
     }
 }
-
+export async function getEventsByMonthDto(
+    month?: string,
+    order: "asc" | "desc" = 'desc',
+    year?: number) {
+    const events = await getEventsByMonth(month, order, year)
+    const masters = await getMasters()
+    const players = await getPlayers()
+    const master_name = (id: number) => masters.find(m => m.id === id)?.name ?? ""
+    const player_name = (id: number) => players.find(p => p.id === id)?.name ?? ""
+    return events.map(e => ({ ...e, pairs: e.pairs.map(p => ({ master: master_name(p.firstPlayerId), player: player_name(p.secondPlayerId) })) }))
+}
 export async function getEventById(eventId: string) {
     const id = Number(eventId);
     if (isNaN(id)) throw new Error(`Event Id Invalid: ${eventId}`);

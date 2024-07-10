@@ -1,10 +1,12 @@
-'use client'
+"use client";
 import { MRT_TableOptions } from "material-react-table";
-import { EventDto } from "./Avangard/MRTEvents";
+import { EventDto, EventDto2 } from "./Avangard/MRTEvents";
 import { PrismaPlayer } from "@/Types";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
-
-export const mrt_event_options: Partial<MRT_TableOptions<EventDto>> = {
+import { mdiCog, mdiFileSettings } from "@mdi/js";
+import { Icon } from "@mdi/react";
+import { Box } from "@mui/material";
+export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
     layoutMode: "grid",
     enableColumnFilters: true,
     enableGlobalFilter: true,
@@ -21,52 +23,67 @@ export const mrt_event_options: Partial<MRT_TableOptions<EventDto>> = {
             "mrt-row-select",
             "mrt-row-expand",
             "mrt-row-numbers",
-            // "mrt-row-actions",
+            "mrt-row-actions",
         ],
     },
     muiTableContainerProps: {
-        sx: { maxHeight: "60vh", },
+        sx: { maxHeight: "60vh" },
     },
-    muiTableBodyProps: { sx: { border: '1px solid whitesmoke' } },
+    // muiTableBodyProps: { sx: { border: "1px solid whitesmoke" } },
     muiTablePaperProps: {
         elevation: 4,
-        variant: "elevation"
+        variant: "elevation",
     },
     muiTableHeadCellProps: {
-        align: 'left',
-
+        align: "left",
+        sx: { border: "1px solid whitesmoke" },
     },
 
     muiTableBodyRowProps: {
         hover: true,
-        sx: { borderTop: '1px solid whitesmoke' }
-
+        sx: {},
     },
     defaultColumn: {
         muiTableBodyCellProps: {
             align: "left",
+            sx: { border: "1px solid whitesmoke" },
         },
         muiTableHeadCellProps: {
             align: "left",
             sx: {
-
-                border: '1px solid whitesmoke',
-                display: 'flex',
-                justifyContent: 'space-between'
-            }
+                border: "1px solid whitesmoke",
+            },
         },
     },
     defaultDisplayColumn: {
         muiTableBodyCellProps: {
             align: "center",
+            sx: { border: "1px solid whitesmoke" },
         },
         muiTableHeadCellProps: {
-            align: 'center',
-            sx: { border: '1px solid whitesmoke', }
-        }
+            align: "center",
+            sx: { border: "1px solid whitesmoke" },
+        },
     },
-
-}
+    displayColumnDefOptions: {
+        "mrt-row-actions": {
+            muiTableHeadCellProps: {
+                align: "center",
+                sx: { border: "1px solid whitesmoke" },
+            },
+            muiTableBodyCellProps: {
+                align: "center",
+                sx: { border: "1px solid whitesmoke" },
+            },
+            size: 120,
+            // Cell: () => <Icon path={mdiCog} size={1} />,
+            Header: (props) => {
+                return <Icon path={mdiCog} size={1} />;
+            },
+            // enableColumnActions: true,
+        },
+    },
+};
 
 export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer>> = {
     muiTableContainerProps: {
@@ -117,4 +134,4 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer>> = {
             // "mrt-row-actions",
         ],
     },
-}
+};

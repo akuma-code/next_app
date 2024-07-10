@@ -2,6 +2,8 @@
 
 import { stringifyMonth } from "@/Helpers/dateFuncs";
 import { useQuerySearch } from "@/Hooks/useQuerySearch";
+import { mdiCalendar, mdiCloseBox } from "@mdi/js";
+import Icon from "@mdi/react";
 import { MobileDatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
@@ -49,7 +51,12 @@ function MonthPicker() {
                         textAlign: "center",
                     },
                 },
-
+                textField: {
+                    variant: "filled",
+                    sx: {
+                        // cursor: "pointer",
+                    },
+                },
                 monthButton: {
                     sx: {
                         borderRadius: ".7rem",
@@ -58,8 +65,12 @@ function MonthPicker() {
                 field: {
                     sx: {
                         bgcolor: "error",
+                        cursor: "pointer",
                     },
                     clearable: true,
+                    InputProps: {
+                        endAdornment: <Icon path={mdiCalendar} size={1} />,
+                    },
                 },
             }}
         />
