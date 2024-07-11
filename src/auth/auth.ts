@@ -10,6 +10,7 @@ import prisma from "@/client/client"
 import { testGetUser } from "@/Services/userService"
 import { AdapterUser } from "@auth/core/adapters"
 import { randomBytes, randomUUID } from "crypto"
+import { redirect } from "next/navigation"
 
 
 export type UserAuthPayload = {
@@ -49,9 +50,10 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         // trustHost: true,
         debug: true,
         callbacks: {
-            async signIn({ user, email }) {
+            async signIn({ user, email, credentials }) {
+                console.table(credentials)
                 if (!user.userId) return true
-                return `/profile/${user.userId}`
+                redirect(`/profile/${user.userId}`)
             },
 
 
@@ -62,27 +64,27 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //     console.table(token)
 
                 // }
-                if (account) {
-                    // First login, save the `access_token`, `refresh_token`, and other
-                    // details into the JWT
+                // if (account) {
+                // First login, save the `access_token`, `refresh_token`, and other
+                // details into the JWT
 
-                    // const userProfile: User = {
-                    //     id: token.sub,
-                    //     name: token?.name,
-                    //     email: token?.email,
-                    //     image: token?.picture,
-                    //     role: user.role
-                    // }
+                // const userProfile: User = {
+                //     id: token.sub,
+                //     name: token?.name,
+                //     email: token?.email,
+                //     image: token?.picture,
+                //     role: user.role
+                // }
 
-                    // token = {
-                    //     ...token,
-                    //     access_token: account.access_token!,
-                    //     expires_at: account.expires_at!,
-                    //     refresh_token: account.refresh_token!,
-                    //     user: userProfile,
-                    // }
+                // token = {
+                //     ...token,
+                //     access_token: account.access_token!,
+                //     expires_at: account.expires_at!,
+                //     refresh_token: account.refresh_token!,
+                //     user: userProfile,
+                // }
 
-                }
+                // }
                 if (user) { // User is available during sign-in
 
                     await testGetUser(user.email)

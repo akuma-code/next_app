@@ -12,11 +12,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 export const RestoreButtons: React.FC<{ restore?: string }> = () => {
-    const [load, { on, off, toggle }] = useToggle(false);
-
     const path = usePathname();
     const s = useSearchParams();
     const q = useQuerySearch(s.toString());
+    const [load, { on, off, toggle }] = useToggle(s.has("log"));
     const router = useRouter();
     const isLog = useMemo(
         () => (load === true ? ("on" as const) : ("off" as const)),
