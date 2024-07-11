@@ -11,6 +11,7 @@ import { testGetUser } from "@/Services/userService"
 import { AdapterUser } from "@auth/core/adapters"
 import { randomBytes, randomUUID } from "crypto"
 import { redirect } from "next/navigation"
+import { cookies } from "next/headers"
 
 
 export type UserAuthPayload = {
@@ -85,6 +86,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // }
 
                 // }
+                const c = cookies().getAll()
                 if (user) { // User is available during sign-in
 
                     await testGetUser(user.email)
@@ -94,9 +96,16 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                     token.role = user.role
                     token.name = user.name
                     token.email = user.email
-
+                    // c.set('stoken', token.sub!)
                     return token
                 }
+
+
+                // console.log("🚀 ~ jwt ~ token:", token)
+
+                console.log("🚀 ~ jwt ~ c:", c)
+
+
 
 
                 // if (Date.now() > Number(token.expires_at) * 1000) {
@@ -116,7 +125,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 session.user.role = token.role as UserRole
                 session.user.name = token.name
                 session.user_id = token.userId
-
+                // token.sub && await cookies().set('token', token.sub)
 
 
                 // console.log("session returns \n", { session })
