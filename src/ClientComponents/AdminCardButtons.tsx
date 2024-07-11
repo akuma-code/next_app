@@ -18,7 +18,7 @@ export const AdminCard = ({
     actions,
 }: {
     seedAction?: () => void;
-    actions: ((...args: any[]) => void)[];
+    actions?: ((...args: any[]) => void)[];
 }) => {
     // const [a, b] = actions;
     // const q = useQueryBackup();

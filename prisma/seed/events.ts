@@ -1,3 +1,5 @@
+import db from "@/dataStore/db_events/events100724"
+
 export const events_to_seed = [
     {
         "id": 2,
@@ -1808,4 +1810,4 @@ export const backup_events_030724 = [
     }
 ]
 
-export const eventsMap = backup_events_030724.map(event => ({ ...event, players: event.players.map(p => ({ name: p.name, id: p.id })) }))
+export const eventsMap = db.events.map(event => ({ ...event, players: event.players.map(p => ({ name: p.name, id: p.id })) }))

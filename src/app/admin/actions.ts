@@ -37,7 +37,7 @@ export async function backupEvents() {
         date: today,
         events: data
     }
-    // console.log({ backup })
+    console.log({ data })
     return {
         date: today,
         data
@@ -49,7 +49,13 @@ export async function getBackupEvents() {
         select: {
             id: true,
             date_formated: true,
-            pairs: true,
+            pairs: {
+                select: {
+                    eventId: true,
+                    firstPlayerId: true,
+                    secondPlayerId: true
+                }
+            },
             players: {
                 select: {
                     id: true, name: true

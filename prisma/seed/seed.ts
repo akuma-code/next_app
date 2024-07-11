@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { members_seed } from "./users";
 import { EventsMapObject } from "./seedFn";
 import { revalidatePath } from "next/cache";
-import { backup_players_1506 } from "./players";
+import { backup_players_1007, backup_players_1506 } from "./players";
 // import prisma from "@/client/client";
 const prisma = new PrismaClient();
 type SeedEvent = {
@@ -84,7 +84,7 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
     if (options.clear === true) {
       await prisma.event.deleteMany()
       await prisma.player.deleteMany()
-      await seedObjectPlayers(backup_players_1506, { force: true })
+      await seedObjectPlayers(backup_players_1007, { force: true })
     }
     const ev_array = eventsMap.map(e => {
 
@@ -92,6 +92,7 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
         data: {
           date_formated: e.date_formated,
           title: e.title,
+
           // players: { create: e.players }
         },
         select: {
@@ -104,13 +105,18 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
 
       return p
     })
-    const connected = eventsMap.map(e => ({ date: e.date_formated, players: e.players }))
+    const connected = eventsMap.map(e => ({ ...e, date: e.date_formated, players: e.players, pairs: e.pairs }))
 
 
-    const cc = connected.map(c => prisma.event.update({
-      where: { date_formated: c.date },
+    const cc = eventsMap.map(c => prisma.event.update({
+      where: { date_formated: c.date_formated },
       data: {
-        players: { set: [...c.players] }
+        players: {
+          set: [...c.players]
+        },
+        pairs: {
+          create: c.pairs,
+        }
       },
       select: { id: true, date_formated: true, players: true, pairs: true }
     }))

@@ -2,7 +2,7 @@
 import { events_to_seed, eventsMap } from "./events";
 import { backup_players_1506, masters_to_seed, players_to_seed2 } from "./players";
 import { seedEvents, seedEventsMap, seedMasters, seedObjectPlayers, SeedOptions, seedUsers } from "./seed";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export interface EventsMapObject {
     players: { name: string, id: number }[]
@@ -11,6 +11,7 @@ export interface EventsMapObject {
     title: string;
     isDraft: boolean;
     eventInfo?: null;
+    pairs: Omit<Prisma.$PairPayload['scalars'], 'id'>[]
 }
 // async function seedEventsMap(eventsMap: EventsMapObject[], options = { abortSygnal: false, clear: false }) {
 //     // const connect_player = (player_id: number, event_id: number) => prisma.player.update({ where: { id: player_id }, data: { events: { connect: { id: event_id } } } })
@@ -51,13 +52,13 @@ export interface EventsMapObject {
 
 // }
 
-const seed_enabled = process.env.DB_SEED_ENABLE
-export async function seed_db(options?: SeedOptions) {
+const seed_enabled = process.env.DB_SEED_ENABLE === 'true'
+async function seed_db(options?: SeedOptions) {
     if (!seed_enabled) {
         console.log("Seed is turned off")
         return null
     }
-
+    console.log("\n____ _____ Seeding started!")
     const events_seed = seedEventsMap(eventsMap)
 
     const masters_seed = seedMasters(masters_to_seed, options)
@@ -70,7 +71,7 @@ export async function seed_db(options?: SeedOptions) {
         );
 }
 
-const options = { force: JSON.parse(seed_enabled ?? 'false') }
+const options = { force: seed_enabled }
 
 
 
