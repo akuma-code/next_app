@@ -12,29 +12,21 @@ export async function getEventsData(options?: { log?: boolean }) {
         select: {
             id: true,
             date_formated: true,
+            eventInfo: true,
+            pairs: true,
+            title: true,
+            isDraft: true,
             players: {
                 select: {
                     id: true,
                     name: true,
-                    // info: { select: { rttf_score: true } },
-                    // profileId: true,
+
                 },
 
             },
-            pairs: {
-                select: {
-                    eventId: true,
-                    firstPlayerId: true,
-                    secondPlayerId: true,
-                    id: true
-                }
-            },
-            title: true,
-            // eventInfo: true,
-            isDraft: true
         }
     })
-    if (options?.log) {
+    if (options?.log === true) {
         console.clear()
         console.table(e)
     }

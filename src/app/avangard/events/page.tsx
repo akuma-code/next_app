@@ -18,8 +18,8 @@ async function EventsPage({
     let order = searchParams.order;
     const view = searchParams.view as "card" | "table";
 
-    const monthEvents = await getEventsByMonth(month, order as OrderType);
-    const monthEventsDto = await getEventsByMonthDto(month, order as OrderType);
+    // const monthEvents = await getEventsByMonth(month, order as OrderType);
+    // const monthEventsDto = await getEventsByMonthDto(month, order as OrderType);
 
     const ViewBox = async ({ v }: { v?: "card" | "table" }) =>
         v

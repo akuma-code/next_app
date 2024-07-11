@@ -35,49 +35,55 @@ export type BackupResponse = NextResponse<{
         })[]
     ];
 }>;
+
+type BackupTypeQuery = "all" | "users" | "players" | "events";
 export async function GET(
     request: Request,
     context?: { searchParams: { data: string } }
 ) {
     const u = new URL(request.url);
-    const query = u.searchParams.get("data") ?? "all";
+    const query = (u.searchParams.get("data") as BackupTypeQuery) ?? "all";
     // _log({ request })
     try {
-        const withLog = u.searchParams.get("log") === "on";
-        const db_events = await getEventsData({ log: true });
-        const db_players = await getPlayersData({ log: true });
-        const db_users = await getAllUsers({
-            select: ["id", "email", "name", "role"],
-        });
+        const log = u.searchParams.get("log");
+        const withLog = log === "on";
         if (query === "players") {
+            const db_players = await getPlayersData({ log: withLog });
             // console.clear()
-            console.table("___ ___ restore players");
+            console.log("___ ___ restore players");
+
+            console.table(db_players);
+
             return NextResponse.json(db_players);
         }
         if (query === "events") {
             // console.clear()
+            const db_events = await getEventsData({ log: withLog });
             console.table("___ ___ restore events");
+            console.table(db_events);
             return NextResponse.json(db_events);
         }
         if (query === "users") {
-            // console.clear()
-            console.table("___ ___ restore users");
+            const db_users = await getAllUsers({
+                select: ["id", "email", "name", "role"],
+            });
+            console.table(db_users);
             return NextResponse.json(db_users);
         }
         // _log({ u })
         // const p = prisma.player.findMany({ include: { info: true } })
         // const e = prisma.event.findMany({ include: { players: true, eventInfo: true } })
         // const tsx = await prisma.$transaction([p, e])
-        const res = JSON.stringify({ db_events, db_players });
-        return new Response(res, {
-            status: 200,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods":
-                    "GET, POST, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Authorization",
-            },
-        });
+        return NextResponse.json("Backup done!");
+        // return new Response(null, {
+        //     status: 200,
+        //     headers: {
+        //         "Access-Control-Allow-Origin": "*",
+        //         "Access-Control-Allow-Methods":
+        //             "GET, POST, PUT, DELETE, OPTIONS",
+        //         "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        //     },
+        // });
     } catch (error) {
         _log("____Get Backup error \n", error);
         throw new Error("Backup error");

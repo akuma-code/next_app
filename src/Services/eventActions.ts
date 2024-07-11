@@ -90,3 +90,29 @@ export async function updatePair(pairId: number, payload: { masterId: number, pl
     }
 
 }
+
+
+export async function getEventPairs(eventId?: number) {
+
+    try {
+
+        if (!eventId) {
+
+            const pair = await prisma.pair.findMany({
+
+                include: { event: { select: { date_formated: true, id: true, players: true } } }
+            })
+            return pair
+        }
+        const pair = await prisma.pair.findMany({
+            where: { eventId: eventId },
+            include: { event: { select: { date_formated: true, id: true, players: true } } }
+        })
+
+        return pair
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+
+}

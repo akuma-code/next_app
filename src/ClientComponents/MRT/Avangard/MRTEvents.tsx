@@ -20,6 +20,9 @@ import { getOnePlayer } from "@/Services/playerService";
 import { getMasters } from "@/Services/masterService";
 import { useMemo } from "react";
 import { useMasters } from "@/Hooks/Queries/useMasters";
+import { usePairs } from "@/Hooks/MRT/Events/usePairs";
+import { _log } from "@/Helpers/helpersFns";
+
 export interface EventDto {
     id: number;
     date_formated: string;
@@ -107,7 +110,11 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
     const q = useSearchParams();
     const current = q.get("month");
     const _month = dayjs(current, "MM", "ru");
+
     // .format("MMMM");
+    // const Pairs = eventsCache().then((res) => res.pairs);
+
+    // console.log("🚀 ~ MRTEvent ~ Pairs:", Pairs);
 
     const table = useMaterialReactTable({
         ...mrt_event_options,
@@ -242,22 +249,28 @@ function EventDetailInfo({
 }) {
     const event = row.original;
     const info = useMemo(() => parseEvent(event as EventDto), [event]);
+    const pp = usePairs(event.id);
     const _pairs = info?.pairs as EventDto2["pairs"];
+    pp.isSuccess && pp.data.length > 0 && _log(pp.data);
     return (
         <Box>
-            Всего: <br /> {info?.total} + с тренером {info?.pairs?.length}{" "}
-            <br />
-            Игроки: <br />
-            {info?.names.join(", ")} <br />
-            Пары:{" "}
-            {_pairs?.map((p) => {
-                return (
-                    <Box fontFamily={"Fira Code"}>
-                        {p.master} =&gt; {p.player}
-                        <br />
-                    </Box>
-                );
-            })}
+            <Grid container>
+                <Grid item md={6}>
+                    {" "}
+                    Всего: {info?.total}
+                </Grid>
+                <Grid item md={6}>
+                    C тренером: {info?.pairs?.length}
+                </Grid>
+                <Grid item md={12}>
+                    Игроки: <br />
+                    {info?.names.join(", ")} <br />
+                </Grid>
+                <Grid item md={12}>
+                    Пары:
+                    <br /> {_pairs?.map((p) => `${p.master} => ${p.player} `)}
+                </Grid>
+            </Grid>
         </Box>
     );
 }
