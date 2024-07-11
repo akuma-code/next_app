@@ -2,7 +2,16 @@
 
 import MonthPicker from "@/ClientComponents/UI/Filters/MonthPicker";
 import { _date } from "@/Helpers/dateFuncs";
-import { Box, Button, Grid, MenuItem, Stack, Typography } from "@mui/material";
+import {
+    Badge,
+    Box,
+    Button,
+    Chip,
+    Grid,
+    MenuItem,
+    Stack,
+    Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import {
     MaterialReactTable,
@@ -15,10 +24,15 @@ import { mrt_event_options } from "../mrt.config";
 import { EditTwoTone } from "@mui/icons-material";
 import { useSearchParams } from "next/navigation";
 import Icon from "@mdi/react";
-import { mdiPaletteAdvanced, mdiSetSquare } from "@mdi/js";
+import {
+    mdiArrowLeftRightBoldOutline,
+    mdiHuman,
+    mdiPaletteAdvanced,
+    mdiSetSquare,
+} from "@mdi/js";
 import { getOnePlayer } from "@/Services/playerService";
 import { getMasters } from "@/Services/masterService";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useMasters } from "@/Hooks/Queries/useMasters";
 import { usePairs } from "@/Hooks/MRT/Events/usePairs";
 import { _log } from "@/Helpers/helpersFns";
@@ -251,7 +265,7 @@ function EventDetailInfo({
     const info = useMemo(() => parseEvent(event as EventDto), [event]);
     const pp = usePairs(event.id);
     const _pairs = info?.pairs as EventDto2["pairs"];
-    pp.isSuccess && pp.data.length > 0 && _log(pp.data);
+
     return (
         <Box>
             <Grid container>
@@ -262,15 +276,69 @@ function EventDetailInfo({
                 <Grid item md={6}>
                     C тренером: {info?.pairs?.length}
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} gap={2}>
                     Игроки: <br />
-                    {info?.names.join(", ")} <br />
+                    <Grid
+                        // md={12}
+                        container
+                        item
+                        wrap={"wrap"}
+                        columnGap={1}
+                        rowGap={0.5}
+                    >
+                        {event.players.map((p) => (
+                            <Grid
+                                item
+                                key={p.name}
+                                md={3}
+                                alignContent={"center"}
+                                flexGrow={1}
+                            >
+                                <PlayerChip name={p.name} />
+                            </Grid>
+                        ))}
+                    </Grid>
                 </Grid>
                 <Grid item md={12}>
                     Пары:
-                    <br /> {_pairs?.map((p) => `${p.master} => ${p.player} `)}
+                    <br />{" "}
+                    {_pairs?.map((p) => (
+                        <Stack
+                            key={p.player + " " + p.master}
+                            // display={"flex"}
+                            // gap={1}
+                            rowGap={1}
+                            columnGap={1}
+                            direction={"row"}
+                            my={1}
+                        >
+                            <PlayerChip name={p.master} variant="filled" />
+                            <Icon
+                                path={mdiArrowLeftRightBoldOutline}
+                                size={0.8}
+                            />
+                            <PlayerChip name={p.player} />
+                        </Stack>
+                    ))}
                 </Grid>
             </Grid>
         </Box>
+    );
+}
+
+function PlayerChip(props: { name: string; variant?: "outlined" | "filled" }) {
+    const [v, setV] = useState(props.variant || "outlined");
+    return (
+        <Chip
+            variant={v}
+            color="primary"
+            label={props.name}
+            icon={<Icon path={mdiHuman} size={0.8} />}
+            size="small"
+            clickable
+            onClick={() =>
+                setV((prev) => (prev === "outlined" ? "filled" : "outlined"))
+            }
+        />
     );
 }

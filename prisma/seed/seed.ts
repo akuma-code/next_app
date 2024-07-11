@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { members_seed } from "./users";
-import { EventsMapObject } from "./seedFn";
+import { EventsBackupPayload, EventsMapObject } from "./seedFn";
 import { revalidatePath } from "next/cache";
 import { backup_players_1007, backup_players_1506 } from "./players";
 // import prisma from "@/client/client";
@@ -86,6 +86,7 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
       await prisma.player.deleteMany()
       await seedObjectPlayers(backup_players_1007, { force: true })
     }
+    console.log(eventsMap.map(e => e.pairs))
     const ev_array = eventsMap.map(e => {
 
       const p = prisma.event.create({
@@ -115,7 +116,7 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
           set: [...c.players]
         },
         pairs: {
-          create: c.pairs,
+          set: c.pairs.length > 0 ? [...c.pairs] : [],
         }
       },
       select: { id: true, date_formated: true, players: true, pairs: true }
