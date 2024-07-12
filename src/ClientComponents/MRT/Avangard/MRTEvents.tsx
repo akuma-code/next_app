@@ -60,7 +60,7 @@ export interface EventDto2 {
     title?: string | null;
     players: { id: number; name: string }[];
     pairs?: {
-        id: number;
+        id?: number;
         master: string;
         player: string;
     }[];
