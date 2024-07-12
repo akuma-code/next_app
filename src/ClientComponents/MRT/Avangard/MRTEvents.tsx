@@ -3,6 +3,7 @@
 import MonthPicker from "@/ClientComponents/UI/Filters/MonthPicker";
 import { _date } from "@/Helpers/dateFuncs";
 import {
+    alpha,
     Badge,
     Box,
     Button,
@@ -14,6 +15,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import {
+    getMRT_RowSelectionHandler,
     MaterialReactTable,
     MRT_ColumnDef,
     MRT_Row,
@@ -22,13 +24,14 @@ import {
 } from "material-react-table";
 import { mrt_event_options } from "../mrt.config";
 import { EditTwoTone } from "@mui/icons-material";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Icon from "@mdi/react";
 import {
     mdiArrowLeftRightBoldOutline,
     mdiHuman,
     mdiPaletteAdvanced,
     mdiSetSquare,
+    mdiTableTennis,
 } from "@mdi/js";
 import { getOnePlayer } from "@/Services/playerService";
 import { getMasters } from "@/Services/masterService";
@@ -36,6 +39,8 @@ import { useMemo, useState } from "react";
 import { useMasters } from "@/Hooks/Queries/useMasters";
 import { usePairs } from "@/Hooks/MRT/Events/usePairs";
 import { _log } from "@/Helpers/helpersFns";
+import DoubleChip from "./DoubleChip";
+import { EventCreateCard } from "@/Components/EventView/EventCreateCard";
 
 export interface EventDto {
     id: number;
@@ -43,6 +48,7 @@ export interface EventDto {
     title?: string | null;
     players: { id: number; name: string }[];
     pairs?: {
+        id: number;
         firstPlayerId: number;
         secondPlayerId: number;
     }[];
@@ -54,6 +60,7 @@ export interface EventDto2 {
     title?: string | null;
     players: { id: number; name: string }[];
     pairs?: {
+        id: number;
         master: string;
         player: string;
     }[];
@@ -63,6 +70,11 @@ const event_columns: MRT_ColumnDef<EventDto2>[] = [
     {
         accessorKey: "id",
         header: "ID",
+        size: 100,
+        muiTableBodyCellProps: {
+            align: "center",
+            sx: { border: "1px solid whitesmoke" },
+        },
     },
     {
         accessorKey: "title",
@@ -76,7 +88,16 @@ const event_columns: MRT_ColumnDef<EventDto2>[] = [
                 renderedCellValue?.toString(),
                 "DD_MM_YYYY",
                 "ru"
-            ).format("DD MMMM");
+            ).format("DD.MM.YYYY");
+        },
+        muiTableHeadCellProps: { align: "center" },
+        size: 150,
+        muiTableBodyCellProps: {
+            align: "center",
+            sx: {
+                border: "1px solid whitesmoke",
+                bgcolor: alpha("#569ef1", 0.7),
+            },
         },
     },
 
@@ -117,6 +138,12 @@ const event_columns: MRT_ColumnDef<EventDto2>[] = [
             align: "center",
             sx: { border: "1px solid whitesmoke" },
         },
+        muiTableBodyCellProps: {
+            sx: {
+                border: "1px solid whitesmoke",
+                bgcolor: alpha("#569ef1", 0.9),
+            },
+        },
     },
 ] as const;
 
@@ -124,7 +151,7 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
     const q = useSearchParams();
     const current = q.get("month");
     const _month = dayjs(current, "MM", "ru");
-
+    const router = useRouter();
     // .format("MMMM");
     // const Pairs = eventsCache().then((res) => res.pairs);
 
@@ -137,10 +164,21 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
         enableRowActions: true,
         enableExpanding: true,
         enableExpandAll: false,
+        enableRowSelection: false,
+        muiTableBodyRowProps: ({ row, staticRowIndex, table }) => ({
+            onClick: (event) =>
+                !row.getIsExpanded() &&
+                table.setExpanded({ [row.id]: !row.getIsExpanded() }),
+
+            sx: {
+                cursor: "pointer",
+                bgcolor: row.getIsExpanded() ? "warning.main" : "inherit",
+            },
+        }),
         mrtTheme(theme) {
             return {
                 baseBackgroundColor: theme.palette.secondary.light,
-                selectedRowBackgroundColor: theme.palette.primary.main,
+                selectedRowBackgroundColor: theme.palette.primary.light,
                 menuBackgroundColor: "#569ef1",
             };
         },
@@ -183,11 +221,25 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
             </MenuItem>,
             <MenuItem
                 key={1}
-                onClick={async () => alert(await showInfo(row.original))}
+                onClick={async () =>
+                    alert(await showInfo(row.original).finally(closeMenu))
+                }
             >
                 <Stack direction={"row"} width={"100%"} gap={2}>
                     <Icon path={mdiPaletteAdvanced} size={1} />
                     Инфо
+                </Stack>
+            </MenuItem>,
+            <MenuItem
+                key={2}
+                onClick={() => {
+                    router.push(`/avangard/events/${row.original.id}`);
+                    closeMenu();
+                }}
+            >
+                <Stack direction={"row"} width={"100%"} gap={2}>
+                    <Icon path={mdiTableTennis} size={1} />
+                    Перейти
                 </Stack>
             </MenuItem>,
         ],
@@ -196,8 +248,11 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
                 table.setExpanded({ [row.id]: !row.getIsExpanded() }), //set only this row to be expanded
         }),
         renderDetailPanel: EventDetailInfo,
+        renderCreateRowDialogContent(props) {
+            return <EventCreateCard />;
+        },
         muiDetailPanelProps: {
-            sx: { bgcolor: "#ff7a7a", pl: 2, width: 650, m: "auto" },
+            sx: { bgcolor: "secondary.light", pl: 2 },
         },
     });
 
@@ -216,25 +271,10 @@ function playersMap(props: { players: EventDto2["players"] }) {
 function parseEvent(e?: EventDto) {
     if (!e) return null;
     const { total, names } = playersMap(e);
-    // const masters = useMasters();
-    // masters.then(r=>r);
-    const _pairs = e.pairs ?? [];
-    // const master = (id: number) =>
-    //     masters.then((r) => r.find((m) => m.id === id)?.name);
-    // const player = (id: number) =>
-    //     e.players.find((p) => p.id === id) || { name: "Not found" };
-    // const pairs = _pairs.map((p) => ({
-    //     master: master(p.firstPlayerId),
-    //     player: player(p.secondPlayerId).name,
-    // }));
 
     return {
         total,
         names,
-        // pairs: _pairs.map((pa) => ({
-        //     masterId: pa.firstPlayerId,
-        //     playerId: pa.secondPlayerId,
-        // })),
         pairs: e.pairs,
     };
 }
@@ -265,62 +305,84 @@ function EventDetailInfo({
     const info = useMemo(() => parseEvent(event as EventDto), [event]);
     const pp = usePairs(event.id);
     const _pairs = info?.pairs as EventDto2["pairs"];
+    const hasPair = (name: string) =>
+        _pairs ? _pairs.map((p) => p.player).includes(name) : false;
 
+    const pairId = (PP: string) =>
+        _pairs?.find((p) => p.player === PP)?.id ?? null;
     return (
         <Box>
-            <Grid container>
+            <Grid container columns={12}>
                 <Grid item md={6}>
                     {" "}
-                    Всего: {info?.total}
+                    Всего: {info?.total}, (C тренером: {info?.pairs?.length})
                 </Grid>
-                <Grid item md={6}>
-                    C тренером: {info?.pairs?.length}
-                </Grid>
-                <Grid item md={12} gap={2}>
-                    Игроки: <br />
-                    <Grid
-                        // md={12}
-                        container
-                        item
-                        wrap={"wrap"}
-                        columnGap={1}
-                        rowGap={0.5}
-                    >
-                        {event.players.map((p) => (
+
+                <Grid
+                    // md={12}
+                    container
+                    item
+                    wrap={"wrap"}
+                    columnGap={1}
+                    rowGap={2}
+                    direction={"row"}
+                    columns={10}
+                >
+                    {event.players
+                        .sort((a, b) => (hasPair(a.name) ? 1 : -1))
+                        .map((p) => (
                             <Grid
                                 item
                                 key={p.name}
-                                md={3}
-                                alignContent={"center"}
+                                md={1}
+                                alignItems={"center"}
                                 flexGrow={1}
+                                border={"1px solid"}
                             >
-                                <PlayerChip name={p.name} />
+                                {hasPair(p.name) ? (
+                                    <DoubleChip
+                                        player={p}
+                                        master={{
+                                            name: _pairs?.find(
+                                                (pp) => pp.player === p.name
+                                            )?.master!,
+                                        }}
+                                        pairId={pairId(p.name) ?? undefined}
+                                    />
+                                ) : (
+                                    <DoubleChip player={p} />
+                                )}
                             </Grid>
                         ))}
-                    </Grid>
                 </Grid>
-                <Grid item md={12}>
-                    Пары:
-                    <br />{" "}
-                    {_pairs?.map((p) => (
-                        <Stack
-                            key={p.player + " " + p.master}
-                            // display={"flex"}
-                            // gap={1}
-                            rowGap={1}
-                            columnGap={1}
-                            direction={"row"}
-                            my={1}
-                        >
-                            <PlayerChip name={p.master} variant="filled" />
-                            <Icon
-                                path={mdiArrowLeftRightBoldOutline}
-                                size={0.8}
-                            />
-                            <PlayerChip name={p.player} />
-                        </Stack>
-                    ))}
-                </Grid>
+                {/* </Grid> */}
+                {/* <Grid item md={12}> */}
+
+                {
+                    // _pairs?.map((p) => (
+                    //     <Stack
+                    //         key={p.player + " " + p.master}
+                    //         // display={"flex"}
+                    //         // gap={1}
+                    //         rowGap={1}
+                    //         columnGap={1}
+                    //         direction={"row"}
+                    //         my={1}
+                    //     >
+                    //         {/* <PlayerChip name={p.master} variant="filled" />
+                    //         <Icon
+                    //             path={mdiArrowLeftRightBoldOutline}
+                    //             size={0.8}
+                    //         />
+                    //         <PlayerChip name={p.player} /> */}
+                    //         <DoubleChip
+                    //             player={{ name: p.player }}
+                    //             master={{ name: p.master }}
+                    //         />
+                    //     </Stack>
+                    // ))
+                }
+                {/* </Grid> */}
             </Grid>
         </Box>
     );

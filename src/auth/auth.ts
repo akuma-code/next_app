@@ -86,7 +86,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // }
 
                 // }
-                const c = cookies().getAll()
+                // const c = cookies().getAll()
                 if (user) { // User is available during sign-in
 
                     await testGetUser(user.email)
@@ -103,7 +103,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
                 // console.log("🚀 ~ jwt ~ token:", token)
 
-                console.log("🚀 ~ jwt ~ c:", c)
+                // console.log("🚀 ~ jwt ~ c:", c)
 
 
 
@@ -121,14 +121,14 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // if (trigger) {
                 //     session.sessionToken === token.refresh_token
                 // }
-                // session.sessionToken = token.refresh_token
+                if (token.sub) session.sessionToken = token.sub
                 session.user.role = token.role as UserRole
                 session.user.name = token.name
                 session.user_id = token.userId
                 // token.sub && await cookies().set('token', token.sub)
 
 
-                // console.log("session returns \n", { session })
+                console.log("session returns \n", { session })
                 return session
             },
 

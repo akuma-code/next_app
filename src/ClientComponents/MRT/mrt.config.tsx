@@ -12,22 +12,24 @@ export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
     enableGlobalFilter: true,
     enablePagination: false,
     enableRowNumbers: true,
+    localization: MRT_Localization_RU,
     initialState: {
         density: "compact",
-        columnVisibility: {
-            id: false,
-        },
     },
     state: {
         columnOrder: [
             "mrt-row-select",
             "mrt-row-expand",
             "mrt-row-numbers",
+            "date_formated",
+            "players",
+            "title",
+            "id",
             "mrt-row-actions",
         ],
     },
     muiTableContainerProps: {
-        sx: { maxHeight: "60vh" },
+        sx: { maxHeight: "60vh", maxWidth: 900 },
     },
     // muiTableBodyProps: { sx: { border: "1px solid whitesmoke" } },
     muiTablePaperProps: {
@@ -36,22 +38,23 @@ export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
     },
     muiTableHeadCellProps: {
         align: "left",
-        sx: { border: "1px solid whitesmoke" },
+        sx: { border: "1px solid whitesmoke", borderCollapse: "collapse" },
     },
 
-    muiTableBodyRowProps: {
-        hover: true,
-        sx: {},
-    },
+    // muiTableBodyRowProps: {
+    //     hover: true,
+    //     sx: {},
+    // },
     defaultColumn: {
         muiTableBodyCellProps: {
             align: "left",
-            sx: { border: "1px solid whitesmoke" },
+            sx: { border: "1px solid whitesmoke", borderCollapse: "collapse" },
         },
         muiTableHeadCellProps: {
             align: "left",
             sx: {
                 border: "1px solid whitesmoke",
+                borderCollapse: "collapse",
             },
         },
     },
@@ -76,11 +79,17 @@ export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
                 sx: { border: "1px solid whitesmoke" },
             },
             size: 120,
-            // Cell: () => <Icon path={mdiCog} size={1} />,
             Header: (props) => {
                 return <Icon path={mdiCog} size={1} />;
             },
-            // enableColumnActions: true,
+        },
+        "mrt-row-expand": {
+            muiTableHeadCellProps: {
+                align: "center",
+                sx: { border: "1px solid whitesmoke", fontSize: 15 },
+            },
+
+            minSize: 100,
         },
     },
 };

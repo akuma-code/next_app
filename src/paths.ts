@@ -15,5 +15,16 @@ export const apiUrl = {
     register: '/api/auth/register' as const,
 }
 
+export const domains = [
+    {
+        href: "https://apps.akumads.online/",
+        label: "apps server"
+
+    },
+    {
+        href: "https://akumadev.ru/",
+        label: "akumadev apps"
+    }
+]
 
 export const paths = { pageUrl, apiUrl }

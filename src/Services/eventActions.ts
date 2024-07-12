@@ -100,7 +100,7 @@ export async function getEventPairs(eventId?: number) {
 
             const pair = await prisma.pair.findMany({
 
-                include: { event: { select: { date_formated: true, id: true, players: true } } }
+                // include: { event: { select: { date_formated: true, id: true, players: true } } }
             })
             return pair
         }
