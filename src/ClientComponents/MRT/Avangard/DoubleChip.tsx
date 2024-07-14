@@ -1,6 +1,6 @@
 "use client";
 import { useToggle } from "@/Hooks/useToggle";
-import { removePair } from "@/Services/eventActions";
+import { removePair } from "@/Services/events/eventActions";
 import { mdiEmoticonCool, mdiMaterialUi } from "@mdi/js";
 import Icon from "@mdi/react";
 import { alpha, Box, Chip, ChipOwnProps, Theme } from "@mui/material";

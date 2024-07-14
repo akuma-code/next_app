@@ -61,3 +61,5 @@ export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail
 
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput
 export type P_UserAndProfile = Prisma.$UserPayload['scalars'] & { profile?: Prisma.$ProfilePayload['scalars'] | null }
+
+

@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from "@/client/client"
-import { DTO_NewEvent, eventCreate, updateEventPlayers } from "./eventService";
+import { DTO_NewEvent, eventCreate, updateEventPlayers } from "../eventService";
 import { revalidatePath } from "next/cache";
 import { _log } from "@/Helpers/helpersFns";
 
@@ -91,9 +91,25 @@ export async function updatePair(pairId: number, payload: { masterId: number, pl
 
 }
 
-
-export async function getEventPairs(eventId?: number) {
-
+export async function syncPairs() {
+    try {
+        const pairs = await prisma.pair.findMany({ where: { eventId: {} } })
+        const tsx_pairs = pairs.map(p => prisma.pair.update({
+            where: { id: p.id },
+            data: {
+                player: { connect: { id: p.secondPlayerId } },
+                master: { connect: { id: p.firstPlayerId } }
+            }
+        }))
+        const tsx = await prisma.$transaction(tsx_pairs)
+        console.log({ tsx })
+        return tsx
+    } catch (error) {
+        console.log(error)
+    }
+}
+export async function getEventPairs(eventId: number | undefined) {
+    await syncPairs()
     try {
 
         if (!eventId) {
@@ -106,6 +122,7 @@ export async function getEventPairs(eventId?: number) {
         }
         const pair = await prisma.pair.findMany({
             where: { eventId: eventId },
+            // select: { masterId: false, playerId: false, firstPlayerId: true, secondPlayerId: true }
             // include: { event: { select: { date_formated: true, id: true, players: true } } },
 
         })

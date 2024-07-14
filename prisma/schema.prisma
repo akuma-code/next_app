@@ -19,6 +19,7 @@ model Player {
   createdAt DateTime @default(now()) @map("cAt")
   updatedAt DateTime @updatedAt @map("uAt")
   // Profile   Profile?
+  pair      Pair[]
 
   @@map("players")
 }
@@ -36,11 +37,15 @@ model Event {
 }
 
 model Pair {
-  id             Int   @id @default(autoincrement())
+  id             Int     @id @default(autoincrement())
   firstPlayerId  Int
   secondPlayerId Int
+  masterId       Int?
+  playerId       Int?
   eventId        Int
-  event          Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  master         Master? @relation(fields: [masterId], references: [id])
+  player         Player? @relation(fields: [playerId], references: [id])
+  event          Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@map("pairs")
 }
@@ -81,6 +86,7 @@ model Info {
 model Master {
   id   Int    @id @default(autoincrement())
   name String @unique
+  pair Pair[]
 
   @@map("masters")
 }

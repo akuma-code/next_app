@@ -7,6 +7,8 @@ import { getEventsByMonth, getEventsByMonthDto } from "@/Services/eventService";
 import { OrderType } from "./page";
 import { MonthTabs } from "@/ClientComponents/Tabs/MonthTabs";
 import { EventsList } from "@/ClientComponents/EventsList";
+import { getDBManyEventsData } from "@/Services/events/db_event";
+import { _log } from "@/Helpers/helpersFns";
 
 export type TypeOfView = "card" | "table";
 export type ViewPayload = EventDto2 | EventDto;
@@ -35,7 +37,13 @@ export const ViewSwitch: React.FC<ViewSwitchProps> = async (props) => {
     const { order, month } = options;
     const monthEvents = await getEventsByMonth(month, order as OrderType);
     const monthEventsDto = await getEventsByMonthDto(month, order as OrderType);
-
+    const { data } = await getDBManyEventsData(
+        {
+            date_formated: { endsWith: `${month}_2024` },
+        },
+        ["date_formated", "pairs"]
+    );
+    console.log(data);
     switch (type) {
         case "card":
             return <CardView events={monthEvents} />;

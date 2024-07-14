@@ -4,7 +4,11 @@ import React, { useMemo } from "react";
 import { IEvent_Front, avatarColor } from "@/ClientComponents/EventsList";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
 import { name_letters } from "@/Helpers/stringFns";
-import { addPair, removePair, updatePair } from "@/Services/eventActions";
+import {
+    addPair,
+    removePair,
+    updatePair,
+} from "@/Services/events/eventActions";
 import { FastRewindTwoTone, SettingsTwoTone } from "@mui/icons-material";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import {

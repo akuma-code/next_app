@@ -63,6 +63,10 @@ export interface EventDto2 {
         id?: number;
         master: string;
         player: string;
+        firstPlayerId?: number;
+        secondPlayerId?: number;
+        masterId?: number;
+        playerId?: number;
     }[];
     isDraft?: boolean;
 }
@@ -301,9 +305,10 @@ function EventDetailInfo({
     row: MRT_Row<EventDto2>;
     table: MRT_TableInstance<EventDto2>;
 }) {
+    const enabled = row.getIsExpanded();
     const event = row.original;
     const info = useMemo(() => parseEvent(event as EventDto), [event]);
-    const pp = usePairs(event.id);
+    // const pp = usePairs(event.id, enabled);
     const _pairs = info?.pairs as EventDto2["pairs"];
     const hasPair = (name: string) =>
         _pairs ? _pairs.map((p) => p.player).includes(name) : false;

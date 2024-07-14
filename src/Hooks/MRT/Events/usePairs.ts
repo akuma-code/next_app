@@ -1,14 +1,16 @@
 'use client'
 
 import { _log } from "@/Helpers/helpersFns"
-import { getEventPairs } from "@/Services/eventActions"
+import { getEventPairs } from "@/Services/events/eventActions"
 import { useQuery } from "@tanstack/react-query"
-
-export const usePairs = (eventId?: number) => {
+export const usePairs = (eventId?: number, enabled?: boolean) => {
+    const pairsFn = getEventPairs(eventId)
     const q = useQuery({
         queryKey: ['pairs', eventId],
-        queryFn: () => getEventPairs(eventId)
+        queryFn: async () => await pairsFn,
+        enabled: !!enabled
     })
-    // _log("pairs: ", q.data)
+    q.isSuccess && _log("pairs: ", q.data)
+    if (q.error) _log(q.error.message)
     return q
 }
