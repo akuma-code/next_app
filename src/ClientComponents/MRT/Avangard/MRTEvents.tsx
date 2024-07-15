@@ -1,46 +1,24 @@
 "use client";
 
 import MonthPicker from "@/ClientComponents/UI/Filters/MonthPicker";
-import { _date } from "@/Helpers/dateFuncs";
-import {
-    alpha,
-    Badge,
-    Box,
-    Button,
-    Chip,
-    Grid,
-    MenuItem,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { mdiHuman, mdiPaletteAdvanced, mdiTableTennis } from "@mdi/js";
+import Icon from "@mdi/react";
+import { EditTwoTone } from "@mui/icons-material";
+import { alpha, Box, Button, Chip, Grid, MenuItem, Stack } from "@mui/material";
 import dayjs from "dayjs";
 import {
-    getMRT_RowSelectionHandler,
     MaterialReactTable,
     MRT_ColumnDef,
     MRT_Row,
     MRT_TableInstance,
     useMaterialReactTable,
 } from "material-react-table";
-import { mrt_event_options } from "../mrt.config";
-import { EditTwoTone } from "@mui/icons-material";
 import { useRouter, useSearchParams } from "next/navigation";
-import Icon from "@mdi/react";
-import {
-    mdiArrowLeftRightBoldOutline,
-    mdiHuman,
-    mdiPaletteAdvanced,
-    mdiSetSquare,
-    mdiTableTennis,
-} from "@mdi/js";
-import { getOnePlayer } from "@/Services/playerService";
-import { getMasters } from "@/Services/masterService";
-import { useMemo, useState } from "react";
-import { useMasters } from "@/Hooks/Queries/useMasters";
-import { usePairs } from "@/Hooks/MRT/Events/usePairs";
-import { _log } from "@/Helpers/helpersFns";
-import DoubleChip from "./DoubleChip";
+import { mrt_event_options } from "../mrt.config";
+// import { getOnePlayer } from "@/";
 import { EventCreateCard } from "@/Components/EventView/EventCreateCard";
+import { useMemo, useState } from "react";
+import DoubleChip from "./DoubleChip";
 
 export interface EventDto {
     id: number;

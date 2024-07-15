@@ -919,7 +919,7 @@ export const backup_players_1506 = [
     }
 ]
 
-export const backup_players_1007 = [
+export const backup_players_last = [
     {
         "id": 1,
         "name": "Борис Палевич"
@@ -1165,3 +1165,4 @@ export const backup_players_1007 = [
         "name": "Эдуард Емельянов"
     }
 ]
+

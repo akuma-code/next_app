@@ -23,7 +23,7 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
             variant="contained"
             fullWidth
             size="small"
-            sx={{ maxWidth: 500 }}
+            sx={{ width: 500 }}
         >
             <Button
                 onClick={() => router.push(path + "?" + q("data", "players"))}
@@ -36,7 +36,7 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
                 Тренировки
             </Button>
             <Button
-                onClick={() => router.push(path + "?" + q("data", "players"))}
+                onClick={() => router.push(path + "?" + q("data", "users"))}
             >
                 Пользователи
             </Button>
@@ -45,7 +45,7 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
                 color={load ? "error" : "success"}
                 variant="contained"
                 onClick={() => {
-                    !load ? on() : off();
+                    load ? off() : on();
                     router.push(path + "?" + q("log", isLog));
                 }}
             >

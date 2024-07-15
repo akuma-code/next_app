@@ -26,6 +26,9 @@
       "@/*": [
         "./src/*",
         "./prisma/*"
+      ],
+      "@/Service/*": [
+        "./src/Services"
       ]
     }
   },

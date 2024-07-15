@@ -88,7 +88,6 @@ const db = {
                 }
             ]
         },
-
         {
             "id": 82,
             "date_formated": "26_06_2024",
@@ -400,6 +399,71 @@ const db = {
                 {
                     "id": 202,
                     "name": "Эдуард Емельянов"
+                }
+            ]
+        },
+        {
+            "id": 87,
+            "date_formated": "12_07_2024",
+            "eventInfo": null,
+            "pairs": [
+                {
+                    "id": 54,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 11,
+                    "eventId": 87
+                },
+                {
+                    "id": 55,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "eventId": 87
+                },
+                {
+                    "id": 56,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 22,
+                    "eventId": 87
+                }
+            ],
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев"
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров"
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин"
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов"
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко"
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова"
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев"
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев"
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский"
                 }
             ]
         },
@@ -919,3 +983,4 @@ const db = {
 }
 
 export default db
+

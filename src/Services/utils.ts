@@ -1,4 +1,5 @@
 import prisma from "@/client/client";
+import { getDBManyEventsData } from "./events/db_event";
 
 
 type PromiseType<T> = T extends Promise<infer U> ? U : never
@@ -70,3 +71,21 @@ export async function getPlayersData(options?: { log?: boolean }) {
     return p
 }
 
+export async function getAllData() {
+    try {
+        const { data } = await getDBManyEventsData({}, ["date_formated", "id", "pairs", "players", "title"])
+        // const pls = prisma.player.findMany({ select: { id: true, name: true } })
+        // const pairs = prisma.pair.findMany()
+        // const users = prisma.user.findMany()
+
+        const response = [data]
+        // .then(() => pls)
+        // .then(() => pairs)
+        // .then(() => users)
+
+        console.log("all data: \n", await Promise.all(response))
+        return Promise.all(response)
+    } catch (error) {
+        throw error
+    }
+}

@@ -53,6 +53,12 @@ export const CommonBackup = ({ restore = "all" }: { restore?: string }) => {
         // queryFn: queryFetch,
         // enabled: !!restore
     });
+
+    const query2 = useQuery({
+        queryKey: ["/api/backup/events"],
+    });
+
+    console.log(query2.data);
     const q = useSearchParams();
     const log = q.get("log");
     if (query.isLoading)
@@ -88,7 +94,9 @@ export const CommonBackup = ({ restore = "all" }: { restore?: string }) => {
                 <BackupTable restore={restore} data={query.data as PLR[]} />
             ) : restore === "events" ? (
                 <BackupTable restore={restore} data={query.data as PLR[]} />
-            ) : null}
+            ) : (
+                "nothing selected"
+            )}
         </Box>
     );
 };

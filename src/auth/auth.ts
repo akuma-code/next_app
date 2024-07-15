@@ -51,11 +51,11 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         // trustHost: true,
         debug: true,
         callbacks: {
-            async signIn({ user, email, credentials }) {
-                console.table(credentials)
-                if (!user.userId) return true
-                redirect(`/profile/${user.userId}`)
-            },
+            // async signIn({ user, email, credentials, }) {
+            //     console.table(credentials)
+            //     if (!user.userId) return true
+            //     redirect(`/profile/${user.userId}`)
+            // },
 
 
             async jwt({ token, user, account }) {
@@ -128,7 +128,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // token.sub && await cookies().set('token', token.sub)
 
 
-                console.log("session returns \n", { session })
+                // console.log("session returns \n", { session })
                 return session
             },
 
