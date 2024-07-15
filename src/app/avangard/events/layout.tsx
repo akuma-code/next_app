@@ -4,16 +4,7 @@ import { OrderFilterControls } from "@/ClientComponents/UI/Filters/OrderFiltersC
 import { AppBar, Stack, Toolbar } from "@mui/material";
 import Link from "next/link";
 
-const EventsLayout = async ({
-    children,
-    params,
-    modalEvent,
-}: {
-    children: React.ReactNode;
-    params: { eventId: string };
-    modalEvent: React.ReactNode;
-}) => {
-    const eventId = params?.eventId;
+async function EventsLayout({ children }: { children: React.ReactNode }) {
     return (
         <Stack direction={"column"} gap={1}>
             <AppBar
@@ -34,9 +25,9 @@ const EventsLayout = async ({
                 {/* <Toolbar /> */}
             </AppBar>
             {children}
-            {modalEvent}
+            {/* {modalEvent} */}
         </Stack>
     );
-};
+}
 
 export default EventsLayout;
