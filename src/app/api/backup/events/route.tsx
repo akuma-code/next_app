@@ -1,3 +1,4 @@
+import { syncPairs } from "@/Services/events/eventActions";
 import { getAllData } from "@/Services/utils";
 import { NextResponse } from "next/server";
 import { URL } from "url";

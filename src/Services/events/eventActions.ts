@@ -93,7 +93,9 @@ export async function updatePair(pairId: number, payload: { masterId: number, pl
 
 export async function syncPairs() {
     try {
-        const pairs = await prisma.pair.findMany({ where: { eventId: {} } })
+        const pairs = await prisma.pair.findMany()
+        if (!pairs.every(p => !!p.masterId)) return console.log("\nskipped!\n")
+        console.log("\nSYNCING!\n")
         const tsx_pairs = pairs.map(p => prisma.pair.update({
             where: { id: p.id },
             data: {
@@ -103,7 +105,7 @@ export async function syncPairs() {
         }))
         const tsx = await prisma.$transaction(tsx_pairs)
         console.log({ tsx })
-        return tsx
+        // return tsx
     } catch (error) {
         console.log(error)
     }

@@ -1,4 +1,5 @@
 import { _log } from "@/Helpers/helpersFns";
+import { syncPairs } from "@/Services/events/eventActions";
 import { getAllUsers } from "@/Services/userService";
 import { getAllData, getEventsData, getPlayersData } from "@/Services/utils";
 import prisma from "@/client/client";
@@ -41,6 +42,7 @@ export async function GET(
     request: Request,
     context?: { searchParams: { data: string } }
 ) {
+    syncPairs();
     const u = new URL(request.url);
     const query = (u.searchParams.get("data") as BackupTypeQuery) ?? "all";
     // _log({ request })
