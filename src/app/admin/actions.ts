@@ -3,9 +3,10 @@
 
 import prisma from "@/client/client"
 import { _log } from "@/Helpers/helpersFns"
-import { eventsMap } from "@/seed/events"
+import { events_last } from "@/seed/events"
 import { masters_to_seed, players_to_seed2 } from "@/seed/players"
 import { seedEventsMap, seedMasters, seedObjectPlayers } from "@/seed/seed"
+import { members_seed } from "@/seed/users"
 import { getMasters, removeMaster } from "@/Services/masterService"
 import dayjs from "dayjs"
 export async function reseedMasters() {
@@ -20,14 +21,28 @@ export async function reseedMasters() {
         _log(error)
     }
 }
-
+async function seedUsers() {
+    try {
+        const users = members_seed.map((user) =>
+            prisma.user.create({ data: user })
+        );
+        // const user = prisma.user.create({
+        //     data: { email: admin.email, password: admin.password, role: UserRole.ADMIN, name: admin.name }
+        // })
+        return await prisma.$transaction(users);
+    } catch (e) {
+        console.log(e);
+        throw new Error("Seed admin error");
+    }
+}
 export async function reseedPlayers(force = false) {
     // const force = JSON.parse(process.env.DB_SEED_FORCE ?? "false") as boolean;
+    await seedUsers()
     await seedObjectPlayers(players_to_seed2, { force });
 }
 
 export async function reseedEvents() {
-    return await seedEventsMap(eventsMap, { clear: true, abortSygnal: false })
+    return await seedEventsMap(events_last, { clear: true, abortSygnal: false })
 }
 
 export async function backupEvents() {

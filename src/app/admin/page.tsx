@@ -1,6 +1,7 @@
 import { AdminCard } from "@/ClientComponents/AdminCardButtons";
 import { Box, Button, Container } from "@mui/material";
 import { backupEvents, reseedEvents, reseedPlayers } from "./actions";
+import { seedUsers } from "@/seed/seed";
 
 async function AministratorPage(params: { searchParams: { show: string } }) {
     const show = params.searchParams.show;

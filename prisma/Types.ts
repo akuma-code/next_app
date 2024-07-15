@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 
 export type P_UserSelect = Prisma.UserSelectScalar
 export type P_UserFindArgs = Prisma.UserWhereUniqueInput
-export type P_UserCreateArgs = Prisma.UserCreateInput
+export type P_UserCreateArgs = Prisma.UserUncheckedCreateWithoutSessionsInput
 export const UserFieldsEnum = Prisma.UserScalarFieldEnum
 export const _UserSelect: Record<'all' | "no_pass", P_UserSelect> = {
     all: {

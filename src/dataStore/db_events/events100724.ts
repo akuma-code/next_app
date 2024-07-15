@@ -1,4 +1,4 @@
-const db = {
+export const db = {
     events: [
         {
             "id": 80,
@@ -982,5 +982,5 @@ const db = {
     ]
 }
 
-export default db
+
 

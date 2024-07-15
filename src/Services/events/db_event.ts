@@ -14,6 +14,10 @@ interface PrismaGetManyEvents {
     where: Prisma.EventWhereInput
     select: (keyof Prisma.EventSelect)[]
 }
+interface PrismaGetManyPairs {
+    where: Prisma.PairWhereInput
+    select: (keyof Prisma.PairSelect)[]
+}
 
 const defaultEventSelect: Prisma.EventSelect<DefaultArgs> = {
     date_formated: true,
@@ -25,7 +29,7 @@ const defaultEventSelect: Prisma.EventSelect<DefaultArgs> = {
     eventInfo: false
 
 }
-function parseEventSelected(selected?: PrismaGetOneEvent['select']): Prisma.EventSelect<DefaultArgs> {
+function parseEventSelected<T extends PrismaGetOneEvent['select']>(selected?: T): Prisma.EventSelect<DefaultArgs> {
     if (!selected) return defaultEventSelect
     const res = selected.reduce((prev, current) => {
         if (!prev[current]) return prev = { ...prev, [current]: true }
@@ -68,4 +72,37 @@ export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'],
     }
 
 
+}
+
+function parsePairSelected<T>(selected?: (keyof T)[]) {
+    const defaultSelect: Prisma.PairSelect<DefaultArgs> = {
+        id: true, eventId: true, firstPlayerId: true, secondPlayerId: true, masterId: true, playerId: true
+    }
+    if (!selected) return defaultSelect
+    const res = selected.reduce((prev, current) => {
+        if (!prev[current]) return prev = { ...prev, [current]: true }
+        return { ...prev, [current]: true }
+    }, {} as Record<keyof T, boolean>)
+    return { ...defaultSelect, ...res }
+}
+export async function getDbManyPairsData(search?: PrismaGetManyPairs['where'], selected?: PrismaGetManyPairs['select']) {
+
+
+    const _select = { ...parsePairSelected(selected) }
+    try {
+        if (!search) {
+            const data = await prisma.pair.findMany({
+                select: _select
+            })
+            return { data }
+        }
+        const data = await prisma.pair.findMany({
+            where: search,
+            select: _select
+        })
+        return { data }
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
 }

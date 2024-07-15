@@ -1,8 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import { backup_players_last, masters_to_seed } from "./players";
+import { EventsMapObject } from "./seedFn";
 import { members_seed } from "./users";
-import { EventsBackupPayload, EventsMapObject } from "./seedFn";
-import { revalidatePath } from "next/cache";
-import { backup_players_last, backup_players_1506 } from "./players";
+import { pairs } from "./pairs";
+
+
 // import prisma from "@/client/client";
 const prisma = new PrismaClient();
 type SeedEvent = {
@@ -45,6 +47,48 @@ export async function seedPlayers(seed_names: string[], options?: SeedOptions) {
     throw new Error("SEED ERROR");
   }
 }
+async function getMasters() {
+  const masters = await prisma.master.findMany()
+  return masters
+}
+async function checkName(name: string) {
+  const m = await prisma.master.findFirst({ where: { name } })
+  if (m) {
+    console.log(`Master ${name} already exist`)
+    return false
+  } else return true
+
+}
+async function removeMaster(master_id?: number) {
+  if (master_id) {
+
+    const m = await prisma.master.delete({ where: { id: master_id } })
+    return m
+  } else {
+    const m = await prisma.master.deleteMany()
+    return m
+  }
+
+
+}
+export async function reseedMasters(options?: SeedOptions) {
+  const force = options?.force
+  const existedmasters = await getMasters()
+  console.log("🚀 ~ reseedMasters ~ existedmasters:", existedmasters)
+  if (existedmasters.length > 0) {
+    if (force) {
+      await removeMaster()
+
+
+    } else return existedmasters
+  }
+  try {
+    const m = await seedMasters(masters_to_seed)
+    return m
+  } catch (error) {
+    console.log(error)
+  }
+}
 export async function seedObjectPlayers(
   seed_players: { id: number; name: string }[],
   options?: SeedOptions
@@ -74,6 +118,23 @@ export async function seedObjectPlayers(
     throw new Error("SEED PLAYERS ERROR");
   }
 }
+async function syncPairs() {
+  try {
+    const pairs = await prisma.pair.findMany({ where: { eventId: {} } })
+    const tsx_pairs = pairs.map(p => prisma.pair.update({
+      where: { id: p.id },
+      data: {
+        player: { connect: { id: p.secondPlayerId } },
+        master: { connect: { id: p.firstPlayerId } }
+      }
+    }))
+    const tsx = await prisma.$transaction(tsx_pairs)
+    console.log({ tsx })
+    return tsx
+  } catch (error) {
+    console.log(error)
+  }
+}
 export async function seedEventsMap(eventsMap: EventsMapObject[], options = { abortSygnal: false, clear: false }) {
   // const connect_player = (player_id: number, event_id: number) => prisma.player.update({ where: { id: player_id }, data: { events: { connect: { id: event_id } } } })
   if (options.abortSygnal) {
@@ -85,15 +146,20 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
       await prisma.event.deleteMany()
       await prisma.player.deleteMany()
       await seedObjectPlayers(backup_players_last, { force: true })
+      // await seedPairs()
     }
-    console.log(eventsMap.map(e => e.pairs))
+    // const [_pairs] = pairs.map(p => p.pairs)
+    // const __p = _pairs.map(pp => prisma.pair.create({ data: { firstPlayerId: pp.firstPlayerId, secondPlayerId: pp.secondPlayerId, eventId: pp.eventId } }))
+    // console.log(eventsMap.map(e => e.pairs))
+
+    // console.log({ ppp })
     const ev_array = eventsMap.map(e => {
 
       const p = prisma.event.create({
         data: {
           date_formated: e.date_formated,
           title: e.title,
-
+          // pairs: {connectOrCreate:{create:__p}},
           // players: { create: e.players }
         },
         select: {
@@ -106,23 +172,28 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
 
       return p
     })
-    const connected = eventsMap.map(e => ({ ...e, date: e.date_formated, players: e.players, pairs: e.pairs }))
 
+    await syncPairs()
 
-    const cc = eventsMap.map(c => prisma.event.update({
-      where: { date_formated: c.date_formated },
-      data: {
-        players: {
-          set: [...c.players]
-        },
-        pairs: {
-          set: c.pairs.length > 0 ? [...c.pairs] : [],
-        }
-      },
-      select: { id: true, date_formated: true, players: true, pairs: true }
-    }))
-    await prisma.$transaction(ev_array)
-    const res2 = await prisma.$transaction(cc)
+    // const connected = eventsMap.map(e => ({ ...e, date: e.date_formated, players: e.players, pairs: e.pairs }))
+    const res2 = await prisma.$transaction([...ev_array,])
+
+    // const [pairs_seed] = pairs.map(p => p.pairs.map(pp => prisma.pair.create({ data: pp })))
+    // await prisma.$transaction(pairs_seed)
+    // const cc = eventsMap.map(c => prisma.event.update({
+    //   where: { date_formated: c.date_formated },
+    //   data: {
+    //     players: {
+    //       set: [...c.players]
+    //     },
+    //     pairs: {
+    //       set: c.pairs.length > 0 ? [...c.pairs] : [],
+    //     }
+    //   },
+    //   select: { id: true, date_formated: true, players: true, pairs: true }
+    // }))
+    // await prisma.$transaction([...ev_array,...cc])
+
     console.table(res2)
     return res2
 
@@ -130,30 +201,42 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
   } catch (error) {
     console.error(error)
     throw error
-  } finally { revalidatePath("/") }
-}
-export async function seedEvents(seed_events: SeedEvent[], options?: SeedOptions) {
-  const ev = prisma.event;
-
-  try {
-    // console.log(seed_events[0])
-    const seed = seed_events.map((e) =>
-      ev.create({
-        data: {
-          date_formated: e.date_formated,
-          title: e.title,
-          id: e.id,
-          isDraft: e.isDraft || false,
-        },
-      })
-    );
-
-    return await prisma.$transaction(seed);
-  } catch (error) {
-    console.log("\n seed events error \n", error);
-    throw new Error("Restore events error");
   }
 }
+
+export async function seedPairs() {
+  try {
+    const p = pairs.map(p => prisma.pair.createMany({ data: p.e_pairs }))
+    const tsx = await prisma.$transaction(p)
+    console.log({ tsx })
+    return tsx
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+// export async function seedEvents(seed_events: SeedEvent[], options?: SeedOptions) {
+//   const ev = prisma.event;
+
+//   try {
+//     // console.log(seed_events[0])
+//     const seed = seed_events.map((e) =>
+//       ev.create({
+//         data: {
+//           date_formated: e.date_formated,
+//           title: e.title,
+//           id: e.id,
+//           isDraft: e.isDraft || false,
+//         },
+//       })
+//     );
+
+//     return await prisma.$transaction(seed);
+//   } catch (error) {
+//     console.log("\n seed events error \n", error);
+//     throw new Error("Restore events error");
+//   }
+// }
 
 export async function seedMasters(masters: { name: string }[], options?: SeedOptions) {
   try {
@@ -167,6 +250,11 @@ export async function seedMasters(masters: { name: string }[], options?: SeedOpt
 }
 
 export async function seedUsers(options?: SeedOptions) {
+  const existed = await prisma.user.findMany()
+  if (existed.length > 0) {
+    if (options?.force === false) return existed
+    else await prisma.user.deleteMany()
+  }
   try {
     const users = members_seed.map((user) =>
       prisma.user.create({ data: user })
