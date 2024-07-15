@@ -320,7 +320,7 @@ function EventDetailInfo({
                                 md={1}
                                 alignItems={"center"}
                                 flexGrow={1}
-                                border={"1px solid"}
+                                // border={"1px solid"}
                             >
                                 {hasPair(p.name) ? (
                                     <DoubleChip
