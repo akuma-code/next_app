@@ -1,0 +1,68 @@
+{
+    "pairs": [
+        {
+            "id": 49,
+            "eventId": 85,
+            "firstPlayerId": 1,
+            "secondPlayerId": 7,
+            "masterId": null,
+            "playerId": null
+        },
+        {
+            "id": 50,
+            "eventId": 85,
+            "firstPlayerId": 1,
+            "secondPlayerId": 35,
+            "masterId": null,
+            "playerId": null
+        },
+        {
+            "id": 51,
+            "eventId": 86,
+            "firstPlayerId": 1,
+            "secondPlayerId": 35,
+            "masterId": null,
+            "playerId": null
+        },
+        {
+            "id": 52,
+            "eventId": 86,
+            "firstPlayerId": 2,
+            "secondPlayerId": 12,
+            "masterId": null,
+            "playerId": null
+        },
+        {
+            "id": 53,
+            "eventId": 86,
+            "firstPlayerId": 2,
+            "secondPlayerId": 46,
+            "masterId": null,
+            "playerId": null
+        },
+        {
+            "id": 54,
+            "eventId": 87,
+            "firstPlayerId": 2,
+            "secondPlayerId": 11,
+            "masterId": null,
+            "playerId": null
+        },
+        {
+            "id": 55,
+            "eventId": 87,
+            "firstPlayerId": 1,
+            "secondPlayerId": 19,
+            "masterId": null,
+            "playerId": null
+        },
+        {
+            "id": 56,
+            "eventId": 87,
+            "firstPlayerId": 2,
+            "secondPlayerId": 22,
+            "masterId": null,
+            "playerId": null
+        }
+    ]
+}

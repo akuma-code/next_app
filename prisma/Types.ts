@@ -1,5 +1,7 @@
 import { getOneUserByEmail } from "@/Services/userService";
 import { Prisma } from "@prisma/client";
+import { DefaultArgs, InternalArgs, ModelArgs, ResultArgs } from "@prisma/client/runtime/library";
+import db_data from "@/dataStore/allData/all_data.json"
 
 export type P_UserSelect = Prisma.UserSelectScalar
 export type P_UserFindArgs = Prisma.UserWhereUniqueInput
@@ -62,4 +64,8 @@ export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput
 export type P_UserAndProfile = Prisma.$UserPayload['scalars'] & { profile?: Prisma.$ProfilePayload['scalars'] | null }
 
+export type P_EventFields = Prisma.EventScalarFieldEnum
+export type P_DB = Record<P_EventFields, Prisma.$EventPayload<InternalArgs>>
 
+
+export type DB_JSON_DATA = typeof db_data;

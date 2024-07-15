@@ -1,3 +1,4 @@
+'use server'
 import prisma from "@/client/client";
 import { getDBManyEventsData, getDbManyPairsData } from "./events/db_event";
 

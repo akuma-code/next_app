@@ -89,6 +89,7 @@ export async function reseedMasters(options?: SeedOptions) {
     console.log(error)
   }
 }
+
 export async function seedObjectPlayers(
   seed_players: { id: number; name: string }[],
   options?: SeedOptions

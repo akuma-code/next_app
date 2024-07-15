@@ -1,4 +1,4 @@
-export const data = {
+{
     "events": [
         {
             "date_formated": "19_06_2024",
@@ -1850,53 +1850,6 @@ export const data = {
         {
             "id": 202,
             "name": "Эдуард Емельянов"
-        }
-    ],
-    "users": [
-        {
-            "id": 3,
-            "email": "bb@bb.bb",
-            "password": "bb",
-            "role": "GUEST",
-            "name": "bbbbbb",
-            "emailVerified": null,
-            "image": null
-        },
-        {
-            "id": 2,
-            "email": "aa@aa.aa",
-            "password": "aa",
-            "role": "GUEST",
-            "name": "aaaaaa",
-            "emailVerified": null,
-            "image": "Default"
-        },
-        {
-            "id": 4,
-            "email": "pavelcat1@mail.ru",
-            "password": "123",
-            "role": "GUEST",
-            "name": "Павел",
-            "emailVerified": null,
-            "image": null
-        },
-        {
-            "id": 1,
-            "email": "nodachi@bk.ru",
-            "password": "aa",
-            "role": "ADMIN",
-            "name": "Павел Роднянский",
-            "emailVerified": null,
-            "image": "School"
-        },
-        {
-            "id": 16,
-            "email": "otpetova@gmail.com",
-            "password": "1234",
-            "role": "GUEST",
-            "name": "Надежда Отпетова",
-            "emailVerified": null,
-            "image": null
         }
     ]
 }

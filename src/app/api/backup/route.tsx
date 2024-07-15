@@ -77,8 +77,8 @@ export async function GET(
         // const e = prisma.event.findMany({ include: { players: true, eventInfo: true } })
         // const tsx = await prisma.$transaction([p, e])
         const alldata = await getAllData();
-        console.log({ alldata });
-        return NextResponse.json(alldata);
+        // console.log({ alldata });
+        return NextResponse.json({ alldata });
         // return new Response(null, {
         //     status: 200,
         //     headers: {
