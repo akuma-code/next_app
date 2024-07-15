@@ -1,6 +1,6 @@
 import { _log } from "@/Helpers/helpersFns";
 import { getAllUsers } from "@/Services/userService";
-import { getEventsData, getPlayersData } from "@/Services/utils";
+import { getAllData, getEventsData, getPlayersData } from "@/Services/utils";
 import prisma from "@/client/client";
 import { NextResponse } from "next/server";
 
@@ -74,7 +74,9 @@ export async function GET(
         // const p = prisma.player.findMany({ include: { info: true } })
         // const e = prisma.event.findMany({ include: { players: true, eventInfo: true } })
         // const tsx = await prisma.$transaction([p, e])
-        return NextResponse.json("Backup done!");
+        const alldata = await getAllData();
+        console.log({ alldata });
+        return NextResponse.json(alldata);
         // return new Response(null, {
         //     status: 200,
         //     headers: {

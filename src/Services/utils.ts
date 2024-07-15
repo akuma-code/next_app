@@ -74,19 +74,19 @@ export async function getPlayersData(options?: { log?: boolean }) {
 export async function getAllData() {
     try {
         const { data: events } = await getDBManyEventsData({}, ["date_formated", "id", "pairs", "players", "title"])
-        const { data: pairs } = await getDbManyPairsData()
+        const { data: pairs } = await getDbManyPairsData({}, ["eventId", "id", "firstPlayerId", "secondPlayerId"])
 
         const players = await prisma.player.findMany({ select: { id: true, name: true } })
         // const pairs = prisma.pair.findMany()
         const users = await prisma.user.findMany()
 
-        const response = [events, pairs, players, users]
+        const response = { events, pairs, players, users }
         // .then(() => pls)
         // .then(() => pairs)
         // .then(() => users)
 
-        console.log("all data: \n", await Promise.all(response))
-        return Promise.all(response)
+        console.log("all data: \n", await Promise.resolve(response))
+        return Promise.resolve(response)
     } catch (error) {
         throw error
     }

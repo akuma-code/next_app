@@ -120,7 +120,7 @@ export async function seedObjectPlayers(
 }
 async function syncPairs() {
   try {
-    const pairs = await prisma.pair.findMany({ where: { eventId: {} } })
+    const pairs = await prisma.pair.findMany()
     const tsx_pairs = pairs.map(p => prisma.pair.update({
       where: { id: p.id },
       data: {
@@ -129,7 +129,7 @@ async function syncPairs() {
       }
     }))
     const tsx = await prisma.$transaction(tsx_pairs)
-    console.log({ tsx })
+    // console.log({ tsx })
     return tsx
   } catch (error) {
     console.log(error)

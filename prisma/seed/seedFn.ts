@@ -66,7 +66,7 @@ async function seed_db(options?: SeedOptions) {
     console.log("🚀 ~ seed_enabled:", { seed_enabled })
     if (seed_enabled === false) {
         console.log("Seed is turned off", { seed_enabled })
-        return null
+        return
     }
     console.log("\n____ _____ Seeding started!\n")
 

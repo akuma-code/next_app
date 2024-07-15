@@ -47,6 +47,8 @@ type ApiEventsResponse = {
 type FetchedPlayers = Pick<PlayerWithInfo, "id" | "name"> & {
     info: { rttf_score?: number };
 };
+const link =
+    "https://akumadev-fmrrc08ha-akuma-codes-projects.vercel.app/api/backup/events";
 export const CommonBackup = ({ restore = "all" }: { restore?: string }) => {
     const query = useQuery({
         queryKey: [`/api/backup?data=${restore}`, restore],
@@ -55,10 +57,11 @@ export const CommonBackup = ({ restore = "all" }: { restore?: string }) => {
     });
 
     const query2 = useQuery({
-        queryKey: ["/api/backup/events"],
+        queryKey: ["data-api"],
+        queryFn: () => fetcher("/api/backup/events"),
     });
 
-    console.log(query2.data);
+    // query2.isSuccess && console.log(query2.data);
     const q = useSearchParams();
     const log = q.get("log");
     if (query.isLoading)
@@ -70,32 +73,20 @@ export const CommonBackup = ({ restore = "all" }: { restore?: string }) => {
     if (query.error) return <Box>{query.error.message}</Box>;
     if (!query.data) return <Box>No data Fetched</Box>;
 
-    // if (restore === "players" || restore === "events") {
-    //     // _log({ restore })
-    //     const _d =
-    //         restore === "players"
-    //             ? (query.data as PLR[])
-    //             : (query.data as EVR[]);
-    //     return <BackupTable restore={restore} data={_d} />;
-    // }
-
-    log === "on" && console.table(query.data);
+    log === "on" && query2.isSuccess && console.log(query2.data);
 
     return (
         <Box>
             {query.isSuccess && restore === "users" ? (
                 <UsersMRT users={query.data as DTO_User[]} />
             ) : restore === "all" ? (
-                <>
-                    {/* <Typography>Fetched data keys:</Typography> */}
-                    {Object.values(query.data)}
-                </>
+                Object.keys(query.data).join(", ")
             ) : restore === "players" ? (
                 <BackupTable restore={restore} data={query.data as PLR[]} />
             ) : restore === "events" ? (
                 <BackupTable restore={restore} data={query.data as PLR[]} />
             ) : (
-                "nothing selected"
+                <div>{query?.error}</div>
             )}
         </Box>
     );
