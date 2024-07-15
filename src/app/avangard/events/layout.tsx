@@ -10,7 +10,7 @@ const EventsLayout = async ({
     modalEvent,
 }: {
     children: React.ReactNode;
-    params?: { eventId: string };
+    params: { eventId: string };
     modalEvent: React.ReactNode;
 }) => {
     const eventId = params?.eventId;
