@@ -85,8 +85,8 @@ export async function getAllData() {
         // .then(() => pairs)
         // .then(() => users)
 
-        console.log("all data: \n", await Promise.resolve(response))
-        return Promise.resolve(response)
+        console.log("all data: \n", response)
+        return response
     } catch (error) {
         throw error
     }
