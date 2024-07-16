@@ -28,6 +28,8 @@ export async function addPair(payload: {
     try {
         const tsx_pair = await prisma.pair.create({
             data: {
+                masterId: firstPlayerId,
+                playerId: secondPlayerId,
                 firstPlayerId,
                 secondPlayerId,
                 eventId
@@ -76,11 +78,12 @@ export async function updatePair(pairId: number, payload: { masterId: number, pl
             data: {
 
                 firstPlayerId: payload.masterId,
-                //  secondPlayerId:payload.playerId
+                masterId: payload.masterId,
+                playerId: payload.playerId,
             },
             select: { id: true }
         })
-
+        console.log("updated ", { pair })
         return pair
     } catch (error) {
         _log(error)
@@ -103,8 +106,10 @@ export async function syncPairs() {
                 master: { connect: { id: p.firstPlayerId } }
             }
         }))
-        const tsx = await prisma.$transaction(tsx_pairs)
-        console.log({ tsx })
+        await prisma.$transaction(tsx_pairs)
+        // .then((res)=>res.map(p=>prisma.event.update({where:{id:p.eventId},data:{}})))
+
+        return console.log("\n FINISH \n")
         // return tsx
     } catch (error) {
         console.log(error)

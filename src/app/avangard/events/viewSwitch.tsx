@@ -29,7 +29,15 @@ type ViewSwitchProps = {
     view: ViewVariant;
     options?: { month?: string; order?: OrderType };
 };
-export const ViewSwitch: React.FC<ViewSwitchProps> = async (props) => {
+const CardView = ({ events }: { events: EventDto[] }) => {
+    return (
+        <>
+            <MonthTabs />
+            <EventsList events={ events } />
+        </>
+    );
+};
+export async function ViewSwitch(props: ViewSwitchProps) {
     const {
         options = {},
         view: { type },
@@ -46,18 +54,11 @@ export const ViewSwitch: React.FC<ViewSwitchProps> = async (props) => {
     console.log(data);
     switch (type) {
         case "card":
-            return <CardView events={monthEvents} />;
+            return <CardView events={ monthEvents } />;
         case "table":
-            return <MRTEvent events={monthEventsDto} />;
+            return <MRTEvent events={ monthEventsDto } />;
         default:
-            return <MRTEvent events={monthEventsDto} />;
+            return <MRTEvent events={ monthEventsDto } />;
     }
 };
-export const CardView = ({ events }: { events: EventDto[] }) => {
-    return (
-        <>
-            <MonthTabs />
-            <EventsList events={events} />
-        </>
-    );
-};
+

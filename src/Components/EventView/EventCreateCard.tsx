@@ -151,25 +151,8 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                             options={ ac_options }
                             getOptionLabel={ (option) => option.name }
                             isOptionEqualToValue={ (option, value) => option.id === value.id }
-                            renderOption={ (props, option, { selected }) => {
-                                const p = props
-                                return (
-                                    <ListItem key={ option.name } { ...p }
-                                        secondaryAction={
-                                            <Checkbox
-                                                style={ { marginRight: 4, marginLeft: 4 } }
-                                                checked={ selected }
-                                            />
-                                        }
-
-                                    >
-                                        <ListItemButton>
-                                            { option.name }
-                                        </ListItemButton>
-                                    </ListItem>)
-                            }
-                            }
-                            limitTags={ 3 }
+                            noOptionsText="......"
+                            limitTags={ 3 } ListboxProps={ { sx: { ['& .MuiListItem-root']: { bgcolor: 'red' } } } }
                             getLimitTagsText={ (more) => <Avatar sizes="small" sx={ { height: 25, width: 25, fontSize: 14, bgcolor: avatarColor(more) } } >+{ more }</Avatar> }
                             renderTags={ (selected, getTagProps) => {
                                 return selected.map((p, index) => {
@@ -177,7 +160,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
 
                                     const label = name_letters(p.name)
                                     return (
-                                        <Chip variant="filled" label={ label } { ...rest } key={ p.name } />
+                                        <Chip variant="filled" label={ label } { ...rest } key={ index } />
                                     )
                                 })
                             }

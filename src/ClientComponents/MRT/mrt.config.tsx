@@ -3,7 +3,7 @@ import { MRT_TableOptions } from "material-react-table";
 import { EventDto, EventDto2 } from "./Avangard/MRTEvents";
 import { PrismaPlayer } from "@/Types";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
-import { mdiCog, mdiFileSettings } from "@mdi/js";
+import { mdiCodeTags, mdiCog, mdiFileSettings } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import { Box } from "@mui/material";
 export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
@@ -75,13 +75,15 @@ export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
                 sx: { border: "1px solid whitesmoke" },
             },
             muiTableBodyCellProps: {
-                align: "center",
+                align: "left",
                 sx: { border: "1px solid whitesmoke" },
             },
-            size: 120,
+            size: 80,
             Header: (props) => {
-                return <Icon path={mdiCog} size={1} />;
+                return <Icon path={ mdiCodeTags } size={ 1 } aria-label="actions" />;
             },
+
+            enableColumnActions: false
         },
         "mrt-row-expand": {
             muiTableHeadCellProps: {

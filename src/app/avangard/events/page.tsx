@@ -1,6 +1,7 @@
-import { Box, CircularProgress } from "@mui/material";
+import { AppBar, Box, CircularProgress, Toolbar } from "@mui/material";
 import { Suspense } from "react";
 import { ViewSwitch } from "./viewSwitch";
+import { OrderFilterControls } from "@/ClientComponents/UI/Filters/OrderFiltersControl";
 
 export type OrderType = "asc" | "desc";
 async function EventsPage({
@@ -17,14 +18,27 @@ async function EventsPage({
 
     // const ViewBox = viewReducer(month, order);
     return (
-        <Box sx={ { border: "2px dashed #074a70" } } p={ 1 }>
+        <Box sx={ {} } p={ 1 }>
             <Suspense
-                fallback={
-                    <div>
-                        <CircularProgress variant="indeterminate" /> Loading...
-                    </div>
-                }
+                fallback={ <CircularProgress variant="indeterminate" /> }
             >
+                <AppBar
+                    position="relative"
+                    color={ "default" }
+                    sx={ {
+                        borderTopLeftRadius: "1rem",
+                        borderTopRightRadius: "1rem",
+                    } }
+                >
+                    <Toolbar
+                        variant="dense"
+                        sx={ { display: "flex", justifyContent: "center", } }
+                    >
+
+
+                        <OrderFilterControls />
+                    </Toolbar>
+                </AppBar>
                 <ViewSwitch view={ { type: view } } options={ { month, order } } />
             </Suspense>
         </Box>

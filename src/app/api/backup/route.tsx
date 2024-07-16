@@ -42,7 +42,7 @@ export async function GET(
     request: Request,
     context?: { searchParams: { data: string } }
 ) {
-    syncPairs();
+    await syncPairs();
     const u = new URL(request.url);
     const query = (u.searchParams.get("data") as BackupTypeQuery) ?? "all";
     // _log({ request })
@@ -94,16 +94,4 @@ export async function GET(
     }
 }
 
-export async function POST(
-    request: Request,
-    context?: { params: { data: string } }
-) {
-    const db_players = prisma.player;
-    const db_event = prisma.event;
 
-    try {
-    } catch (error) {
-        _log("____Restore error \n", error);
-        throw new Error("Restore error");
-    }
-}
