@@ -71,9 +71,7 @@ export async function AppHeader() {
                             Регистрация
                         </LinkMui>
                         {session?.user ? (
-                            // <LinkMui href="/api/auth/logout" color="#00ffaa">
-                            //     Выход
-                            // </LinkMui>
+                        
 
                             <ExitButton />
                         ) : (
