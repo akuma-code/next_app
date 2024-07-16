@@ -26,17 +26,19 @@ export const RestoreButtons: React.FC<{ restore?: string }> = () => {
             sx={{ width: 500 }}
         >
             <Button
-                onClick={() => router.push(path + "?" + q("data", "players"))}
+                onClick={() =>
+                    router.replace(path + "?" + q("data", "players"))
+                }
             >
                 Игроки
             </Button>
             <Button
-                onClick={() => router.push(path + "?" + q("data", "events"))}
+                onClick={() => router.replace(path + "?" + q("data", "events"))}
             >
                 Тренировки
             </Button>
             <Button
-                onClick={() => router.push(path + "?" + q("data", "users"))}
+                onClick={() => router.replace(path + "?" + q("data", "users"))}
             >
                 Пользователи
             </Button>

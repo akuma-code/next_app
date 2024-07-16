@@ -1,9 +1,8 @@
 
 
 import { Prisma, PrismaClient } from "@prisma/client";
-import { events_last } from "./events";
-import { seedEventsMap, seedMasters, seedObjectPlayers, SeedOptions, reseedMasters, seedUsers, seedPairs } from "./seed";
-import { backup_players_last, masters_to_seed, players_to_seed2 } from "./players";
+import { seedFromJson } from "./json/seedJson";
+import { SeedOptions } from "./seed";
 const prisma = new PrismaClient();
 export interface EventsMapObject {
     players: { name: string, id: number }[]
@@ -59,40 +58,82 @@ export type EventsBackupPayload = {
 
 
 const seed_enabled = process.env.DB_SEED_ENABLE === 'true'
-const options = { force: seed_enabled }
+const options = { force: seed_enabled, seed_enabled }
 // const db_events = db.events
-async function seed_db(options?: SeedOptions) {
+// async function seed_db(options?: SeedOptions) {
 
-    console.log("🚀 ~ seed_enabled:", { seed_enabled })
-    if (seed_enabled === false) {
-        console.log("Seed is turned off", { seed_enabled })
-        return
+//     console.log("🚀 ~ seed_enabled:", { seed_enabled })
+//     if (seed_enabled === false) {
+//         console.log("Seed is turned off", { seed_enabled })
+//         return
+//     }
+//     console.log("\n____ _____ Seeding started!\n")
+
+//     const user_seed = seedUsers(options)
+
+//     const events_seed = seedEventsMap(events_last, { clear: true, abortSygnal: false })
+
+//     return Promise.allSettled([
+//         user_seed,
+//         // seedPairs(),
+//         reseedMasters(),
+//         events_seed,
+//     ])
+//         .then(
+//             (r) => console.log("Database seeded succesful", r),
+//             (e) => console.log("SEED ERROR!", e)
+//         );
+// }
+
+async function syncPairs() {
+    try {
+        const pairs = await prisma.pair.findMany()
+        // if (!pairs.every(p => !!p.masterId)) return console.log("\nskipped!\n")
+        console.log("\nSYNCING!\n")
+        const tsx_pairs = pairs.map(p => prisma.pair.update({
+            where: { id: p.id },
+            data: {
+                player: { connect: { id: p.secondPlayerId ?? p.playerId } },
+                master: { connect: { id: p.firstPlayerId ?? p.masterId } }
+            }
+        }))
+        const tsx = await prisma.$transaction(tsx_pairs)
+        console.log({ tsx })
+        // return tsx
+    } catch (error) {
+        console.log(error)
     }
-    console.log("\n____ _____ Seeding started!\n")
+}
+async function seed_fromJson(options?: SeedOptions) {
+    console.log("🚀 ~ seed_enabled:", { seed_enabled })
+    if (options && options.clear === true) {
+        await prisma.event.deleteMany()
+        // await prisma.player.deleteMany()
+        // await prisma.pair.deleteMany()
 
-    const user_seed = seedUsers(options)
 
-    const events_seed = seedEventsMap(events_last, { clear: true, abortSygnal: false })
 
-    return Promise.allSettled([
-        user_seed,
-        // seedPairs(),
-        reseedMasters(),
-        events_seed,
-    ])
-        .then(
-            (r) => console.log("Database seeded succesful", r),
-            (e) => console.log("SEED ERROR!", e)
-        );
+    }
+    try {
+        if (seed_enabled === false) {
+            console.log("Seed is turned off", { seed_enabled })
+            return
+        }
+
+
+        console.log("\n____ _____ Seeding started!\n")
+
+        await seedFromJson().then(syncPairs)
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 
 
 
 
-
-
-
-seed_db(options)
+seed_fromJson({ clear: true, force: true })
     .then(async (r) => {
         console.log("seed_result: \n", r)
         await prisma.$disconnect();

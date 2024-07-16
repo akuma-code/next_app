@@ -21,6 +21,7 @@ type SeedEvent = {
 };
 export type SeedOptions = {
   force?: boolean
+  clear?: boolean
 }
 
 
