@@ -1,54 +1,28 @@
 "use client";
 
-import Icon from "@mdi/react";
+import { useQuerySearch } from "@/Hooks/useQuerySearch";
 import {
-    ToggleButtonGroup,
-    ToggleButton,
-    SvgIcon,
-    Stack,
-    Divider,
-    IconButton,
-    Paper,
-    Button,
-    TextField,
-    MenuItem,
-    Badge,
-    Avatar,
-    ButtonOwnProps,
-} from "@mui/material";
-import { useCallback, useState } from "react";
-import {
-    mdiSortBoolDescending,
-    mdiSortBoolAscending,
-    mdiOpenInApp,
-    mdiAccountSync,
-    mdiCloseOctagon,
     mdiCard,
     mdiChartTimeline,
+    mdiCloseOctagon,
+    mdiSortBoolAscending,
+    mdiSortBoolDescending
 } from "@mdi/js";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import LinkMui from "../LinkMui";
+import Icon from "@mdi/react";
+import {
+    Paper,
+    Stack,
+    ToggleButton,
+    ToggleButtonGroup
+} from "@mui/material";
 import {
     BaseSingleInputFieldProps,
-    DatePicker,
     DateValidationError,
-    FieldSection,
-    MobileDatePicker,
-    PickerChangeHandlerContext,
-    PickersDay,
-    PickersDayProps,
-    PickersTextField,
+    FieldSection
 } from "@mui/x-date-pickers";
-import { stringifyMonth } from "@/Helpers/dateFuncs";
 import dayjs, { Dayjs } from "dayjs";
-import { _log } from "@/Helpers/helpersFns";
-import {
-    PickersMonth,
-    PickersMonthProps,
-} from "@mui/x-date-pickers/MonthCalendar/PickersMonth";
-import ButtonField from "./PickMonthButton";
-import { useToggle } from "@/Hooks/useToggle";
-import { useQuerySearch } from "@/Hooks/useQuerySearch";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 //TODO: textfield=>button
 //TODO: handle filteration
@@ -79,8 +53,8 @@ export function OrderFilterControls() {
         const search = value ? qcreate("order", value) : "";
 
         value !== null
-            ? router.push(`${pathname}?${search}`)
-            : router.push(pathname);
+            ? router.replace(`${pathname}?${search}`)
+            : router.replace(pathname);
     }
     // function handleChangeDate(
     //     value: Dayjs | null
@@ -89,106 +63,106 @@ export function OrderFilterControls() {
     //     setFilters((prev) => ({ ...prev, month: dayjs(value).month() }));
     //     const search = qcreate("month", stringifyMonth(dayjs(value).month()));
 
-    //     router.push(`${pathname}?${search}`);
-    //     // router.push('?month=' + stringifyMonth(dayjs(value).month()))
+    //     router.replace(`${pathname}?${search}`);
+    //     // router.replace('?month=' + stringifyMonth(dayjs(value).month()))
     // }
     function handleViewChange(e: any, view: FilterState["view"]) {
-        const v = view === null ? "table" : view;
+        const v = view ? view : "table"
         const path = `${pathname}?${qcreate("view", v)}`;
-        router.push(path);
+        router.replace(path);
         setFilters((prev) => ({ ...prev, view: v }));
     }
     return (
         <Paper
             variant="outlined"
-            sx={{ justifyContent: "center", display: "flex", direction: "row" }}
+            sx={ { justifyContent: "center", display: "flex", direction: "row" } }
         >
             <Stack
-                alignItems={"center"}
-                spacing={1}
-                direction={"row"}
-                p={1}
-                justifySelf={"center"}
-                flexGrow={1}
+                alignItems={ "center" }
+                spacing={ 1 }
+                direction={ "row" }
+                p={ 1 }
+                justifySelf={ "center" }
+                flexGrow={ 1 }
             >
                 <ToggleButtonGroup
-                    orientation={"horizontal"}
+                    orientation={ "horizontal" }
                     exclusive
-                    value={filters.order}
-                    onChange={handleSortOrder}
+                    value={ filters.order }
+                    onChange={ handleSortOrder }
                     size="small"
-                    sx={{
+                    sx={ {
                         [`& .Mui-selected`]: {
                             bgcolor: "primary.light",
                             color: "primary.contrastText",
                         },
-                    }}
+                    } }
                 >
                     <ToggleButton
                         title="По убыванию"
                         value="asc"
-                        selected={filters.order === "asc"}
-                        sx={{
+                        selected={ filters.order === "asc" }
+                        sx={ {
                             p: 1,
                             display: "flex",
                             justifyContent: "space-between",
-                        }}
+                        } }
                     >
                         <Icon
-                            path={mdiSortBoolAscending}
-                            size={1}
-                            title={"asc"}
+                            path={ mdiSortBoolAscending }
+                            size={ 1 }
+                            title={ "asc" }
                         />
-                        {/* <code>По убыванию</code> */}
+                        {/* <code>По убыванию</code> */ }
                     </ToggleButton>
 
                     <ToggleButton
                         title="По возрастанию"
                         value="desc"
-                        selected={filters.order === "desc"}
-                        sx={{
+                        selected={ filters.order === "desc" }
+                        sx={ {
                             p: 1,
                             display: "flex",
                             justifyContent: "space-between",
-                        }}
+                        } }
                     >
                         <Icon
-                            path={mdiSortBoolDescending}
-                            size={1}
-                            title={"desc"}
+                            path={ mdiSortBoolDescending }
+                            size={ 1 }
+                            title={ "desc" }
                         />
-                        {/* <code>По возрастанию</code> */}
+                        {/* <code>По возрастанию</code> */ }
                     </ToggleButton>
                 </ToggleButtonGroup>
                 <ToggleButtonGroup
-                    orientation={"horizontal"}
+                    orientation={ "horizontal" }
                     exclusive
-                    value={filters.view}
-                    onChange={handleViewChange}
+                    value={ filters.view }
+                    onChange={ handleViewChange }
                 >
                     <ToggleButton
                         value="card"
                         color="secondary"
                         title="Представление: Карточки"
-                        sx={{
+                        sx={ {
                             p: 1,
                             display: "flex",
                             justifyContent: "space-between",
-                        }}
+                        } }
                     >
-                        <Icon path={mdiCard} size={1} />
+                        <Icon path={ mdiCard } size={ 1 } />
                     </ToggleButton>
                     <ToggleButton
                         value="table"
                         color="secondary"
                         title="Представление: Таблица"
-                        sx={{
+                        sx={ {
                             p: 1,
                             display: "flex",
                             justifyContent: "space-between",
-                        }}
+                        } }
                     >
-                        <Icon path={mdiChartTimeline} size={1} />
+                        <Icon path={ mdiChartTimeline } size={ 1 } />
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Stack>
@@ -196,30 +170,30 @@ export function OrderFilterControls() {
     );
 }
 
-function highlightDate(
-    props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }
-) {
-    const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+// function highlightDate(
+//     props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }
+// ) {
+//     const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
-    const isSelected =
-        !props.outsideCurrentMonth &&
-        highlightedDays.indexOf(props.day.date()) >= 0;
+//     const isSelected =
+//         !props.outsideCurrentMonth &&
+//         highlightedDays.indexOf(props.day.date()) >= 0;
 
-    return (
-        <Badge
-            key={props.day.toString()}
-            overlap="circular"
-            badgeContent={isSelected ? "🌚" : undefined}
-        >
-            <PickersDay
-                {...other}
-                outsideCurrentMonth={outsideCurrentMonth}
-                day={day}
-                sx={{ bgcolor: isSelected ? "red" : "inherit" }}
-            />
-        </Badge>
-    );
-}
+//     return (
+//         <Badge
+//             key={props.day.toString()}
+//             overlap="circular"
+//             badgeContent={isSelected ? "🌚" : undefined}
+//         >
+//             <PickersDay
+//                 {...other}
+//                 outsideCurrentMonth={outsideCurrentMonth}
+//                 day={day}
+//                 sx={{ bgcolor: isSelected ? "red" : "inherit" }}
+//             />
+//         </Badge>
+//     );
+// }
 
 interface CIProps
     extends BaseSingleInputFieldProps<
@@ -228,9 +202,9 @@ interface CIProps
         FieldSection,
         false,
         DateValidationError
-    > {}
+    > { }
 
 function CloseIcon(props: CIProps) {
     const { InputProps } = props;
-    return <Icon path={mdiCloseOctagon} size={1} />;
+    return <Icon path={ mdiCloseOctagon } size={ 1 } />;
 }

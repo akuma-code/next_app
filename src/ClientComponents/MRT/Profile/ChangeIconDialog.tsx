@@ -40,7 +40,6 @@ export const ChangeIconDialog: React.FC<ChangeIconDProps> = ({ btn_title, icons,
                                     title={ i.title }
                                     path={ i.path }
                                     size={ 4 }
-                                    aria-labelledby={ `icon_labeledby_${idx}` }
                                 />
                                 { i.title }
                             </Grid>

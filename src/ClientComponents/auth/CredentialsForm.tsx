@@ -1,7 +1,10 @@
 'use client'
 
-import { Button, ButtonGroup, Stack, TextField, Typography } from "@mui/material";
+import { Button, ButtonGroup, Divider, ListItem, ListItemButton, Stack, TextField, Typography } from "@mui/material";
 import BackButton from "../UI/BackButton";
+import Link from "next/link";
+import SubmitButton from "../UI/SubmitButton";
+import { NavLink } from "../UI/NavLink";
 
 // import { signIn } from "next-auth/react";
 
@@ -16,7 +19,7 @@ export function CredentialsInputs() {
         // >
 
 
-        <Stack rowGap={ 2 } sx={ { bgcolor: 'background.paper', p: 2, maxWidth: 400, border: '1px solid black', borderRadius: '1rem' } } >
+        <Stack rowGap={ 2 } sx={ { bgcolor: 'background.paper', p: 2, maxWidth: 600, border: '1px solid black', borderRadius: '1rem' } } >
             <Typography>Авторизация</Typography>
             <TextField
                 sx={ { flexGrow: 1 } }
@@ -48,16 +51,22 @@ export function CredentialsInputs() {
             // error={ !!errorMsg?.message }
             // helperText={ errorMsg?.message }
             />
-            <ButtonGroup fullWidth>
+            <NavLink
+                href={ "/api/auth/register" }
+                label="Регистрация нового пользователя"
+                props={ { variant: 'text', sx: { bgcolor: 'secondary', fontSize: 12, textDecoration: 'underline' } } }
+            />
 
-                <Button type="submit" variant="contained">
-                    Войти
-                </Button>
-                <Button type="reset">
-                    Сбросить
-                </Button>
-                <BackButton />
+            <ButtonGroup fullWidth variant="outlined">
+
+
+                <SubmitButton label="Войти" buttonProps={ { variant: 'contained' } } />
+
+
+                <BackButton color="warning" variant="contained" />
+
             </ButtonGroup>
+
 
         </Stack>
 

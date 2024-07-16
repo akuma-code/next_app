@@ -1,14 +1,15 @@
 'use client'
 
-import { Box, Button } from "@mui/material"
+import { Box, Button, ButtonOwnProps } from "@mui/material"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 interface NavLinkProps {
     href: string
     label?: string
     children?: React.ReactNode
+    props?: ButtonOwnProps
 }
-export const NavLink: React.FC<NavLinkProps> = ({ href, children, label }) => {
+export const NavLink: React.FC<NavLinkProps> = ({ href, children, label, props }) => {
     const pathname = usePathname()
     const isActive = pathname === href
     return (
@@ -28,6 +29,7 @@ export const NavLink: React.FC<NavLinkProps> = ({ href, children, label }) => {
                     <Button
                         variant={ isActive ? "contained" : "outlined" }
                         color="primary"
+                        { ...props }
                     >
                         { label || pathname }
                     </Button>

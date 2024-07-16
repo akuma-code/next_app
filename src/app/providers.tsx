@@ -60,7 +60,7 @@ export function getQueryClient() {
     }
 }
 export const ColorModeContext = React.createContext({
-    toggleColorMode: () => {},
+    toggleColorMode: () => { },
 });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -93,26 +93,26 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         [mode]
     );
     return (
-        <ColorModeContext.Provider value={colorMode}>
-            <ThemeProvider theme={THEME}>
-                <CssBaseline enableColorScheme />
-                <AppRouterCacheProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <HydrationBoundary state={dehydrate(queryClient)}>
+        <AppRouterCacheProvider>
+            <ColorModeContext.Provider value={ colorMode }>
+                <QueryClientProvider client={ queryClient }>
+                    <HydrationBoundary state={ dehydrate(queryClient) }>
+                        <ThemeProvider theme={ THEME }>
+                            <CssBaseline enableColorScheme />
                             <LocalizationProvider
-                                dateAdapter={AdapterDayjs}
+                                dateAdapter={ AdapterDayjs }
                                 adapterLocale="ru"
                             >
-                                {children}
+                                { children }
                                 <ReactQueryDevtools
-                                    client={queryClient}
-                                    initialIsOpen={false}
+                                    client={ queryClient }
+                                    initialIsOpen={ false }
                                 />
                             </LocalizationProvider>
-                        </HydrationBoundary>
-                    </QueryClientProvider>
-                </AppRouterCacheProvider>
-            </ThemeProvider>
-        </ColorModeContext.Provider>
+                        </ThemeProvider>
+                    </HydrationBoundary>
+                </QueryClientProvider>
+            </ColorModeContext.Provider>
+        </AppRouterCacheProvider>
     );
 }

@@ -16,7 +16,7 @@ import {
 import Link from "next/link";
 import React, { Suspense } from "react";
 
-interface AppHeaderProps {}
+interface AppHeaderProps { }
 const { apiUrl, pageUrl } = paths;
 
 const routes = [
@@ -40,45 +40,49 @@ export async function AppHeader() {
     return (
         <AppBar
             position="static"
-            color={"primary"}
-            elevation={4}
-            sx={{ mb: 1 }}
+            color={ "primary" }
+            elevation={ 4 }
+            sx={ { mb: 1 } }
         >
-            <Toolbar variant="dense" sx={{ display: "flex" }}>
+            <Toolbar variant="dense" sx={ { display: "flex" } }>
                 <Breadcrumbs
-                    separator={"/"}
-                    sx={{ color: "white", flexGrow: 1 }}
+                    separator={ "/" }
+                    sx={ { color: "white", flexGrow: 1 } }
                 >
-                    {routes.map((r) => (
-                        <Link href={r.to} key={r.to}>
+                    { routes.map((r) => (
+                        <Link href={ r.to } key={ r.to }>
                             <Typography
                                 variant="body1"
-                                color={"whitesmoke"}
-                                key={r.to}
+                                color={ "whitesmoke" }
+                                key={ r.to }
                             >
-                                {r.text}
+                                { r.text }
                             </Typography>
                         </Link>
-                    ))}
+                    )) }
                 </Breadcrumbs>
-                <Suspense fallback={<CircularProgress />}>
+                <Suspense fallback={ <CircularProgress /> }>
                     <Breadcrumbs
-                        separator={"/"}
-                        sx={{ color: "white", flexGrow: 0 }}
+                        separator={ " " }
+                        sx={ { color: "white", flexGrow: 0 } }
                     >
-                        <NavMenu user_id={session?.user_id} />
-                        <LinkMui href="/api/auth/register" color="#fff">
-                            Регистрация
-                        </LinkMui>
-                        {session?.user ? (
-                        
+
+
+                        { session?.user ? (
+
 
                             <ExitButton />
                         ) : (
-                            <LinkMui href="/api/auth/login" color="#00ffaa">
-                                Вход
-                            </LinkMui>
-                        )}
+                            <>
+                                <LinkMui href="/api/auth/register" color="#fff">
+                                    Регистрация
+                                </LinkMui>
+                                <LinkMui href="/api/auth/login" color="#00ffaa">
+                                    Вход
+                                </LinkMui>
+                            </>
+                        ) }
+                        {/* <NavMenu user_id={ session?.user_id } /> */ }
                     </Breadcrumbs>
                 </Suspense>
             </Toolbar>

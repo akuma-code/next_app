@@ -1,10 +1,6 @@
-import { EventsList } from "@/ClientComponents/EventsList";
-import { EventDto } from "@/ClientComponents/MRT/Avangard/MRTEvents";
-import { MonthTabs } from "@/ClientComponents/Tabs/MonthTabs";
-import { getEventsByMonth, getEventsByMonthDto } from "@/Services/eventService";
 import { Box, CircularProgress } from "@mui/material";
-import { ViewSwitch } from "./viewSwitch";
 import { Suspense } from "react";
+import { ViewSwitch } from "./viewSwitch";
 
 export type OrderType = "asc" | "desc";
 async function EventsPage({
@@ -21,7 +17,7 @@ async function EventsPage({
 
     // const ViewBox = viewReducer(month, order);
     return (
-        <Box sx={{ border: "2px dashed #074a70" }} p={1}>
+        <Box sx={ { border: "2px dashed #074a70" } } p={ 1 }>
             <Suspense
                 fallback={
                     <div>
@@ -29,7 +25,7 @@ async function EventsPage({
                     </div>
                 }
             >
-                <ViewSwitch view={{ type: view }} options={{ month, order }} />
+                <ViewSwitch view={ { type: view } } options={ { month, order } } />
             </Suspense>
         </Box>
     );

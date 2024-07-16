@@ -62,40 +62,39 @@ export const NavMenu = ({ user_id }: { user_id?: number | null }) => {
 
     return (
         <MenuIconButton
-            icon={<Icon path={mdiCog} size={1} />}
-            title="Settings"
-            avatar_bg={user_id ? "primary.dark" : "#890ac4"}
-            asButton
+            // icon={ <Icon path={ mdiCog } size={ 1 } /> }
+            title="Настройки"
+            avatar_bg={ user_id ? "primary.dark" : "#890ac4" }
         >
             <MenuItem divider disabled>
-                {user_id ? data?.user.email : "Не авторизован!"}
+                { user_id ? data?.user.email : "Не авторизован!" }
             </MenuItem>
             <MenuItem
-                onClick={toggleColorMode}
-                sx={{ display: "flex", gap: 2 }}
+                onClick={ toggleColorMode }
+                sx={ { display: "flex", gap: 2 } }
                 divider
             >
-                <ListItemText primary={"Тема"} />
-                <Icon path={mdiCookieCogOutline} size={1} />
+                <ListItemText primary={ "Тема" } />
+                <Icon path={ mdiCookieCogOutline } size={ 1 } />
             </MenuItem>
-            {user_id ? (
+            { user_id ? (
                 <MenuItem divider>
-                    <LinkMui color="primary" href={`/profile/${user_id}`}>
+                    <LinkMui color="primary" href={ `/profile/${user_id}` }>
                         Профиль
                     </LinkMui>
                 </MenuItem>
             ) : (
-                <MenuItem divider onClick={() => updateState("login")}>
-                    <LinkMui href={"/api/auth/login"}>Авторизация</LinkMui>
+                <MenuItem divider onClick={ () => updateState("login") }>
+                    <LinkMui href={ "/api/auth/login" }>Авторизация</LinkMui>
                 </MenuItem>
-            )}
-            {!user_id && (
+            ) }
+            { !user_id && (
                 <MenuItem divider>
-                    <LinkMui color="secondary" href={"/api/auth/register"}>
+                    <LinkMui color="secondary" href={ "/api/auth/register" }>
                         Регистрация
                     </LinkMui>
                 </MenuItem>
-            )}
+            ) }
         </MenuIconButton>
     );
 };
