@@ -111,7 +111,7 @@ export async function syncPairs() {
     }
 }
 export async function getEventPairs(eventId: number | undefined) {
-    await syncPairs()
+    // await syncPairs()
     try {
 
         if (!eventId) {

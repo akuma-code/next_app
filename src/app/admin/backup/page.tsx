@@ -7,7 +7,7 @@ export default async function BackupPage({
 }: {
     searchParams: { data: string; log: string };
 }) {
-    const { data, log } = searchParams;
+    const { log } = searchParams;
 
     return (
         <Box display={"flex"} flexDirection={"column"} gap={2} p={1}>
