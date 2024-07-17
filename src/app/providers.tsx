@@ -95,23 +95,23 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     return (
         <AppRouterCacheProvider>
             <ColorModeContext.Provider value={ colorMode }>
-                <QueryClientProvider client={ queryClient }>
-                    <HydrationBoundary state={ dehydrate(queryClient) }>
-                        <ThemeProvider theme={ THEME }>
-                            <CssBaseline enableColorScheme />
-                            <LocalizationProvider
-                                dateAdapter={ AdapterDayjs }
-                                adapterLocale="ru"
-                            >
-                                { children }
-                                <ReactQueryDevtools
-                                    client={ queryClient }
-                                    initialIsOpen={ false }
-                                />
-                            </LocalizationProvider>
-                        </ThemeProvider>
-                    </HydrationBoundary>
-                </QueryClientProvider>
+                {/* <QueryClientProvider client={ queryClient }>
+                    <HydrationBoundary state={ dehydrate(queryClient) }> */}
+                <ThemeProvider theme={ THEME }>
+                    <CssBaseline enableColorScheme />
+                    <LocalizationProvider
+                        dateAdapter={ AdapterDayjs }
+                        adapterLocale="ru"
+                    >
+                        { children }
+                        <ReactQueryDevtools
+                            client={ queryClient }
+                            initialIsOpen={ false }
+                        />
+                    </LocalizationProvider>
+                </ThemeProvider>
+                {/* </HydrationBoundary>
+                </QueryClientProvider> */}
             </ColorModeContext.Provider>
         </AppRouterCacheProvider>
     );

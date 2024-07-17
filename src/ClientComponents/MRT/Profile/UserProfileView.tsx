@@ -1,17 +1,15 @@
 'use client'
 import { profileIcons } from "@/Components/Icons/mdi/ProfileIcons"
+import { createPlayer } from "@/Services/playerService"
 import { changeUserImage, linkUserToPlayer } from "@/Services/profileService"
-import { mdiCheck, mdiClose, mdiFormTextboxPassword, mdiLink, mdiPencil, mdiReply } from "@mdi/js"
+import { editUser, getUserByName } from "@/Services/userService"
+import { P_UserAndProfile } from "@/Types"
+import { mdiCheck, mdiFormTextboxPassword, mdiLink, mdiReply } from "@mdi/js"
 import Icon from '@mdi/react'
-import { Box, Button, ButtonGroup, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemButton, ListItemSecondaryAction, ListItemText, Paper, Popover, Stack, SvgIcon, TextField, Typography, useFormControl } from "@mui/material"
-import { Prisma } from "@prisma/client"
+import { Box, Button, ButtonGroup, Card, CardContent, CardHeader, Grid, IconButton, List, ListItem, ListItemButton, ListItemSecondaryAction, ListItemText, Paper, Popover, Stack, TextField, Typography } from "@mui/material"
 import { useMutation } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
 import { ChangeIconDialog } from "./ChangeIconDialog"
-import { editUser, getUserByName } from "@/Services/userService"
-import { P_UserAndProfile } from "@/Types"
-import { createPlayer } from "@/Services/playerService"
-import Link from "next/link"
 type UserProfileProps = {
     user: P_UserAndProfile | null
 }
@@ -215,7 +213,7 @@ export const UserProfileView: React.FC<UserProfileProps> = ({ user }) => {
 
                     <Grid item md={ 10 } border={ '2px solid white' } p={ 1 } spacing={ 2 } direction={ 'column' } display={ 'flex' } gap={ 2 }>
 
-                        <ChangeIconDialog btn_title="Icons" icons={ profileIcons } selectIcon={ handleSelect } />
+                        <ChangeIconDialog btn_title="Icons" icons={ [...profileIcons] } selectIcon={ handleSelect } />
 
                     </Grid>
                 </Grid>

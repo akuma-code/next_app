@@ -64,6 +64,6 @@ export const profileIcons = [
         path: mdiAccountTieHatOutline,
 
     },
-]
+] as const
 
 

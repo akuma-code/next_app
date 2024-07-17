@@ -7,6 +7,7 @@ export type P_UserSelect = Prisma.UserSelectScalar
 export type P_UserFindArgs = Prisma.UserWhereUniqueInput
 export type P_UserCreateArgs = Prisma.UserUncheckedCreateWithoutSessionsInput
 export const UserFieldsEnum = Prisma.UserScalarFieldEnum
+
 export const _UserSelect: Record<'all' | "no_pass", P_UserSelect> = {
     all: {
         email: true,
@@ -59,6 +60,14 @@ export type PrismaPlayer = {
         events: number;
     };
 };
+
+export const default_event_select: Prisma.EventSelect<DefaultArgs> = {
+    date_formated: true,
+    id: true,
+    pairs: true,
+    players: true,
+    title: true,
+}
 export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail>
 
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput

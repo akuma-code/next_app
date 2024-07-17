@@ -4,7 +4,6 @@ import { useQuerySearch } from "@/Hooks/useQuerySearch";
 import {
     mdiCard,
     mdiChartTimeline,
-    mdiCloseOctagon,
     mdiSortBoolAscending,
     mdiSortBoolDescending
 } from "@mdi/js";
@@ -15,14 +14,9 @@ import {
     ToggleButton,
     ToggleButtonGroup
 } from "@mui/material";
-import {
-    BaseSingleInputFieldProps,
-    DateValidationError,
-    FieldSection
-} from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 //TODO: textfield=>button
 //TODO: handle filteration
@@ -34,44 +28,32 @@ export interface FilterState {
     month: number;
     view: "card" | "table" | null;
 }
-
+export type UrlQueryVariant = {
+    queryKey: 'order' | 'view'
+    value: "asc" | "desc" | "card" | "table"
+}
 export function OrderFilterControls() {
     const [filters, setFilters] = useState<FilterState>({
-        order: "asc",
+        order: "desc",
         month: dayjs().month(),
-        view: "card",
+        view: null
     });
     const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const qcreate = useQuerySearch(searchParams.toString());
-    const [_days, setDays] = useState<number[]>([1, 13, 22]);
-    const [open, setOpen] = useState(false);
+    const qcreate = useQuerySearch();
 
-    function handleSortOrder(e: any, value: FilterState["order"]) {
-        setFilters((prev) => ({ ...prev, order: value }));
-        const search = value ? qcreate("order", value) : "";
 
-        value !== null
-            ? router.replace(`${pathname}?${search}`)
-            : router.replace(pathname);
-    }
-    // function handleChangeDate(
-    //     value: Dayjs | null
-    //     //  context: PickerChangeHandlerContext<DateValidationError>
-    // ) {
-    //     setFilters((prev) => ({ ...prev, month: dayjs(value).month() }));
-    //     const search = qcreate("month", stringifyMonth(dayjs(value).month()));
 
-    //     router.replace(`${pathname}?${search}`);
-    //     // router.replace('?month=' + stringifyMonth(dayjs(value).month()))
-    // }
-    function handleViewChange(e: any, view: FilterState["view"]) {
-        const v = view ? view : "table"
-        const path = `${pathname}?${qcreate("view", v)}`;
+    const handler = (key: 'order' | 'view') => (e: any, value: string | null) => {
+        setFilters((prev) => ({ ...prev, [key]: value }));
+
+        const search = qcreate(key, value)
+        const path = value ? `${pathname}?${search}` : pathname;
+
         router.replace(path);
-        setFilters((prev) => ({ ...prev, view: v }));
+
     }
+    const handlerMemo = useCallback(handler, [pathname, qcreate, router])
     return (
         <Paper
             variant="outlined"
@@ -84,20 +66,22 @@ export function OrderFilterControls() {
                 p={ 1 }
                 justifySelf={ "center" }
                 flexGrow={ 1 }
+                sx={ {
+                    [`& .Mui-selected`]: {
+                        bgcolor: "primary.light",
+                        color: "primary.contrastText",
+                    },
+                } }
             >
                 <ToggleButtonGroup
                     orientation={ "horizontal" }
                     exclusive
                     value={ filters.order }
-                    onChange={ handleSortOrder }
+                    onChange={ handlerMemo('order') }
                     size="small"
-                    sx={ {
-                        [`& .Mui-selected`]: {
-                            bgcolor: "primary.light",
-                            color: "primary.contrastText",
-                        },
-                    } }
+
                 >
+
                     <ToggleButton
                         title="По убыванию"
                         value="asc"
@@ -107,15 +91,13 @@ export function OrderFilterControls() {
                             display: "flex",
                             justifyContent: "space-between",
                         } }
+                        type="button"
                     >
                         <Icon
                             path={ mdiSortBoolAscending }
                             size={ 1 }
-                            title={ "asc" }
                         />
-                        {/* <code>По убыванию</code> */ }
                     </ToggleButton>
-
                     <ToggleButton
                         title="По возрастанию"
                         value="desc"
@@ -125,20 +107,20 @@ export function OrderFilterControls() {
                             display: "flex",
                             justifyContent: "space-between",
                         } }
+                        type="button"
                     >
                         <Icon
                             path={ mdiSortBoolDescending }
                             size={ 1 }
-                            title={ "desc" }
                         />
-                        {/* <code>По возрастанию</code> */ }
+
                     </ToggleButton>
                 </ToggleButtonGroup>
                 <ToggleButtonGroup
                     orientation={ "horizontal" }
                     exclusive
                     value={ filters.view }
-                    onChange={ handleViewChange }
+                    onChange={ handlerMemo('view') }
                 >
                     <ToggleButton
                         value="card"
@@ -168,43 +150,4 @@ export function OrderFilterControls() {
             </Stack>
         </Paper>
     );
-}
-
-// function highlightDate(
-//     props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }
-// ) {
-//     const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-
-//     const isSelected =
-//         !props.outsideCurrentMonth &&
-//         highlightedDays.indexOf(props.day.date()) >= 0;
-
-//     return (
-//         <Badge
-//             key={props.day.toString()}
-//             overlap="circular"
-//             badgeContent={isSelected ? "🌚" : undefined}
-//         >
-//             <PickersDay
-//                 {...other}
-//                 outsideCurrentMonth={outsideCurrentMonth}
-//                 day={day}
-//                 sx={{ bgcolor: isSelected ? "red" : "inherit" }}
-//             />
-//         </Badge>
-//     );
-// }
-
-interface CIProps
-    extends BaseSingleInputFieldProps<
-        Dayjs | null,
-        Dayjs,
-        FieldSection,
-        false,
-        DateValidationError
-    > { }
-
-function CloseIcon(props: CIProps) {
-    const { InputProps } = props;
-    return <Icon path={ mdiCloseOctagon } size={ 1 } />;
 }

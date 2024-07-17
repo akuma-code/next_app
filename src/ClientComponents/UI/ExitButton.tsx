@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, MenuItem } from "@mui/material";
+import { Button, MenuItem, Typography } from "@mui/material";
 
 import LinkMui from "./LinkMui";
 import { signOut } from "next-auth/react";
@@ -8,12 +8,14 @@ import { signOut } from "next-auth/react";
 export const ExitButton = () => {
     return (
         <Button
-            color="error"
-            onClick={async () =>
+            size={ 'small' }
+            color="warning"
+            variant="outlined"
+            onClick={ async () =>
                 await signOut({ redirect: true, callbackUrl: "/" })
             }
         >
-            Выйти
+            <Typography fontSize={ 16 } >Выход</Typography>
         </Button>
     );
 };

@@ -3,12 +3,13 @@
 import { alpha, Box, Button, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import db_data from "@/dataStore/allData/all_data.json";
+import { useCallback } from "react";
 // console.table(db_data);
 async function getData() {
     return db_data;
 }
 
-export const ClientBackup = () => {
+export const ClientBackup = (props: { filename?: string }) => {
     const q = useQuery({
         queryKey: ["/api/backup"],
         queryFn: getData,
@@ -28,39 +29,39 @@ export const ClientBackup = () => {
             return { events, pairs };
         },
     });
-
-    const exportData = () => {
+    const filename = props.filename ?? "data"
+    const exportData = useCallback(() => {
         const data = q.data;
         const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
             JSON.stringify(data)
         )}`;
         const link = document.createElement("a");
         link.href = jsonString;
-        link.download = "data.json";
+        link.download = filename;
 
         link.click();
-    };
+    }, [filename, q.data]);
     // q.isSuccess && console.log(q.data);
     return (
         <Box>
             <Button
-                onClick={exportData}
+                onClick={ exportData }
                 variant="contained"
-                color={"info"}
-                sx={{
+                color={ "info" }
+                sx={ {
                     bgcolor: (theme) => alpha(theme.palette.primary.dark, 0.7),
-                }}
+                } }
             >
                 Сохранить json на диск
             </Button>
-            {q.error && <Box>{q.error.message}</Box>}
-            {q.isSuccess && (
-                <Box color={"success"}>
-                    {q.data.events.map((e) => (
-                        <Typography key={e.id}>{e.date_formated}</Typography>
-                    ))}
+            { q.error && <Box>{ q.error.message }</Box> }
+            { q.isSuccess && (
+                <Box color={ "success" }>
+                    { q.data.events.map((e) => (
+                        <Typography key={ e.id }>{ e.date_formated }</Typography>
+                    )) }
                 </Box>
-            )}
+            ) }
         </Box>
     );
 };

@@ -1,10 +1,11 @@
+'use server'
 
-import { default_event_select } from '@/Types'
-import data, { DB_Type } from './index'
+import { default_event_select, DB_JSON_DATA } from '@/Types'
+// import data, { DB_Type } from '@/seed/json/seedJson'
 import { Prisma, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-export async function seedFromJson(db_item: DB_Type = data) {
-
+async function loadAndSeedEvents(db_item: DB_JSON_DATA, options = { select: default_event_select }) {
+    const { select } = options
     try {
         const { pairs, events } = db_item
 
@@ -13,7 +14,7 @@ export async function seedFromJson(db_item: DB_Type = data) {
             date_formated: e.date_formated,
             title: e.title,
             players: { connect: e.players.map(p => ({ id: p.id })) },
-
+            select
         }))
 
 
@@ -32,7 +33,7 @@ export async function seedFromJson(db_item: DB_Type = data) {
                         }
                     }
                 },
-                select: default_event_select
+                select
             })
             return updated
         })
@@ -46,3 +47,5 @@ export async function seedFromJson(db_item: DB_Type = data) {
     }
 
 }
+
+export default loadAndSeedEvents

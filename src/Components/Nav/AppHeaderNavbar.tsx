@@ -1,20 +1,18 @@
 import { auth } from "@/auth/auth";
-import { ToggleThemeColorButton } from "@/ClientComponents/ToggleThemeButton";
 import { ExitButton } from "@/ClientComponents/UI/ExitButton";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
 import { NavMenu } from "@/ClientComponents/UI/NavMenu";
-import { _log } from "@/Helpers/helpersFns";
 import { paths } from "@/paths";
-import { getOneUserByEmail } from "@/Services/userService";
 import {
     AppBar,
+    Box,
     Breadcrumbs,
     CircularProgress,
     Toolbar,
     Typography,
 } from "@mui/material";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 interface AppHeaderProps { }
 const { apiUrl, pageUrl } = paths;
@@ -28,10 +26,7 @@ const routes = [
         to: pageUrl.admin,
         text: "Админка",
     },
-    {
-        to: "/test",
-        text: "TestingPage",
-    },
+
 ];
 
 export async function AppHeader() {
@@ -44,15 +39,15 @@ export async function AppHeader() {
             elevation={ 4 }
             sx={ { mb: 1 } }
         >
-            <Toolbar variant="dense" sx={ { display: "flex" } }>
+            <Toolbar variant="regular" sx={ { display: "flex" } }>
                 <Breadcrumbs
                     separator={ "/" }
-                    sx={ { color: "white", flexGrow: 1 } }
+                    sx={ { color: "white", flexGrow: 2 } }
                 >
                     { routes.map((r) => (
                         <Link href={ r.to } key={ r.to }>
                             <Typography
-                                variant="body1"
+                                variant="body2"
                                 color={ "whitesmoke" }
                                 key={ r.to }
                             >
@@ -62,28 +57,19 @@ export async function AppHeader() {
                     )) }
                 </Breadcrumbs>
                 <Suspense fallback={ <CircularProgress /> }>
-                    <Breadcrumbs
-                        separator={ " " }
-                        sx={ { color: "white", flexGrow: 0 } }
-                    >
-
-
-                        { session?.user ? (
-
-
+                    <Box gap={ 1 } display={ 'flex' } flexGrow={ 1 } justifyContent={ 'end' }>
+                        <NavMenu />
+                        { session ?
                             <ExitButton />
-                        ) : (
-                            <>
-                                <LinkMui href="/api/auth/register" color="#fff">
-                                    Регистрация
-                                </LinkMui>
-                                <LinkMui href="/api/auth/login" color="#00ffaa">
-                                    Вход
-                                </LinkMui>
-                            </>
-                        ) }
-                        {/* <NavMenu user_id={ session?.user_id } /> */ }
-                    </Breadcrumbs>
+                            :
+                            <LinkMui href="/api/auth/login" color="#00ffaa">
+                                Войти
+                            </LinkMui>
+
+                        }
+
+                    </Box>
+
                 </Suspense>
             </Toolbar>
         </AppBar>
