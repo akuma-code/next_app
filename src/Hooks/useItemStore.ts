@@ -19,7 +19,7 @@ export const useItemStore = <T>(init_state?: T[] | undefined, log?: boolean) => 
         setStore(prev => prev.filter(p => p !== item))
     }, [])
 
-    log && _log(store)
+
     const clear = useCallback(() => setStore(prev => []), [])
 
     const _store = useMemo(() => store, [store])
