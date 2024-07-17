@@ -14,7 +14,7 @@ function MonthPicker() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const qcreate = useQuerySearch(searchParams.toString());
+    const qcreate = useQuerySearch();
     function handleChangeDate(
         value: Dayjs | null
         //  context: PickerChangeHandlerContext<DateValidationError>
@@ -26,9 +26,9 @@ function MonthPicker() {
     }
     return (
         <MobileDatePicker
-            views={["month"]}
-            selectedSections={"month"}
-            onMonthChange={handleChangeDate}
+            views={ ["month"] }
+            selectedSections={ "month" }
+            onMonthChange={ handleChangeDate }
             name="month"
             openTo="month"
             label="Укажите месяц" // open={ open }
@@ -39,7 +39,7 @@ function MonthPicker() {
                     // day: highlightDate,
                 }
             }
-            slotProps={{
+            slotProps={ {
                 layout: {
                     sx: {
                         color: "#ffffff",
@@ -69,10 +69,10 @@ function MonthPicker() {
                     },
                     clearable: true,
                     InputProps: {
-                        endAdornment: <Icon path={mdiCalendar} size={1} />,
+                        endAdornment: <Icon path={ mdiCalendar } size={ 1 } />,
                     },
                 },
-            }}
+            } }
         />
     );
 }

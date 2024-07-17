@@ -10,7 +10,7 @@ import { useMemo } from "react";
 export const RestoreButtons: React.FC<{ restore?: string }> = () => {
     const path = usePathname();
     const s = useSearchParams();
-    const q = useQuerySearch(s.toString());
+    const q = useQuerySearch();
     const [load, { on, off, toggle }] = useToggle(s.has("log"));
     const router = useRouter();
     const isLog = useMemo(
