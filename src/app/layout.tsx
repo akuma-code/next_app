@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth/auth";
 import Link from "next/link";
+import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -26,21 +27,24 @@ const RootLayout: React.FC<{
     const cls = [inter.className, "bg-[#7ad5f3c9]"].join(" ");
     return (
         <html lang="ru">
-            <body className={cls}>
-                <SessionProvider session={session} refetchOnWindowFocus>
+            <body className={ cls }>
+                <SessionProvider session={ session } refetchOnWindowFocus>
                     <Providers>
-                        <Paper
-                            maxWidth={"lg"}
-                            component={Container}
-                            elevation={2}
-                            color="primary.main"
-                        >
-                            <AppHeader />
-                            {/* {modal} */}
-                            {children}
-                            {modalEvent}
-                        </Paper>
-                        <SpeedInsights />
+                        <MrtBoundary>
+
+                            <Paper
+                                maxWidth={ "lg" }
+                                component={ Container }
+                                elevation={ 2 }
+                                color="primary.main"
+                            >
+                                <AppHeader />
+                                {/* {modal} */ }
+                                { children }
+                                { modalEvent }
+                            </Paper>
+                            <SpeedInsights />
+                        </MrtBoundary>
                     </Providers>
                 </SessionProvider>
             </body>
