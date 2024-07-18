@@ -11,6 +11,7 @@ import { members_seed } from "@/seed/users"
 import { getMasters, removeMaster } from "@/Services/masterService"
 import { DB_JSON_DATA } from "@/Types"
 import dayjs from "dayjs"
+import { revalidatePath } from "next/cache"
 import backup from './../../../public/json/data.json'
 export async function reseedMasters() {
 
@@ -88,19 +89,21 @@ export async function getBackup() {
 
 }
 
-export async function resedjson(data_json: DB_JSON_DATA = backup) {
+export async function reseedEventsFromJson(data_json: DB_JSON_DATA = backup) {
     let data: DB_JSON_DATA = data_json
 
 
     try {
         await prisma.event.deleteMany()
         const { events, pairs } = data;
-        console.log("events: ", events.length, "pairs: ", pairs.length)
+
         await seedFromJson({ events, pairs })
+        console.log("events restored ", events.length)
     } catch (error) {
-        console.error(error)
+        console.error("Events restore failed!")
+
         throw error
-    }
+    } finally { revalidatePath("/") }
 
 
 }

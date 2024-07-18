@@ -14,27 +14,36 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
     const show = query?.searchParams?.action ? true : false
     const showEdit = query?.searchParams?.action === 'edit'
     const showCreate = query?.searchParams?.action === 'create'
+    const showDel = query?.searchParams?.action === 'delete'
     // if (players.length === 0) return <div>No players</div>
     return (
-        <Stack direction={ 'row' } columnGap={ 2 }>
-            <Stack >
-                <Box ml={ 2 }>
+        <Stack direction={ 'row' } justifyContent={ 'space-between' } width={ 800 } gap={ 2 } >
+            <Stack direction={ 'row' } >
+
+                <Box ml={ 2 } pr={ 4 } flexGrow={ 1 }>
+
+                    { players.length > 0 ?
+                        <AdminPlayerList players={ players }></AdminPlayerList>
+                        : <div>
+                            No players found
+                        </div>
+                    }
+                </Box>
+                <Stack gap={ 1 } flexGrow={ 1 } useFlexGap ml={ 3 } >
 
                     {
-                        show ?
+                        showCreate ?
 
                             <CloseFormButton />
                             :
                             <ShowCreateFormButton />
                     }
-                </Box>
-                { players.length > 0 ?
-                    <AdminPlayerList players={ players }></AdminPlayerList>
-                    : <div>
-                        No players found
-                    </div>
-                }
-
+                    <Link href={ { query: showDel ? { action: "" } : { action: 'delete' } } }>
+                        <Button variant="contained">
+                            Delete mode: { showDel ? 'on' : "off" }
+                        </Button>
+                    </Link>
+                </Stack>
             </Stack>
 
             {
@@ -53,7 +62,7 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
 function CloseFormButton() {
 
     return <Link href='/admin/players'>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" color="secondary" fullWidth>
             Close
         </Button>
     </Link>;

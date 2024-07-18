@@ -1,10 +1,13 @@
 "use client";
 
-import { alpha, Box, Button, Typography } from "@mui/material";
+import { alpha, Box, Button, Chip, Divider, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import db_data from "@/dataStore/allData/all_data.json";
 import { useCallback } from "react";
 import { getBackup, getBackupEvents } from "@/app/admin/actions";
+import { _date, _dbDateParser } from "@/Helpers/dateFuncs";
+import Icon from "@mdi/react";
+import { mdiSigma } from "@mdi/js";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
@@ -44,25 +47,52 @@ export const ClientBackup = (props: { filename?: string }) => {
     }, [filename, q.data]);
     // q.isSuccess && console.log(q.data);
     return (
-        <Box>
+        <Box mx={ 2 } gap={ 2 }>
+
+            <Typography variant="h4" component={ 'div' }>
+
+                список ивентов
+            </Typography>
+            { q.isSuccess && (
+                <Box color={ "success" }
+                    maxHeight={ 300 }
+                    maxWidth={ 500 }
+                    flexWrap={ 'wrap' }
+                    // width={ '30vw' }
+                    bgcolor={ 'inherit' }
+                    display={ 'flex' }
+                    flexDirection={ 'column' }>
+
+                    { q.data.events.map((e) => (
+                        <Typography key={ e.id } px={ 1 }>{ _dbDateParser(e.date_formated).dd_mmmm }</Typography>
+                    )) }
+
+
+                    <Chip
+                        label={ q.data.events.length }
+                        size="small"
+                        variant="outlined"
+                        color="warning"
+                        sx={ { color: 'black', fontWeight: 'bold', fontSize: 16 } }
+                        icon={
+                            <Icon path={ mdiSigma }
+                                size={ .9 } />
+                        }
+                    />
+                </Box>
+            ) }
             <Button
                 onClick={ exportData }
                 variant="contained"
                 color={ "info" }
                 sx={ {
-                    bgcolor: (theme) => alpha(theme.palette.primary.dark, 0.7),
+                    bgcolor: (theme) => alpha(theme.palette.info.dark, 0.7),
+                    mb: 2
                 } }
             >
-                Сохранить json на диск
+                Сохранить как JSON
             </Button>
             { q.error && <Box>{ q.error.message }</Box> }
-            { q.isSuccess && (
-                <Box color={ "success" }>
-                    { q.data.events.map((e) => (
-                        <Typography key={ e.id }>{ e.date_formated }</Typography>
-                    )) }
-                </Box>
-            ) }
         </Box>
     );
 };

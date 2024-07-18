@@ -11,13 +11,12 @@ export default async function BackupPage({
     const { log } = searchParams;
 
     return (
-        <Box display={ "flex" } flexDirection={ "column" } gap={ 2 } p={ 1 }>
-            <MrtBoundary>
+        <MrtBoundary>
+            <Box display={ "flex" } flexDirection={ "column" } >
 
-                <RestoreButtons restore={ log } />
-                {/* <CommonBackup restore={data} /> */ }
+
                 <ClientBackup />
-            </MrtBoundary>
-        </Box>
+            </Box>
+        </MrtBoundary>
     );
 }

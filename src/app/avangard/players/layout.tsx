@@ -6,23 +6,10 @@ import { EventHeader } from "@/Components/Nav/EventsHeader";
 
 async function PlayersLayout({ children }: { children: React.ReactNode }) {
     return (
-        <Box p={2}>
-            {/* <AppBar position="relative" sx={{ mb: 2 }}>
-                <Toolbar variant="dense">
-                    <Link href={{ query: { view: "list" } }}>
-                        <IconButton edge="start" color="warning">
-                            <MenuIcon />
-                        </IconButton>
-                    </Link>
-                    <Link href={{ query: { view: "table" } }}>
-                        <IconButton edge="start">
-                            <BlurLinearIcon color="warning" />
-                        </IconButton>
-                    </Link>
-                </Toolbar>
-            </AppBar> */}
+        <Box p={ 2 }>
+
             <EventHeader />
-            {children}
+            { children }
         </Box>
     );
 }
