@@ -7,13 +7,13 @@ import { useCallback } from "react";
 import { getBackup, getBackupEvents } from "@/app/admin/actions";
 // console.table(db_data);
 async function getData() {
-    return await getBackupEvents();
+    return await getBackup();
 }
 
 export const ClientBackup = (props: { filename?: string }) => {
     const q = useQuery({
         queryKey: ["/api/backup"],
-        queryFn: getBackup,
+        queryFn: getData,
         select: (data) => {
             let { events, pairs } = data;
             events.map((e) => ({
