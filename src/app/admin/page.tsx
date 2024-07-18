@@ -8,10 +8,7 @@ async function AministratorPage(params: { searchParams: { show: string } }) {
 
     return (
         <Container maxWidth="md">
-            <AdminCard
-                seedAction={ action }
-            // actions={[backupEvents, reseedEvents]}
-            />
+            <AdminCard seedAction={ action } />
 
         </Container>
     );

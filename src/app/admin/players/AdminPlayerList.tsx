@@ -24,6 +24,7 @@ const AdminPlayerList = ({ players }: { players: PlayerWithInfo[] }) => {
                     borderRadius: '1rem',
                     maxHeight: '60vh',
                     overflowX: 'auto',
+
                     // scrollMarginInlineStart: 20,
                     // scrollbarColor: 'red',
                     // scrollPaddingTop: '1rem',
@@ -33,8 +34,9 @@ const AdminPlayerList = ({ players }: { players: PlayerWithInfo[] }) => {
                         maxWidth: 350,
                         flexDirection: 'row',
                         flexGrow: 1,
-                        gap: 2
+                        gap: 1
                     },
+                    m: 2
                     // [`& :hover.MuiListItem-root`]: {
                     //     bgcolor: (theme) => alpha(theme.palette.primary.light, .7)
                     // }

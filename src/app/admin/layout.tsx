@@ -6,6 +6,8 @@ import Link from "next/link";
 
 interface ContainerLayoutProps {
     children: React.ReactNode
+    players: React.ReactNode
+    form: React.ReactNode
 }
 
 const links = [
@@ -31,19 +33,20 @@ export const metadata: Metadata = {
 
 };
 
-const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
+const AdminLayout: React.FC<ContainerLayoutProps> = ({ children, form, players }) => {
     return (
-        <Stack direction={ { md: 'row', sm: "column" } } m={ 1 }>
+        <Stack direction={ { sm: "column" } } m={ 1 }>
 
             <Paper >
+
                 <List sx={ {
                     display: 'flex',
-                    flexDirection: { sm: "row", md: 'column' },
+                    flexDirection: { sm: "row", },
                     bgcolor: 'background.default',
-                    justifyContent: 'space-between',
+                    justifyContent: 'start',
                     p: 1
                     // justifyItems: 'center'
-                } }>
+                } } dense>
                     { links.map(link =>
 
                         <NavLink key={ link.href }
@@ -51,12 +54,15 @@ const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
                             label={ link.label }
                         // className="text-center flex-grow"
                         >
-                            <ListItem disableGutters sx={ { flexGrow: 1, textAlign: 'center' } } divider>
+                            <ListItem disableGutters sx={ { flexGrow: 1, textAlign: 'center' } } divider dense>
                                 { link.label }
                             </ListItem>
                         </NavLink>
                     ) }
                 </List>
+                <Box>
+                    { form }
+                </Box>
             </Paper>
             <Box>
 

@@ -1,10 +1,11 @@
 'use server'
+import AdminPlayerList from "@/app/admin/players/AdminPlayerList";
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
 import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
 import { getPlayers } from "@/Services/playerService";
 import { Box, Button, Stack } from "@mui/material";
 import Link from "next/link";
-import AdminPlayerList from "./AdminPlayerList";
+
 
 
 async function AvPlayers(query: { searchParams: { action: string } }) {
