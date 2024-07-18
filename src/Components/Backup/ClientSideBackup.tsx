@@ -4,17 +4,18 @@ import { alpha, Box, Button, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import db_data from "@/dataStore/allData/all_data.json";
 import { useCallback } from "react";
+import { getBackup, getBackupEvents } from "@/app/admin/actions";
 // console.table(db_data);
 async function getData() {
-    return db_data;
+    return await getBackupEvents();
 }
 
 export const ClientBackup = (props: { filename?: string }) => {
     const q = useQuery({
         queryKey: ["/api/backup"],
-        queryFn: getData,
+        queryFn: getBackup,
         select: (data) => {
-            let { events, pairs, players } = data;
+            let { events, pairs } = data;
             events.map((e) => ({
                 ...e,
                 date_formated: e.date_formated,

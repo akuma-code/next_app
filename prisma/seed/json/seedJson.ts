@@ -1,9 +1,9 @@
-
+'use server'
 import { default_event_select } from '@/Types'
 import data, { DB_Type } from './index'
 import { Prisma, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-export async function seedFromJson(db_item: DB_Type = data) {
+export async function seedFromJson(db_item: Omit<DB_Type, 'players'> = data) {
 
     try {
         const { pairs, events } = db_item

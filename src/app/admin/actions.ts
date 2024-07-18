@@ -4,11 +4,14 @@
 import prisma from "@/client/client"
 import { _log } from "@/Helpers/helpersFns"
 import { events_last } from "@/seed/events"
+import { seedFromJson } from "@/seed/json/seedJson"
 import { masters_to_seed, players_to_seed2 } from "@/seed/players"
 import { seedEventsMap, seedMasters, seedObjectPlayers } from "@/seed/seed"
 import { members_seed } from "@/seed/users"
 import { getMasters, removeMaster } from "@/Services/masterService"
+import { DB_JSON_DATA } from "@/Types"
 import dayjs from "dayjs"
+import backup from './../../../public/json/data.json'
 export async function reseedMasters() {
 
     const existedmasters = await getMasters()
@@ -64,13 +67,8 @@ export async function getBackupEvents() {
         select: {
             id: true,
             date_formated: true,
-            pairs: {
-                select: {
-                    eventId: true,
-                    firstPlayerId: true,
-                    secondPlayerId: true
-                }
-            },
+            pairs: true,
+
             players: {
                 select: {
                     id: true, name: true
@@ -80,4 +78,29 @@ export async function getBackupEvents() {
             isDraft: true
         }
     })
+}
+export async function getBackup() {
+    const events = await prisma.event.findMany({ include: { players: true, pairs: true } })
+
+    const pairs = await prisma.pair.findMany()
+
+    return { events, pairs }
+
+}
+
+export async function resedjson(data_json: DB_JSON_DATA = backup) {
+    let data: DB_JSON_DATA = data_json
+
+
+    try {
+        await prisma.event.deleteMany()
+        const { events, pairs } = data;
+        console.log("events: ", events.length, "pairs: ", pairs.length)
+        await seedFromJson({ events, pairs })
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+
+
 }
