@@ -1,4 +1,5 @@
 import { EventView } from "@/Components/EventView/EventView";
+import { reducePairs } from "@/Helpers/reduceToObject";
 import { getEventPairs } from "@/Services/events/eventActions";
 import { getEventById } from "@/Services/eventService";
 import { getMasters } from "@/Services/masterService";
@@ -15,9 +16,12 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     const event = await getEventById(eventId);
     const masters = await getMasters();
     const pairs = await getEventPairs(Number(eventId));
+    const obj = reducePairs(event?.pairs ?? [])
+    console.log(obj)
+
     if (!event) return <Box>Event error!</Box>;
 
-    return <EventView event={event} masters={masters} />;
+    return <EventView event={ event } masters={ masters } />;
 };
 
 export default EventIdPage;
