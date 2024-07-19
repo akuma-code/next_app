@@ -6,7 +6,7 @@ import Link from "next/link";
 
 interface ContainerLayoutProps {
     children: React.ReactNode
-    form?: React.ReactNode
+
 }
 
 const links = [
