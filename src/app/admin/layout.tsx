@@ -6,8 +6,7 @@ import Link from "next/link";
 
 interface ContainerLayoutProps {
     children: React.ReactNode
-    players: React.ReactNode
-    form: React.ReactNode
+    form?: React.ReactNode
 }
 
 const links = [
@@ -33,7 +32,7 @@ export const metadata: Metadata = {
 
 };
 
-const AdminLayout: React.FC<ContainerLayoutProps> = async ({ children, form, players }) => {
+const AdminLayout: React.FC<ContainerLayoutProps> = async ({ children }) => {
     return (
         <Stack direction={ { sm: "column" } } m={ 1 }>
 
@@ -60,9 +59,7 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({ children, form, pla
                         </NavLink>
                     ) }
                 </List>
-                <Box>
-                    { form }
-                </Box>
+
                 <Box>
 
                     { children }
