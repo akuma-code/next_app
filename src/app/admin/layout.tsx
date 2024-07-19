@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 };
 
-const AdminLayout: React.FC<ContainerLayoutProps> = ({ children, form, players }) => {
+const AdminLayout: React.FC<ContainerLayoutProps> = async ({ children, form, players }) => {
     return (
         <Stack direction={ { sm: "column" } } m={ 1 }>
 

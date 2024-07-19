@@ -16,10 +16,10 @@ const links = [
         href: "/avangard/players",
         label: "Игроки",
     },
-    {
-        href: "/avangard/events/draft",
-        label: "Запись на тренировку",
-    },
+    // {
+    //     href: "/avangard/events/draft",
+    //     label: "Запись на тренировку",
+    // },
 ];
 
 export const metadata: Metadata = {
