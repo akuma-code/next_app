@@ -16,7 +16,7 @@ import { Suspense } from "react";
 
 interface AppHeaderProps { }
 const { apiUrl, pageUrl } = paths;
-
+const isProduction = process.env.NODE_ENV === 'production'
 const routes = [
     {
         to: "/avangard/events",
@@ -55,6 +55,16 @@ export async function AppHeader() {
                             </Typography>
                         </Link>
                     )) }
+                    { isProduction ? null :
+                        <Link href="/test">
+                            <Typography
+                                variant="body2"
+                                color={ "whitesmoke" }
+                            >
+
+                                Testing
+                            </Typography>
+                        </Link> }
                 </Breadcrumbs>
                 <Suspense fallback={ <CircularProgress /> }>
                     <Box gap={ 1 } display={ 'flex' } flexGrow={ 1 } justifyContent={ 'end' }>

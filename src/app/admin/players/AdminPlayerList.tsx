@@ -6,6 +6,7 @@ import { PlayerWithInfo } from "@/Services/playerService";
 import { EditTwoTone, DeleteTwoTone } from "@mui/icons-material";
 import { alpha, List, ListItem, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText, Stack, Typography } from "@mui/material";
 import { Info, Player } from "@prisma/client";
+import dayjs from "dayjs";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -13,9 +14,10 @@ import { Suspense } from "react";
 
 const AdminPlayerList = ({ players }: { players: PlayerWithInfo[] }) => {
     const q = useSearchParams()
-    const deleteMode = q.get('action') === 'delete'
+    const action = q.get('action')
+    const deleteMode = action === 'delete'
 
-
+    const created = (date: Date) => dayjs(date).format('DD-MM-YYYY',)
     return (
         <Suspense fallback={ <>Loading...</> }>
             <List dense disablePadding
@@ -24,7 +26,8 @@ const AdminPlayerList = ({ players }: { players: PlayerWithInfo[] }) => {
                     borderRadius: '1rem',
                     maxHeight: '60vh',
                     overflowX: 'auto',
-
+                    maxWidth: 400,
+                    width: '100%',
                     // scrollMarginInlineStart: 20,
                     // scrollbarColor: 'red',
                     // scrollPaddingTop: '1rem',
@@ -32,6 +35,7 @@ const AdminPlayerList = ({ players }: { players: PlayerWithInfo[] }) => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         maxWidth: 350,
+
                         flexDirection: 'row',
                         flexGrow: 1,
                         gap: 1
@@ -47,13 +51,30 @@ const AdminPlayerList = ({ players }: { players: PlayerWithInfo[] }) => {
 
                         <ListItem key={ p.id } divider alignItems="center" >
 
-                            <Link href={ `/admin/players/${p.id}?action=edit` }>
+                            <ListItemText
+                                primary={
+                                    <Link href={ {
+                                        href: `/admin/players`,
+                                        query: { action: 'edit', id: p.id }
+                                    } }
+                                        className="hover:underline">
+                                        { idx + 1 }) { p.name } [id:{ p.id }]
+                                    </Link>
+                                }
+                                secondary={ `создан: ${created(p.createdAt)}` }
+                                primaryTypographyProps={ { textAlign: 'left' } }
+
+                            />
+                            {/* <Link href={ `/admin/players/${p.id}?action=edit` }> */ }
+
+                            {/* </Link> */ }
+                            {/* <Link href={ `/admin/players/${p.id}?action=edit` }>
                                 <ListItemButton sx={ { gap: 1 } } >
                                     { idx + 1 } )
                                     <Typography variant="button">{ p.name }</Typography>
 
                                 </ListItemButton>
-                            </Link>
+                            </Link> */}
 
 
 

@@ -1,6 +1,6 @@
 "use client";
 import { deletePlayer } from "@/Services/playerService";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import React, { type ButtonHTMLAttributes } from "react";
 
 import { useFormStatus } from "react-dom";

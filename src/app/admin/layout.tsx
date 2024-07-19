@@ -63,11 +63,11 @@ const AdminLayout: React.FC<ContainerLayoutProps> = ({ children, form, players }
                 <Box>
                     { form }
                 </Box>
-            </Paper>
-            <Box>
+                <Box>
 
-                { children }
-            </Box>
+                    { children }
+                </Box>
+            </Paper>
         </Stack>
     );
 }
