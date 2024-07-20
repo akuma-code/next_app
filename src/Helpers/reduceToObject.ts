@@ -9,5 +9,5 @@ export function reduceArrayToObject<T extends { id: number }>(array: Array<T>) {
 
 export function reducePairs<T extends { secondPlayerId: number | null }>(pairs: T[]) {
 
-    return pairs.reduce((obj, { secondPlayerId, ...rest }) => secondPlayerId ? ({ ...obj, [secondPlayerId]: rest }) : obj, {})
+    return pairs.reduce((obj, { secondPlayerId, ...rest }) => secondPlayerId ? ({ ...obj, [secondPlayerId]: rest }) : obj, {} as Record<string, Omit<T, 'secondPlayerId'>>)
 }

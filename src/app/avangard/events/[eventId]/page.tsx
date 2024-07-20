@@ -1,14 +1,14 @@
+import { LoggerButton } from "@/ClientComponents/UI/Logger";
 import { EventView } from "@/Components/EventView/EventView";
-import { reducePairs } from "@/Helpers/reduceToObject";
+import { reduceArrayToObject, reducePairs } from "@/Helpers/reduceToObject";
 import { getEventPairs } from "@/Services/events/eventActions";
 import { getEventById } from "@/Services/eventService";
 import { getMasters } from "@/Services/masterService";
 import { Box } from "@mui/material";
-// const masters = [
-//     { id: 1, name: "Алан Заикин" },
-//     { id: 2, name: "Антон Козлов" },
+import { playersRecord } from "@/utils/playersList";
+import EventView_v2 from "@/Components/EventView/EventView_v2";
+import { getDBOneEventData } from "@/Services/events/db_event";
 
-// ]
 const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     params,
 }) => {
@@ -17,11 +17,18 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     const masters = await getMasters();
     const pairs = await getEventPairs(Number(eventId));
     const obj = reducePairs(event?.pairs ?? [])
-    console.log(obj)
-
+    const p = await playersRecord()
+    const e2 = await getDBOneEventData({ id: +eventId }, ["players", "pairs"])
     if (!event) return <Box>Event error!</Box>;
+    const master_record = reduceArrayToObject(masters)
+    return (
+        <Box display={ 'flex' } flexDirection={ 'row' } gap={ 2 }>
 
-    return <EventView event={ event } masters={ masters } />;
+            <EventView event={ event } masters={ masters } />
+            <EventView_v2 eventId={ Number(eventId) } masters={ master_record } />
+            <LoggerButton data={ e2 } />
+        </Box>
+    );
 };
 
 export default EventIdPage;

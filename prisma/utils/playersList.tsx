@@ -1,4 +1,5 @@
 import db from '@/client/client'
+import { reduceArrayToObject } from '@/Helpers/reduceToObject'
 import { cache } from 'react'
 
 
@@ -24,5 +25,10 @@ const allP = cache(async () => {
     }
 
 })
+
+export async function playersRecord() {
+    const players = await allP()
+    return reduceArrayToObject(players)
+}
 
 export default allP

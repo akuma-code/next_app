@@ -47,7 +47,7 @@ export async function getDBOneEventData(search: PrismaGetOneEvent['where'], sele
 
         })
 
-        return { data }
+        return data
     } catch (error) {
         console.error(error)
         throw error
