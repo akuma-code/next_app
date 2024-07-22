@@ -8,6 +8,7 @@ import { getBackup, getBackupEvents } from "@/app/admin/actions";
 import { _date, _dbDateParser } from "@/Helpers/dateFuncs";
 import Icon from "@mdi/react";
 import { mdiSigma } from "@mdi/js";
+import dayjs from "dayjs";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
@@ -41,10 +42,11 @@ export const ClientBackup = (props: { filename?: string }) => {
         )}`;
         const link = document.createElement("a");
         link.href = jsonString;
-        link.download = filename;
+        const fname = dayjs().format('YYYY-MM-DD') + '.json'
+        link.download = fname;
 
         link.click();
-    }, [filename, q.data]);
+    }, [q.data]);
     // q.isSuccess && console.log(q.data);
     return (
         <Box mx={ 2 } gap={ 2 }>
