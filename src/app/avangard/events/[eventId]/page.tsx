@@ -26,7 +26,7 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
 
             <EventView event={ event } masters={ masters } />
             <EventView_v2 eventId={ Number(eventId) } masters={ master_record } />
-            <LoggerButton data={ e2 } />
+
         </Box>
     );
 };

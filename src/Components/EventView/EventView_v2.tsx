@@ -7,6 +7,11 @@ import { mdiAdjust, mdiMinusBox, mdiPlusBox } from "@mdi/js"
 import Icon from "@mdi/react"
 import { Alert, Box, ButtonGroup, CircularProgress, IconButton, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem, Typography } from "@mui/material"
 import { useState } from "react"
+import {
+    addPair,
+    removePair,
+    updatePair,
+} from "@/Services/events/eventActions";
 interface EventViewProps {
     eventId?: number
     masters: Record<string, { name: string }>
@@ -21,12 +26,9 @@ interface SyncedPlayer {
 }
 const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
     const { data, error, isSuccess, isLoading, isError } = useGetEvent({ id: eventId })
-    if (error) return (<Alert>
-        <p>
-            { error.message }
-        </p>
-    </Alert>)
-    const { dd_mm_yyyy } = _dbDateParser(data?.date_formated ?? "");
+    if (error) return (<Alert><p>{ error?.message }</p></Alert>)
+    if (isLoading || !data) return <CircularProgress />
+    const { dd_mm_yyyy } = _dbDateParser(data.date_formated);
 
 
 
@@ -79,15 +81,18 @@ const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
 
                         } }
                     >
+
                         <ListItemText
                             primary={ p.player }
                             secondary={ p.master }
                         />
-                        <ButtonGroup >
-
+                        { p.master
+                            ?
                             <ButtonPlayerMenu data={ p } />
+                            :
                             <ButtonMasterMenu data={ p } />
-                        </ButtonGroup>
+                        }
+                        {/* <ButtonGroup >                        </ButtonGroup> */ }
                     </ListItem>
                 ) }
             </List>

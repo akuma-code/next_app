@@ -104,10 +104,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                         adapterLocale="ru"
                     >
                         { children }
-                        <ReactQueryDevtools
+                        {/* <ReactQueryDevtools
                             client={ queryClient }
                             initialIsOpen={ false }
-                        />
+                        /> */}
                     </LocalizationProvider>
                 </ThemeProvider>
                 {/* </HydrationBoundary>
