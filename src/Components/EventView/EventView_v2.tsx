@@ -1,44 +1,63 @@
 'use client'
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { _dbDateParser } from "@/Helpers/dateFuncs"
 import { syncPlayers, useGetEvent } from "@/Hooks/Queries/Events/useEvents"
-import { mdiAdjust, mdiMinusBox, mdiPlusBox } from "@mdi/js"
+import { mdiAdjust, mdiDotsHorizontalCircleOutline, mdiMinusBox, mdiPlusBox } from "@mdi/js"
 import Icon from "@mdi/react"
-import { Alert, Box, ButtonGroup, CircularProgress, IconButton, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem, Typography } from "@mui/material"
+import { Alert, Box, ButtonGroup, CircularProgress, Dialog, DialogContent, IconButton, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem, Typography } from "@mui/material"
 import { useState } from "react"
 import {
     addPair,
+    editOneEvent,
     removePair,
     updatePair,
 } from "@/Services/events/eventActions";
+import { useMutation } from '@tanstack/react-query'
 interface EventViewProps {
     eventId?: number
     masters: Record<string, { name: string }>
+    event?: ReturnType<typeof useGetEvent>['data']
 }
 
 interface SyncedPlayer {
     id: number;
     player: string;
+    eventId: number
     master?: string;
     pairId?: number;
     masterId?: number;
 }
 const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
     const { data, error, isSuccess, isLoading, isError } = useGetEvent({ id: eventId })
+
+
+
+
+    const list_players: SyncedPlayer[] = useMemo(() => {
+        if (!data) return []
+        const list = syncPlayers(data ?? undefined)
+            .map(p => p.pair
+                ? ({
+                    id: p.id,
+                    player: p.name,
+                    eventId: data.id,
+                    master: masters[p.pair.masterId.toString()].name,
+                    pairId: p.pair.id,
+                    masterId: p.pair.masterId,
+                })
+                : {
+                    player: p.name,
+                    id: p.id,
+                    eventId: data.id
+                })
+        return list
+    }, [data, masters])
+
     if (error) return (<Alert><p>{ error?.message }</p></Alert>)
+    const { dd_mm_yyyy } = _dbDateParser(data?.date_formated ?? "");
+    const mastersArray = Object.entries(masters).map(([id, { name }]) => ({ id: Number(id), name }))
     if (isLoading || !data) return <CircularProgress />
-    const { dd_mm_yyyy } = _dbDateParser(data.date_formated);
-
-
-
-    const list_players: SyncedPlayer[] = syncPlayers(data ?? undefined)
-        .map(p => p.pair
-            ? ({ player: p.name, master: masters[p.pair.masterId.toString()].name, id: p.id, pairId: p.pair.id, masterId: p.pair.masterId })
-            : { player: p.name, id: p.id })
-
-
-
     return (
         <Box
 
@@ -86,12 +105,14 @@ const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
                             primary={ p.player }
                             secondary={ p.master }
                         />
-                        { p.master
-                            ?
-                            <ButtonPlayerMenu data={ p } />
-                            :
-                            <ButtonMasterMenu data={ p } />
+                        {
+                            //  p.master
+                            //     ?
+                            //     <RemoveMenuButton data={ p } />
+                            //     :
+                            //     <AddMenuButton data={ p } masters={ mastersArray } />
                         }
+                        <AddMenuButton data={ p } masters={ mastersArray } />
                         {/* <ButtonGroup >                        </ButtonGroup> */ }
                     </ListItem>
                 ) }
@@ -99,26 +120,68 @@ const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
         </Box>
     )
 }
+async function removePlayer(eventId: number, playerId: number) {
+    await editOneEvent({ id: eventId }, { players: { disconnect: { id: playerId } } })
+}
 
-
-const ButtonMasterMenu = ({ data }: {
+const AddMenuButton = ({ data, masters }: {
     data: SyncedPlayer
+    masters: { id: number, name: string }[]
 }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const [subAnchorEl, setSub] = useState<null | HTMLElement>(null);
+    const sub_open = Boolean(subAnchorEl);
+    const { id: playerId, player, master, pairId, masterId, eventId } = data
+    const { data: updatedPair, mutateAsync: updatePairAsync, isPending: isPendingUpdate } = useMutation({
+        mutationKey: ['pair', pairId, masterId, playerId],
+        mutationFn: async (pair_data: { pairId?: number, masterId?: number, playerId?: number }) =>
+            updatePair(pair_data.pairId, { masterId: pair_data.masterId, playerId: pair_data.playerId! }),
+        onSuccess({ id }) {
+            console.log("Pair updated", { id })
+        }
+    })
+    const { data: removedPair, mutateAsync: removePairAsync, isPending: isPendingRemove } = useMutation({
+        mutationKey: ['pair', pairId],
+        mutationFn: async (pairId: number) => await removePair(pairId),
+        onSuccess({ id }) {
+            console.log("Pair deleted", { id })
+        },
+
+    })
+
+
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
         setAnchorEl(null);
+        // setSub(null)
     };
-    const { id: playerId, player, master, pairId, masterId } = data
+    const handleOpenSub = (event: React.MouseEvent<HTMLElement>) => {
+        setSub(event.currentTarget);
+    };
 
+    const handleCloseSub = () => {
+        setSub(null);
+    };
+    const handleRemovePlayer = useCallback(async () => {
+        await removePlayer(eventId, playerId)
+        console.log("removed player: ", player)
+    }, [eventId, playerId, player])
+    const handleUpdateMaster = useCallback(async (mid?: number) => {
+        if (!mid) return console.log("MasterId not found!", { masterId: mid })
+        if (pairId) await updatePairAsync({ pairId, masterId: mid, playerId })
+        else await addPair({ masterId: mid, eventId, playerId })
+    }, [eventId, pairId, playerId, updatePairAsync]
+    )
     return (
         <React.Fragment>
-            <IconButton onClick={ handleOpen } edge={ 'start' } color='secondary'>
-                <Icon path={ mdiPlusBox } size={ 1.5 } />
+            <IconButton onClick={ handleOpen } edge={ 'start' } color='secondary' disabled={ isPendingUpdate }>
+                <Icon path={ mdiDotsHorizontalCircleOutline } size={ 1.5 } />
+
+
             </IconButton>
             <Menu
                 anchorEl={ anchorEl }
@@ -129,27 +192,53 @@ const ButtonMasterMenu = ({ data }: {
                 transformOrigin={ { horizontal: "right", vertical: "top" } }
                 anchorOrigin={ { horizontal: "right", vertical: "bottom" } }
             >
-                {/* <MenuItem onClick={ () => console.log({ playerId, player }) }>
-                    remove player
-                </MenuItem> */}
-                <MenuItem onClick={ () => console.log(data) }>
-                    Add Master
+                <MenuItem onClick={ handleRemovePlayer }>
+                    удалить { player.split(" ")[1] }
                 </MenuItem>
-                {/* <MenuItem onClick={ () => console.log({ master, masterId }) }>
+                <MenuItem onClick={ handleOpenSub } >
+                    Add Pair
+                </MenuItem>
+                <MenuItem onClick={ () => pairId && removePairAsync(pairId) }>
                     remove master
-                </MenuItem> */}
+                </MenuItem>
 
             </Menu>
 
+            <Dialog open={ sub_open } onClose={ handleCloseSub }>
+                <DialogContent>
+                    <List dense>
 
+                        { masters.map((m, idx) =>
+                            <ListItemButton
+                                divider
+                                disableGutters
+                                key={ m.id }
+                                alignItems='center'
+                                onClick={ () => handleUpdateMaster(m.id) }>
+                                { idx + 1 }) { m.name }
+                            </ListItemButton>
+                        ) }
+                    </List>
+
+                </DialogContent>
+            </Dialog>
         </React.Fragment>
     )
 }
-const ButtonPlayerMenu = ({ data }: {
+const RemoveMenuButton = ({ data }: {
     data: SyncedPlayer
 }) => {
+    const { id: playerId, player, master, pairId, masterId, eventId } = data
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const { data: removedPair, mutateAsync: removePairAsync, isPending: isPendingRemove } = useMutation({
+        mutationKey: ['pair', pairId],
+        mutationFn: async (pairId: number) => await removePair(pairId),
+        onSuccess({ id }) {
+            console.log("Pair deleted", { id })
+        },
+
+    })
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -157,8 +246,18 @@ const ButtonPlayerMenu = ({ data }: {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const { id: playerId, player, master, pairId, masterId } = data
 
+    const deletePair = async (pairId?: number) => {
+        if (!pairId) return console.error("Pair id invalid: ", pairId)
+        await removePair(pairId)
+
+    }
+
+    const handleDeletePair = useCallback(async () => await deletePair(pairId), [pairId])
+    const handleRemovePlayer = useCallback(async () => {
+        await removePlayer(eventId, playerId)
+        console.log("removed player: ", player)
+    }, [eventId, playerId, player])
     return (
         <React.Fragment>
             <IconButton onClick={ handleOpen } edge={ 'start' } color='warning' >
@@ -173,11 +272,11 @@ const ButtonPlayerMenu = ({ data }: {
                 transformOrigin={ { horizontal: "right", vertical: "top" } }
                 anchorOrigin={ { horizontal: "right", vertical: "bottom" } }
             >
-                <MenuItem onClick={ () => console.log({ playerId, player }) }>
+                <MenuItem onClick={ handleRemovePlayer }>
                     remove player
                 </MenuItem>
 
-                <MenuItem onClick={ () => console.log({ master, masterId }) }>
+                <MenuItem onClick={ () => pairId && removePairAsync(pairId) }>
                     remove master
                 </MenuItem>
 

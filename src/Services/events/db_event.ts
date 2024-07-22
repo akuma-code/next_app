@@ -43,7 +43,7 @@ export async function getDBOneEventData(search: PrismaGetOneEvent['where'], sele
         const _selected = parseEventSelected(selected)
         const data = await db.findUnique({
             where: search,
-            select: _selected
+            select: { ..._selected, eventInfo: false, _count: false }
 
         })
 

@@ -25,7 +25,7 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
         <Box display={ 'flex' } flexDirection={ 'row' } gap={ 2 }>
 
             <EventView event={ event } masters={ masters } />
-            <EventView_v2 eventId={ Number(eventId) } masters={ master_record } />
+            <EventView_v2 eventId={ Number(eventId) } masters={ master_record } event={ event } />
 
         </Box>
     );

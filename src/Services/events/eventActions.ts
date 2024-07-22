@@ -4,10 +4,14 @@ import prisma from "@/client/client"
 import { DTO_NewEvent, eventCreate, updateEventPlayers } from "../eventService";
 import { revalidatePath } from "next/cache";
 import { _log } from "@/Helpers/helpersFns";
+import { Prisma } from "@prisma/client";
 
 
 const event = prisma.event
-
+interface EditEventDto {
+    search: Prisma.EventWhereUniqueInput,
+    new_data: Prisma.EventUpdateInput
+}
 export async function event_ADD(payload: DTO_NewEvent) {
     const { date_formated, players, title, isDraft = false } = payload;
     const existEvent = await event.findUnique({ where: { date_formated } })
@@ -36,18 +40,20 @@ export async function addPair(payload: {
                 // event: { connect: { id: eventId } }
 
             },
-            select: { id: true }
+            select: { id: true, masterId: true, playerId: true, }
 
         })
 
-        console.log('\ntsx_pair: ', tsx_pair)
+        console.log('\nnew_pair: ', tsx_pair)
         // console.log('tsx_eventConnect: ', tsx_eventConnect)
 
         return tsx_pair
     } catch (error) {
         _log(error)
         throw new Error("_Create pair error")
-    } finally { revalidatePath('/') }
+    } finally {
+        revalidatePath('/')
+    }
 
 }
 
@@ -68,8 +74,10 @@ export async function removePair(pairId: number) {
     }
 
 }
-export async function updatePair(pairId: number, payload: { masterId: number, playerId: number }) {
-    const { masterId: firstPlayerId, playerId: secondPlayerId } = payload
+export async function updatePair(pairId: number | undefined, payload: { masterId?: number, playerId: number }) {
+    if (!pairId) throw new Error("Update pair failed!")
+    if (!payload.masterId) return { id: pairId }
+    const { masterId, playerId } = payload
     try {
         const pair = await prisma.pair.update({
             where: {
@@ -77,9 +85,10 @@ export async function updatePair(pairId: number, payload: { masterId: number, pl
             },
             data: {
 
-                firstPlayerId: payload.masterId,
-                masterId: payload.masterId,
-                playerId: payload.playerId,
+                firstPlayerId: masterId,
+                masterId: masterId,
+                playerId: playerId,
+                secondPlayerId: playerId
             },
             select: { id: true }
         })
@@ -138,6 +147,25 @@ export async function getEventPairs(eventId: number | undefined) {
     } catch (error) {
         console.log(error)
         throw error
+    }
+
+}
+
+export async function editOneEvent(search: EditEventDto['search'], new_data: EditEventDto['new_data']) {
+    const e = prisma.event
+    try {
+        const updated = await e.update({
+            where: search,
+            data: { ...new_data },
+            select: { pairs: true, players: true, id: true, date_formated: true }
+        })
+        console.log(updated)
+        return updated
+    } catch (error) {
+        console.error("Update error", error)
+        throw error
+    } finally {
+        revalidatePath("/")
     }
 
 }

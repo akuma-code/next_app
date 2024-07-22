@@ -17,17 +17,18 @@ export const metadata: Metadata = {
 
 const TestLayout: React.FC<ContainerLayoutProps> = ({ children, view }) => {
     return (
-        <Grid container columns={ 12 }>
+        <Grid container columns={ 10 }>
             <Grid item md={ 2 } flexDirection={ 'column' } display={ 'flex' }>
-                <Link href={ '/test/list' }>List</Link>
                 <Link href={ '/test' }>Test</Link>
+                <Link href={ '/test/list' } >List</Link>
             </Grid>
-            <Grid item md={ 4 }>
-                { view }
-            </Grid>
-            <Grid item md={ 4 }>
-
+            <Grid item md={ 4 } sx={ { bgcolor: 'lightgray' } }>
+                @children
                 { children }
+            </Grid>
+            <Grid item md={ 4 } sx={ { bgcolor: 'grey' } }>
+                @view
+                { view }
             </Grid>
 
         </Grid>
