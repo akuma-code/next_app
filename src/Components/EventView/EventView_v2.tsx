@@ -12,8 +12,9 @@ import {
     editOneEvent,
     removePair,
     updatePair,
+    upsertPair,
 } from "@/Services/events/eventActions";
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 interface EventViewProps {
     eventId?: number
     masters: Record<string, { name: string }>
@@ -28,7 +29,7 @@ interface SyncedPlayer {
     pairId?: number;
     masterId?: number;
 }
-const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
+const EventView_v2 = ({ eventId, masters, event }: EventViewProps) => {
     const { data, error, isSuccess, isLoading, isError } = useGetEvent({ id: eventId })
 
 
@@ -132,17 +133,29 @@ const AddMenuButton = ({ data, masters }: {
     const open = Boolean(anchorEl);
     const [subAnchorEl, setSub] = useState<null | HTMLElement>(null);
     const sub_open = Boolean(subAnchorEl);
+    const queryClient = useQueryClient()
     const { id: playerId, player, master, pairId, masterId, eventId } = data
-    const { data: updatedPair, mutateAsync: updatePairAsync, isPending: isPendingUpdate } = useMutation({
-        mutationKey: ['pair', pairId, masterId, playerId],
-        mutationFn: async (pair_data: { pairId?: number, masterId?: number, playerId?: number }) =>
-            updatePair(pair_data.pairId, { masterId: pair_data.masterId, playerId: pair_data.playerId! }),
-        onSuccess({ id }) {
-            console.log("Pair updated", { id })
-        }
+
+
+    const upsert_pair = useCallback(async ({ pairId, playerId, masterId }: { playerId: number, masterId?: number | null, pairId?: number }) =>
+        await upsertPair({ id: pairId }, { eventId, playerId, masterId: masterId ?? null, pairId: pairId ?? null }), [eventId])
+
+
+
+    const { mutateAsync: updatePairAsync, isPending: isPendingUpdate } = useMutation({
+        mutationKey: ['event', 'pair', pairId, masterId, playerId],
+        mutationFn: async (pair_data: { playerId: number, masterId?: number | null, pairId: number }) =>
+            upsert_pair({ ...pair_data }),
+        // onMutate({ id, playerId, masterId }) {
+        //     queryClient.setQueryData(["event"], (prevEvs: any[]) => {
+
+        //     })
+        // }
     })
-    const { data: removedPair, mutateAsync: removePairAsync, isPending: isPendingRemove } = useMutation({
-        mutationKey: ['pair', pairId],
+
+
+    const { mutateAsync: removePairAsync, isPending: isPendingRemove } = useMutation({
+        mutationKey: ['event', 'pair', pairId],
         mutationFn: async (pairId: number) => await removePair(pairId),
         onSuccess({ id }) {
             console.log("Pair deleted", { id })
@@ -174,13 +187,16 @@ const AddMenuButton = ({ data, masters }: {
         if (!mid) return console.log("MasterId not found!", { masterId: mid })
         if (pairId) await updatePairAsync({ pairId, masterId: mid, playerId })
         else await addPair({ masterId: mid, eventId, playerId })
+        handleCloseSub()
     }, [eventId, pairId, playerId, updatePairAsync]
     )
     return (
         <React.Fragment>
             <IconButton onClick={ handleOpen } edge={ 'start' } color='secondary' disabled={ isPendingUpdate }>
-                <Icon path={ mdiDotsHorizontalCircleOutline } size={ 1.5 } />
-
+                { isPendingUpdate || isPendingRemove
+                    ? <CircularProgress />
+                    : <Icon path={ mdiDotsHorizontalCircleOutline } size={ 1.5 } />
+                }
 
             </IconButton>
             <Menu
@@ -197,6 +213,7 @@ const AddMenuButton = ({ data, masters }: {
                 </MenuItem>
                 <MenuItem onClick={ handleOpenSub } >
                     Add Pair
+
                 </MenuItem>
                 <MenuItem onClick={ () => pairId && removePairAsync(pairId) }>
                     remove master
@@ -214,7 +231,7 @@ const AddMenuButton = ({ data, masters }: {
                                 disableGutters
                                 key={ m.id }
                                 alignItems='center'
-                                onClick={ () => handleUpdateMaster(m.id) }>
+                                onClick={ async () => await handleUpdateMaster(m.id) }>
                                 { idx + 1 }) { m.name }
                             </ListItemButton>
                         ) }

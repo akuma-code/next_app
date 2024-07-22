@@ -169,3 +169,29 @@ export async function editOneEvent(search: EditEventDto['search'], new_data: Edi
     }
 
 }
+
+export async function upsertPair(where: Prisma.PairWhereUniqueInput, data: { eventId: number, pairId: number | null, playerId: number, masterId: number | null, id?: number | null }) {
+    const p = prisma.pair
+    const { eventId, masterId, pairId, playerId, id } = data
+    if (masterId) {
+
+        try {
+            const update = await p.upsert({
+                where,
+                create: { firstPlayerId: masterId, secondPlayerId: playerId, eventId },
+                update: { eventId, id: pairId ?? undefined, masterId, playerId },
+                select: {
+                    id: true,
+                    eventId: true,
+                    masterId: true,
+                    playerId: true,
+                }
+            })
+            console.log(update)
+        } catch (error) {
+            console.log({ error })
+        } finally {
+            revalidatePath("/avangard/events")
+        }
+    }
+}
