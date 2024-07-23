@@ -1,6 +1,6 @@
 "use client";
 
-import { alpha, Box, Button, Chip, Divider, Typography } from "@mui/material";
+import { alpha, Box, Button, ButtonGroup, Chip, Divider, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import db_data from "@/dataStore/allData/all_data.json";
 import { useCallback } from "react";
@@ -9,6 +9,7 @@ import { _date, _dbDateParser } from "@/Helpers/dateFuncs";
 import Icon from "@mdi/react";
 import { mdiSigma } from "@mdi/js";
 import dayjs from "dayjs";
+import Link from "next/link";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
@@ -34,7 +35,7 @@ export const ClientBackup = (props: { filename?: string }) => {
             return { events, pairs };
         },
     });
-    const filename = props.filename ?? "data"
+
     const exportData = useCallback(() => {
         const data = q.data;
         const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
@@ -83,17 +84,25 @@ export const ClientBackup = (props: { filename?: string }) => {
                     />
                 </Box>
             ) }
-            <Button
-                onClick={ exportData }
-                variant="contained"
-                color={ "info" }
-                sx={ {
-                    bgcolor: (theme) => alpha(theme.palette.info.dark, 0.7),
-                    mb: 2
-                } }
-            >
-                Сохранить как JSON
-            </Button>
+            <ButtonGroup>
+                <Button
+                    onClick={ exportData }
+                    variant="contained"
+                    color={ "info" }
+                    sx={ {
+                        bgcolor: (theme) => alpha(theme.palette.info.dark, 0.7),
+
+                    } }
+                >
+                    Сохранить как JSON
+                </Button>
+
+                <Button href="/api/backup" LinkComponent={ Link }
+                    variant="contained"
+                    color={ "info" }>
+                    SyncPairs
+                </Button>
+            </ButtonGroup>
             { q.error && <Box>{ q.error.message }</Box> }
         </Box>
     );

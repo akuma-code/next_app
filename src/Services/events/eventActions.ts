@@ -112,10 +112,15 @@ export async function syncPairs() {
             where: { id: p.id },
             data: {
                 player: { connect: { id: p.secondPlayerId } },
-                master: { connect: { id: p.firstPlayerId } }
+                master: { connect: { id: p.firstPlayerId } },
+
             }
         }))
-        await prisma.$transaction(tsx_pairs)
+
+
+        await prisma.$transaction(tsx_pairs).then(
+            res => res.map(p => ({ ...p, masterId: p.firstPlayerId, playerId: p.secondPlayerId }))
+        )
         // .then((res)=>res.map(p=>prisma.event.update({where:{id:p.eventId},data:{}})))
 
         return console.log("\n FINISH \n")

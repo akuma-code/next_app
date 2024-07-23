@@ -1,13 +1,26 @@
 export function reduceArrayToObject<T extends { id: number }>(array: Array<T>) {
-    return array.reduce((obj, current) => {
+    const res = array.reduce((obj, current) => {
         const { id, ...rest } = current
-        obj[id.toString()] = rest
+        obj[id.toString()] = current
         return obj
-    }, {} as Record<string, Omit<T, 'id'>>)
+    }, {} as Record<string, T>)
+    // console.log(res)
+    return res
 }
 
 
-export function reducePairs<T extends { secondPlayerId: number | null }>(pairs: T[]) {
+export function reducePairs<T extends { secondPlayerId: number, firstPlayerId: number, masterId: number | null }>(pairs: T[]) {
 
-    return pairs.reduce((obj, { secondPlayerId, ...rest }) => secondPlayerId ? ({ ...obj, [secondPlayerId]: rest }) : obj, {} as Record<string, Omit<T, 'secondPlayerId'>>)
+    const reduced = pairs.reduce(
+        (obj, { secondPlayerId, ...rest }) =>
+            secondPlayerId
+                ? ({ ...obj, [secondPlayerId]: { ...rest, masterId: rest.firstPlayerId } })
+                : { ...obj, masterId: rest.firstPlayerId }, {} as Record<string, T>)
+    // console.log({ reduced })
+    return reduced
+}
+
+
+export function handlePairsUpdate<T extends {}>() {
+
 }

@@ -15,17 +15,17 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     const { eventId } = params;
     const event = await getEventById(eventId);
     const masters = await getMasters();
-    const pairs = await getEventPairs(Number(eventId));
-    const obj = reducePairs(event?.pairs ?? [])
-    const p = await playersRecord()
-    const e2 = await getDBOneEventData({ id: +eventId }, ["players", "pairs"])
+    // const pairs = await getEventPairs(Number(eventId));
+    // const obj = reducePairs(event?.pairs ?? [])
+    // const p = await playersRecord()
+    // const e2 = await getDBOneEventData({ id: +eventId }, {pairs:true, })
     if (!event) return <Box>Event error!</Box>;
     const master_record = reduceArrayToObject(masters)
     return (
         <Box display={ 'flex' } flexDirection={ 'row' } gap={ 2 }>
 
             <EventView event={ event } masters={ masters } />
-            <EventView_v2 eventId={ Number(eventId) } masters={ master_record } event={ event } />
+            <EventView_v2 eventId={ Number(eventId) } masters={ masters } />
 
         </Box>
     );

@@ -49,7 +49,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         },
         // theme: { brandColor: "#aaaccc", colorScheme: "dark" },
         // trustHost: true,
-        debug: true,
+        // debug: true,
         callbacks: {
             // async signIn({ user, email, credentials, }) {
             //     console.table(credentials)
