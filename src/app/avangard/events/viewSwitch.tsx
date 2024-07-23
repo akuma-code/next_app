@@ -50,7 +50,6 @@ export async function ViewSwitch(props: ViewSwitchProps) {
         {
             date_formated: { endsWith: `${month}_2024` },
         },
-        ["date_formated", "pairs"]
     );
     switch (type) {
         case "card":

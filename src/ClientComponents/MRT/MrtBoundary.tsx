@@ -16,7 +16,7 @@ export const queryFetch: QueryFunction = async ({ queryKey }) => {
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            queryFn: queryFetch,
+            // queryFn: queryFetch,
             gcTime: 5000
         }
     }

@@ -416,3 +416,13 @@ export async function connectOnePlayer(eventId: number, playerId: number) {
         revalidatePath("/");
     }
 }
+
+
+// async function dateupdate(){
+//     const reverse =(date:string)=>date.split("_").reverse().join("_")
+//     const dates_arr = await prisma.event.findMany({select:{date_formated:true, id:true}})
+// const dates = dates_arr.reduce((acc,{date_formated,id})=>({...acc, [date_formated]:id}),{} as Record<string,number>)
+//     return await prisma.event.updateMany({
+//         data:{date_formated:{set:}}
+//     })
+// }

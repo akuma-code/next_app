@@ -9,6 +9,10 @@ const db_pairs = prisma.pair
 interface PrismaGetOneEvent {
     where: Prisma.EventWhereUniqueInput
     select: Prisma.EventSelect
+
+    config?: {
+        row_data?: boolean
+    }
 }
 interface PrismaGetManyEvents {
     where: Prisma.EventWhereInput
@@ -52,9 +56,9 @@ export async function getDBOneEventData(search: PrismaGetOneEvent['where'], sele
 
     try {
         // const _selected = parseEventSelected(selected)
-        const data = await db.findUnique({
+        const data = await db.findUniqueOrThrow({
             where: search,
-            select: { ...selected, eventInfo: false, _count: false, }
+            select: { _count: false, ...selected, eventInfo: false, }
 
         })
 
@@ -67,8 +71,14 @@ export async function getDBOneEventData(search: PrismaGetOneEvent['where'], sele
 
 }
 
-export async function getEventWithConfig({ where, select }: PrismaGetOneEvent): Promise<GetEventResponse | null> {
+export async function getEventWithConfig({ where, select, config }: PrismaGetOneEvent): Promise<GetEventResponse | null> {
     // if (!where.id) return null
+    if (config) {
+        const { row_data = false } = config
+        if (row_data === true) {
+
+        }
+    }
     try {
         // const _selected = parseEventSelected(selected)
         const data = await db.findUniqueOrThrow({
@@ -76,7 +86,15 @@ export async function getEventWithConfig({ where, select }: PrismaGetOneEvent): 
             select: { id: true, ...select }
 
         })
-
+        // const tolog = await db.groupBy({
+        //     by: ['date_formated'],
+        //     where: { pairs: {} },
+        //     having: {
+        //         date_formated: { endsWith: '06_2024' }
+        //     },
+        //     orderBy: { date_formated: 'asc' }
+        // })
+        // console.log(tolog.map(t => ({ ...t, date: t.date_formated.split("_").reverse().join("-") })))
         return data
     } catch (error) {
         console.error(error)
@@ -89,7 +107,7 @@ export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'],
         // const _selected = parseEventSelected(selected)
         const data = await db.findMany({
             where: search,
-            select: selected
+            select: { id: true, ...selected }
 
         })
 
@@ -102,17 +120,7 @@ export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'],
 
 }
 
-function parsePairSelected<T>(selected?: (keyof T)[]) {
-    const defaultSelect: Prisma.PairSelect<DefaultArgs> = {
-        id: true, eventId: true, firstPlayerId: true, secondPlayerId: true, masterId: true, playerId: true
-    }
-    if (!selected) return defaultSelect
-    const res = selected.reduce((prev, current) => {
-        if (!prev[current]) return prev = { ...prev, [current]: true }
-        return { ...prev, [current]: true }
-    }, {} as Record<keyof T, boolean>)
-    return { ...defaultSelect, ...res }
-}
+
 export async function getDbManyPairsData(search?: PrismaGetManyPairs['where'], selected?: PrismaGetManyPairs['select']) {
 
 

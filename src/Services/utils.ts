@@ -74,8 +74,8 @@ export async function getPlayersData(options?: { log?: boolean }) {
 
 export async function getAllData() {
     try {
-        const { data: events } = await getDBManyEventsData({}, ["date_formated", "id", "pairs", "players", "title"])
-        const { data: pairs } = await getDbManyPairsData({}, ["eventId", "id", "firstPlayerId", "secondPlayerId"])
+        const { data: events } = await getDBManyEventsData({}, { pairs: true, players: true, date_formated: true })
+        const { data: pairs } = await getDbManyPairsData({}, { master: true, player: true, event: true })
 
         const players = await prisma.player.findMany({ select: { id: true, name: true } })
         // const pairs = prisma.pair.findMany()

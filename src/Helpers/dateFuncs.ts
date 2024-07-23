@@ -6,7 +6,7 @@ export const _djs = (date?: string | dayjs.Dayjs | null) =>
   dayjs(date).format();
 
 export const _formated_date = (date?: string | dayjs.Dayjs | null) =>
-  dayjs(date).format("DD_MM_YYYY");
+  dayjs(date).format("YYYY-MM-DD");
 
 export enum DayOfWeek {
   "Понедельник",
@@ -34,7 +34,7 @@ export enum Month {
 }
 
 export const _dbDateParser = (date: string) => {
-  const obj = dayjs(date, "DD_MM_YYYY", "ru");
+  const obj = dayjs(date, "YYYY-MM-DD", "ru");
   const dd_mm_yyyy = obj.format("DD.MM.YYYY");
   const dd_mmmm = obj.format("DD MMMM");
   return { dd_mm_yyyy, dd_mmmm, _dayjs: obj };
@@ -43,9 +43,9 @@ export const _dbDateParser = (date: string) => {
 export const stringifyMonth = (newValue: number) =>
   newValue < 10 ? "0" + (newValue + 1) : `${newValue + 1}`;
 export function getMonthNumberFromDate(date_formated: string) {
-  const month = Month[dayjs(date_formated, "DD_MM_YYYY", "ru").month()];
+  const month = Month[dayjs(date_formated, "YYYY-MM-DD", "ru").month()];
   const [d, m, y] = date_formated.split("_").map(Number);
-  const day = DayOfWeek[dayjs(date_formated, "DD_MM_YYYY", "ru").day()];
+  const day = DayOfWeek[dayjs(date_formated, "YYYY-MM-DD", "ru").day()];
   return { month, day, d, m, y };
 }
 
@@ -54,7 +54,7 @@ type ReducedMonth = Partial<Record<keyof typeof Month & string, number>>
 export const _date = (date: string) => {
 
   const [d, m, y] = date.split("_").map(Number);
-  const djs = dayjs(date, "DD_MM_YYYY", "ru")
+  const djs = dayjs(date, "YYYY-MM-DD", "ru")
   const d_month = djs.month()
   const month_name = Month[d_month]
   const day_name = DayOfWeek[djs.day() - 1]
