@@ -68,7 +68,7 @@ const event_columns: MRT_ColumnDef<EventDto2>[] = [
         Cell({ renderedCellValue }) {
             return dayjs(
                 renderedCellValue?.toString(),
-                "DD_MM_YYYY",
+                "YYYY-MM-DD",
                 "ru"
             ).format("DD.MM.YYYY");
         },

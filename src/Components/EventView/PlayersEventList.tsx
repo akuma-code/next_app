@@ -29,7 +29,7 @@ export const PlayersEventList = ({ event_info }: EventListProps) => {
 
     const date = (_date: string) => {
 
-        const dat = dayjs(_date, "DD_MM_YYYY", 'ru').format('DD.MMMM').split(".").join(" ")
+        const dat = dayjs(_date, "YYYY-MM-DD", 'ru').format('DD.MMMM').split(".").join(" ")
         const splited = dat.split(".")
         const [d, m, y] = splited
 
