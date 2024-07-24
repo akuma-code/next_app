@@ -1,6 +1,7 @@
 'use server'
 import prisma from "@/client/client";
 import { getDBManyEventsData, getDbManyPairsData } from "./events/db_event";
+import { revalidatePath } from "next/cache";
 
 
 type PromiseType<T> = T extends Promise<infer U> ? U : never
@@ -92,3 +93,22 @@ export async function getAllData() {
         throw error
     }
 }
+
+
+export async function updateEventDates() {
+    const dates = await prisma.event.findMany({ where: { date_formated: { endsWith: '2024' } }, select: { id: true, date_formated: true } })
+    try {
+
+        const new_date = (old_date: string, idx?: number) => old_date.split("_").reverse().join("-")
+        const reversed = dates.map(e => ({ ...e, date_formated: new_date(e.date_formated) }))
+        const tsx = reversed.map(r => prisma.event.update({ where: { id: r.id }, data: { date_formated: r.date_formated } }))
+        return await prisma.$transaction(tsx)
+    } catch (error) {
+        throw error
+    } finally {
+        console.log({ dates })
+        revalidatePath("/")
+    }
+
+}
+

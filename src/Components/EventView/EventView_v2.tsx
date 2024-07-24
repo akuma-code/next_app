@@ -2,7 +2,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useContext, useMemo } from 'react'
 
 import { _dbDateParser } from "@/Helpers/dateFuncs"
-import { eventSelect, getPlayersList, syncPlayers, useGetEvent } from "@/Hooks/Queries/Events/useEvents"
+import { getPlayersList, syncPlayers, useGetEvent } from "@/Hooks/Queries/Events/useEvents"
 import {
     addPair,
     editOneEvent,
@@ -15,6 +15,7 @@ import { Alert, Box, CircularProgress, Dialog, DialogContent, IconButton, List, 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from "react"
 import { _log } from '@/Helpers/helpersFns'
+import { reduceArrayToObject } from '@/Helpers/reduceToObject'
 interface EventViewProps {
     eventId?: number
     masters: { name: string, id: number }[]
@@ -32,7 +33,7 @@ interface SyncedPlayer {
 
 interface EventListItem {
     player: { id: number, name: string }
-    master: { id: number, name: string }
+    master: { id: number, name: string } | null
     eventId: number
 
 }
@@ -41,7 +42,6 @@ export interface EventContextData {
     date_formated?: string,
     title?: string | null
     players?: { id: number, name: string }[]
-    masters?: Record<string, { name: string }>
 
 }
 export interface EventCtx {
@@ -51,57 +51,34 @@ export interface EventCtx {
 
 export const EventContext = React.createContext<EventCtx | null>(null)
 
-const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
+const EventView_v2 = ({ eventId }: EventViewProps) => {
     const { data, error, isSuccess, isLoading, isError } = useGetEvent({ id: eventId })
-    // const [state, setState] = useState(data)
     const [context, setContext] = useState<EventContextData | undefined>()
 
-    const event_data = useMemo(() => {
 
 
-        const res = eventSelect(data, masters)
+    const list_players = useMemo(() => {
 
-        return res
+        if (!isSuccess || !eventId) return
+        const _pairs = data.pairs.map(pp => ({ master: pp.master, player: pp.player, id: pp.id, eventId: pp.eventId }))
+
+        const RecPairs = _pairs.reduce((acc, { player, ...rest }) => player ? ({ ...acc, [player?.id]: rest }) : acc, {} as Record<string, typeof _pairs[number]>)
+
+        const withPairIds = (id: number) => _pairs.map(pp => pp?.player?.id ?? -1).includes(id)
+
+        const list = data.players.map(p =>
+            withPairIds(p.id)
+                ? { player: p, eventId, master: RecPairs[p.id].master, }
+                : { player: p, master: null, eventId }
+        )
+
+        return list
+    }, [data?.pairs, data?.players, eventId, isSuccess])
 
 
-    }, [data])
 
-    console.log(event_data)
-    // {
-    // id: eventId,
-    // players: data?.players,
-    // masters: masters,
-    // date_formated: data?.date_formated,
-    // title: data?.title
-    // }
-    // );
+    if (error) return (<Alert color='error'><p>{ error?.message }</p></Alert>)
 
-
-
-    // const list_players: SyncedPlayer[] = useMemo(() => {
-    //     if (!data) return []
-    //     const list = syncPlayers(data ?? undefined)
-    //         .map(p => p.pair
-    //             ? ({
-    //                 id: p.id,
-    //                 player: p.name,
-    //                 eventId: data.id,
-    //                 master: masters[p.pair.masterId.toString()].name,
-    //                 pairId: p.pair.id,
-    //                 masterId: p.pair.masterId,
-    //             })
-    //             : {
-    //                 player: p.name,
-    //                 id: p.id,
-    //                 eventId: data.id
-    //             })
-    //     return list
-    // }, [data, masters])
-
-    if (error) return (<Alert><p>{ error?.message }</p></Alert>)
-    // const mastersArray = Object.entries(masters).map(([id, { name }]) => ({ id: Number(id), name }))
-    // if (isLoading || !data) return <CircularProgress />
-    // const { dd_mm_yyyy } = _dbDateParser(data?.date_formated ?? "");
     return (
         <EventContext.Provider
             value={ {
@@ -126,60 +103,19 @@ const EventView_v2 = ({ eventId, masters }: EventViewProps) => {
                 p={ 1 }
             >
 
-                {/* { isLoading &&
-                <CircularProgress />
-            } */}
+
                 <Typography variant="h5" component={ 'div' } textAlign={ 'center' }>
                     { context?.title || "No title" }
                 </Typography>
                 <List dense sx={ { maxWidth: 300 } } >
-
                     {
-                        // isSuccess && state?.map(s =>
-                        //     <ListItem key={ s.player.id } dense >
-                        //         <ListItemText
-                        //             primary={ s.player.name }
-                        //             secondary={ s.master ? masters[s.master.id].name : "" } />
-                        //         <IconButton>
-                        //             <Icon path={ mdiDotsHorizontalCircleOutline } size={ 1.3 } />
-                        //         </IconButton>
-                        //     </ListItem>
-                        // )
+                        list_players ? list_players.map(p =>
+
+                            <EventListItem key={ p.player.id } player_data={ p } />
+                        )
+                            :
+                            <Box>Loading...</Box>
                     }
-
-                    {/* {
-                        data ?
-                            data.player_pairs.map(row =>
-
-                                <EventListItem player_data={ {...row, eventId:data.eventId} } masters={ masters } key={ row.player.id } />
-                            )
-                            : <CircularProgress />
-                    } */}
-                    {
-                        // list_players.map(p =>
-                        //     <ListItem key={ p.id }
-                        //         divider
-                        //         // alignItems='center'
-                        //         sx={ {
-                        //             display: "flex",
-                        //             flexDirection: "row",
-                        //             justifyContent: "space-between",
-
-                        //         } }
-                        //     >
-
-                        //         <ListItemText
-                        //             primary={ p.player }
-                        //             secondary={ p.master }
-                        //         />
-
-                        //         <AddMenuButton data={ p } masters={ mastersArray } />
-                        //         {/* <ButtonGroup >                        </ButtonGroup> */ }
-                        //     </ListItem>
-                        // )
-                    }
-
-
                 </List>
             </Box>
         </EventContext.Provider>
@@ -189,16 +125,14 @@ async function removePlayer(eventId: number, playerId: number) {
     await editOneEvent({ id: eventId }, { players: { disconnect: { id: playerId } } })
 }
 
-const EventListItem = ({ player_data, masters }: { player_data: EventListItem, masters: Record<string, { name: string }> }) => {
+const EventListItem = ({ player_data }: { player_data: EventListItem }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const ctx = useContext(EventContext)
-    // if (!ctx || !ctx.event) return null
-    // const { event, updater } = ctx;
+
     const open = Boolean(anchorEl);
     const handleOpen = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget);
-        console.clear()
-        // console.log(ctx.event)
+
+
     };
 
     const handleClose = () => {
@@ -215,14 +149,13 @@ const EventListItem = ({ player_data, masters }: { player_data: EventListItem, m
                 <ListItem key={ player_data.player.id } dense >
                     <ListItemText
                         primary={ player_data.player.name }
-                        secondary={ player_data.master ? masters[player_data.master.id].name : "" } />
+                        secondary={ player_data?.master?.name ?? "" } />
                     <>
                         <IconButton onClick={ handleOpen }>
                             <Icon path={ mdiDotsHorizontalCircleOutline } size={ 1.3 } />
                         </IconButton>
                         <Menu
                             anchorEl={ anchorEl }
-
                             open={ open }
                             onClose={ handleClose }
                             onClick={ handleClose }
@@ -230,8 +163,10 @@ const EventListItem = ({ player_data, masters }: { player_data: EventListItem, m
                             anchorOrigin={ { horizontal: "right", vertical: "bottom" } }
                         >
                             <MenuItem
-                            // onClick={ () => updater(prev => ({ ...prev, title: player_data.player.name })) }
-                            >1</MenuItem>
+
+                            >
+                                1
+                            </MenuItem>
                         </Menu>
                     </>
                 </ListItem>
@@ -264,11 +199,7 @@ const AddMenuButton = ({ data, masters }: {
         mutationKey: ['event', 'pair', { pairId, masterId, playerId }],
         mutationFn: async (pair_data: { playerId: number, masterId?: number | null, pairId: number }) =>
             upsert_pair({ ...pair_data }),
-        // onMutate({ id, playerId, masterId }) {
-        //     queryClient.setQueryData(["event"], (prevEvs: any[]) => {
 
-        //     })
-        // }
     })
 
 

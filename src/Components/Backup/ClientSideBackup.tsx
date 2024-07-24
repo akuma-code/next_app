@@ -10,11 +10,12 @@ import Icon from "@mdi/react";
 import { mdiSigma } from "@mdi/js";
 import dayjs from "dayjs";
 import Link from "next/link";
+import { updateEventDates } from "@/Services/utils";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
 }
-
+const updater = updateEventDates.bind(null)
 export const ClientBackup = (props: { filename?: string }) => {
     const q = useQuery({
         queryKey: ["/api/backup"],
@@ -84,25 +85,33 @@ export const ClientBackup = (props: { filename?: string }) => {
                     />
                 </Box>
             ) }
-            <ButtonGroup>
-                <Button
-                    onClick={ exportData }
-                    variant="contained"
-                    color={ "info" }
-                    sx={ {
-                        bgcolor: (theme) => alpha(theme.palette.info.dark, 0.7),
+            <form action={ updater }>
+                <ButtonGroup>
+                    <Button
+                        onClick={ exportData }
+                        variant="contained"
+                        color={ "info" }
+                        sx={ {
+                            bgcolor: (theme) => alpha(theme.palette.info.dark, 0.7),
 
-                    } }
-                >
-                    Сохранить как JSON
-                </Button>
+                        } }
+                    >
+                        Сохранить как JSON
+                    </Button>
 
-                <Button href="/api/backup" LinkComponent={ Link }
-                    variant="contained"
-                    color={ "info" }>
-                    SyncPairs
-                </Button>
-            </ButtonGroup>
+                    <Button href="/api/backup" LinkComponent={ Link }
+                        variant="contained"
+                        color={ "info" }>
+                        SyncPairs
+                    </Button>
+
+                    <Button type="submit"
+                        variant="contained"
+                        color={ "info" }>
+                        Update Data
+                    </Button>
+                </ButtonGroup>
+            </form>
             { q.error && <Box>{ q.error.message }</Box> }
         </Box>
     );

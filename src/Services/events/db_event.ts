@@ -14,6 +14,14 @@ interface PrismaGetOneEvent {
         row_data?: boolean
     }
 }
+
+type EventIncludesReturn = {
+    pairs: Prisma.PairGetPayload<{ include: { master: true, player: true } }>[]
+    players: Prisma.PlayerGetPayload<true>[]
+    id: number
+    date_formated: string
+    title?: string | null
+}
 interface PrismaGetManyEvents {
     where: Prisma.EventWhereInput
     select: Prisma.EventSelect
@@ -28,7 +36,7 @@ const defaultEventSelect: Prisma.EventSelect = {
     date_formated: true,
     title: true,
     players: true,
-    pairs: true,
+    pairs: { include: { master: true, player: true } },
     isDraft: false,
     eventInfo: false
 
@@ -71,7 +79,7 @@ export async function getDBOneEventData(search: PrismaGetOneEvent['where'], sele
 
 }
 
-export async function getEventWithConfig({ where, select, config }: PrismaGetOneEvent): Promise<GetEventResponse | null> {
+export async function getEventWithConfig({ where, select, config }: PrismaGetOneEvent) {
     // if (!where.id) return null
     if (config) {
         const { row_data = false } = config
@@ -83,8 +91,11 @@ export async function getEventWithConfig({ where, select, config }: PrismaGetOne
         // const _selected = parseEventSelected(selected)
         const data = await db.findUniqueOrThrow({
             where,
-            select: { id: true, ...select }
+            select: {
+                id: true,
 
+                ...select
+            }
         })
         // const tolog = await db.groupBy({
         //     by: ['date_formated'],
@@ -96,6 +107,32 @@ export async function getEventWithConfig({ where, select, config }: PrismaGetOne
         // })
         // console.log(tolog.map(t => ({ ...t, date: t.date_formated.split("_").reverse().join("-") })))
         return data
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+}
+export async function getEventWithIncludes({ where, includes }: { where: Prisma.EventWhereUniqueInput, includes?: Prisma.EventInclude<DefaultArgs> }) {
+    // if (!where.id) return null
+
+    try {
+
+        const data = await db.findUniqueOrThrow({
+            where,
+            include: {
+                pairs: {
+                    include: {
+                        player: true,
+                        master: true,
+                    }
+                },
+                players: true,
+                ...includes
+            }
+
+        })
+
+        return data as unknown as EventIncludesReturn
     } catch (error) {
         console.error(error)
         throw error
