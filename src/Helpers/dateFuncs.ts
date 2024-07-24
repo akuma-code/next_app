@@ -2,8 +2,6 @@ import dayjs, { Dayjs } from "dayjs";
 
 
 
-export const _djs = (date?: string | dayjs.Dayjs | null) =>
-  dayjs(date).format();
 
 export const _formated_date = (date?: string | dayjs.Dayjs | null) =>
   dayjs(date).format("YYYY-MM-DD");
@@ -44,7 +42,7 @@ export const stringifyMonth = (newValue: number) =>
   newValue < 10 ? "0" + (newValue + 1) : `${newValue + 1}`;
 export function getMonthNumberFromDate(date_formated: string) {
   const month = Month[dayjs(date_formated, "YYYY-MM-DD", "ru").month()];
-  const [d, m, y] = date_formated.split("_").map(Number);
+  const [y, m, d] = date_formated.split("_").map(Number);
   const day = DayOfWeek[dayjs(date_formated, "YYYY-MM-DD", "ru").day()];
   return { month, day, d, m, y };
 }
@@ -53,7 +51,7 @@ type ReducedMonth = Partial<Record<keyof typeof Month & string, number>>
 
 export const _date = (date: string) => {
 
-  const [d, m, y] = date.split("_").map(Number);
+  const [y, m, d] = date.split("_").map(Number);
   const djs = dayjs(date, "YYYY-MM-DD", "ru")
   const d_month = djs.month()
   const month_name = Month[d_month]

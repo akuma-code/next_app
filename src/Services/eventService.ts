@@ -264,13 +264,13 @@ export async function getEventsByMonth(
             });
             return events;
         }
-        const searchM = `${month}_${y}` as const;
+        const searchM = `${y}-${month}` as const;
         const result = await e.findMany({
             where: {
                 AND: {
                     players: {},
                     isDraft: false,
-                    date_formated: { endsWith: searchM },
+                    date_formated: { startsWith: searchM },
                 },
             },
             select: {
