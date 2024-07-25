@@ -34,7 +34,8 @@ export const _ProfileSelect: Record<keyof Prisma.ProfileUncheckedCreateInput, bo
     id: true,
     name: true,
     playerId: true,
-    userId: true
+    userId: true,
+    settings: true
 }
 export type PrismaPlayer = {
     id: number;
