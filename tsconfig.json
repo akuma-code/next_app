@@ -28,7 +28,10 @@
         "./prisma/*"
       ],
       "@/Service/*": [
-        "./src/Services"
+        "./src/Services/*"
+      ],
+      "#/app/*": [
+        "./app/*"
       ]
     }
   },

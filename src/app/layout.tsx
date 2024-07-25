@@ -29,8 +29,8 @@ const RootLayout: React.FC<{
         <html lang="ru">
             <body className={ cls }>
                 <SessionProvider session={ session } refetchOnWindowFocus>
-                    <Providers>
-                        <MrtBoundary>
+                    <MrtBoundary>
+                        <Providers>
 
                             <Paper
                                 maxWidth={ "lg" }
@@ -44,8 +44,8 @@ const RootLayout: React.FC<{
                                 { modalEvent }
                             </Paper>
                             <SpeedInsights />
-                        </MrtBoundary>
-                    </Providers>
+                        </Providers>
+                    </MrtBoundary>
                 </SessionProvider>
             </body>
         </html>

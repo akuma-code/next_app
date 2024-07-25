@@ -76,7 +76,7 @@ export const PlayersEventList = ({ event_info }: EventListProps) => {
 
 
 const splitDate = (date: string) => {
-    const [d, m, y] = dayjs(date, "DD_MM_YYYY", 'ru')
+    const [d, m, y] = dayjs(date, "YYYY-MM-DD", 'ru')
         .format("DD.MM.YYYY")
         .split(".")
         .map(Number)

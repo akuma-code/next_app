@@ -1,50 +1,138 @@
 [
     {
         "id": 49,
-        "eventId": 85,
         "firstPlayerId": 1,
-        "secondPlayerId": 7
+        "secondPlayerId": 7,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 85
     },
     {
         "id": 50,
-        "eventId": 85,
         "firstPlayerId": 1,
-        "secondPlayerId": 35
+        "secondPlayerId": 35,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 85
     },
     {
         "id": 51,
-        "eventId": 86,
         "firstPlayerId": 1,
-        "secondPlayerId": 35
+        "secondPlayerId": 35,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 86
     },
     {
         "id": 52,
-        "eventId": 86,
         "firstPlayerId": 2,
-        "secondPlayerId": 12
+        "secondPlayerId": 12,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 86
     },
     {
         "id": 53,
-        "eventId": 86,
         "firstPlayerId": 2,
-        "secondPlayerId": 46
+        "secondPlayerId": 46,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 86
     },
     {
         "id": 54,
-        "eventId": 87,
         "firstPlayerId": 2,
-        "secondPlayerId": 11
+        "secondPlayerId": 11,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 87
     },
     {
         "id": 55,
-        "eventId": 87,
         "firstPlayerId": 1,
-        "secondPlayerId": 19
+        "secondPlayerId": 19,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 87
     },
     {
         "id": 56,
-        "eventId": 87,
         "firstPlayerId": 2,
-        "secondPlayerId": 22
+        "secondPlayerId": 22,
+        "masterId": null,
+        "playerId": null,
+        "eventId": 87
+    },
+    {
+        "id": 57,
+        "firstPlayerId": 1,
+        "secondPlayerId": 11,
+        "masterId": 1,
+        "playerId": 11,
+        "eventId": 88
+    },
+    {
+        "id": 58,
+        "firstPlayerId": 2,
+        "secondPlayerId": 22,
+        "masterId": 2,
+        "playerId": 22,
+        "eventId": 88
+    },
+    {
+        "id": 59,
+        "firstPlayerId": 2,
+        "secondPlayerId": 12,
+        "masterId": 2,
+        "playerId": 12,
+        "eventId": 88
+    },
+    {
+        "id": 60,
+        "firstPlayerId": 1,
+        "secondPlayerId": 20,
+        "masterId": 1,
+        "playerId": 20,
+        "eventId": 88
+    },
+    {
+        "id": 61,
+        "firstPlayerId": 2,
+        "secondPlayerId": 46,
+        "masterId": 2,
+        "playerId": 46,
+        "eventId": 89
+    },
+    {
+        "id": 62,
+        "firstPlayerId": 2,
+        "secondPlayerId": 12,
+        "masterId": 2,
+        "playerId": 12,
+        "eventId": 89
+    },
+    {
+        "id": 63,
+        "firstPlayerId": 2,
+        "secondPlayerId": 46,
+        "masterId": 2,
+        "playerId": 46,
+        "eventId": 90
+    },
+    {
+        "id": 64,
+        "firstPlayerId": 2,
+        "secondPlayerId": 12,
+        "masterId": 2,
+        "playerId": 12,
+        "eventId": 90
+    },
+    {
+        "id": 65,
+        "firstPlayerId": 1,
+        "secondPlayerId": 35,
+        "masterId": 1,
+        "playerId": 35,
+        "eventId": 90
     }
 ]

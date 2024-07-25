@@ -7,7 +7,7 @@ import type { Provider } from 'next-auth/providers'
 
 import authConfig from './auth.config'
 import prisma from "@/client/client"
-import { testGetUser } from "@/Services/userService"
+import { getUserByEmail, testGetUser } from "@/Services/userService"
 import { AdapterUser } from "@auth/core/adapters"
 import { randomBytes, randomUUID } from "crypto"
 import { redirect } from "next/navigation"
@@ -58,7 +58,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
             // },
 
 
-            async jwt({ token, user, account }) {
+            async jwt({ token, user, }) {
                 // if (trigger === 'update') {
                 //     console.log("Updated user: ")
                 //     console.table(session)
@@ -89,15 +89,20 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // const c = cookies().getAll()
                 if (user) { // User is available during sign-in
 
-                    await testGetUser(user.email)
-                        .then(u => token.userId = u?.id)
 
                     token.user = user
                     token.role = user.role
                     token.name = user.name
                     token.email = user.email
+                    token.settings = { ...user?.settings }
+                    token.userId = Number(user?.id)
                     // c.set('stoken', token.sub!)
-                    return token
+                    // return token
+                    // await getUserByEmail({ email: user.email! })
+                    //     .then(u => ({
+                    //         ...token, userId: u?.id,
+                    //         settings: u?.settings ? u?.settings : { theme: 'light', view: 'card' }
+                    //     }))
                 }
 
 
@@ -105,6 +110,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
                 // console.log("🚀 ~ jwt ~ c:", c)
 
+                console.log("jwt returns: \n", { token })
 
 
 
@@ -113,18 +119,19 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 //     // Subsequent logins, if the `access_token` is still valid, return the JWT
                 //     return token
                 // }
-                // console.log("jwt returns: \n", { token })
                 return token
             },
-            async session({ session, token, }) {
+            async session({ session, token }) {
 
                 // if (trigger) {
                 //     session.sessionToken === token.refresh_token
                 // }
+                console.log({ token })
                 if (token.sub) session.sessionToken = token.sub
                 session.user.role = token.role as UserRole
                 session.user.name = token.name
                 session.user_id = token.userId
+                session.settings = token.settings
                 // token.sub && await cookies().set('token', token.sub)
 
 
@@ -153,10 +160,10 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("GoodBye, ", message)
             },
             session(message) {
-                // console.log("session fires: ")
-                // console.log({ session: message.session })
+                console.log("session fires: ")
+                console.log({ token: message.token })
                 // console.log("tokenUser: ")
-                // console.log({ user: message.token.user })
+                console.log({ session: message.session })
             },
         },
 
@@ -181,6 +188,7 @@ declare module "next-auth/jwt" {
         error?: "RefreshAccessTokenError"
         user: AdapterUser | User
         userId?: number | null
+        settings: Record<string, string> | null
     }
 }
 declare module "next-auth" {
@@ -194,16 +202,23 @@ declare module "next-auth" {
         role?: string
         name?: string | null
         password?: string
+
+        settings?: {
+            theme: string,
+            view: string
+
+        }
         // emailVerified?: number | null
 
     }
 
-    interface Session {
+    interface Session extends DefaultSession {
 
         user_id?: number | null
+        settings: Record<string, string> | null
         user: {
-            // userId?: number | null
-            // db_id?: number
+            settings: Record<string, string> | null
+
             id?: string
             role: string
             name?: string | null

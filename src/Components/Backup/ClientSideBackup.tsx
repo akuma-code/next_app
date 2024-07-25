@@ -11,6 +11,7 @@ import { mdiSigma } from "@mdi/js";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { updateEventDates } from "@/Services/utils";
+import { fetcherJson } from "@/Helpers/fetcher";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
@@ -22,12 +23,12 @@ export const ClientBackup = (props: { filename?: string }) => {
         queryFn: getData,
         select: (data) => {
             let { events, pairs } = data;
-            events.map((e) => ({
+            events.map((e: any) => ({
                 ...e,
                 date_formated: e.date_formated,
                 id: e.id,
                 title: e.title,
-                players: e.players.map((p) => ({ id: p.id, name: p.name })),
+                players: e.players.map((p: any) => ({ id: p.id, name: p.name })),
             }));
             pairs.map((p) => ({
                 masterId: p.firstPlayerId,

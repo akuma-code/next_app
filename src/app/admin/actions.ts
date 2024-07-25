@@ -83,7 +83,7 @@ export async function getBackupEvents() {
 export async function getBackup() {
     const events = await prisma.event.findMany({ include: { players: true, pairs: true } })
 
-    const pairs = await prisma.pair.findMany()
+    const pairs = await prisma.pair.findMany({ include: { event: true, master: true, player: true } })
 
     return { events, pairs }
 

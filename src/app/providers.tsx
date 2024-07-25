@@ -1,23 +1,23 @@
 "use client";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ruRU } from "@mui/material/locale";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
-    dehydrate,
-    HydrationBoundary,
     QueryClient,
-    QueryClientProvider,
-    QueryFunction,
+    QueryFunction
 } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import weekday from "dayjs/plugin/weekday";
 import React, { useMemo } from "react";
 import { getDesignTokens } from "../theme";
-import { ruRU } from "@mui/material/locale";
+import useMediaDetect from "@/Hooks/useMediaDetect";
+
+
+
 dayjs.extend(weekday);
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0];
@@ -31,40 +31,14 @@ export const queryFetch: QueryFunction = async ({ queryKey }) => {
     return data.json();
 };
 
-function makeQueryClient() {
-    return new QueryClient({
-        defaultOptions: {
-            queries: {
-                queryFn: queryFetch,
-                // With SSR, we usually want to set some default staleTime
-                // above 0 to avoid refetching immediately on the client
-                staleTime: 60 * 1000,
-            },
-        },
-    });
-}
 
-let browserQueryClient: QueryClient | undefined = undefined;
-
-export function getQueryClient() {
-    if (typeof window === "undefined") {
-        // Server: always make a new query client
-        return makeQueryClient();
-    } else {
-        // Browser: make a new query client if we don't already have one
-        // This is very important so we don't re-make a new client if React
-        // suspends during the initial render. This may not be needed if we
-        // have a suspense boundary BELOW the creation of the query client
-        if (!browserQueryClient) browserQueryClient = makeQueryClient();
-        return browserQueryClient;
-    }
-}
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => { },
 });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
+    const { device, isMobile, isDesktop } = useMediaDetect()
     // console.log('prefersDarkMode: ', prefersDarkMode)
     const savedmode: PaletteMode = prefersDarkMode ? "dark" : "light";
 
@@ -83,20 +57,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         []
     );
 
-    // NOTE: Avoid useState when initializing the query client if you don't
-    //       have a suspense boundary between this and the code that may
-    //       suspend because React will throw away the client on the initial
-    //       render if it suspends and there is no boundary
-    const queryClient = getQueryClient();
+    // (isMobile || isDesktop) && console.log({ device })
     const THEME = useMemo(
         () => createTheme({ ...getDesignTokens(mode) }, ruRU),
         [mode]
     );
     return (
-        <AppRouterCacheProvider>
-            <ColorModeContext.Provider value={ colorMode }>
-                {/* <QueryClientProvider client={ queryClient }>
-                    <HydrationBoundary state={ dehydrate(queryClient) }> */}
+        <ColorModeContext.Provider value={ colorMode }>
+            <AppRouterCacheProvider>
+
                 <ThemeProvider theme={ THEME }>
                     <CssBaseline enableColorScheme />
                     <LocalizationProvider
@@ -104,15 +73,43 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                         adapterLocale="ru"
                     >
                         { children }
-                        {/* <ReactQueryDevtools
-                            client={ queryClient }
-                            initialIsOpen={ false }
-                        /> */}
+
                     </LocalizationProvider>
                 </ThemeProvider>
-                {/* </HydrationBoundary>
-                </QueryClientProvider> */}
-            </ColorModeContext.Provider>
-        </AppRouterCacheProvider>
+
+            </AppRouterCacheProvider>
+        </ColorModeContext.Provider>
     );
 }
+
+
+
+
+// function makeQueryClient() {
+//     return new QueryClient({
+//         defaultOptions: {
+//             queries: {
+//                 queryFn: queryFetch,
+//                 // With SSR, we usually want to set some default staleTime
+//                 // above 0 to avoid refetching immediately on the client
+//                 staleTime: 60 * 1000,
+//             },
+//         },
+//     });
+// }
+
+// let browserQueryClient: QueryClient | undefined = undefined;
+
+// export function getQueryClient() {
+//     if (typeof window === "undefined") {
+//         // Server: always make a new query client
+//         return makeQueryClient();
+//     } else {
+//         // Browser: make a new query client if we don't already have one
+//         // This is very important so we don't re-make a new client if React
+//         // suspends during the initial render. This may not be needed if we
+//         // have a suspense boundary BELOW the creation of the query client
+//         if (!browserQueryClient) browserQueryClient = makeQueryClient();
+//         return browserQueryClient;
+//     }
+// }
