@@ -4,8 +4,8 @@ import { Box } from "@mui/material";
 
 async function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
-        <Box>
-
+        <Box border={ "2px solid black" }>
+            dashboard
             { children }
 
         </Box>

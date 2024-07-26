@@ -1,17 +1,13 @@
 
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient, UserRole } from "@prisma/client"
+import { UserRole } from "@prisma/client"
 import NextAuth, { DefaultSession, User } from "next-auth"
 import { JWTOptions, type JWT } from 'next-auth/jwt'
 import type { Provider } from 'next-auth/providers'
 
-import authConfig from './auth.config'
 import prisma from "@/client/client"
-import { getUserByEmail, testGetUser } from "@/Services/userService"
 import { AdapterUser } from "@auth/core/adapters"
-import { randomBytes, randomUUID } from "crypto"
-import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
+import authConfig from './auth.config'
 
 
 export type UserAuthPayload = {
@@ -94,8 +90,8 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                     token.role = user.role
                     token.name = user.name
                     token.email = user.email
-                    token.settings = { ...user?.settings }
-                    token.userId = Number(user?.id)
+                    // token.settings = { ...user?.settings }
+                    token.userId = user.userId
                     // c.set('stoken', token.sub!)
                     // return token
                     // await getUserByEmail({ email: user.email! })
@@ -110,7 +106,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
                 // console.log("🚀 ~ jwt ~ c:", c)
 
-                console.log("jwt returns: \n", { token })
+                // console.log("jwt returns: \n", { token })
 
 
 
@@ -126,16 +122,16 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // if (trigger) {
                 //     session.sessionToken === token.refresh_token
                 // }
-                console.log({ token })
                 if (token.sub) session.sessionToken = token.sub
                 session.user.role = token.role as UserRole
                 session.user.name = token.name
                 session.user_id = token.userId
-                session.settings = token.settings
+                // session.settings = token.settings
                 // token.sub && await cookies().set('token', token.sub)
 
 
                 // console.log("session returns \n", { session })
+                console.log({ token })
                 return session
             },
 
@@ -150,6 +146,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
                 console.log("events fires: in")
                 console.table(message.user)
+                console.table(message.profile)
             },
             updateUser(message) {
                 console.log("events fires: update")
@@ -160,10 +157,10 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("GoodBye, ", message)
             },
             session(message) {
-                console.log("session fires: ")
-                console.log({ token: message.token })
+                // console.log("session fires: ")
+                // console.log({ token: message.token })
                 // console.log("tokenUser: ")
-                console.log({ session: message.session })
+                // console.log({ session: message.session })
             },
         },
 
@@ -197,7 +194,7 @@ declare module "next-auth" {
      */
     interface User {
         // db_id?: number
-        id?: string
+        // id?: number
         userId?: number | null
         role?: string
         name?: string | null
@@ -219,7 +216,7 @@ declare module "next-auth" {
         user: {
             settings: Record<string, string> | null
 
-            id?: string
+            // id?: number
             role: string
             name?: string | null
             password?: string

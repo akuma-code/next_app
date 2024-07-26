@@ -47,12 +47,12 @@ export async function getUserByEmail({ email }: { email: string }) {
     let user = await prisma.user.findFirst({
         where: { email }, select: {
             email: true,
-            id: true,
+            // id: true,
             name: true,
             password: true,
             image: true,
             role: true,
-            profile: { include: { settings: true } }
+            // profile: true
         }
     })
     if (!user) return null
@@ -99,7 +99,7 @@ export async function deleteUser(id: number) {
 
 export async function testGetUser(email?: string | null) {
     if (!email) return null
-    const u = prisma.user.findUnique({ where: { email }, include: { profile: { include: { settings: true, player: true } } } })
+    const u = prisma.user.findUnique({ where: { email }, include: { profile: true } })
     revalidatePath("/")
     return u
 
@@ -174,12 +174,7 @@ export async function createUserWithProfile(user_data: Prisma.UserCreateInput, p
                 profile: {
                     create: {
                         name,
-                        settings: {
-                            create: {
-                                theme: 'light',
-                                view: 'card'
-                            }
-                        },
+
                         ...profile_data
                     }
                 }

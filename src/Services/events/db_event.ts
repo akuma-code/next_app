@@ -112,8 +112,22 @@ export async function getEventWithConfig({ where, select, config }: PrismaGetOne
         throw error
     }
 }
-export async function getEventWithIncludes({ where, includes }: { where: Prisma.EventWhereUniqueInput, includes?: Prisma.EventInclude<DefaultArgs> }) {
+
+interface GetEventWithIncludesProps {
+    where: Prisma.EventWhereUniqueInput
+    includes?: Prisma.EventInclude<DefaultArgs>
+}
+interface GetEventWithSelectProps {
+    where: Prisma.EventWhereUniqueInput
+    select?: Prisma.EventSelect<DefaultArgs>
+}
+
+type GetEventProps =
+    | GetEventWithIncludesProps
+    | GetEventWithSelectProps
+export async function getEventWithIncludes(payload: GetEventWithIncludesProps) {
     // if (!where.id) return null
+    const { where, includes } = payload
 
     try {
 

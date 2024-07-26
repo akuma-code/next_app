@@ -132,23 +132,20 @@ model User {
 }
 
 model Profile {
-  id       Int               @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   name     String?
-  playerId Int?              @unique
-  player   Player?           @relation(fields: [playerId], references: [id])
-  userId   Int               @unique
-  user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  settings ProfileSettings[]
+  playerId Int?    @unique
+  player   Player? @relation(fields: [playerId], references: [id])
+  userId   Int     @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("profiles")
 }
 
 model ProfileSettings {
-  id        Int     @id @default(autoincrement())
-  profileId Int
-  profile   Profile @relation(fields: [profileId], references: [id])
-  theme     String  @default("light")
-  view      String  @default("card")
+  id    Int    @id @default(autoincrement())
+  theme String @default("light")
+  view  String @default("card")
 
   @@map("settings")
 }

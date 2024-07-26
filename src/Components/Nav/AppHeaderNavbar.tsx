@@ -19,8 +19,12 @@ const { apiUrl, pageUrl } = paths;
 const isProduction = process.env.NODE_ENV === 'production'
 const routes = [
     {
-        to: "/avangard/events",
+        to: "/avangard",
         text: "Авангард",
+    },
+    {
+        to: "/avangard/events",
+        text: "Тренировки",
     },
     {
         to: pageUrl.admin,
