@@ -183,13 +183,14 @@ export async function upsertPair(where: Prisma.PairWhereUniqueInput, data: { eve
         try {
             const update = await p.upsert({
                 where,
-                create: { firstPlayerId: masterId, secondPlayerId: playerId, eventId },
+                create: { firstPlayerId: masterId, secondPlayerId: playerId, playerId, eventId },
                 update: { eventId, id: pairId ?? undefined, masterId, playerId },
                 select: {
                     id: true,
                     eventId: true,
                     masterId: true,
                     playerId: true,
+
                 }
             })
             console.log(update)
