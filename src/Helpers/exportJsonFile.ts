@@ -1,3 +1,4 @@
+'use client'
 export const exportData = <T>(data: T) => {
 
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(

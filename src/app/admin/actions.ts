@@ -45,9 +45,9 @@ export async function reseedPlayers(force = false) {
     await seedObjectPlayers(players_to_seed2, { force });
 }
 
-export async function reseedEvents() {
-    return await seedEventsMap(events_last, { clear: true, abortSygnal: false })
-}
+// export async function reseedEvents() {
+//     return await seedEventsMap(events_last, { clear: true, abortSygnal: false })
+// }
 
 export async function backupEvents() {
     const data = await getBackupEvents()
