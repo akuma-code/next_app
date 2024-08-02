@@ -47,7 +47,7 @@ export async function getImportantData() {
 
 export async function updatePairs() {
     try {
-        const pairs = await prisma.pair.findMany()
+        const pairs = await prisma.pair.findMany({ where: { masterId: null } })
         console.log({ pairs })
 
         const updated = pairs.map(p => ({ ...p, masterId: p.firstPlayerId, playerId: p.secondPlayerId }))
@@ -55,10 +55,10 @@ export async function updatePairs() {
         const tsx = updated.map(pp => prisma.pair.update({
             where: { id: pp.id },
             data: {
-                // player: { connect: { id: pp.secondPlayerId } },
-                // master: { connect: { id: pp.firstPlayerId } },
-                playerId: pp.secondPlayerId,
-                masterId: pp.firstPlayerId,
+                player: { connect: { id: pp.secondPlayerId } },
+                master: { connect: { id: pp.firstPlayerId } },
+                // playerId: pp.secondPlayerId,
+                // masterId: pp.firstPlayerId,
             }
         }))
 
