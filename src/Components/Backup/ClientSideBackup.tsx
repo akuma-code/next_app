@@ -32,7 +32,7 @@ async function saveData() {
 }
 
 async function update() {
-    return await updatePairs();
+    return updatePairs.bind(null);
 }
 export const ClientBackup = (props: { filename?: string }) => {
     const q = useQuery({
@@ -154,8 +154,8 @@ export const ClientBackup = (props: { filename?: string }) => {
                 </Button>
             </ButtonGroup>
             {/* </form> */}
-            {q.error && <Box>{q.error.message}</Box>}
-            {b.error && <Box>{b.error.message}</Box>}
+            {q.error && <Box>q error: {q.error.message}</Box>}
+            {b.error && <Box>b error: {b.error.message}</Box>}
         </Box>
     );
 };

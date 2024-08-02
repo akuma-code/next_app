@@ -47,7 +47,7 @@ export async function getImportantData() {
 
 export async function updatePairs() {
     try {
-        const pairs = await prisma.pair.findMany({ where: { masterId: null } })
+        const pairs = await prisma.pair.findMany({ where: { eventId: { lte: 87 } } })
         console.log({ pairs })
 
         const updated = pairs.map(p => ({ ...p, masterId: p.firstPlayerId, playerId: p.secondPlayerId }))
