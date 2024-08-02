@@ -1,7 +1,8 @@
 import { ClientBackup } from "@/Components/Backup/ClientSideBackup";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { RestoreButtons } from "./RestoreButtons";
 import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
+import Link from "next/link";
 
 export default async function BackupPage({
     searchParams,
@@ -12,8 +13,10 @@ export default async function BackupPage({
 
     return (
         <MrtBoundary>
-            <Box display={ "flex" } flexDirection={ "column" } >
-
+            <Box display={"flex"} flexDirection={"column"} m={2}>
+                <Link href="/api/backup/pairs/update">
+                    <Button variant="contained">Update Pairs</Button>
+                </Link>
 
                 <ClientBackup />
             </Box>
