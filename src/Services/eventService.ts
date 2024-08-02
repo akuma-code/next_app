@@ -251,8 +251,8 @@ export async function getEventsByMonth(
         if (!month) {
             // if month omit return all avents with players
             const events = e.findMany({
-                where: { AND: { players: {}, isDraft: false } },
-                orderBy: { id: _order },
+                where: { isDraft: false },
+                orderBy: { date_formated: _order },
                 select: {
                     id: true,
                     date_formated: true,

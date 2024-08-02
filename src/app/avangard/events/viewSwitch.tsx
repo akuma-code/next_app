@@ -34,7 +34,7 @@ const CardView = ({ events }: { events: EventDto[] }) => {
     return (
         <>
             <MonthTabs />
-            <EventsList events={ events } />
+            <EventsList events={events} />
         </>
     );
 };
@@ -46,18 +46,15 @@ export async function ViewSwitch(props: ViewSwitchProps) {
     const { order, month } = options;
     const monthEvents = await getEventsByMonth(month, order as OrderType);
     const monthEventsDto = await getEventsByMonthDto(month, order as OrderType);
-    const { data } = await getDBManyEventsData(
-        {
-            date_formated: { endsWith: `${month}_2024` },
-        },
-    );
+    const { data } = await getDBManyEventsData({
+        date_formated: { startsWith: `2024_${month}` },
+    });
     switch (type) {
         case "card":
-            return <CardView events={ monthEvents } />;
+            return <CardView events={monthEvents} />;
         case "table":
-            return <MRTEvent events={ monthEventsDto } />;
+            return <MRTEvent events={monthEventsDto} />;
         default:
-            return <MRTEvent events={ monthEventsDto } />;
+            return <CardView events={monthEvents} />;
     }
-};
-
+}
