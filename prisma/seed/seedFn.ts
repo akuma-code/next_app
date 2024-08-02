@@ -123,7 +123,7 @@ async function seed_fromJson(options?: SeedOptions) {
 
         console.log("\n____ _____ Seeding started!\n")
 
-        await seedFromJson().then(syncPairs)
+        await seedFromJson()
     } catch (error) {
         console.log(error)
     }

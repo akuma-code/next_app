@@ -4,13 +4,15 @@ import data, { DB_Type } from './index'
 import { Prisma, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 export async function seedFromJson(db_item: Omit<DB_Type, 'players'> = data) {
-
+    function reversed(date: string) {
+        return date.endsWith("2024") ? date.split("_").reverse().join("-") : date
+    }
     try {
         const { pairs, events } = db_item
 
         const events_create: Prisma.EventCreateInput[] = events.map(e => ({
             id: e.id,
-            date_formated: e.date_formated,
+            date_formated: reversed(e.date_formated),
             title: e.title,
             players: { connect: e.players.map(p => ({ id: p.id })) },
 
