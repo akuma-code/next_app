@@ -28,11 +28,13 @@ const EventBoard = ({
         >
             <CardHeader title={`Event ${event.id}`} />
             <CardContent>
-                <Box>date: {event.date_formated}</Box>
-                <Box>players: {event.players.length}</Box>
-                <Box>pairs: {event.pairs.length}</Box>
-                <Box>Queue: 2</Box>
-                <Box>Reserved: 2</Box>
+                <Box>
+                    <Box>date: {event.date_formated}</Box>
+                    <Box>players: {event.players.length}</Box>
+                    <Box>pairs: {event.pairs.length}</Box>
+                    <Box>Queue: 2</Box>
+                    <Box>Reserved: 2</Box>
+                </Box>
             </CardContent>
         </Card>
     );
