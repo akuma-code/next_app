@@ -150,7 +150,7 @@ export const ClientBackup = (props: { filename?: string }) => {
                 </Button>
 
                 <Button variant="contained" color={"info"} onClick={update}>
-                    Saver
+                    Update Pairs
                 </Button>
             </ButtonGroup>
             {/* </form> */}
