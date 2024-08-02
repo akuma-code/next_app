@@ -44,3 +44,26 @@ export async function getImportantData() {
 
     return { events, pairs }
 }
+
+export async function updatePairs() {
+    try {
+        const pairs = await prisma.pair.findMany()
+
+        const updated = pairs.map(p => ({ ...p, masterId: p.firstPlayerId, playerId: p.secondPlayerId }))
+
+        const tsx = updated.map(pp => prisma.pair.update({
+            where: { id: pp.id },
+            data: {
+                player: { connect: { id: pp.secondPlayerId } },
+                master: { connect: { id: pp.firstPlayerId } }
+            }
+        }))
+
+        const t = await prisma.$transaction(tsx)
+        console.log(t)
+        return t
+    } catch (error) {
+        console.error(error)
+    }
+
+}

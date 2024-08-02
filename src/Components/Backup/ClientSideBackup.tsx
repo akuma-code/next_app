@@ -20,15 +20,19 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { updateEventDates } from "@/Services/utils";
 import { fetcherJson } from "@/Helpers/fetcher";
-import { getImportantData } from "@/app/api/backup/events/actions";
+import { getImportantData, updatePairs } from "@/app/api/backup/events/actions";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
 }
-const updater = updateEventDates.bind(null);
+const updater = updatePairs.bind(null);
 const saver = getImportantData.bind(null);
 async function saveData() {
     return await getImportantData();
+}
+
+async function update() {
+    return await updatePairs();
 }
 export const ClientBackup = (props: { filename?: string }) => {
     const q = useQuery({
@@ -145,9 +149,9 @@ export const ClientBackup = (props: { filename?: string }) => {
                     events backup
                 </Button>
 
-                {/* <Button type="submit" variant="contained" color={"info"}>
-                        Saver
-                    </Button> */}
+                <Button variant="contained" color={"info"} onClick={update}>
+                    Saver
+                </Button>
             </ButtonGroup>
             {/* </form> */}
             {q.error && <Box>{q.error.message}</Box>}
