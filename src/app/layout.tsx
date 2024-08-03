@@ -22,26 +22,27 @@ const RootLayout: React.FC<{
     children: React.ReactNode;
     // modal: React.ReactNode;
     modalEvent: React.ReactNode;
-}> = async ({ children, modalEvent }) => {
+    slot: React.ReactNode;
+}> = async ({ children, modalEvent, slot }) => {
     const session = await auth();
     const cls = [inter.className, "bg-[#7ad5f3c9]"].join(" ");
     return (
         <html lang="ru">
-            <body className={ cls }>
-                <SessionProvider session={ session } refetchOnWindowFocus>
+            <body className={cls}>
+                <SessionProvider session={session} refetchOnWindowFocus>
                     <MrtBoundary>
                         <Providers>
-
                             <Paper
-                                maxWidth={ "lg" }
-                                component={ Container }
-                                elevation={ 2 }
+                                maxWidth={"lg"}
+                                component={Container}
+                                elevation={2}
                                 color="primary.main"
                             >
+                                {slot}
                                 <AppHeader />
-                                {/* {modal} */ }
-                                { children }
-                                { modalEvent }
+                                {/* {modal} */}
+                                {children}
+                                {modalEvent}
                             </Paper>
                             <SpeedInsights />
                         </Providers>

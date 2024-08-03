@@ -1,3 +1,4 @@
+import LoadSpinner from "@/app/avangard/loading";
 import { auth } from "@/auth/auth";
 import { ExitButton } from "@/ClientComponents/UI/ExitButton";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
@@ -14,9 +15,9 @@ import {
 import Link from "next/link";
 import { Suspense } from "react";
 
-interface AppHeaderProps { }
+interface AppHeaderProps {}
 const { apiUrl, pageUrl } = paths;
-const isProduction = process.env.NODE_ENV === 'production'
+const isProduction = process.env.NODE_ENV === "production";
 const routes = [
     {
         to: "/avangard",
@@ -30,7 +31,6 @@ const routes = [
         to: pageUrl.admin,
         text: "Админка",
     },
-
 ];
 
 export async function AppHeader() {
@@ -39,51 +39,54 @@ export async function AppHeader() {
     return (
         <AppBar
             position="static"
-            color={ "primary" }
-            elevation={ 4 }
-            sx={ { mb: 1 } }
+            color={"primary"}
+            elevation={4}
+            sx={{ mb: 1 }}
         >
-            <Toolbar variant="regular" sx={ { display: "flex" } }>
+            <Toolbar variant="regular" sx={{ display: "flex" }}>
                 <Breadcrumbs
-                    separator={ "/" }
-                    sx={ { color: "white", flexGrow: 2 } }
+                    separator={"/"}
+                    sx={{ color: "white", flexGrow: 2 }}
                 >
-                    { routes.map((r) => (
-                        <Link href={ r.to } key={ r.to }>
+                    {routes.map((r) => (
+                        <Link href={r.to} key={r.to}>
                             <Typography
                                 variant="body2"
-                                color={ "whitesmoke" }
-                                key={ r.to }
+                                color={"whitesmoke"}
+                                key={r.to}
                             >
-                                { r.text }
+                                {r.text}
                             </Typography>
                         </Link>
-                    )) }
-                    { isProduction ? null :
+                    ))}
+                    {isProduction ? null : (
                         <Link href="/test">
-                            <Typography
-                                variant="body2"
-                                color={ "whitesmoke" }
-                            >
-
+                            <Typography variant="body2" color={"whitesmoke"}>
                                 Testing
                             </Typography>
-                        </Link> }
+                        </Link>
+                    )}
                 </Breadcrumbs>
-                <Suspense fallback={ <CircularProgress /> }>
-                    <Box gap={ 1 } display={ 'flex' } flexGrow={ 1 } justifyContent={ 'end' }>
+                <Suspense
+                    fallback={
+                        <LoadSpinner text="" iconColor="#be5b09" size={1} />
+                    }
+                >
+                    <Box
+                        gap={1}
+                        display={"flex"}
+                        flexGrow={1}
+                        justifyContent={"end"}
+                    >
                         <NavMenu />
-                        { session ?
+                        {session ? (
                             <ExitButton />
-                            :
+                        ) : (
                             <LinkMui href="/api/auth/login" color="#00ffaa">
                                 Войти
                             </LinkMui>
-
-                        }
-
+                        )}
                     </Box>
-
                 </Suspense>
             </Toolbar>
         </AppBar>

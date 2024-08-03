@@ -5,6 +5,7 @@ import { DTO_NewEvent, eventCreate, updateEventPlayers } from "../eventService";
 import { revalidatePath } from "next/cache";
 import { _log } from "@/Helpers/helpersFns";
 import { Prisma } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 
 const event = prisma.event
@@ -200,4 +201,29 @@ export async function upsertPair(where: Prisma.PairWhereUniqueInput, data: { eve
             revalidatePath("/avangard/events")
         }
     }
+}
+
+async function getEvents(
+    payload: Partial<Prisma.EventFindManyArgs>
+) {
+    try {
+        const { where, select, take, skip, include } = payload
+        const events = await prisma.event.findMany(payload)
+        return events
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export async function getEventsWithPagination(rpp = 10, page = 0, include = {
+    players: true, pairs: true
+}) {
+    const e = await getEvents({
+        skip: page * rpp, take: rpp,
+        include,
+        orderBy: { id: 'desc' }
+    })
+    // console.table(e)
+    return e
+
 }

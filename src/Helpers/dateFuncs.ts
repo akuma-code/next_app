@@ -34,7 +34,7 @@ export enum Month {
 export const _dbDateParser = (date: string) => {
   const obj = dayjs(date, "YYYY-MM-DD", "ru");
   const dd_mm_yyyy = obj.format("DD.MM.YYYY");
-  const dd_mmmm = obj.format("DD MMMM");
+  const dd_mmmm = dayjs(date, "YYYY-MM-DD", "ru").format("DD MMMM");
   return { dd_mm_yyyy, dd_mmmm, _dayjs: obj };
 };
 
