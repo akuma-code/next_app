@@ -15,7 +15,7 @@ interface PrismaGetOneEvent {
     }
 }
 
-type EventIncludesReturn = {
+export type EventIncludesReturn = {
     pairs: Prisma.PairGetPayload<{ include: { master: true, player: true } }>[]
     players: Prisma.PlayerGetPayload<true>[]
     id: number

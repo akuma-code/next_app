@@ -1,5 +1,12 @@
 "use client";
-import { Card, CardHeader, CardContent, Box } from "@mui/material";
+
+import LoadSpinner from "@/app/avangard/loading";
+import {
+    EventIncludesReturn,
+    getEventWithIncludes,
+} from "@/Services/events/db_event";
+import { Card, CardHeader, CardContent, Box, Button } from "@mui/material";
+import { useState, useTransition } from "react";
 
 const EventBoard = ({
     event,
@@ -16,6 +23,20 @@ const EventBoard = ({
         }[];
     };
 }) => {
+    const [isPending, start] = useTransition();
+    const [current, setCurrent] = useState<any | null>(null);
+    const clickhandler = () => {
+        start(async () => {
+            const e = await getEventWithIncludes({
+                where: { id: 89 },
+                includes: {
+                    _count: { select: { players: true, pairs: true } },
+                },
+            });
+            setCurrent(e);
+        });
+    };
+
     return (
         <Card
             elevation={2}
@@ -35,6 +56,17 @@ const EventBoard = ({
                     <Box>Queue: 2</Box>
                     <Box>Reserved: 2</Box>
                 </Box>
+                {isPending ? (
+                    <LoadSpinner size={1} />
+                ) : (
+                    <Button onClick={clickhandler}>BTN</Button>
+                )}
+                {current && (
+                    <Box>
+                        всего: {current._count.players} <br />
+                        пар: {current._count.pairs}
+                    </Box>
+                )}
             </CardContent>
         </Card>
     );

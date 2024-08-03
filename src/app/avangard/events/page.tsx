@@ -13,34 +13,30 @@ async function EventsPage({
     const view = searchParams.view as "card" | "table";
     let order = searchParams.order as OrderType;
 
-
-
     return (
         // <MrtBoundary>
-        <Box sx={ {} } p={ 1 }>
+        <Box sx={{}} p={1}>
             <Suspense
-                fallback={ <CircularProgress variant="indeterminate" /> }
+                fallback={
+                    <CircularProgress variant="indeterminate" color="error" />
+                }
             >
-
                 <AppBar
                     position="relative"
                     enableColorOnDark
-                    sx={ {
+                    sx={{
                         borderTopLeftRadius: "1rem",
                         borderTopRightRadius: "1rem",
-
-                    } }
+                    }}
                 >
                     <Toolbar
                         variant="dense"
-                        sx={ { display: "flex", justifyContent: "center", } }
+                        sx={{ display: "flex", justifyContent: "center" }}
                     >
-
-
                         <OrderFilterControls />
                     </Toolbar>
                 </AppBar>
-                <ViewSwitch view={ { type: view } } options={ { month, order } } />
+                <ViewSwitch view={{ type: view }} options={{ month, order }} />
             </Suspense>
         </Box>
         // </MrtBoundary>

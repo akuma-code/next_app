@@ -1,4 +1,5 @@
 import DoubleChip from "@/ClientComponents/MRT/Avangard/DoubleChip";
+import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
 import { Box, Container, Paper, Typography } from "@mui/material";
 
 export default async function Testpage() {
@@ -7,7 +8,9 @@ export default async function Testpage() {
             <Typography variant="h3" component={"div"} textAlign={"center"}>
                 TEST PAGE
             </Typography>
-            <Box></Box>
+            <Box>
+                <LoadSpinner />
+            </Box>
         </Box>
     );
 }

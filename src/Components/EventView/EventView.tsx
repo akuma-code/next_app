@@ -28,16 +28,10 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import { Event, Player } from "@prisma/client";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { _log } from "@/Helpers/helpersFns";
-import { useSession } from "next-auth/react";
-import PreHeresy from "../Icons/svg/PreHeresy";
-import AdeptusMechanicus from "../Icons/AdeptusMechanicus";
 import { AddPlayerDialog } from "./AddPlayerDialog";
-import { useGetEvent } from "@/Hooks/Queries/Events/useEvents";
 
 interface Pair {
     id: number;
@@ -127,46 +121,46 @@ export const EventView: React.FC<Eventinfo> = ({
     // const pairText = (name?: string | null) => name ? `тренер: ${name}` : null
     return (
         <Box
-            { ...boxProps }
-            sx={ {
+            {...boxProps}
+            sx={{
                 borderRadius: 4,
                 minWidth: 280,
-                maxWidth: 'max-content',
+                maxWidth: "max-content",
                 border: "2px solid",
                 borderColor: "primary.dark",
                 bgcolor: "background.paper",
                 boxShadow: "0 2px 6px 0 rgba(0,0,0,0.08)",
                 ...boxProps?.sx,
-            } }
-            m={ 2 }
-            p={ 1 }
+            }}
+            m={2}
+            p={1}
         >
             <Box
-                sx={ {
+                sx={{
                     display: "flex",
                     p: 1.5,
                     alignItems: "center",
                     columnGap: 1,
                     justifyContent: "space-evenly",
-                } }
+                }}
             >
                 <Box>
-                    <Typography variant="h5" component={ "div" }>
-                        { title }
+                    <Typography variant="h5" component={"div"}>
+                        {title}
                     </Typography>
-                    <Typography variant="body1" fontSize={ 18 }>
-                        { dd_mm_yyyy }
+                    <Typography variant="body1" fontSize={18}>
+                        {dd_mm_yyyy}
                     </Typography>
                 </Box>
                 <Avatar
                     variant="rounded"
-                    sx={ {
+                    sx={{
                         mt: 0.5,
                         mb: 0,
                         bgcolor: avatarColor(_count?.players || 0),
-                    } }
+                    }}
                 >
-                    { _count?.players }
+                    {_count?.players}
                 </Avatar>
             </Box>
             <Divider flexItem>
@@ -174,91 +168,91 @@ export const EventView: React.FC<Eventinfo> = ({
                     <Button
                         color="error"
                         size="small"
-                        onClick={ router.back }
-                        startIcon={ <FastRewindTwoTone /> }
+                        onClick={router.back}
+                        startIcon={<FastRewindTwoTone />}
                     >
                         Назад
                     </Button>
                     <Button
                         color="warning"
                         size="small"
-                        onClick={ () => router.push(pathname + "/edit") }
-                        startIcon={ <SettingsTwoTone /> }
-                        sx={ { px: 2 } }
+                        onClick={() => router.push(pathname + "/edit")}
+                        startIcon={<SettingsTwoTone />}
+                        sx={{ px: 2 }}
                     >
                         Изменить
                     </Button>
                 </ButtonGroup>
             </Divider>
-            <Box mx={ 2 } mt={ 1 }>
-                <AddPlayerDialog event_players={ players } event_id={ id } />
+            <Box mx={2} mt={1}>
+                <AddPlayerDialog event_players={players} event_id={id} />
             </Box>
             <List>
-                { player_pairs.map((p, index) => (
+                {player_pairs.map((p, index) => (
                     <ListItem
-                        key={ index }
-                        sx={ {
+                        key={index}
+                        sx={{
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
-                        } }
+                        }}
                         dense
                         divider
                     >
                         <ListItemAvatar>
                             <Avatar
                                 variant="rounded"
-                                sx={ {
+                                sx={{
                                     width: 32,
                                     height: 32,
                                     bgColor: "primary.light",
                                     p: 0.5,
                                     color: "primary.main",
                                     fontSize: 15,
-                                } }
+                                }}
                             >
-                                { name_letters(p.name) }
+                                {name_letters(p.name)}
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText
-                            primary={ p.name }
-                            primaryTypographyProps={ { textAlign: "left" } }
+                            primary={p.name}
+                            primaryTypographyProps={{ textAlign: "left" }}
                             secondary={
                                 p.pair && master_(p.pair.firstPlayerId)?.name
                             }
-                            secondaryTypographyProps={ {
+                            secondaryTypographyProps={{
                                 fontWeight: "bold",
                                 bgcolor: "primary.light",
-                                textAlign: 'right',
-                                color: 'primary.contrastText',
+                                textAlign: "right",
+                                color: "primary.contrastText",
                                 px: 1,
-                                py: .3
-                            } }
+                                py: 0.3,
+                            }}
                         />
 
                         <SelectPairButton>
                             <MenuItem
-                                sx={ { justifyContent: "right" } }
-                                onClick={ () => handleDeletePair(p.pair) }
+                                sx={{ justifyContent: "right" }}
+                                onClick={() => handleDeletePair(p.pair)}
                             >
-                                <Avatar sx={ { bgcolor: "warning.light" } }>
+                                <Avatar sx={{ bgcolor: "warning.light" }}>
                                     X
                                 </Avatar>
                             </MenuItem>
-                            { masters.map((m) => (
+                            {masters.map((m) => (
                                 <MenuItem
-                                    key={ m.name }
-                                    onClick={ () =>
+                                    key={m.name}
+                                    onClick={() =>
                                         handlePairChange(m, p.id, p.pair)
                                     }
                                 >
                                     <Avatar />
-                                    { m.name }
+                                    {m.name}
                                 </MenuItem>
-                            )) }
+                            ))}
                         </SelectPairButton>
                     </ListItem>
-                )) }
+                ))}
             </List>
         </Box>
     );
@@ -283,32 +277,32 @@ const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
         <React.Fragment>
             <Tooltip title="Занятия с тренером">
                 <IconButton
-                    onClick={ handleOpen }
+                    onClick={handleOpen}
                     size="small"
-                    sx={ { mx: 1 } }
-                    aria-controls={ open ? "account-menu" : undefined }
+                    sx={{ mx: 1 }}
+                    aria-controls={open ? "account-menu" : undefined}
                     aria-haspopup="true"
-                    aria-expanded={ open ? "true" : undefined }
+                    aria-expanded={open ? "true" : undefined}
                     color="primary"
                 >
                     <Avatar
-                        sx={ { bgcolor: "primary.dark", width: 32, height: 32 } }
+                        sx={{ bgcolor: "primary.dark", width: 32, height: 32 }}
                         variant="rounded"
                     >
-                        <SupervisorAccountIcon sx={ { color: "primary" } } />
+                        <SupervisorAccountIcon sx={{ color: "primary" }} />
                     </Avatar>
                 </IconButton>
             </Tooltip>
 
             <Menu
-                anchorEl={ anchorEl }
+                anchorEl={anchorEl}
                 id="account-menu"
-                open={ open }
-                onClose={ handleClose }
-                onClick={ handleClose }
-                transformOrigin={ { horizontal: "right", vertical: "top" } }
-                anchorOrigin={ { horizontal: "right", vertical: "bottom" } }
-                slotProps={ {
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                slotProps={{
                     paper: {
                         elevation: 1,
                         sx: {
@@ -335,10 +329,9 @@ const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
                             },
                         },
                     },
-                } }
-
+                }}
             >
-                { children }
+                {children}
             </Menu>
         </React.Fragment>
     );
@@ -346,6 +339,6 @@ const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
 
 SelectPairButton.displayName = "_________Pair Select";
 
-const RadioSelector = () => { };
+const RadioSelector = () => {};
 
 EventView.displayName = "______EventIdView";

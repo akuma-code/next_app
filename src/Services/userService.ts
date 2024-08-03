@@ -4,8 +4,8 @@ import { hashPass } from "@/auth/utils";
 import { validateEmail } from "@/auth/validator";
 import prisma from "@/client/client";
 import { _log } from "@/Helpers/helpersFns";
-import { _UserSelect, P_ProfileCreateArgs, P_UserCreateArgs, P_UserFindArgs } from "@/Types";
-import { Prisma, UserRole } from "@prisma/client";
+import { _UserSelect, P_ProfileCreateArgs, P_UserCreateArgs } from "@/Types";
+import { Prisma } from "@prisma/client";
 
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
