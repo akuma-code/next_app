@@ -1,1 +1,2238 @@
-{"events":[{"id":80,"date_formated":"19_06_2024","title":"Тренировка","isDraft":false,"players":[{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":81,"date_formated":"21_06_2024","title":"Тренировка","isDraft":false,"players":[{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":4,"name":"Дмитий Чуприков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":10,"name":"Павел Кот","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":13,"name":"Рома Урусов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":82,"date_formated":"26_06_2024","title":"Тренировка","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":10,"name":"Павел Кот","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":13,"name":"Рома Урусов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":16,"name":"Юра Малин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":28,"name":"Володя Иванов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":30,"name":"Максим Ушкарев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":41,"name":"Жижирий Сергей","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":50,"name":"Сергей Казарян","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":26,"name":"Дима Селезнев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":83,"date_formated":"28_06_2024","title":"Тренировка","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":8,"name":"Олег Котляров","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":84,"date_formated":"03_07_2024","title":"Тренировка","isDraft":false,"players":[{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":55,"name":"Роман Алиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":85,"date_formated":"05_07_2024","title":"Тренировка","isDraft":false,"players":[{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":8,"name":"Олег Котляров","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":13,"name":"Рома Урусов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":35,"name":"Сергей Олейников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":43,"name":"Андрей Руденко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":201,"name":"Максим Грибков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[{"id":49,"firstPlayerId":1,"secondPlayerId":7,"masterId":1,"playerId":7,"eventId":85},{"id":50,"firstPlayerId":1,"secondPlayerId":35,"masterId":1,"playerId":35,"eventId":85}]},{"id":86,"date_formated":"10_07_2024","title":"Тренировка","isDraft":false,"players":[{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":28,"name":"Володя Иванов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":35,"name":"Сергей Олейников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":41,"name":"Жижирий Сергей","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":43,"name":"Андрей Руденко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":46,"name":"Надя","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":202,"name":"Эдуард Емельянов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[{"id":51,"firstPlayerId":1,"secondPlayerId":35,"masterId":1,"playerId":35,"eventId":86},{"id":52,"firstPlayerId":2,"secondPlayerId":12,"masterId":2,"playerId":12,"eventId":86},{"id":53,"firstPlayerId":2,"secondPlayerId":46,"masterId":2,"playerId":46,"eventId":86}]},{"id":87,"date_formated":"12_07_2024","title":"Тренировка","isDraft":false,"players":[{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":8,"name":"Олег Котляров","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":55,"name":"Роман Алиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[{"id":54,"firstPlayerId":2,"secondPlayerId":11,"masterId":2,"playerId":11,"eventId":87},{"id":55,"firstPlayerId":1,"secondPlayerId":19,"masterId":1,"playerId":19,"eventId":87},{"id":56,"firstPlayerId":2,"secondPlayerId":22,"masterId":2,"playerId":22,"eventId":87}]},{"id":88,"date_formated":"17_07_2024","title":"Тренировка","isDraft":false,"players":[{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":13,"name":"Рома Урусов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":28,"name":"Володя Иванов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[{"id":57,"firstPlayerId":1,"secondPlayerId":11,"masterId":1,"playerId":11,"eventId":88},{"id":58,"firstPlayerId":2,"secondPlayerId":22,"masterId":2,"playerId":22,"eventId":88},{"id":59,"firstPlayerId":2,"secondPlayerId":12,"masterId":2,"playerId":12,"eventId":88},{"id":60,"firstPlayerId":1,"secondPlayerId":20,"masterId":1,"playerId":20,"eventId":88}]},{"id":72,"date_formated":"24_05_2024","title":"Тренировка","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":4,"name":"Дмитий Чуприков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":8,"name":"Олег Котляров","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":16,"name":"Юра Малин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":37,"name":"Костя Лабутин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":46,"name":"Надя","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":50,"name":"Сергей Казарян","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":55,"name":"Роман Алиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":73,"date_formated":"22_05_2024","title":"Тренировка","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":4,"name":"Дмитий Чуприков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":55,"name":"Роман Алиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":74,"date_formated":"29_05_2024","title":"Треня","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":5,"name":"Женя Мураткалиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":8,"name":"Олег Котляров","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":16,"name":"Юра Малин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":35,"name":"Сергей Олейников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":37,"name":"Костя Лабутин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":42,"name":"Денис Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":50,"name":"Сергей Казарян","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":55,"name":"Роман Алиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":75,"date_formated":"31_05_2024","title":"Тренировка","isDraft":false,"players":[{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":37,"name":"Костя Лабутин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":48,"name":"Дима Кирсанов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":55,"name":"Роман Алиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":56,"name":"Артём Белишев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":76,"date_formated":"05_06_2024","title":"Тренировка","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":5,"name":"Женя Мураткалиев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":20,"name":"Надежда Отпетова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":46,"name":"Надя","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":58,"name":"Женя Понуровский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":59,"name":"Егор Лысенко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":77,"date_formated":"07_06_2024","title":"Тренировка","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":4,"name":"Дмитий Чуприков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":44,"name":"Олег Мельников","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":60,"name":"Егор Артемьев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":78,"date_formated":"12_06_2024","title":"Начало 19-40","isDraft":false,"players":[{"id":1,"name":"Борис Палевич","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":13,"name":"Рома Урусов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":30,"name":"Максим Ушкарев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":32,"name":"Лена Сластная","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":41,"name":"Жижирий Сергей","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":26,"name":"Дима Селезнев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":61,"name":"Роман Переведенцев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":79,"date_formated":"14_06_2024","title":"Тренировка","isDraft":false,"players":[{"id":3,"name":"Володя Юдаев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":4,"name":"Дмитий Чуприков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":6,"name":"Инна Гулина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":14,"name":"Сергей Кучигин","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":17,"name":"Ольга Сипина","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":19,"name":"Саша Федоренко","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":22,"name":"Антон Киселев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":30,"name":"Максим Ушкарев","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":41,"name":"Жижирий Сергей","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":45,"name":"Сергей Попов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":58,"name":"Женя Понуровский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[]},{"id":452,"date_formated":"19_07_2024","title":"Тренировка","isDraft":false,"players":[{"id":7,"name":"Лариса Басманова","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":12,"name":"Рома Русаков","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":15,"name":"Сергей Коробов","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"},{"id":11,"name":"Павел Роднянский","profileId":null,"createdAt":"2024-07-16T11:23:30.812Z","updatedAt":"2024-07-16T11:23:30.812Z"}],"pairs":[{"id":65,"firstPlayerId":1,"secondPlayerId":12,"masterId":1,"playerId":12,"eventId":452},{"id":66,"firstPlayerId":2,"secondPlayerId":15,"masterId":2,"playerId":15,"eventId":452},{"id":67,"firstPlayerId":1,"secondPlayerId":7,"masterId":1,"playerId":7,"eventId":452},{"id":68,"firstPlayerId":2,"secondPlayerId":11,"masterId":2,"playerId":11,"eventId":452}]}],"pairs":[{"id":49,"firstPlayerId":1,"secondPlayerId":7,"masterId":1,"playerId":7,"eventId":85},{"id":50,"firstPlayerId":1,"secondPlayerId":35,"masterId":1,"playerId":35,"eventId":85},{"id":51,"firstPlayerId":1,"secondPlayerId":35,"masterId":1,"playerId":35,"eventId":86},{"id":52,"firstPlayerId":2,"secondPlayerId":12,"masterId":2,"playerId":12,"eventId":86},{"id":53,"firstPlayerId":2,"secondPlayerId":46,"masterId":2,"playerId":46,"eventId":86},{"id":54,"firstPlayerId":2,"secondPlayerId":11,"masterId":2,"playerId":11,"eventId":87},{"id":55,"firstPlayerId":1,"secondPlayerId":19,"masterId":1,"playerId":19,"eventId":87},{"id":56,"firstPlayerId":2,"secondPlayerId":22,"masterId":2,"playerId":22,"eventId":87},{"id":57,"firstPlayerId":1,"secondPlayerId":11,"masterId":1,"playerId":11,"eventId":88},{"id":58,"firstPlayerId":2,"secondPlayerId":22,"masterId":2,"playerId":22,"eventId":88},{"id":59,"firstPlayerId":2,"secondPlayerId":12,"masterId":2,"playerId":12,"eventId":88},{"id":60,"firstPlayerId":1,"secondPlayerId":20,"masterId":1,"playerId":20,"eventId":88},{"id":65,"firstPlayerId":1,"secondPlayerId":12,"masterId":1,"playerId":12,"eventId":452},{"id":66,"firstPlayerId":2,"secondPlayerId":15,"masterId":2,"playerId":15,"eventId":452},{"id":67,"firstPlayerId":1,"secondPlayerId":7,"masterId":1,"playerId":7,"eventId":452},{"id":68,"firstPlayerId":2,"secondPlayerId":11,"masterId":2,"playerId":11,"eventId":452}]}
+{
+    "events": [
+        {
+            "id": 80,
+            "date_formated": "2024-06-19",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 81,
+            "date_formated": "2024-06-21",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 4,
+                    "name": "Дмитий Чуприков",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 10,
+                    "name": "Павел Кот",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 82,
+            "date_formated": "2024-06-26",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 10,
+                    "name": "Павел Кот",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 16,
+                    "name": "Юра Малин",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 28,
+                    "name": "Володя Иванов",
+                    "profileId": null
+                },
+                {
+                    "id": 30,
+                    "name": "Максим Ушкарев",
+                    "profileId": null
+                },
+                {
+                    "id": 41,
+                    "name": "Жижирий Сергей",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 50,
+                    "name": "Сергей Казарян",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                },
+                {
+                    "id": 26,
+                    "name": "Дима Селезнев",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 83,
+            "date_formated": "2024-06-28",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 84,
+            "date_formated": "2024-07-03",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 85,
+            "date_formated": "2024-07-05",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 35,
+                    "name": "Сергей Олейников",
+                    "profileId": null
+                },
+                {
+                    "id": 43,
+                    "name": "Андрей Руденко",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                },
+                {
+                    "id": 201,
+                    "name": "Максим Грибков",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 49,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 7,
+                    "masterId": 1,
+                    "playerId": 7,
+                    "eventId": 85
+                },
+                {
+                    "id": 50,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 85
+                }
+            ]
+        },
+        {
+            "id": 86,
+            "date_formated": "2024-07-10",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 28,
+                    "name": "Володя Иванов",
+                    "profileId": null
+                },
+                {
+                    "id": 35,
+                    "name": "Сергей Олейников",
+                    "profileId": null
+                },
+                {
+                    "id": 41,
+                    "name": "Жижирий Сергей",
+                    "profileId": null
+                },
+                {
+                    "id": 43,
+                    "name": "Андрей Руденко",
+                    "profileId": null
+                },
+                {
+                    "id": 46,
+                    "name": "Надя",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                },
+                {
+                    "id": 202,
+                    "name": "Эдуард Емельянов",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 51,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 86
+                },
+                {
+                    "id": 52,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 86
+                },
+                {
+                    "id": 53,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 46,
+                    "masterId": 2,
+                    "playerId": 46,
+                    "eventId": 86
+                }
+            ]
+        },
+        {
+            "id": 87,
+            "date_formated": "2024-07-12",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 54,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 11,
+                    "masterId": 2,
+                    "playerId": 11,
+                    "eventId": 87
+                },
+                {
+                    "id": 55,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "masterId": 1,
+                    "playerId": 19,
+                    "eventId": 87
+                },
+                {
+                    "id": 56,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 22,
+                    "masterId": 2,
+                    "playerId": 22,
+                    "eventId": 87
+                }
+            ]
+        },
+        {
+            "id": 88,
+            "date_formated": "2024-07-17",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 28,
+                    "name": "Володя Иванов",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 57,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 11,
+                    "masterId": 1,
+                    "playerId": 11,
+                    "eventId": 88
+                },
+                {
+                    "id": 58,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 22,
+                    "masterId": 2,
+                    "playerId": 22,
+                    "eventId": 88
+                },
+                {
+                    "id": 59,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 88
+                },
+                {
+                    "id": 60,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 20,
+                    "masterId": 1,
+                    "playerId": 20,
+                    "eventId": 88
+                }
+            ]
+        },
+        {
+            "id": 89,
+            "date_formated": "2024-07-19",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 10,
+                    "name": "Павел Кот",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 28,
+                    "name": "Володя Иванов",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 46,
+                    "name": "Надя",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 61,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 46,
+                    "masterId": 2,
+                    "playerId": 46,
+                    "eventId": 89
+                },
+                {
+                    "id": 62,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 89
+                }
+            ]
+        },
+        {
+            "id": 72,
+            "date_formated": "2024-05-24",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 4,
+                    "name": "Дмитий Чуприков",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 16,
+                    "name": "Юра Малин",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 37,
+                    "name": "Костя Лабутин",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 46,
+                    "name": "Надя",
+                    "profileId": null
+                },
+                {
+                    "id": 50,
+                    "name": "Сергей Казарян",
+                    "profileId": null
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 73,
+            "date_formated": "2024-05-22",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 4,
+                    "name": "Дмитий Чуприков",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 74,
+            "date_formated": "2024-05-29",
+            "title": "Треня",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 5,
+                    "name": "Женя Мураткалиев",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 16,
+                    "name": "Юра Малин",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 35,
+                    "name": "Сергей Олейников",
+                    "profileId": null
+                },
+                {
+                    "id": 37,
+                    "name": "Костя Лабутин",
+                    "profileId": null
+                },
+                {
+                    "id": 42,
+                    "name": "Денис Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 50,
+                    "name": "Сергей Казарян",
+                    "profileId": null
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 75,
+            "date_formated": "2024-05-31",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 37,
+                    "name": "Костя Лабутин",
+                    "profileId": null
+                },
+                {
+                    "id": 48,
+                    "name": "Дима Кирсанов",
+                    "profileId": null
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев",
+                    "profileId": null
+                },
+                {
+                    "id": 56,
+                    "name": "Артём Белишев",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 76,
+            "date_formated": "2024-06-05",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 5,
+                    "name": "Женя Мураткалиев",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 46,
+                    "name": "Надя",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                },
+                {
+                    "id": 58,
+                    "name": "Женя Понуровский",
+                    "profileId": null
+                },
+                {
+                    "id": 59,
+                    "name": "Егор Лысенко",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 77,
+            "date_formated": "2024-06-07",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 4,
+                    "name": "Дмитий Чуприков",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 44,
+                    "name": "Олег Мельников",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                },
+                {
+                    "id": 60,
+                    "name": "Егор Артемьев",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 78,
+            "date_formated": "2024-06-12",
+            "title": "Начало 19-40",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 1,
+                    "name": "Борис Палевич",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 30,
+                    "name": "Максим Ушкарев",
+                    "profileId": null
+                },
+                {
+                    "id": 32,
+                    "name": "Лена Сластная",
+                    "profileId": null
+                },
+                {
+                    "id": 41,
+                    "name": "Жижирий Сергей",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                },
+                {
+                    "id": 26,
+                    "name": "Дима Селезнев",
+                    "profileId": null
+                },
+                {
+                    "id": 61,
+                    "name": "Роман Переведенцев",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 79,
+            "date_formated": "2024-06-14",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 4,
+                    "name": "Дмитий Чуприков",
+                    "profileId": null
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 17,
+                    "name": "Ольга Сипина",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 30,
+                    "name": "Максим Ушкарев",
+                    "profileId": null
+                },
+                {
+                    "id": 41,
+                    "name": "Жижирий Сергей",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                },
+                {
+                    "id": 58,
+                    "name": "Женя Понуровский",
+                    "profileId": null
+                }
+            ],
+            "pairs": []
+        },
+        {
+            "id": 93,
+            "date_formated": "2024-07-24",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 10,
+                    "name": "Павел Кот",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 35,
+                    "name": "Сергей Олейников",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 46,
+                    "name": "Надя",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 77,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 93
+                },
+                {
+                    "id": 78,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 46,
+                    "masterId": 2,
+                    "playerId": 46,
+                    "eventId": 93
+                },
+                {
+                    "id": 76,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 93
+                }
+            ]
+        },
+        {
+            "id": 94,
+            "date_formated": "2024-07-26",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 10,
+                    "name": "Павел Кот",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 27,
+                    "name": "Сергей Юрцев",
+                    "profileId": null
+                },
+                {
+                    "id": 36,
+                    "name": "Володя Зубков",
+                    "profileId": null
+                },
+                {
+                    "id": 43,
+                    "name": "Андрей Руденко",
+                    "profileId": null
+                },
+                {
+                    "id": 46,
+                    "name": "Надя",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 71,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "masterId": 1,
+                    "playerId": 19,
+                    "eventId": 94
+                },
+                {
+                    "id": 72,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 22,
+                    "masterId": 2,
+                    "playerId": 22,
+                    "eventId": 94
+                },
+                {
+                    "id": 73,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 46,
+                    "masterId": 2,
+                    "playerId": 46,
+                    "eventId": 94
+                },
+                {
+                    "id": 74,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 11,
+                    "masterId": 1,
+                    "playerId": 11,
+                    "eventId": 94
+                }
+            ]
+        },
+        {
+            "id": 95,
+            "date_formated": "2024-07-31",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null
+                },
+                {
+                    "id": 14,
+                    "name": "Сергей Кучигин",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 35,
+                    "name": "Сергей Олейников",
+                    "profileId": null
+                },
+                {
+                    "id": 36,
+                    "name": "Володя Зубков",
+                    "profileId": null
+                },
+                {
+                    "id": 45,
+                    "name": "Сергей Попов",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 75,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 95
+                }
+            ]
+        },
+        {
+            "id": 96,
+            "date_formated": "2024-08-02",
+            "title": "Тренировка",
+            "isDraft": false,
+            "players": [
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null
+                },
+                {
+                    "id": 10,
+                    "name": "Павел Кот",
+                    "profileId": null
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null
+                },
+                {
+                    "id": 13,
+                    "name": "Рома Урусов",
+                    "profileId": null
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null
+                },
+                {
+                    "id": 19,
+                    "name": "Саша Федоренко",
+                    "profileId": null
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null
+                },
+                {
+                    "id": 22,
+                    "name": "Антон Киселев",
+                    "profileId": null
+                },
+                {
+                    "id": 35,
+                    "name": "Сергей Олейников",
+                    "profileId": null
+                },
+                {
+                    "id": 43,
+                    "name": "Андрей Руденко",
+                    "profileId": null
+                },
+                {
+                    "id": 55,
+                    "name": "Роман Алиев",
+                    "profileId": null
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null
+                }
+            ],
+            "pairs": [
+                {
+                    "id": 79,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "masterId": 1,
+                    "playerId": 19,
+                    "eventId": 96
+                },
+                {
+                    "id": 80,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 12,
+                    "masterId": 1,
+                    "playerId": 12,
+                    "eventId": 96
+                },
+                {
+                    "id": 81,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 20,
+                    "masterId": 1,
+                    "playerId": 20,
+                    "eventId": 96
+                }
+            ]
+        }
+    ],
+    "pairs": [
+        {
+            "id": 77,
+            "firstPlayerId": 1,
+            "secondPlayerId": 35,
+            "masterId": 1,
+            "playerId": 35,
+            "eventId": 93,
+            "event": {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 35,
+                "name": "Сергей Олейников"
+            }
+        },
+        {
+            "id": 78,
+            "firstPlayerId": 2,
+            "secondPlayerId": 46,
+            "masterId": 2,
+            "playerId": 46,
+            "eventId": 93,
+            "event": {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 46,
+                "name": "Надя"
+            }
+        },
+        {
+            "id": 79,
+            "firstPlayerId": 1,
+            "secondPlayerId": 19,
+            "masterId": 1,
+            "playerId": 19,
+            "eventId": 96,
+            "event": {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 19,
+                "name": "Саша Федоренко"
+            }
+        },
+        {
+            "id": 80,
+            "firstPlayerId": 1,
+            "secondPlayerId": 12,
+            "masterId": 1,
+            "playerId": 12,
+            "eventId": 96,
+            "event": {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 12,
+                "name": "Рома Русаков"
+            }
+        },
+        {
+            "id": 81,
+            "firstPlayerId": 1,
+            "secondPlayerId": 20,
+            "masterId": 1,
+            "playerId": 20,
+            "eventId": 96,
+            "event": {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 20,
+                "name": "Надежда Отпетова"
+            }
+        },
+        {
+            "id": 49,
+            "firstPlayerId": 1,
+            "secondPlayerId": 7,
+            "masterId": 1,
+            "playerId": 7,
+            "eventId": 85,
+            "event": {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 7,
+                "name": "Лариса Басманова"
+            }
+        },
+        {
+            "id": 50,
+            "firstPlayerId": 1,
+            "secondPlayerId": 35,
+            "masterId": 1,
+            "playerId": 35,
+            "eventId": 85,
+            "event": {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 35,
+                "name": "Сергей Олейников"
+            }
+        },
+        {
+            "id": 51,
+            "firstPlayerId": 1,
+            "secondPlayerId": 35,
+            "masterId": 1,
+            "playerId": 35,
+            "eventId": 86,
+            "event": {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 35,
+                "name": "Сергей Олейников"
+            }
+        },
+        {
+            "id": 52,
+            "firstPlayerId": 2,
+            "secondPlayerId": 12,
+            "masterId": 2,
+            "playerId": 12,
+            "eventId": 86,
+            "event": {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 12,
+                "name": "Рома Русаков"
+            }
+        },
+        {
+            "id": 53,
+            "firstPlayerId": 2,
+            "secondPlayerId": 46,
+            "masterId": 2,
+            "playerId": 46,
+            "eventId": 86,
+            "event": {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 46,
+                "name": "Надя"
+            }
+        },
+        {
+            "id": 54,
+            "firstPlayerId": 2,
+            "secondPlayerId": 11,
+            "masterId": 2,
+            "playerId": 11,
+            "eventId": 87,
+            "event": {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 11,
+                "name": "Павел Роднянский"
+            }
+        },
+        {
+            "id": 57,
+            "firstPlayerId": 1,
+            "secondPlayerId": 11,
+            "masterId": 1,
+            "playerId": 11,
+            "eventId": 88,
+            "event": {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 11,
+                "name": "Павел Роднянский"
+            }
+        },
+        {
+            "id": 58,
+            "firstPlayerId": 2,
+            "secondPlayerId": 22,
+            "masterId": 2,
+            "playerId": 22,
+            "eventId": 88,
+            "event": {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 22,
+                "name": "Антон Киселев"
+            }
+        },
+        {
+            "id": 59,
+            "firstPlayerId": 2,
+            "secondPlayerId": 12,
+            "masterId": 2,
+            "playerId": 12,
+            "eventId": 88,
+            "event": {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 12,
+                "name": "Рома Русаков"
+            }
+        },
+        {
+            "id": 60,
+            "firstPlayerId": 1,
+            "secondPlayerId": 20,
+            "masterId": 1,
+            "playerId": 20,
+            "eventId": 88,
+            "event": {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 20,
+                "name": "Надежда Отпетова"
+            }
+        },
+        {
+            "id": 61,
+            "firstPlayerId": 2,
+            "secondPlayerId": 46,
+            "masterId": 2,
+            "playerId": 46,
+            "eventId": 89,
+            "event": {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 46,
+                "name": "Надя"
+            }
+        },
+        {
+            "id": 62,
+            "firstPlayerId": 2,
+            "secondPlayerId": 12,
+            "masterId": 2,
+            "playerId": 12,
+            "eventId": 89,
+            "event": {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 12,
+                "name": "Рома Русаков"
+            }
+        },
+        {
+            "id": 71,
+            "firstPlayerId": 1,
+            "secondPlayerId": 19,
+            "masterId": 1,
+            "playerId": 19,
+            "eventId": 94,
+            "event": {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 19,
+                "name": "Саша Федоренко"
+            }
+        },
+        {
+            "id": 72,
+            "firstPlayerId": 2,
+            "secondPlayerId": 22,
+            "masterId": 2,
+            "playerId": 22,
+            "eventId": 94,
+            "event": {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 22,
+                "name": "Антон Киселев"
+            }
+        },
+        {
+            "id": 73,
+            "firstPlayerId": 2,
+            "secondPlayerId": 46,
+            "masterId": 2,
+            "playerId": 46,
+            "eventId": 94,
+            "event": {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 46,
+                "name": "Надя"
+            }
+        },
+        {
+            "id": 74,
+            "firstPlayerId": 1,
+            "secondPlayerId": 11,
+            "masterId": 1,
+            "playerId": 11,
+            "eventId": 94,
+            "event": {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 11,
+                "name": "Павел Роднянский"
+            }
+        },
+        {
+            "id": 75,
+            "firstPlayerId": 1,
+            "secondPlayerId": 35,
+            "masterId": 1,
+            "playerId": 35,
+            "eventId": 95,
+            "event": {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 35,
+                "name": "Сергей Олейников"
+            }
+        },
+        {
+            "id": 76,
+            "firstPlayerId": 2,
+            "secondPlayerId": 12,
+            "masterId": 2,
+            "playerId": 12,
+            "eventId": 93,
+            "event": {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 12,
+                "name": "Рома Русаков"
+            }
+        },
+        {
+            "id": 55,
+            "firstPlayerId": 1,
+            "secondPlayerId": 19,
+            "masterId": 1,
+            "playerId": 19,
+            "eventId": 87,
+            "event": {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 1,
+                "name": "Алан Заикин"
+            },
+            "player": {
+                "id": 19,
+                "name": "Саша Федоренко"
+            }
+        },
+        {
+            "id": 56,
+            "firstPlayerId": 2,
+            "secondPlayerId": 22,
+            "masterId": 2,
+            "playerId": 22,
+            "eventId": 87,
+            "event": {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "Тренировка",
+                "isDraft": false
+            },
+            "master": {
+                "id": 2,
+                "name": "Антон Козлов"
+            },
+            "player": {
+                "id": 22,
+                "name": "Антон Киселев"
+            }
+        }
+    ]
+}
