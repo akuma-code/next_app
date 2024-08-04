@@ -8,10 +8,10 @@ async function Layout({
     slot: React.ReactNode;
 }) {
     return (
-        <Box>
-            {slot}
-            <br />
+        <Box display={"flex"} flexDirection={"row"}>
             {children}
+            <br />
+            {slot}
         </Box>
     );
 }

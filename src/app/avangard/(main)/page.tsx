@@ -5,6 +5,7 @@ import {
     CardContent,
     CardHeader,
     Grid,
+    Typography,
 } from "@mui/material";
 import EventBoard from "./EventBoard";
 import { getEventsWithPagination } from "@/Services/events/eventActions";
@@ -15,8 +16,13 @@ import Link from "next/link";
 
 async function MainPage({
     searchParams: { page, rpp },
+    params,
 }: {
     searchParams: { page: string; rpp: string };
+    params: {
+        category: string;
+        id: string;
+    };
 }) {
     const lastTen =
         (await getEventsWithPagination(Number(rpp ?? 8), Number(page ?? 0), {
@@ -24,26 +30,38 @@ async function MainPage({
             players: true,
         })) ?? [];
     const [last, ...rest] = lastTen;
+
+    const { players, pairs } = last as any;
     return (
         <Grid container columns={12}>
-            <Grid item md={3}>
-                <EventBoard event={last as any} />
+            <Grid item md={4}>
+                <EventBoard
+                    // event={last as any}
+                    {...last}
+                    eventId={last.id}
+                    players={players}
+                    pairs={pairs}
+                />
             </Grid>
             <Grid item md={1} rowGap={1} p={1} container>
                 {rest.map((e, idx) => (
                     <Button size="small" variant="outlined" key={e.id}>
                         <Link
                             href={{
-                                query: {
-                                    page: +rpp * +page ?? 0,
-                                    rpp: lastTen.length,
-                                },
+                                pathname: `avangard/event/${e.id}`,
                             }}
                         >
                             {_dbDateParser(e.date_formated).dd_mm_yyyy}
                         </Link>
                     </Button>
                 ))}
+            </Grid>
+            <Grid item md={3} p={1}>
+                <Box bgcolor={"#8d8d8d"}>Selected Info</Box>
+                <Typography>
+                    {params.category}
+                    {params.id}
+                </Typography>
             </Grid>
         </Grid>
     );

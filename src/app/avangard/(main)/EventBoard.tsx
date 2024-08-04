@@ -1,94 +1,71 @@
 "use client";
 
 import LoadSpinner from "@/app/avangard/loading";
-import {
-    EventIncludesReturn,
-    getEventWithIncludes,
-} from "@/Services/events/db_event";
+import { _dbDateParser } from "@/Helpers/dateFuncs";
 import { getEventsWithPagination } from "@/Services/events/eventActions";
 import {
-    Card,
-    CardHeader,
-    CardContent,
     Box,
     Button,
+    Card,
+    CardContent,
+    CardHeader,
     Stack,
     Typography,
 } from "@mui/material";
 import { useState, useTransition } from "react";
 
 const EventBoard = ({
-    event,
+    date_formated,
+    eventId,
+    players = [],
+    pairs,
 }: {
-    event: {
+    players: { id: number; name: string }[];
+    pairs?: {
         id: number;
-        date_formated: string;
-        players: { id: number; name: string }[];
-        pairs: {
-            id: number;
-            playerId: number | null;
-            masterId?: number | null;
-            [x: string]: number | undefined | null;
-        }[];
-    };
+        playerId: number | null;
+        masterId?: number | null;
+        [x: string]: number | undefined | null;
+    }[];
+    eventId?: number;
+    date_formated?: string;
 }) => {
     const [isPending, start] = useTransition();
     const [current, setCurrent] = useState<any[]>([]);
     const clickhandler = () => {
-        start(async () => {
-            const e = (await getEventsWithPagination(7, 0)) as any[];
-            if (!e) return;
-            setCurrent(
-                e.map((ee) => ({
-                    ...ee,
-                    players: ee.players.map((p: { name: string }) => p.name),
-                }))
-            );
-        });
+        start(async () => {});
     };
-
+    const tables = players.length / 2 > 7 ? 7 : Math.round(players!.length / 2);
     return (
         <Card
             elevation={2}
             sx={{
                 m: 1,
-                maxWidth: 300,
+                maxWidth: 500,
                 maxHeight: 400,
                 border: "1px solid",
                 overflowY: "auto",
             }}
         >
-            <CardHeader title={`Event ${event.id}`} />
+            <CardHeader
+                title={`Тренировка [id: ${eventId}]`}
+                subheader={_dbDateParser(date_formated ?? "").dd_mm_yyyy}
+            />
             <CardContent>
-                <Stack direction={"row"}>
+                <Stack direction={"row"} gap={2}>
                     <Box>
-                        <Box>date: {event.date_formated}</Box>
-                        <Box>players: {event?.players?.length}</Box>
-                        <Box>pairs: {event?.pairs?.length}</Box>
-                        <Box>Queue: 2</Box>
-                        <Box>Reserved: 2</Box>
+                        <Typography>Столов занято {tables}/7</Typography>
+                        <Typography>Резерв: {pairs?.length} </Typography>
+                        <Typography>Очередь: 2</Typography>
                     </Box>
                     <Box>
-                        {event.players.map((p) => (
-                            <Typography key={p.name} variant="subtitle2">
-                                {p.name}
-                            </Typography>
-                        ))}
+                        Список игроков
+                        {players &&
+                            players.map((p) => (
+                                <Typography key={p.name}>{p.name}</Typography>
+                            ))}
                     </Box>
                 </Stack>
-                {isPending ? (
-                    <LoadSpinner size={1} />
-                ) : (
-                    <Button onClick={clickhandler}>BTN</Button>
-                )}
-                {
-                    // current && (
-                    //     <Box>
-                    //         всего: {current[0]._count.players} <br />
-                    //         пар: {current[0]._count.pairs}
-                    //     </Box>
-                    // )
-                }
             </CardContent>
         </Card>
     );
