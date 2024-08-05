@@ -1,17 +1,10 @@
 import { Box } from "@mui/material";
 
-async function Layout({
-    children,
-    slot,
-}: {
-    children: React.ReactNode;
-    slot: React.ReactNode;
-}) {
+async function Layout({ children }: { children: React.ReactNode }) {
     return (
         <Box display={"flex"} flexDirection={"row"}>
             {children}
             <br />
-            {slot}
         </Box>
     );
 }
