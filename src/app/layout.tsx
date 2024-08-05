@@ -26,6 +26,7 @@ const RootLayout: React.FC<{
 }> = async ({ children, modalEvent, slot }) => {
     const session = await auth();
     const cls = [inter.className, "bg-[#7ad5f3c9]"].join(" ");
+    // console.clear();
     return (
         <html lang="ru">
             <body className={cls}>
@@ -39,8 +40,7 @@ const RootLayout: React.FC<{
                                 color="primary.main"
                             >
                                 {slot}
-                                <AppHeader />
-                                {/* {modal} */}
+
                                 {children}
                                 {modalEvent}
                             </Paper>

@@ -23,4 +23,7 @@ const LoadingStp: React.FC<LoadingStpProps> = () => {
     );
 };
 
-export default LoadSpinner;
+export default LoadSpinner.bind(null, {
+    text: "Загрузка....",
+    iconColor: "orange",
+});

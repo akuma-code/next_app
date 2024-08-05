@@ -39,7 +39,7 @@ export function PlayersListView({
                 sx={{
                     maxWidth: 350,
                     m: 2,
-                    // maxHeight: playerId ? '30vh' : '70vh',
+                    maxHeight: "70vh",
                     // maxHeight: 'inherit',
                     overflowY: "auto",
                     [`& .MuiListItem-root .Mui-selected`]: {

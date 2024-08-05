@@ -13,7 +13,7 @@ import {
     Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 
 interface AppHeaderProps {}
 const { apiUrl, pageUrl } = paths;
@@ -33,7 +33,7 @@ const routes = [
     },
 ];
 
-export async function AppHeader() {
+export const AppHeader: React.FC = async () => {
     const session = await auth();
 
     return (
@@ -91,4 +91,6 @@ export async function AppHeader() {
             </Toolbar>
         </AppBar>
     );
-}
+};
+
+AppHeader.displayName = "_________HEADER";

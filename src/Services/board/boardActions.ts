@@ -2,7 +2,8 @@
 
 import prisma from "@/client/client"
 import { makeSerializable } from "@/Helpers/serialize"
-import { Prisma } from "@prisma/client"
+import { Event, Prisma } from "@prisma/client"
+import { Payload } from "@prisma/client/runtime/library"
 const db = {
     player: prisma.player,
     event: prisma.event
@@ -16,7 +17,7 @@ interface PlayerPayload {
     args: Prisma.PlayerFindManyArgs
     type: 'player'
 }
-
+type BP = Payload<typeof prisma.event, 'create'>
 type DataPayload =
     | EventPayload
     | PlayerPayload
@@ -40,7 +41,10 @@ export async function boardDataReducer<T extends DataPayload>(payload: T): Reduc
 
         switch (payload.type) {
             case "event": {
-                const res = await db[payload.type].findMany(payload.args)
+
+                const { select, where, include } = payload.args;
+
+                const res = await db[payload.type].findMany({ where, select })
                 return makeSerializable(res)
             }
             case "player": {
@@ -54,5 +58,3 @@ export async function boardDataReducer<T extends DataPayload>(payload: T): Reduc
 
 }
 
-boardDataReducer({ type: 'event', args: { where: { date_formated: '2024-07-09' } } })
-boardDataReducer({ type: 'player', args: { where: { name: '123' } } })

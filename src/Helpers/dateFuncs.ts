@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 
 export const _formated_date = (date?: string | dayjs.Dayjs | null) =>
-  dayjs(date).format("YYYY-MM-DD");
+  dayjs(date, "YYYY-MM-DD", 'ru').format("YYYY-MM-DD");
 
 export enum DayOfWeek {
   "Понедельник",

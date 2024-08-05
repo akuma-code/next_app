@@ -3,8 +3,10 @@ import { boardDataReducer } from "@/Services/board/boardActions";
 import { getEventsWithPagination } from "@/Services/events/eventActions";
 import { Alert, Box, Button, Grid, Typography } from "@mui/material";
 import EventBoard from "../../EventBoard";
-import page from "../page";
+
 import Link from "next/link";
+import { getEventsUnique } from "@/Services/eventService";
+import { getDBOneEventData } from "@/Services/events/db_event";
 
 export default async function Page({
     params,
@@ -23,24 +25,30 @@ export default async function Page({
         })) ?? [];
     const [last, ...rest] = lastTen;
 
-    const { players, pairs } = last as any;
+    const selectedEvent = await getDBOneEventData(
+        { id: Number(params.id) },
+        { id: true, players: true, pairs: true, date_formated: true }
+    );
+    const { players = [], pairs = [], date_formated = "" } = selectedEvent;
     return (
         <Grid container columns={12}>
             <Grid item md={4}>
-                <EventBoard
-                    // event={last as any}
-                    {...last}
-                    eventId={last.id}
-                    players={players}
-                    pairs={pairs}
-                />
+                {params.category === "event" && (
+                    <EventBoard
+                        // event={last as any}
+                        date_formated={date_formated}
+                        eventId={selectedEvent?.id}
+                        players={players}
+                        pairs={pairs}
+                    />
+                )}
             </Grid>
             <Grid item md={1} rowGap={1} p={1} container>
                 {rest.map((e, idx) => (
                     <Button size="small" variant="outlined" key={e.id}>
                         <Link
                             href={{
-                                pathname: `avangard/event/${e.id}`,
+                                pathname: `/avangard/event/${e.id}`,
                             }}
                         >
                             {_dbDateParser(e.date_formated).dd_mm_yyyy}
@@ -50,10 +58,8 @@ export default async function Page({
             </Grid>
             <Grid item md={3} p={1}>
                 <Box bgcolor={"#8d8d8d"}>Selected Info</Box>
-                <Typography>
-                    {params.category}
-                    {params.id}
-                </Typography>
+                <Typography>{params.category}</Typography>
+                <Typography>{params.id}</Typography>
             </Grid>
         </Grid>
     );

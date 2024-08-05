@@ -8,11 +8,9 @@ const db = prisma.event
 const db_pairs = prisma.pair
 interface PrismaGetOneEvent {
     where: Prisma.EventWhereUniqueInput
-    select: Prisma.EventSelect
+    select?: Prisma.EventSelect
 
-    config?: {
-        row_data?: boolean
-    }
+
 }
 
 export type EventIncludesReturn = {
@@ -31,16 +29,18 @@ interface PrismaGetManyPairs {
     select: Prisma.PairSelect
 }
 
-const defaultEventSelect: Prisma.EventSelect = {
+const defaultEventSelect = {
     id: true,
     date_formated: true,
     title: true,
     players: true,
-    pairs: { include: { master: true, player: true } },
+    pairs: true,
     isDraft: false,
     eventInfo: false
 
-}
+} satisfies Prisma.EventSelect
+
+type EventPayloadSelected = Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>
 
 export interface GetEventResponse {
 
@@ -52,21 +52,14 @@ export interface GetEventResponse {
     players: Prisma.PlayerGetPayload<true>[]
 }
 
-function parseEventSelected<T extends PrismaGetOneEvent['select']>(selected?: T): Prisma.EventSelect<DefaultArgs> {
-    // if (!selected) return defaultEventSelect
-    // const res = selected.reduce((prev, current) => {
-    //     if (!prev[current]) return prev = { ...prev, [current]: true }
-    //     return { ...prev, [current]: true }
-    // }, {} as Record<keyof Prisma.EventSelect, boolean>)
-    return { ...defaultEventSelect, }
-}
-export async function getDBOneEventData(search: PrismaGetOneEvent['where'], selected?: PrismaGetOneEvent['select']) {
+
+export async function getDBOneEventData<S extends Prisma.EventSelect<DefaultArgs>>(search: PrismaGetOneEvent['where'], selected?: S) {
 
     try {
-        // const _selected = parseEventSelected(selected)
+
         const data = await db.findUniqueOrThrow({
             where: search,
-            select: { _count: false, ...selected, eventInfo: false, }
+            select: { id: true, eventInfo: false, ...selected, }
 
         })
 
@@ -79,14 +72,9 @@ export async function getDBOneEventData(search: PrismaGetOneEvent['where'], sele
 
 }
 
-export async function getEventWithConfig({ where, select, config }: PrismaGetOneEvent) {
+export async function getEventWithConfig({ where, select }: PrismaGetOneEvent) {
     // if (!where.id) return null
-    if (config) {
-        const { row_data = false } = config
-        if (row_data === true) {
 
-        }
-    }
     try {
         // const _selected = parseEventSelected(selected)
         const data = await db.findUniqueOrThrow({
@@ -97,15 +85,7 @@ export async function getEventWithConfig({ where, select, config }: PrismaGetOne
                 ...select
             }
         })
-        // const tolog = await db.groupBy({
-        //     by: ['date_formated'],
-        //     where: { pairs: {} },
-        //     having: {
-        //         date_formated: { endsWith: '06_2024' }
-        //     },
-        //     orderBy: { date_formated: 'asc' }
-        // })
-        // console.log(tolog.map(t => ({ ...t, date: t.date_formated.split("_").reverse().join("-") })))
+
         return data
     } catch (error) {
         console.error(error)
