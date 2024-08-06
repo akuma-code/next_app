@@ -14,33 +14,59 @@ import React from "react";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
 import Link from "next/link";
 import { getDBManyEventsData } from "@/Services/events/db_event";
+import { ItemsList } from "./_components/EventList";
+import { Board } from "./_components/Board";
+import StackedBarChart from "@/Components/Charts/StackedBarChart";
 
+const validateNumber = (n: number, x?: number) => (!isNaN(n) ? n : x ? x : 0);
 async function MainPage({
-    searchParams: { page, rpp },
+    searchParams,
 }: {
-    searchParams: { page: string; rpp: string };
+    searchParams: { page?: string; rpp?: string; eventId?: string };
 }) {
-    const last_events = getDBManyEventsData(
+    const page = validateNumber(Number(searchParams.page), 0);
+    const rpp = validateNumber(Number(searchParams.rpp), 10);
+    let skip = Math.abs(page * rpp);
+    const eventId = Number(searchParams.eventId);
+    const { data, total } = await getDBManyEventsData(
         { isDraft: false },
-        { date_formated: true, pairs: true, players: true },
-        { take: 10, skip: 0 }
+        {
+            date_formated: true,
+            pairs: true,
+            players: true,
+            _count: { select: { players: true, pairs: true } },
+        },
+        {
+            skip: skip,
+            take: rpp,
+            orderBy: { id: "desc" },
+        }
     );
-
+    const [last, ...rest] = data;
     return (
-        <Grid container columns={12}>
-            <Grid item md={2} rowGap={1} p={1} container></Grid>
+        <Grid
+            container
+            columns={12}
+            columnGap={4}
+            sx={{
+                [`& .MuiGrid-item`]: {
+                    border: "1px solid grey",
+                    p: 1,
+                    // w: "fit-content",
+                },
+            }}
+        >
             <Grid item md={4}>
-                <Box>Board</Box>
-                {/* <EventBoard
-                    // event={last as any}
-                    {...last}
-                    eventId={last.id}
-                    players={players}
-                    pairs={pairs}
-                /> */}
+                <Board lastId={eventId || last?.id || undefined} />
             </Grid>
-            <Grid item md={"auto"} p={1}>
-                <Box bgcolor={"#8d8d8d"}>Selected Info</Box>
+
+            <Grid item md={3}>
+                <ItemsList items={data} />
+            </Grid>
+
+            <Grid item md={4}>
+                <Box bgcolor={"#8d8d8d"}>Total Events Count: {total}</Box>
+                <StackedBarChart />
             </Grid>
         </Grid>
     );

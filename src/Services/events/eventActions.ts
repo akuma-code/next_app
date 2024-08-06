@@ -5,7 +5,7 @@ import { DTO_NewEvent, eventCreate, updateEventPlayers } from "../eventService";
 import { revalidatePath } from "next/cache";
 import { _log } from "@/Helpers/helpersFns";
 import { Prisma } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+import { DefaultArgs, Payload } from "@prisma/client/runtime/library";
 
 
 const event = prisma.event
@@ -13,6 +13,9 @@ interface EditEventDto {
     search: Prisma.EventWhereUniqueInput,
     new_data: Prisma.EventUpdateInput
 }
+
+export type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
+
 export async function event_ADD(payload: DTO_NewEvent) {
     const { date_formated, players, title, isDraft = false } = payload;
     const existEvent = await event.findUnique({ where: { date_formated } })
@@ -202,12 +205,12 @@ export async function upsertPair(where: Prisma.PairWhereUniqueInput, data: { eve
         }
     }
 }
-
-async function getEvents(
+export type EventsGetType = ThenArg<ReturnType<typeof getEvents>>
+export async function getEvents(
     payload: Partial<Prisma.EventFindManyArgs>
 ) {
     try {
-        const { where, select, take, skip, include } = payload
+
         const events = await prisma.event.findMany(payload)
         return events
     } catch (error) {

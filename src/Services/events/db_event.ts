@@ -8,7 +8,8 @@ const db = prisma.event
 const db_pairs = prisma.pair
 interface PrismaGetOneEvent {
     where: Prisma.EventWhereUniqueInput
-    select?: Prisma.EventSelect
+    select?: Prisma.EventSelect<DefaultArgs>
+    include?: Prisma.EventInclude<DefaultArgs>
 
 
 }
@@ -23,7 +24,7 @@ export type EventIncludesReturn = {
 interface PrismaGetManyEvents {
     where: Prisma.EventWhereInput
     select: Prisma.EventSelect
-    config?: Partial<Pick<Prisma.EventFindManyArgs, 'take' | 'skip'>>
+    config?: Partial<Pick<Prisma.EventFindManyArgs, 'take' | 'skip' | 'orderBy'>>
 }
 interface PrismaGetManyPairs {
     where: Prisma.PairWhereInput
@@ -60,7 +61,10 @@ export async function getDBOneEventData<S extends Prisma.EventSelect<DefaultArgs
 
         const data = await db.findUniqueOrThrow({
             where: search,
-            select: { id: true, eventInfo: false, ...selected, }
+            select: {
+                id: true, eventInfo: false,
+                ...selected,
+            }
 
         })
 
@@ -137,13 +141,19 @@ export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'],
 
     try {
         // const _selected = parseEventSelected(selected)
+
         const data = await db.findMany({
             where: search,
-            select: { id: true, ...selected }
+            select: {
+                id: true,
+
+                ...selected
+            },
+            ...config
 
         })
-
-        return { data }
+        const total = await db.count()
+        return { data, total }
     } catch (error) {
         console.error(error)
         throw error
