@@ -56,12 +56,11 @@ async function MainPage({
                 },
             }}
         >
-            <Grid item md={4}>
-                <Board lastId={eventId || last?.id || undefined} />
-            </Grid>
-
             <Grid item md={3}>
                 <ItemsList items={data} />
+            </Grid>
+            <Grid item md={4}>
+                <Board lastId={eventId || last?.id || undefined} />
             </Grid>
 
             <Grid item md={4}>

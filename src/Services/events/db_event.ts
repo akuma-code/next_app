@@ -1,6 +1,7 @@
 'use server'
 
 import prisma from "@/client/client"
+import { makeSerializable } from "@/Helpers/serialize"
 import { Event, Prisma } from "@prisma/client"
 import { DefaultArgs } from "@prisma/client/runtime/library"
 
@@ -181,6 +182,20 @@ export async function getDbManyPairsData(search?: PrismaGetManyPairs['where'], s
         return { data }
     } catch (error) {
         console.log(error)
+        throw error
+    }
+}
+
+export async function aggregatePlayers() {
+    try {
+        const players = await prisma.player.findMany({
+            select: { _count: { select: { events: true } } }
+
+        });
+        const serial = makeSerializable(players);
+        console.log(players)
+        return serial.map(s => s._count)
+    } catch (error) {
         throw error
     }
 }
