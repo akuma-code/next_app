@@ -15,35 +15,36 @@ export default function StackedBarChart() {
     const [eventsData, setEventsData] = useState<EventsGetType>([]);
 
     const chart_data = useMemo(() => {
-        // if (!eventsData) return [];
-        const data = eventsData?.map((d: any) => ({
+        if (!eventsData) return;
+        const data = eventsData.map((d: any) => ({
             date: d.date_formated as string,
             players: d._count.players as number,
             duos: d._count.pairs as number,
         }));
 
-        return data ?? [];
-    }, []);
+        return data;
+    }, [loading]);
 
     useEffect(() => {
         start(async () => {
-            await getData().then((result) => setEventsData(result));
+            const data = await getData();
+            setEventsData(data);
         });
     }, []);
-    console.log(eventsData && eventsData[0]);
+
     return (
         <BarChart
             width={400}
             height={300}
             series={[
                 {
-                    data: chart_data.map((c) => c.players),
+                    data: chart_data?.map((c) => c.players),
                     label: "Players",
                     id: "pid",
                     stack: "total",
                 },
                 {
-                    data: chart_data.map((c) => c.duos),
+                    data: chart_data?.map((c) => c.duos),
                     label: "Pairs",
                     id: "mid",
                     stack: "total",
@@ -51,8 +52,9 @@ export default function StackedBarChart() {
             ]}
             xAxis={[
                 {
-                    data: chart_data.map((c) => _dbDateParser(c.date).dd_mmmm),
+                    data: chart_data?.map((c) => c.date),
                     scaleType: "band",
+                    // valueFormatter: (value) => _dbDateParser(value).dd_mmmm,
                 },
             ]}
             title="Events"
