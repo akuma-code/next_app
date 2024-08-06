@@ -13,32 +13,24 @@ import { _log } from "@/Helpers/helpersFns";
 import React from "react";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
 import Link from "next/link";
+import { getDBManyEventsData } from "@/Services/events/db_event";
 
 async function MainPage({
     searchParams: { page, rpp },
 }: {
     searchParams: { page: string; rpp: string };
 }) {
-    const lastTen =
-        (await getEventsWithPagination(Number(rpp ?? 8), Number(page ?? 0), {
-            pairs: true,
-            players: true,
-        })) ?? [];
-    const [last, ...rest] = lastTen;
+    const last_events = getDBManyEventsData(
+        { isDraft: false },
+        { date_formated: true, pairs: true, players: true },
+        { take: 10, skip: 0 }
+    );
 
-    const { players, pairs } = last as any;
     return (
         <Grid container columns={12}>
-            <Grid item md={2} rowGap={1} p={1} container>
-                {rest.map((e, idx) => (
-                    <Button size="small" variant="outlined" key={e.id}>
-                        <Link href={`/avangard/event/${e.id}`}>
-                            {_dbDateParser(e.date_formated).dd_mm_yyyy}
-                        </Link>
-                    </Button>
-                ))}
-            </Grid>
-            <Grid item md={4} height={500}>
+            <Grid item md={2} rowGap={1} p={1} container></Grid>
+            <Grid item md={4}>
+                <Box>Board</Box>
                 {/* <EventBoard
                     // event={last as any}
                     {...last}
@@ -47,7 +39,7 @@ async function MainPage({
                     pairs={pairs}
                 /> */}
             </Grid>
-            <Grid item md={3} p={1}>
+            <Grid item md={"auto"} p={1}>
                 <Box bgcolor={"#8d8d8d"}>Selected Info</Box>
             </Grid>
         </Grid>

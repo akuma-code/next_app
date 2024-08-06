@@ -23,6 +23,7 @@ export type EventIncludesReturn = {
 interface PrismaGetManyEvents {
     where: Prisma.EventWhereInput
     select: Prisma.EventSelect
+    config?: Partial<Pick<Prisma.EventFindManyArgs, 'take' | 'skip'>>
 }
 interface PrismaGetManyPairs {
     where: Prisma.PairWhereInput
@@ -132,7 +133,7 @@ export async function getEventWithIncludes(payload: GetEventWithIncludesProps) {
         throw error
     }
 }
-export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'], selected?: PrismaGetManyEvents['select']) {
+export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'], selected?: PrismaGetManyEvents['select'], config?: PrismaGetManyEvents['config']) {
 
     try {
         // const _selected = parseEventSelected(selected)
