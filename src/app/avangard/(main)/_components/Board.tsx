@@ -4,6 +4,7 @@ import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
 import { getDBOneEventData } from "@/Services/events/db_event";
 import { Box, Fade, Skeleton, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState, useTransition } from "react";
 interface BoardProps {
     lastId?: number;
@@ -13,7 +14,7 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
     const [current, setCurrent] = useState<any | undefined>(undefined);
 
     useEffect(() => {
-        if (!lastId) return setCurrent(undefined);
+        if (!lastId) setCurrent(undefined);
         start(async () => {
             const e = await getDBOneEventData(
                 { id: lastId },

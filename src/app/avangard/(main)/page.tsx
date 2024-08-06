@@ -65,8 +65,10 @@ async function MainPage({
             </Grid>
 
             <Grid item md={4}>
-                <Box bgcolor={"#8d8d8d"}>Total Events Count: {total}</Box>
-                <StackedBarChart />
+                <Box bgcolor={"#8d8d8d"}>Всего тренировок: {total}</Box>
+                <Box maxWidth={400}>
+                    <StackedBarChart />
+                </Box>
             </Grid>
         </Grid>
     );
