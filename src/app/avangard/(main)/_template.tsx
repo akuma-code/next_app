@@ -10,7 +10,7 @@ async function Boundary({
     params: { category: string; id: string };
 }) {
     return (
-        <Box border="3px dashed green" bgcolor={"secondary.light"}>
+        <Box border="3px dashed green">
             {params?.category}
             {children}
         </Box>

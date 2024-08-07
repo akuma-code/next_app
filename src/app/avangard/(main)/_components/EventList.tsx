@@ -72,9 +72,14 @@ export const ItemsList: React.FC<ItemListProps> = ({ items }) => {
                 <code> [всего: {item.count.players || ""}] </code>
             </span>
         );
-        const secondary = `${
-            item.count.pairs ? "индивидуально: " + item.count.pairs : ""
-        }`;
+        const secondary = (
+            <code>
+                {item.count.pairs
+                    ? "[с тренером: " + item.count.pairs + "]"
+                    : ""}
+            </code>
+        );
+
         return { primary, secondary };
     };
 
@@ -124,8 +129,12 @@ export const ItemsList: React.FC<ItemListProps> = ({ items }) => {
                                 textTransform: "full-width",
                             }}
                             secondaryTypographyProps={{
-                                textAlign: "justify",
-                                color: "warning.dark",
+                                textAlign: "right",
+                                color: "primary.main",
+                                bgcolor: "secondary.light",
+                                fontSize: "1rem",
+                                // width: "fit-content",
+                                align: "center",
                             }}
                         />
                     </Link>

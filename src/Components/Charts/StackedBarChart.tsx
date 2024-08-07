@@ -26,74 +26,54 @@ export default function StackedBarChart() {
         select(data) {
             return data?.dataset || [];
         },
-        // select(data) {
-        //     if (!data) return [];
-        //     const items = data.map((e) => ({
-        //         id: e.id,
-        //         label: e.date_formated,
-        //     }));
-        //     return items;
-        // },
     });
-    // const chart_data = useMemo(() => {
-    //     if (!q.isSuccess) return;
-    //     const data = q.data.map((d) => ({
-    //         date: d.date_formated as string,
-    //         players: d._count.players as number,
-    //         duos: d._count.pairs as number,
-    //     }));
 
-    //     return data;
-    // }, [q.data, q.isSuccess]);
     if (q.error) return <Alert>{q.error.message}</Alert>;
     if (!q.isSuccess) return null;
     return (
         <BarChart
-            height={500}
+            height={700}
             width={400}
             dataset={q.data}
             series={[
-                { dataKey: "players_count", label: "players", stack: "total" },
-                { dataKey: "pairs_count", label: "pairs", stack: "total" },
+                {
+                    dataKey: "players_count",
+                    label: "Общая",
+                    stack: "ex",
+                    id: "psIds",
+                },
+                {
+                    dataKey: "pairs_count",
+                    label: "Индивидуально",
+                    stack: "ex",
+                    stackOrder: "descending",
+                    id: "paIds",
+                },
+                // {
+                //     dataKey: "total",
+                //     label: (location) =>
+                //         location === "tooltip" ? "Всего человек" : "Всего",
+                //     stack: "total",
+                //     id: "totalId",
+                // },
             ]}
             yAxis={[
                 {
                     dataKey: "date",
                     scaleType: "band",
-                    valueFormatter: (value) =>
+                    valueFormatter: (value, ctx) =>
                         _dbDateParser(value)._dayjs.format("DD MMMM"),
                 },
             ]}
             title="Тренировки"
             loading={q.isLoading}
             layout="horizontal"
+            margin={{ left: 100 }}
+            barLabel={"value"}
         />
     );
 }
-const makeData = ({
-    data,
-    id,
-    label,
-}: {
-    data: number[];
-    label: string;
-    id: number;
-    stack: BarSeriesType["stack"];
-}): Partial<BarSeriesType> => {
-    return { data, label, id };
-};
-async function getData() {
-    const data = await getEvents({
-        select: {
-            id: true,
-            date_formated: true,
-            _count: { select: { pairs: true, players: true } },
-        },
-        orderBy: { date_formated: "asc" },
-    });
 
-    return data;
-}
 type EventDataType = {
     id: number;
     date: string;
@@ -105,16 +85,19 @@ async function getDataset() {
         select: {
             id: true,
             date_formated: true,
+
             _count: { select: { pairs: true, players: true } },
         },
-        orderBy: { date_formated: "asc" },
+        take: 10,
+        orderBy: { date_formated: "desc" },
     })) as unknown as EventsGetType;
     if (!events) return null;
     const dataset = events?.map((e) => ({
         id: e.id,
         date: e.date_formated,
         pairs_count: e._count.pairs,
-        players_count: e._count.players,
+        players_count: e._count.players - e._count.pairs,
+        total: e._count.players,
     })) satisfies EventDataType[];
     const dates = dataset.map((d) => {
         const _d = _dbDateParser(d.date)._dayjs;

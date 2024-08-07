@@ -1,22 +1,8 @@
-import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CardHeader,
-    Grid,
-    Typography,
-} from "@mui/material";
-import EventBoard from "./EventBoard";
-import { getEventsWithPagination } from "@/Services/events/eventActions";
-import { _log } from "@/Helpers/helpersFns";
-import React from "react";
-import { _dbDateParser } from "@/Helpers/dateFuncs";
-import Link from "next/link";
-import { getDBManyEventsData } from "@/Services/events/db_event";
-import { ItemsList } from "./_components/EventList";
-import { Board } from "./_components/Board";
 import StackedBarChart from "@/Components/Charts/StackedBarChart";
+import { getDBManyEventsData } from "@/Services/events/db_event";
+import { Box, Grid } from "@mui/material";
+import { Board } from "./_components/Board";
+import { ItemsList } from "./_components/EventList";
 
 const validateNumber = (n: number, x?: number) => (!isNaN(n) ? n : x ? x : 0);
 async function MainPage({
@@ -28,18 +14,20 @@ async function MainPage({
     const rpp = validateNumber(Number(searchParams.rpp), 10);
     let skip = Math.abs(page * rpp);
     const eventId = Number(searchParams.eventId);
+
     const { data, total } = await getDBManyEventsData(
         { isDraft: false },
         {
             date_formated: true,
-            pairs: true,
-            players: true,
+            pairs: false,
+            players: false,
+            eventInfo: false,
             _count: { select: { players: true, pairs: true } },
         },
         {
             skip: skip,
             take: rpp,
-            orderBy: { id: "desc" },
+            orderBy: { date_formated: "desc" },
         }
     );
     const [last, ...rest] = data;
@@ -47,7 +35,9 @@ async function MainPage({
         <Grid
             container
             columns={12}
-            columnGap={4}
+            gap={1}
+            justifyContent={"space-between"}
+            // columnGap={1}
             sx={{
                 [`& .MuiGrid-item`]: {
                     border: "1px solid grey",
@@ -60,14 +50,12 @@ async function MainPage({
                 <ItemsList items={data} />
             </Grid>
             <Grid item md={4}>
-                <Board lastId={eventId || last?.id || undefined} />
+                <Board />
             </Grid>
 
             <Grid item md={4}>
-                <Box bgcolor={"#8d8d8d"}>Всего тренировок: {total}</Box>
-                <Box maxWidth={400}>
-                    <StackedBarChart />
-                </Box>
+                <StackedBarChart />
+                
             </Grid>
         </Grid>
     );
