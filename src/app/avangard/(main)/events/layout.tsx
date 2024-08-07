@@ -1,13 +1,8 @@
 import { NavLink } from "@/ClientComponents/UI/NavLink";
-import {
-    Box,
-    Stack,
-    Typography
-} from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { Metadata } from "next";
 
 const links = [
-
     {
         href: "/avangard/events",
         label: "Тренировки",
@@ -16,10 +11,10 @@ const links = [
         href: "/avangard/players",
         label: "Игроки",
     },
-    // {
-    //     href: "/avangard/events/draft",
-    //     label: "Запись на тренировку",
-    // },
+    {
+        href: "/avangard/board/add",
+        label: "Запись на тренировку",
+    },
 ];
 
 export const metadata: Metadata = {
@@ -33,41 +28,37 @@ const AvangardLayout: React.FC<{
 }> = async ({ children }) => {
     return (
         <aside>
-
             <Stack
-                direction={ {
+                direction={{
                     sm: "column",
                     md: "row",
-                } }
-            // spacing={ 1 }
-            // bgcolor={ 'background' }
+                }}
+                // spacing={ 1 }
+                // bgcolor={ 'background' }
             >
-                <Box flexGrow={ 1 }
-                    maxWidth={ { md: 200, xs: 500 } }
-                    pt={ 1 }
-                    display={ "flex" }
-                    flexDirection={ { xs: "row", md: "column" } }
-                    sx={ {
+                <Box
+                    flexGrow={1}
+                    maxWidth={{ md: 200, xs: 500 }}
+                    pt={1}
+                    display={"flex"}
+                    flexDirection={{ xs: "row", md: "column" }}
+                    sx={{
                         [`& :hover.MuiTypography-root`]: {
                             textUnderlineOffset: 1,
                             textDecoration: "underline",
                         },
-                        alignSelf: { xs: 'center', md: 'start' }
-                    } }
+                        alignSelf: { xs: "center", md: "start" },
+                    }}
                 >
-                    { links.map((item) => (
-                        <NavLink key={ item.href } href={ item.href }>
-                            <Typography variant="body1" component={ "div" }>
-                                { item.label }
+                    {links.map((item) => (
+                        <NavLink key={item.href} href={item.href}>
+                            <Typography variant="body1" component={"div"}>
+                                {item.label}
                             </Typography>
                         </NavLink>
-                    )) }
-
+                    ))}
                 </Box>
-                <Box flexGrow={ 1 }>
-
-                    { children }
-                </Box>
+                <Box flexGrow={1}>{children}</Box>
             </Stack>
             <div id="modal-root" />
         </aside>

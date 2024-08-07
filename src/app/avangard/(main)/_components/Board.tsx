@@ -54,7 +54,7 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
                         },
                     ]}
                     layout="horizontal"
-                    loading={q.isLoading}
+                    loading={!q.data}
                     margin={{ left: 150 }}
                     barLabel={"value"}
                 />
