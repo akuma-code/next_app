@@ -58,3 +58,7 @@ export async function boardDataReducer<T extends DataPayload>(payload: T): Reduc
 
 }
 
+export async function getSelected(id: number) {
+    const p = await prisma.event.findUnique({ where: { id } }).players();
+    return p;
+}

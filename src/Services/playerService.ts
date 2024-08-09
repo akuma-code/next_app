@@ -35,32 +35,32 @@ export async function createPlayer(name: string, info?: InfoCreatePayload) {
     const player = await prisma.player.create({
       data: {
         name,
-      },
-      include: { info: true },
+      }
+
     });
-    if (info) {
-      const { rttf_score } = info;
+    // if (info) {
+    //   const { rttf_score } = info;
 
-      const addInfo = await prisma.player.update({
-        where: { id: player.id },
-        data: {
-          info: {
-            create: {
-              rttf_score,
-            },
-          },
-        },
-      });
+    //   const addInfo = await prisma.player.update({
+    //     where: { id: player.id },
+    //     data: {
+    //       info: {
+    //         create: {
+    //           rttf_score,
+    //         },
+    //       },
+    //     },
+    //   });
 
-      return addInfo;
-    }
+    //   return addInfo;
+    // }
 
     return player;
 
     // return await prisma.player.create({ data: { name } })
   } catch (error) {
     _log("___Create error: \n", error);
-    throw new Error("__create error");
+    throw error
   } finally {
     revalidatePath("/");
   }
