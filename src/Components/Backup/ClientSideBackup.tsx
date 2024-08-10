@@ -2,6 +2,7 @@
 
 import { getBackup } from "@/app/admin/actions";
 import { getImportantData } from "@/app/api/backup/events/actions";
+import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
 import { mdiArchiveArrowUpOutline } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -86,41 +87,49 @@ export const ClientBackup = (props: { filename?: string }) => {
 
     // q.isSuccess && console.log(q.data);
     return (
-        <Box mx={2} gap={2}>
-            <Typography variant="h4" component={"div"}>
-                список ивентов{" "}
-                <Chip
-                    label={q.data?.events.length}
-                    size="medium"
-                    variant="outlined"
-                    color="warning"
-                    sx={{
-                        color: "black",
-                        fontWeight: "bold",
-                        fontSize: 20,
-                    }}
-                    icon={<Icon path={mdiArchiveArrowUpOutline} size={0.9} />}
-                />
-            </Typography>
-            {q.isSuccess && (
-                <Box
-                    color={"success"}
-                    maxHeight={300}
-                    maxWidth={500}
-                    flexWrap={"wrap"}
-                    // width={ '30vw' }
-                    bgcolor={"inherit"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                >
-                    {q.data.events.map((e) => (
-                        <Link href={"/avangard/events/" + e.id} key={e.id}>
-                            <Typography px={1}>
-                                {_dbDateParser(e.date_formated).dd_mmmm}
-                            </Typography>
-                        </Link>
-                    ))}
-                </Box>
+        <Box p={1} gap={2} border={"1px solid"} borderRadius={"1rem"}>
+            {/* <Typography variant="h4" component={"div"} minWidth={290}>
+                Cписок ивентов
+            </Typography> */}
+            <Chip
+                label={"Всего ивентов: " + q.data?.events.length}
+                size="medium"
+                variant="outlined"
+                color="warning"
+                sx={{
+                    color: "black",
+                    fontWeight: "bold",
+                    fontSize: 20,
+                }}
+                icon={<Icon path={mdiArchiveArrowUpOutline} size={0.9} />}
+            />
+            {q.isLoading ? (
+                <LoadSpinner />
+            ) : (
+                q.isSuccess && (
+                    <Box
+                        color={"success"}
+                        maxHeight={300}
+                        maxWidth={500}
+                        flexWrap={"wrap"}
+                        // width={ '30vw' }
+                        bgcolor={"inherit"}
+                        display={"flex"}
+                        flexDirection={"column"}
+                    >
+                        {q.data.events.map((e) => (
+                            <Link
+                                href={"/avangard/events/" + e.id}
+                                key={e.id}
+                                className="hover:underline"
+                            >
+                                <Typography px={1}>
+                                    {_dbDateParser(e.date_formated).dd_mmmm}
+                                </Typography>
+                            </Link>
+                        ))}
+                    </Box>
+                )
             )}
             {/* <form action={saver}> */}
             <ButtonGroup size={"small"}>

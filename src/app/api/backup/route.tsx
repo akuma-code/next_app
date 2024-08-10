@@ -55,7 +55,15 @@ export async function GET(
 
             console.table(db_players);
 
-            return NextResponse.json(db_players);
+            return NextResponse.json(db_players, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods":
+                        "GET, POST, PUT, DELETE, OPTIONS",
+                    "Access-Control-Allow-Headers":
+                        "Content-Type, Authorization",
+                },
+            });
         }
         if (query === "events") {
             // console.clear()
@@ -69,7 +77,15 @@ export async function GET(
                 select: ["id", "email", "name", "role"],
             });
             console.table(db_users);
-            return NextResponse.json(db_users);
+            return NextResponse.json(db_users, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods":
+                        "GET, POST, PUT, DELETE, OPTIONS",
+                    "Access-Control-Allow-Headers":
+                        "Content-Type, Authorization",
+                },
+            });
         }
         // _log({ u })
         // const p = prisma.player.findMany({ include: { info: true } })
@@ -77,7 +93,18 @@ export async function GET(
         // const tsx = await prisma.$transaction([p, e])
         const alldata = await getAllData();
         // console.log({ alldata });
-        return NextResponse.json({ alldata });
+        return NextResponse.json(
+            { alldata },
+            {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods":
+                        "GET, POST, PUT, DELETE, OPTIONS",
+                    "Access-Control-Allow-Headers":
+                        "Content-Type, Authorization",
+                },
+            }
+        );
         // return new Response(null, {
         //     status: 200,
         //     headers: {
