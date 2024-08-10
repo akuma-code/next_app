@@ -21,7 +21,21 @@ import Link from "next/link";
 interface CreatePlayerFormProps {
     faction?: (data: FormData) => Promise<void>;
 }
+const createAction = async (fd: FormData) => {
+    const data = Object.fromEntries(fd) as {
+        name: string;
+        rttf_score?: string;
+    };
+    const { name, rttf_score } = data;
+    const score = rttf_score ? +rttf_score : 0;
+    try {
+        const new_player = await createPlayer(name);
 
+        console.log({ new_player });
+    } catch (error) {
+        console.error(error);
+    }
+};
 const CreatePlayerForm: React.FunctionComponent<CreatePlayerFormProps> = ({
     faction,
 }) => {
@@ -30,22 +44,7 @@ const CreatePlayerForm: React.FunctionComponent<CreatePlayerFormProps> = ({
     const action = q.get("action");
     const router = useRouter();
     if (!show || action !== "create") return null;
-    const createAction = async (fd: FormData) => {
-        const data = Object.fromEntries(fd) as {
-            name: string;
-            rttf_score?: string;
-        };
-        const { name, rttf_score } = data;
-        const score = rttf_score ? +rttf_score : 0;
-        try {
-            const new_player = await createPlayer(name);
 
-            console.log({ new_player });
-        } catch (error) {
-            console.error(error);
-        }
-        // router.push("/avangard/players");
-    };
     const seedAction = async () => {
         _promptVar("Восстановить игроков из базы?") && (await seedPlayers());
     };

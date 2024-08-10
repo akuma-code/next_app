@@ -1,39 +1,32 @@
 "use client";
 
+import { getBackup } from "@/app/admin/actions";
+import { getImportantData } from "@/app/api/backup/events/actions";
+import { _dbDateParser } from "@/Helpers/dateFuncs";
+import { mdiArchiveArrowUpOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 import {
     alpha,
     Box,
     Button,
     ButtonGroup,
     Chip,
-    Divider,
     Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import db_data from "@/dataStore/allData/all_data.json";
-import { useCallback } from "react";
-import { getBackup, getBackupEvents } from "@/app/admin/actions";
-import { _date, _dbDateParser } from "@/Helpers/dateFuncs";
-import Icon from "@mdi/react";
-import { mdiSigma } from "@mdi/js";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { updateEventDates } from "@/Services/utils";
-import { fetcherJson } from "@/Helpers/fetcher";
-import { getImportantData, updatePairs } from "@/app/api/backup/events/actions";
+import { useCallback } from "react";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
 }
-const updater = updatePairs.bind(null);
-const saver = getImportantData.bind(null);
 async function saveData() {
-    return await getImportantData();
+    const data = await getImportantData();
+    // await writeFileFn("./public/json", data);
+    return data;
 }
 
-async function update() {
-    return updatePairs.bind(null);
-}
 export const ClientBackup = (props: { filename?: string }) => {
     const q = useQuery({
         queryKey: ["/api/backup"],
@@ -57,10 +50,10 @@ export const ClientBackup = (props: { filename?: string }) => {
             return { events, pairs };
         },
     });
-    const b = useQuery({
-        queryKey: ["api", "backup", "data"],
-        queryFn: saveData,
-    });
+    // const b = useQuery({
+    //     queryKey: ["api", "backup", "data"],
+    //     queryFn: saveData,
+    // });
     const exportData = useCallback(() => {
         const data = q.data;
         if (q.error) return console.error("Data fetch failure!");
@@ -76,26 +69,38 @@ export const ClientBackup = (props: { filename?: string }) => {
 
         link.click();
     }, [q.data, q.error]);
-    const exportAnyData = useCallback(() => {
-        const data = b.data;
-        if (b.error) return console.error("Data fetch failure!");
-        const jsoned = JSON.stringify(data);
-        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-            jsoned
-        )}`;
-        const link = document.createElement("a");
-        link.href = jsonString;
-        const fname = dayjs().format("YYYY-MM-DD") + ".json";
-        link.download = fname;
+    // const exportAnyData = useCallback(() => {
+    //     const data = b.data;
+    //     if (b.error) return console.error("Data fetch failure!");
+    //     const jsoned = JSON.stringify(data);
+    //     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+    //         jsoned
+    //     )}`;
+    //     const link = document.createElement("a");
+    //     link.href = jsonString;
+    //     const fname = dayjs().format("YYYY-MM-DD") + ".json";
+    //     link.download = "plain_data.json";
 
-        link.click();
-    }, [b.data, b.error]);
+    //     link.click();
+    // }, [b.data, b.error]);
 
     // q.isSuccess && console.log(q.data);
     return (
         <Box mx={2} gap={2}>
             <Typography variant="h4" component={"div"}>
-                список ивентов
+                список ивентов{" "}
+                <Chip
+                    label={q.data?.events.length}
+                    size="medium"
+                    variant="outlined"
+                    color="warning"
+                    sx={{
+                        color: "black",
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    }}
+                    icon={<Icon path={mdiArchiveArrowUpOutline} size={0.9} />}
+                />
             </Typography>
             {q.isSuccess && (
                 <Box
@@ -109,27 +114,16 @@ export const ClientBackup = (props: { filename?: string }) => {
                     flexDirection={"column"}
                 >
                     {q.data.events.map((e) => (
-                        <Typography key={e.id} px={1}>
-                            {_dbDateParser(e.date_formated).dd_mmmm}
-                        </Typography>
+                        <Link href={"/avangard/events/" + e.id} key={e.id}>
+                            <Typography px={1}>
+                                {_dbDateParser(e.date_formated).dd_mmmm}
+                            </Typography>
+                        </Link>
                     ))}
-
-                    <Chip
-                        label={q.data.events.length}
-                        size="small"
-                        variant="outlined"
-                        color="warning"
-                        sx={{
-                            color: "black",
-                            fontWeight: "bold",
-                            fontSize: 16,
-                        }}
-                        icon={<Icon path={mdiSigma} size={0.9} />}
-                    />
                 </Box>
             )}
             {/* <form action={saver}> */}
-            <ButtonGroup>
+            <ButtonGroup size={"small"}>
                 <Button
                     onClick={exportData}
                     variant="contained"
@@ -141,21 +135,17 @@ export const ClientBackup = (props: { filename?: string }) => {
                     Сохранить как JSON
                 </Button>
 
-                <Button
+                {/* <Button
                     variant="contained"
                     color={"info"}
                     onClick={exportAnyData}
                 >
-                    events backup
-                </Button>
-
-                <Button variant="contained" color={"info"} onClick={update}>
-                    Update Pairs
-                </Button>
+                    Сохранить чистые данные
+                </Button> */}
             </ButtonGroup>
             {/* </form> */}
             {q.error && <Box>q error: {q.error.message}</Box>}
-            {b.error && <Box>b error: {b.error.message}</Box>}
+            {/* {b.error && <Box>b error: {b.error.message}</Box>} */}
         </Box>
     );
 };

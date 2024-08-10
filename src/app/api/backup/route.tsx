@@ -2,7 +2,6 @@ import { _log } from "@/Helpers/helpersFns";
 import { syncPairs } from "@/Services/events/eventActions";
 import { getAllUsers } from "@/Services/userService";
 import { getAllData, getEventsData, getPlayersData } from "@/Services/utils";
-import prisma from "@/client/client";
 import { NextResponse } from "next/server";
 
 interface BackupRouteProps {
@@ -93,5 +92,3 @@ export async function GET(
         throw new Error("Backup error");
     }
 }
-
-
