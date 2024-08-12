@@ -92,7 +92,7 @@ export const ClientBackup = (props: { filename?: string }) => {
                 Cписок ивентов
             </Typography> */}
             {q.isLoading ? (
-                <LoadSpinner />
+                <LoadSpinner text="Загружаются данные для бекапа..." />
             ) : (
                 <Box
                     maxWidth={300}
@@ -114,18 +114,21 @@ export const ClientBackup = (props: { filename?: string }) => {
                             <Icon path={mdiArchiveArrowUpOutline} size={0.9} />
                         }
                     />
-                    <Button
-                        fullWidth
-                        onClick={exportData}
-                        variant="contained"
-                        color={"info"}
-                        sx={{
-                            bgcolor: (theme) =>
-                                alpha(theme.palette.info.dark, 0.7),
-                        }}
-                    >
-                        Обновить data.json
-                    </Button>
+                    <Box>
+                        <Button
+                            fullWidth
+                            onClick={exportData}
+                            variant="contained"
+                            color={"info"}
+                            sx={{
+                                bgcolor: (theme) =>
+                                    alpha(theme.palette.info.dark, 0.7),
+                            }}
+                        >
+                            скачать data.json
+                        </Button>
+                        <em>file: {dayjs().format("YYYY-MM-DD")}.json</em>
+                    </Box>
                     {q.isSuccess && (
                         <Box
                             color={"success"}
@@ -152,20 +155,8 @@ export const ClientBackup = (props: { filename?: string }) => {
                     )}
                 </Box>
             )}
-            {/* <form action={saver}> */}
 
-            <ButtonGroup size={"small"}>
-                {/* <Button
-                    variant="contained"
-                    color={"info"}
-                    onClick={exportAnyData}
-                >
-                    Сохранить чистые данные
-                </Button> */}
-            </ButtonGroup>
-            {/* </form> */}
             {q.error && <Box>q error: {q.error.message}</Box>}
-            {/* {b.error && <Box>b error: {b.error.message}</Box>} */}
         </Box>
     );
 };

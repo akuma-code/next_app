@@ -20,7 +20,7 @@ export default async function BackupPage({
                 display={"flex"}
                 flexDirection={"row"}
                 m={2}
-                maxWidth={800}
+                // maxWidth={800}
                 gap={2}
             >
                 <ClientBackup />
@@ -33,6 +33,11 @@ export default async function BackupPage({
                     action={loadData.bind(null)}
                     title="Вытянуть данные"
                     description="Прочитать данные из data.json"
+                />
+                <DescriptionButtonQuery
+                    action={fetchServer.bind(null)}
+                    title="Вытянуть данные c сервера"
+                    description="ссылка: https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/events"
                 />
             </Box>
         </MrtBoundary>
@@ -47,4 +52,15 @@ async function loadData() {
     }[];
     console.log({ e });
     return e;
+}
+
+async function fetchServer() {
+    "use server";
+    const data = fetch(
+        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/events"
+    ).then(
+        (r) => r.json(),
+        (e) => console.log({ e })
+    );
+    return data;
 }
