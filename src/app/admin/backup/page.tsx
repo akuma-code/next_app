@@ -1,19 +1,19 @@
-import { ClientBackup } from "@/Components/Backup/ClientSideBackup";
-import { Box, Button } from "@mui/material";
-import { RestoreButtons } from "./RestoreButtons";
 import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
-import Link from "next/link";
-import { DescriptionButton } from "@/ClientComponents/UI/DescButton";
-import { getPlayers } from "@/Services/playerService";
+import {
+    DescriptionButton,
+    DescriptionButtonQuery,
+} from "@/ClientComponents/UI/DescButton";
+import { ClientBackup } from "@/Components/Backup/ClientSideBackup";
+import { fetcher } from "@/Helpers/fetcher";
+import { readFile } from "@/Services/fs/data_service";
 import { getImportantData } from "@/app/api/backup/events/actions";
-
+import { Box } from "@mui/material";
+const saveToDisk = process.env.DB_SAVE_TO_HDD === "1";
 export default async function BackupPage({
     searchParams,
 }: {
     searchParams: { data: string; log: string };
 }) {
-    const saveToDisk = process.env.DB_SAVE_TO_HDD === "1";
-    // const action = test.bind(null);
     return (
         <MrtBoundary>
             <Box
@@ -24,29 +24,27 @@ export default async function BackupPage({
                 gap={2}
             >
                 <ClientBackup />
-                <DescriptionButton
+                <DescriptionButtonQuery
                     action={getImportantData.bind(null, { saveToDisk })}
                     title="Сохранить основные данные"
-                    description="Сохранение данных по игрокам, тренировкам и парам на диск"
+                    description="Сохранение данных по игрокам, тренировкам и парам на диск [без айдишников, только строки]"
                 />
-                {/* <DescriptionButton
-                    action={action}
-                    title="Вытянуть данные из /public"
-                    description="тест вытягивания данных из public"
-                /> */}
+                <DescriptionButtonQuery
+                    action={loadData.bind(null)}
+                    title="Вытянуть данные"
+                    description="Прочитать данные из data.json"
+                />
             </Box>
         </MrtBoundary>
     );
 }
 
-async function test() {
+async function loadData() {
     "use server";
-    console.clear();
-    const data = await fetch("/api/backup/events", {
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((r) => r.json());
-    console.log({ data });
-    return data;
+    const e = (await readFile("./public/json/data.json")) as {
+        pairs: any[];
+        events: string[];
+    }[];
+    console.log({ e });
+    return e;
 }

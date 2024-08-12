@@ -51,7 +51,7 @@ export async function getImportantData(options = { saveToDisk: false }) {
         saveToHDD(events, 'saved_events')
         saveToHDD(pairs, 'saved_pairs')
     } else {
-        console.log({ events, pairs })
+        console.log({ events, pairs, players })
     }
     return { events, pairs, players }
 }

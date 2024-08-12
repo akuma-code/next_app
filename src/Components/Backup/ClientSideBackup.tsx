@@ -17,7 +17,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 // console.table(db_data);
 async function getData() {
     return await getBackup();
@@ -91,59 +91,70 @@ export const ClientBackup = (props: { filename?: string }) => {
             {/* <Typography variant="h4" component={"div"} minWidth={290}>
                 Cписок ивентов
             </Typography> */}
-            <Chip
-                label={"Всего ивентов: " + q.data?.events.length}
-                size="medium"
-                variant="outlined"
-                color="warning"
-                sx={{
-                    color: "black",
-                    fontWeight: "bold",
-                    fontSize: 20,
-                }}
-                icon={<Icon path={mdiArchiveArrowUpOutline} size={0.9} />}
-            />
             {q.isLoading ? (
                 <LoadSpinner />
             ) : (
-                q.isSuccess && (
-                    <Box
-                        color={"success"}
-                        maxHeight={300}
-                        maxWidth={500}
-                        flexWrap={"wrap"}
-                        // width={ '30vw' }
-                        bgcolor={"inherit"}
-                        display={"flex"}
-                        flexDirection={"column"}
+                <Box
+                    maxWidth={300}
+                    gap={1}
+                    display={"flex"}
+                    flexDirection={"column"}
+                >
+                    <Chip
+                        label={"Всего ивентов: " + q.data?.events.length}
+                        size="medium"
+                        variant="outlined"
+                        color="warning"
+                        sx={{
+                            color: "black",
+                            fontWeight: "bold",
+                            fontSize: 20,
+                        }}
+                        icon={
+                            <Icon path={mdiArchiveArrowUpOutline} size={0.9} />
+                        }
+                    />
+                    <Button
+                        fullWidth
+                        onClick={exportData}
+                        variant="contained"
+                        color={"info"}
+                        sx={{
+                            bgcolor: (theme) =>
+                                alpha(theme.palette.info.dark, 0.7),
+                        }}
                     >
-                        {q.data.events.map((e) => (
-                            <Link
-                                href={"/avangard/events/" + e.id}
-                                key={e.id}
-                                className="hover:underline"
-                            >
-                                <Typography px={1}>
-                                    {_dbDateParser(e.date_formated).dd_mmmm}
-                                </Typography>
-                            </Link>
-                        ))}
-                    </Box>
-                )
+                        Обновить data.json
+                    </Button>
+                    {q.isSuccess && (
+                        <Box
+                            color={"success"}
+                            maxHeight={500}
+                            maxWidth={300}
+                            flexWrap={"wrap"}
+                            // width={ '30vw' }
+                            bgcolor={"inherit"}
+                            display={"flex"}
+                            flexDirection={"column"}
+                        >
+                            {q.data.events.map((e) => (
+                                <Link
+                                    href={"/avangard/events/" + e.id}
+                                    key={e.id}
+                                    className="hover:underline"
+                                >
+                                    <Typography px={1}>
+                                        {_dbDateParser(e.date_formated).dd_mmmm}
+                                    </Typography>
+                                </Link>
+                            ))}
+                        </Box>
+                    )}
+                </Box>
             )}
             {/* <form action={saver}> */}
-            <ButtonGroup size={"small"}>
-                <Button
-                    onClick={exportData}
-                    variant="contained"
-                    color={"info"}
-                    sx={{
-                        bgcolor: (theme) => alpha(theme.palette.info.dark, 0.7),
-                    }}
-                >
-                    Сохранить как JSON
-                </Button>
 
+            <ButtonGroup size={"small"}>
                 {/* <Button
                     variant="contained"
                     color={"info"}
