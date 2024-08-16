@@ -6,7 +6,7 @@ import { withAccelerate } from "@prisma/extension-accelerate"
 
 declare let global: { prisma: PrismaClient }
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
-const adapter = new PrismaPg(pool)
+const adapter = new PrismaPg(pool, { schema: 'db2' })
 
 // let prisma: PrismaClient
 // if (process.env.NODE_ENV === 'production') {
@@ -18,7 +18,7 @@ const adapter = new PrismaPg(pool)
 //     prisma = global.prisma
 // }
 const prismaClientSingleton = () => {
-    return new PrismaClient({ adapter })
+    return new PrismaClient({ adapter, errorFormat: 'pretty', })
     // .$extends(withAccelerate());
 };
 

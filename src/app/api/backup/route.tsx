@@ -1,7 +1,9 @@
+import prisma from "@/client/client";
 import { _log } from "@/Helpers/helpersFns";
 import { syncPairs } from "@/Services/events/eventActions";
 import { getAllUsers } from "@/Services/userService";
 import { getAllData, getEventsData, getPlayersData } from "@/Services/utils";
+import { create_eventValidator } from "@/utils/validators";
 import { NextResponse } from "next/server";
 
 interface BackupRouteProps {
@@ -46,6 +48,10 @@ export async function GET(
     const query = (u.searchParams.get("data") as BackupTypeQuery) ?? "all";
     // _log({ request })
     try {
+        const t = await prisma.pair.groupBy({
+            by: ["eventId"],
+        });
+        console.log(t);
         const log = u.searchParams.get("log");
         const withLog = log === "on";
         if (query === "players") {
@@ -92,6 +98,11 @@ export async function GET(
         // const e = prisma.event.findMany({ include: { players: true, eventInfo: true } })
         // const tsx = await prisma.$transaction([p, e])
         const alldata = await getAllData();
+
+        console.log(
+            "validator_______\n",
+            create_eventValidator(alldata.events[alldata.events.length - 1])
+        );
         // console.log({ alldata });
         return NextResponse.json(
             { alldata },

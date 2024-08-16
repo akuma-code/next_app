@@ -21,7 +21,22 @@ model Player {
   // Profile   Profile?
   pair      Pair[]
 
+  ticketId String?
+  ticket   Ticket?
+
   @@map("players")
+}
+
+model Ticket {
+  uuid     String   @id @default(uuid())
+  size     Int      @default(0)
+  playerId Int      @unique
+  player   Player   @relation(fields: [playerId], references: [id])
+  cAt      DateTime @default(now())
+  uAt      DateTime @updatedAt
+  eAt      Int?
+
+  @@map("tickets")
 }
 
 model Event {
@@ -143,11 +158,21 @@ model Profile {
 }
 
 model ProfileSettings {
-  id    Int    @id @default(autoincrement())
-  theme String @default("light")
-  view  String @default("card")
+  id    Int         @id @default(autoincrement())
+  theme ColorTheme  @default(light)
+  view  ViewVariant @default(card)
 
   @@map("settings")
+}
+
+enum ColorTheme {
+  light
+  dark
+}
+
+enum ViewVariant {
+  card
+  table
 }
 
 model Account {

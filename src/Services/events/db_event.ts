@@ -39,7 +39,7 @@ const defaultEventSelect = {
     players: true,
     pairs: true,
     isDraft: false,
-    eventInfo: false
+
 
 } satisfies Prisma.EventSelect
 
@@ -63,7 +63,7 @@ export async function getDBOneEventData<S extends Prisma.EventSelect<DefaultArgs
         const data = await db.findUniqueOrThrow({
             where: search,
             select: {
-                id: true, eventInfo: false,
+                id: true,
                 ...selected,
             }
 
@@ -199,3 +199,4 @@ export async function aggregatePlayers() {
         throw error
     }
 }
+

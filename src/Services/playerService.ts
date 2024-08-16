@@ -252,3 +252,7 @@ export async function getEventsByPlayerId({ playerId }: { playerId: number }) {
     having: { date_formated: {} },
   });
 }
+
+export async function findPlayer() {
+
+}

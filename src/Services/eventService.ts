@@ -56,7 +56,7 @@ export async function eventCreate(payload: DTO_NewEvent) {
                 title: true,
                 players: true,
                 isDraft: true,
-                eventInfo: true,
+
                 pairs: true,
             },
         });
@@ -257,8 +257,8 @@ export async function getEventsByMonth(
                     id: true,
                     date_formated: true,
                     title: true,
-                    pairs: { select: { id: true, firstPlayerId: true, secondPlayerId: true } },
-                    players: { select: { id: true, name: true, pair: true } },
+                    pairs: true,
+                    players: { select: { id: true, name: true, } },
                     _count: { select: { players: true } },
                 },
             });
@@ -277,7 +277,7 @@ export async function getEventsByMonth(
                 id: true,
                 date_formated: true,
                 title: true,
-                pairs: { select: { id: true, firstPlayerId: true, secondPlayerId: true } },
+                pairs: true,
                 players: { select: { id: true, name: true } },
                 _count: { select: { players: true } },
             },
@@ -301,7 +301,7 @@ export async function getEventsByMonthDto(
     const players = await getPlayers()
     const master_name = (id: number) => masters.find(m => m.id === id)?.name ?? ""
     const player_name = (id: number) => players.find(p => p.id === id)?.name ?? ""
-    return events.map(e => ({ ...e, pairs: e.pairs.map(p => ({ master: master_name(p.firstPlayerId), player: player_name(p.secondPlayerId) })) }))
+    return events.map(e => ({ ...e, pairs: e.pairs.map(p => ({ master: master_name(p.masterId!), player: player_name(p.playerId) })) }))
 }
 export async function getEventById(eventId: string) {
     const id = Number(eventId);

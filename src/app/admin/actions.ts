@@ -3,10 +3,9 @@
 
 import prisma from "@/client/client"
 import { _log } from "@/Helpers/helpersFns"
-import { events_last } from "@/seed/events"
 import { seedFromJson } from "@/seed/json/seedJson"
 import { masters_to_seed, players_to_seed2 } from "@/seed/players"
-import { seedEventsMap, seedMasters, seedObjectPlayers } from "@/seed/seed"
+import { seedMasters, seedObjectPlayers } from "@/seed/seed"
 import { members_seed } from "@/seed/users"
 import { getMasters, removeMaster } from "@/Services/masterService"
 import { DB_JSON_DATA } from "@/Types"

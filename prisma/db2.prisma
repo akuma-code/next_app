@@ -1,0 +1,248 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+    // directUrl = env("DATABASE_URL")
+}
+
+model Player {
+    id        Int      @id @default(autoincrement())
+    name      String
+    info      Info?
+    events    Event[]
+    profile   Profile?
+    profileId Int?     @unique
+    createdAt DateTime @default(now()) @map("cAt")
+    updatedAt DateTime @updatedAt @map("uAt")
+    // Profile   Profile?
+    pairs     Pair[]
+
+    ticketId String?
+    ticket   Ticket?
+    duos     Duo[]   @relation("DuoToPlayer")
+
+    @@map("players")
+}
+
+model Ticket {
+    uuid     String   @id @default(uuid())
+    size     Int      @default(0)
+    playerId Int      @unique
+    player   Player   @relation(fields: [playerId], references: [id])
+    cAt      DateTime @default(now())
+    uAt      DateTime @updatedAt
+    eAt      Int?
+
+    @@map("tickets")
+}
+
+model Event {
+    id            Int      @id @default(autoincrement())
+    date_formated String   @unique @map("date")
+    title         String?  @default("Тренировка")
+    isDraft       Boolean? @default(false)
+
+    pairs   Pair[]
+    players Player[]
+    duos    Duo[]
+
+    @@map("events")
+}
+
+model Pair {
+    id       Int     @id @default(autoincrement())
+    playerId Int
+    eventId  Int
+    masterId Int?
+    master   Master? @relation(fields: [masterId], references: [id])
+    player   Player  @relation(fields: [playerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    event    Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+    @@map("pairs")
+}
+
+model Duo {
+    uuid    String   @id @default(uuid())
+    eventId Int
+    event   Event    @relation(fields: [eventId], references: [id])
+    pair    Player[] @relation("DuoToPlayer")
+
+    @@map("duos")
+}
+
+model EventInfo {
+    id      Int     @id @default(autoincrement())
+    eventId Int     @unique
+    text    String?
+
+    @@map("eventInfo")
+}
+
+model Member {
+    id     Int          @id @default(autoincrement())
+    name   String
+    drafts DraftEvent[] @relation("DraftEventToMember")
+
+    @@map("members")
+}
+
+model DraftEvent {
+    uuid    String         @id @default(uuid())
+    members Member[]       @relation("DraftEventToMember")
+    options DraftOptions[]
+
+    @@map("drafts")
+}
+
+model DraftOptions {
+    uuid     String     @id @default(uuid())
+    draft_id String     @unique
+    draft    DraftEvent @relation(fields: [draft_id], references: [uuid])
+    prop     String
+    text     String
+}
+
+model Info {
+    uuid       String @id @default(uuid())
+    rttf_score Int?
+    playerId   Int    @unique
+    player     Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+    @@map("infos")
+}
+
+model Master {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+    pair Pair[]
+
+    @@map("masters")
+}
+
+model MasterEvent {
+    id Int @id @default(autoincrement())
+
+    @@map("masterEvents")
+    @@ignore
+}
+
+model ReservedTable {
+    id          Int @id @default(autoincrement())
+    coachId     Int
+    playerId    Int
+    eventInfoId Int
+
+    @@map("reserved_tables")
+    @@ignore
+}
+
+enum UserRole {
+    ADMIN
+    GUEST
+    MEMBER
+}
+
+model User {
+    id            Int             @id @default(autoincrement())
+    email         String          @unique
+    password      String          @map("hash_password")
+    role          UserRole        @default(GUEST)
+    name          String?
+    profile       Profile?
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    // Optional for WebAuthn support
+    Authenticator Authenticator[]
+
+    @@map("users")
+}
+
+model Profile {
+    id       Int     @id @default(autoincrement())
+    name     String?
+    playerId Int?    @unique
+    player   Player? @relation(fields: [playerId], references: [id])
+    userId   Int     @unique
+    user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("profiles")
+}
+
+model ProfileSettings {
+    id    Int         @id @default(autoincrement())
+    theme ColorTheme  @default(light)
+    view  ViewVariant @default(card)
+
+    @@map("settings")
+}
+
+enum ColorTheme {
+    light
+    dark
+}
+
+enum ViewVariant {
+    card
+    table
+}
+
+model Account {
+    userId            Int
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@id([provider, providerAccountId])
+}
+
+model Session {
+    sessionToken String   @unique
+    userId       Int
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+    identifier String
+    token      String
+    expires    DateTime
+
+    @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+    credentialID         String  @unique
+    userId               Int
+    providerAccountId    String
+    credentialPublicKey  String
+    counter              Int
+    credentialDeviceType String
+    credentialBackedUp   Boolean
+    transports           String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@id([userId, credentialID])
+}

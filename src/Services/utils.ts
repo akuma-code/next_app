@@ -15,7 +15,7 @@ export async function getEventsData(options?: { log?: boolean }) {
         select: {
             id: true,
             date_formated: true,
-            eventInfo: true,
+            // eventInfo: true,
             pairs: true,
             title: true,
             isDraft: true,

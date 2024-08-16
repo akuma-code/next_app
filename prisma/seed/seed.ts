@@ -207,7 +207,13 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
 
 
 
-export async function seedMasters(masters: { name: string }[], options?: SeedOptions) {
+export async function seedMasters(masters = masters_to_seed, options?: SeedOptions) {
+  const masters_ = [
+    { name: "Алан Заикин" },
+    { name: "Антон Козлов" },
+    { name: "Надежда Отпетова" },
+    { name: "Максим Ушкарев" },
+  ]
   try {
     const seed = masters.map((m) => prisma.master.create({ data: m }));
 
