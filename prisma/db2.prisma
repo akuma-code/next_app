@@ -23,7 +23,6 @@ model Player {
 
     ticketId String?
     ticket   Ticket?
-    duos     Duo[]   @relation("DuoToPlayer")
 
     @@map("players")
 }
@@ -48,7 +47,6 @@ model Event {
 
     pairs   Pair[]
     players Player[]
-    duos    Duo[]
 
     @@map("events")
 }
@@ -66,12 +64,11 @@ model Pair {
 }
 
 model Duo {
-    uuid    String   @id @default(uuid())
+    uuid    String @id @default(uuid())
     eventId Int
-    event   Event    @relation(fields: [eventId], references: [id])
-    pair    Player[] @relation("DuoToPlayer")
 
     @@map("duos")
+    @@ignore
 }
 
 model EventInfo {

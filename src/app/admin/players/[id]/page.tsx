@@ -1,75 +1,41 @@
-import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
-import DeleteButton from "@/ClientComponents/UI/DeleteButton";
-import { getOnePlayer } from "@/Services/playerService";
-import db_players_list from "@/utils/playersList";
-import { DeleteTwoTone } from "@mui/icons-material";
-import { Stack, Typography } from "@mui/material";
-import dayjs from "dayjs";
-import Link from "next/link";
+import { Box, Grid, Typography } from "@mui/material";
+import { getPlayerInfo } from "../actions";
+import { PlayerInfoCard } from "../../_components/PlayerCard";
+import { Prisma } from "@prisma/client";
+import allP from "@/utils/playersList";
+import EventsInfoPlayer from "../../_components/EventsPlayerInfo";
+const _select = {
+    id: true,
+    name: true,
+    events: { select: { id: true, date_formated: true } },
+} satisfies Prisma.PlayerSelect;
 
-interface OnePlayerPropsPage {
-    params: {
-        id: string
-    },
-    searchParams: { id: string, action: string }
-}
+const PlayerInfoPage = async ({ params }: { params: { id: string } }) => {
+    const all_names = await allP().then((p) => p.map((pl) => pl.name));
+    const id = params.id;
+    const { player, events, pairs, ticket } = await getPlayerInfo({
+        where: { id: Number(id) },
+        select: _select,
+    });
+    const { alldata } = await fetch(
+        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/"
+    ).then((res) => res.json());
 
-export async function generateStaticParams() {
-    const players = await db_players_list().then(res => res.map(p => ({ id: `${p.id}` })))
-    // const res = players.map(p => ({ id: `${p.id}` }))
-    return players
-}
-
-const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (params) => {
-    const id = params.params?.id ?? params.searchParams?.id
-    if (!id) return <div>Invalid Id</div>
-    const player = await getOnePlayer(+id)
-    if (!player) return <div>No player found, { id }</div>
-    const { info, name, createdAt } = player;
-    const date = dayjs(new Date(createdAt)).format('DD/MM/YYYY')
-    const showEdit = params?.searchParams?.action === 'edit'
     return (
-        <Stack direction={ 'row' } gap={ 2 }>
-
-
-            <Stack>
-                <div>ID: { id }</div>
-                <Typography variant="body1">name: { name }</Typography>
-                {
-                    info &&
-
-                    <Typography variant="body1">RTTF: { info.rttf_score }</Typography>
-                }
-                <Typography variant="body1">Создан: { date }</Typography>
-
-                <Stack direction={ 'row' } spacing={ 4 }>
-
-                    <Link href={ '/admin/players' } className=" w-fit p-1">
-                        Back
-                    </Link>
-                    <DeleteButton deleteId={ +id } >
-                        Delete
-                        <DeleteTwoTone />
-                    </DeleteButton>
-                    {
-                        !showEdit &&
-                        <Link href={ {
-                            pathname: `/admin/players/${id}`,
-                            query: { action: 'edit', id },
-                        } }
-                            className="border-2 border-black w-fit p-1">
-                            Edit
-                        </Link>
-                    }
-
-                </Stack>
-            </Stack>
-            { showEdit &&
-                <EditPlayerForm player={ player } />
-            }
-
-        </Stack>
+        <Grid
+            container
+            columns={12}
+            sx={{
+                "& .MuiGrid-item": {
+                    border: "1px solid black",
+                    m: 1,
+                },
+            }}
+        >
+            <Grid item>{player && <PlayerInfoCard player={player} />}</Grid>
+            <Grid item>{events && <EventsInfoPlayer events={events} />}</Grid>
+        </Grid>
     );
-}
+};
 
-export default OnePlayerPage;
+export default PlayerInfoPage;

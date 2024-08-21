@@ -106,7 +106,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
     };
     return (
         <>
-            <Card>
+            <Card sx={{ maxWidth: 300 }}>
                 <CardHeader
                     title={ev.title}
                     subheader={`Edit Event id: ${id}`}

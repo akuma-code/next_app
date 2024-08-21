@@ -88,7 +88,7 @@ export async function getEventWithConfig({ where, select }: PrismaGetOneEvent) {
             select: {
                 id: true,
 
-                ...select
+
             }
         })
 

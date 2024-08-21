@@ -35,10 +35,10 @@ const OnePlayerPage: React.FunctionComponent<OnePlayerPropsPage> = async (
     const id = params.params.id || null;
     if (!id) return <div>Invalid Id</div>;
 
-    const player = (await getOnePlayer(+id)) || null;
+    const player = await getOnePlayer(+id);
     if (!player) return <div>No player found, {id}</div>;
 
-    const { info, name, createdAt } = player;
+    const { info, name, createdAt, events } = player;
     const date = dayjs(new Date(createdAt)).format("DD/MM/YYYY");
     const showEdit = params.searchParams.action === "edit";
     return (

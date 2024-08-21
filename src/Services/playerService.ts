@@ -121,6 +121,11 @@ type P_PlayerIncludes = Partial<
   Record<keyof Prisma.$PlayerPayload["objects"], boolean>
 >;
 
+export async function loadPlayers(payload: Prisma.PlayerFindManyArgs = {}) {
+  const p = await prisma.player.findMany(payload)
+  return p
+}
+
 export async function getPlayers(includes?: P_PlayerIncludes): Promise<
   ({
     info: { uuid: string; rttf_score: number | null; playerId: number } | null;

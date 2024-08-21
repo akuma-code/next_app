@@ -28,7 +28,7 @@ async function loadAndSeedEvents(db_item: DB_JSON_DATA, options = { select: defa
                 data: {
                     pairs: {
                         connectOrCreate: {
-                            create: { id, firstPlayerId, secondPlayerId, masterId, playerId },
+                            create: { id, masterId, playerId },
                             where: { id }
                         }
                     }

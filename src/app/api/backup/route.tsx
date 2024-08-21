@@ -98,11 +98,9 @@ export async function GET(
         // const e = prisma.event.findMany({ include: { players: true, eventInfo: true } })
         // const tsx = await prisma.$transaction([p, e])
         const alldata = await getAllData();
+        const validEvents = alldata.events.map(create_eventValidator);
+        console.log("validator_______\n", validEvents);
 
-        console.log(
-            "validator_______\n",
-            create_eventValidator(alldata.events[alldata.events.length - 1])
-        );
         // console.log({ alldata });
         return NextResponse.json(
             { alldata },

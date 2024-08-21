@@ -17,13 +17,11 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     const masters = await getMasters();
 
     if (!event) return <Box>Event error!</Box>;
-    const master_record = reduceArrayToObject(masters)
+    const master_record = reduceArrayToObject(masters);
     return (
-        <Box display={ 'flex' } flexDirection={ 'row' } gap={ 2 }>
-
-            <EventView event={ event } masters={ masters } />
-            {/* <EventView_v2 eventId={ Number(eventId) } masters={ masters } /> */ }
-
+        <Box display={"flex"} flexDirection={"row"} gap={2} maxWidth={400}>
+            <EventView event={event} masters={masters} />
+            {/* <EventView_v2 eventId={ Number(eventId) } masters={ masters } /> */}
         </Box>
     );
 };

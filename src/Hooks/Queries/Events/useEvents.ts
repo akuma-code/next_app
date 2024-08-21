@@ -1,9 +1,7 @@
 'use client'
 
-import { _log } from "@/Helpers/helpersFns"
-import { reduceArrayToObject, reducePairs } from "@/Helpers/reduceToObject"
-import { GetEventResponse, getEventWithConfig, getEventWithIncludes } from "@/Services/events/db_event"
-import { getMasters } from "@/Services/masterService"
+import { reducePairs } from "@/Helpers/reduceToObject"
+import { getEventWithIncludes } from "@/Services/events/db_event"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
 
@@ -19,7 +17,7 @@ export const useGetEvent = (payload: { id: number | undefined }) => {
         enabled: !!payload.id,
         gcTime: 5000,
         placeholderData: keepPreviousData,
-        staleTime:5000
+        staleTime: 5000
 
 
 

@@ -38,8 +38,8 @@ export async function addPair(payload: {
             data: {
                 masterId: firstPlayerId,
                 playerId: secondPlayerId,
-                firstPlayerId,
-                secondPlayerId,
+                // firstPlayerId,
+                // secondPlayerId,
                 eventId
                 // event: { connect: { id: eventId } }
 
@@ -89,10 +89,10 @@ export async function updatePair(pairId: number | undefined, payload: { masterId
             },
             data: {
 
-                firstPlayerId: masterId,
+                // firstPlayerId: masterId,
                 masterId: masterId,
                 playerId: playerId,
-                secondPlayerId: playerId
+                // secondPlayerId: playerId
             },
             select: { id: true }
         })
@@ -115,16 +115,17 @@ export async function syncPairs() {
         const tsx_pairs = pairs.map(p => prisma.pair.update({
             where: { id: p.id },
             data: {
-                player: { connect: { id: p.secondPlayerId } },
-                master: { connect: { id: p.firstPlayerId } },
+                player: { connect: { id: p.playerId } },
+                master: { connect: { id: p.masterId! } },
 
             }
         }))
 
 
-        await prisma.$transaction(tsx_pairs).then(
-            res => res.map(p => ({ ...p, masterId: p.firstPlayerId, playerId: p.secondPlayerId }))
-        )
+        await prisma.$transaction(tsx_pairs)
+        // .then(
+        //     res => res.map(p => ({ ...p, masterId: p.firstPlayerId, playerId: p.secondPlayerId }))
+        // )
         // .then((res)=>res.map(p=>prisma.event.update({where:{id:p.eventId},data:{}})))
 
         return console.log("\n FINISH \n")
@@ -187,7 +188,7 @@ export async function upsertPair(where: Prisma.PairWhereUniqueInput, data: { eve
         try {
             const update = await p.upsert({
                 where,
-                create: { firstPlayerId: masterId, secondPlayerId: playerId, playerId, eventId },
+                create: { masterId, playerId, eventId },
                 update: { eventId, id: pairId ?? undefined, masterId, playerId },
                 select: {
                     id: true,

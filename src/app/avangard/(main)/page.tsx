@@ -21,7 +21,7 @@ async function MainPage({
             date_formated: true,
             pairs: false,
             players: false,
-            eventInfo: false,
+
             _count: { select: { players: true, pairs: true } },
         },
         {
@@ -55,7 +55,6 @@ async function MainPage({
 
             <Grid item md={4}>
                 <StackedBarChart />
-                
             </Grid>
         </Grid>
     );

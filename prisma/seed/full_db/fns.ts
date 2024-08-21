@@ -99,7 +99,7 @@ export async function update_main_data(prev: Awaited<ReturnType<typeof seed_main
 export async function clear_main_data() {
     // await db.player.deleteMany()
     await db.event.deleteMany()
-    await db.master.deleteMany()
+    // await db.master.deleteMany()
 }
 
 async function checkPlayerName(name: string) {

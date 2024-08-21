@@ -36,8 +36,8 @@ import { AddPlayerDialog } from "./AddPlayerDialog";
 interface Pair {
     id: number;
     eventId: number;
-    firstPlayerId: number;
-    secondPlayerId: number;
+    masterId: number | null;
+    playerId: number;
 }
 type TEvent = IEvent_Front & { pairs: Pair[] };
 interface Eventinfo {
@@ -49,8 +49,8 @@ interface Eventinfo {
 function parseEvent(event: TEvent, masters: { id: number; name: string }[]) {
     const { pairs, players } = event;
     const withPair = pairs.map((p) => {
-        const pl = players.find((pl) => pl.id === p.secondPlayerId);
-        const m = masters.find((ma) => ma.id === p.firstPlayerId)!;
+        const pl = players.find((pl) => pl.id === p.playerId);
+        const m = masters.find((ma) => ma.id === p.masterId)!;
         return pl
             ? { ...p, player: pl.name, master: m?.name }
             : { ...p, player: "", master: "" };
@@ -91,13 +91,6 @@ export const EventView: React.FC<Eventinfo> = ({
         event.players.find((p) => p.id === secondPlayerId);
     const master_ = (firstPlayerId: number) =>
         masters.find((m) => m.id === firstPlayerId);
-    const name_pairs = (pairs: Pair[]) => {
-        return pairs.map((pair) => ({
-            id: pair.id,
-            master: master_(pair.firstPlayerId),
-            player: player_(pair.secondPlayerId),
-        }));
-    };
 
     // const extendPairs = useMemo(() => name_pairs(event.pairs), [event])
 
@@ -109,7 +102,7 @@ export const EventView: React.FC<Eventinfo> = ({
     // const parsedPlayers = useMemo(() => parseEvent(event, masters), [event, masters])
     const player_pairs = useMemo(() => {
         const pairPlayerIdx = (id: number) =>
-            pairs.findIndex((p) => p.secondPlayerId === id);
+            pairs.findIndex((p) => p.playerId === id);
         const _players = players.map((p) => {
             const idx = pairPlayerIdx(p.id);
             const withpair =
@@ -125,7 +118,7 @@ export const EventView: React.FC<Eventinfo> = ({
             sx={{
                 borderRadius: 4,
                 minWidth: 280,
-                maxWidth: "max-content",
+                maxWidth: 400,
                 border: "2px solid",
                 borderColor: "primary.dark",
                 bgcolor: "background.paper",
@@ -218,7 +211,8 @@ export const EventView: React.FC<Eventinfo> = ({
                             primary={p.name}
                             primaryTypographyProps={{ textAlign: "left" }}
                             secondary={
-                                p.pair && master_(p.pair.firstPlayerId)?.name
+                                p.pair?.masterId &&
+                                master_(p.pair.masterId)?.name
                             }
                             secondaryTypographyProps={{
                                 fontWeight: "bold",

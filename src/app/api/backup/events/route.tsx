@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
 import { URL } from "url";
 import { getImportantData } from "./actions";
+import {
+    getDBManyEventsData,
+    getDbManyPairsData,
+} from "@/Services/events/db_event";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
     const search = url.searchParams;
     const save = process.env.DB_SAVE_TO_HDD === "1";
     const data = await getImportantData({ saveToDisk: save });
+    const { data: _data } = await getDBManyEventsData();
 
     return NextResponse.json(data, {
         headers: {
@@ -17,6 +22,4 @@ export async function GET(request: Request) {
             "Access-Control-Allow-Headers": "Content-Type, Authorization",
         },
     });
-}
-headers: {
 }

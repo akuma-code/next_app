@@ -4,7 +4,7 @@ import LoadSpinner from "@/app/avangard/loading";
 import { _log } from "@/Helpers/helpersFns";
 import { useToggle } from "@/Hooks/useToggle";
 import { connectOnePlayer } from "@/Services/eventService";
-import { getPlayers } from "@/Services/playerService";
+import { getPlayers, loadPlayers } from "@/Services/playerService";
 import { mdiDebian } from "@mdi/js";
 import { Add } from "@mui/icons-material";
 import {
@@ -16,14 +16,19 @@ import {
     LinearProgress,
     Stack,
 } from "@mui/material";
+import { Prisma } from "@prisma/client";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import CreatePlayerBtn from "./CreatePlayerButton";
 
 interface AddPlayerProps {
     event_players: { id: number; name: string }[];
     event_id: number;
 }
 async function fetchPlayers() {
-    const players = await getPlayers();
+    const players = await loadPlayers({
+        select: { id: true, name: true },
+        orderBy: { events: { _count: "desc" } },
+    });
     return players;
 }
 export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
@@ -31,17 +36,17 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
     event_id,
 }) => {
     const [open, { on, off }] = useToggle();
-    const eventIds = event_players.map((p) => p.id);
+    const event_players_Ids = event_players.map((p) => p.id);
 
     const q = useQuery({
-        queryKey: ["event", "players", "all"],
+        queryKey: ["players", "all"],
         queryFn: fetchPlayers,
         placeholderData: keepPreviousData,
-        select: (data) => data.filter((d) => !eventIds.includes(d.id)),
+        select: (data) => data.filter((d) => !event_players_Ids.includes(d.id)),
     });
     if (q.error) {
         _log(q.error);
-        return <Box>Fetch players error</Box>;
+        return <Box>{q.error.message}</Box>;
     }
 
     async function handleConnectPlayer(eventId: number, playerId: number) {
@@ -68,10 +73,21 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
                 <DialogTitle>Добавить на тренировку</DialogTitle>
                 <DialogContent>
                     <Stack
+                        maxHeight={"60vh"}
                         direction={"column"}
                         spacing={1}
                         justifyContent={"left"}
                     >
+                        {/* <Button
+                            sx={{ textAlign: "left" }}
+                            variant="contained"
+                            size="small"
+                            color="error"
+                            
+                        >
+                            Добавить нового игрока
+                        </Button> */}
+                        <CreatePlayerBtn />
                         {q.data.map((p) => (
                             <Button
                                 sx={{ textAlign: "left" }}
