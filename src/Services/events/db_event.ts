@@ -36,8 +36,8 @@ const defaultEventSelect = {
     id: true,
     date_formated: true,
     title: true,
-    players: true,
-    pairs: true,
+    players: { select: { id: true, name: true } },
+    pairs: { select: { id: true, eventId: true, masterId: true, playerId: true } },
     isDraft: false,
     eventInfo: false
 
@@ -147,7 +147,7 @@ export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'],
             where: search,
             select: {
                 id: true,
-
+                eventInfo: false,
                 ...selected
             },
             ...config

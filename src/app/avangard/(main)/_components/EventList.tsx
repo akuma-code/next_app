@@ -34,7 +34,10 @@ export const ItemsList: React.FC<ItemListProps> = ({ items }) => {
     const router = useRouter();
     const initRpp = Number(search.get("rpp") ?? 10);
     const initPage = Number(search.get("page") ?? 0);
-    const [order, setOrder] = useState({ rpp: initRpp, page: initPage });
+    const [order, setOrder] = useState({
+        rpp: initRpp,
+        page: initPage,
+    });
     const handleOrder = (rpp: number, page: number) => {
         start(async () => {
             const validPage = page <= 0 ? 0 : page;
@@ -120,9 +123,12 @@ export const ItemsList: React.FC<ItemListProps> = ({ items }) => {
                     </ButtonGroup>
                 </ListItem>
                 {list.map((i, idx) => (
-                    <Link href={{ query: { eventId: i.id } }} key={i.id}>
+                    <Link
+                        href={{ query: { ...order, eventId: i.id } }}
+                        key={i.id}
+                    >
                         <ListItemText
-                            key={i.id}
+                            // key={i.id}
                             {...text(i, idx + 1)}
                             primaryTypographyProps={{
                                 // fontWeight: "bold",

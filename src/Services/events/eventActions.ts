@@ -206,12 +206,23 @@ export async function upsertPair(where: Prisma.PairWhereUniqueInput, data: { eve
     }
 }
 export type EventsGetType = ThenArg<ReturnType<typeof getEvents>>
+const defaultEventSelect = {
+    id: true,
+    date_formated: true,
+    title: true,
+    players: { select: { id: true, name: true } },
+    pairs: { select: { id: true, eventId: true, masterId: true, playerId: true } },
+    isDraft: false,
+    eventInfo: false
+
+} satisfies Prisma.EventSelect
 export async function getEvents(
-    payload: Partial<Prisma.EventFindManyArgs>
+    payload: Prisma.EventFindManyArgs
 ) {
     try {
+        const { where, select = defaultEventSelect, ...rest } = payload
 
-        const events = await prisma.event.findMany(payload)
+        const events = await prisma.event.findMany({ where, select, ...rest })
         return events
     } catch (error) {
         console.error(error)

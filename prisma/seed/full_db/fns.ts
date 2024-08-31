@@ -48,3 +48,22 @@ async function name_test() {
 
     return await db.event.update({ where: { date_formated: '123' }, data: { players: { connectOrCreate: await checkPlayerName('pavel') } }, include: { players: true } })
 }
+
+
+export async function reseedMasters() {
+    const masters = [
+        { name: "Алан Заикин" },
+        { name: "Антон Козлов" },
+        { name: "Надежда Отпетова" },
+        { name: "Максим Ушкарев" },
+    ]
+    try {
+        const del = db.master.deleteMany()
+        const seed = masters.map((m) => db.master.create({ data: m }));
+        const tsx = [del, ...seed]
+        return await db.$transaction(tsx);
+    } catch (error) {
+        console.log(error);
+        throw new Error("_____Seed master error");
+    }
+}
