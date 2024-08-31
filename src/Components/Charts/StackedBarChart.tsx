@@ -33,7 +33,7 @@ export default function StackedBarChart() {
     return (
         <BarChart
             height={700}
-            width={400}
+            width={350}
             dataset={q.data}
             series={[
                 {
@@ -64,11 +64,25 @@ export default function StackedBarChart() {
                     valueFormatter: (value, ctx) =>
                         _dbDateParser(value)._dayjs.format("DD MMMM"),
                 },
+                {
+                    dataKey: "total",
+                    scaleType: "band",
+                    position: "right",
+                    // valueFormatter: (v, c) => `${v}`,
+                    label: "total",
+                    id: "axis_total",
+                },
             ]}
+            rightAxis={{
+                axisId: "axis_total",
+                tickInterval(value, index) {
+                    return value;
+                },
+            }}
             title="Тренировки"
             loading={q.isLoading}
             layout="horizontal"
-            margin={{ left: 100 }}
+            margin={{ left: 80 }}
             barLabel={"value"}
         />
     );
@@ -79,6 +93,7 @@ type EventDataType = {
     date: string;
     players_count: number;
     pairs_count: number;
+    total: number;
 };
 async function getDataset() {
     const events = (await getEvents({

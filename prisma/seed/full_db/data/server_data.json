@@ -2,9 +2,7 @@
     "events": [
         {
             "id": 80,
-            "date_formated": "2024-06-19",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 6,
@@ -42,13 +40,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-19"
         },
         {
             "id": 81,
-            "date_formated": "2024-06-21",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 3,
@@ -135,13 +131,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-21"
         },
         {
             "id": 82,
-            "date_formated": "2024-06-26",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -270,13 +264,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-26"
         },
         {
             "id": 83,
-            "date_formated": "2024-06-28",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -342,13 +334,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-28"
         },
         {
             "id": 84,
-            "date_formated": "2024-07-03",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 7,
@@ -393,13 +383,28 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-07-03"
         },
         {
             "id": 85,
-            "date_formated": "2024-07-05",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [
+                {
+                    "id": 49,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 7,
+                    "masterId": 1,
+                    "playerId": 7,
+                    "eventId": 85
+                },
+                {
+                    "id": 50,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 85
+                }
+            ],
             "players": [
                 {
                     "id": 3,
@@ -486,30 +491,36 @@
                     "updatedAt": "2024-07-05T17:58:55.614Z"
                 }
             ],
+            "date_formated": "2024-07-05"
+        },
+        {
+            "id": 86,
             "pairs": [
                 {
-                    "id": 49,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 7,
-                    "masterId": 1,
-                    "playerId": 7,
-                    "eventId": 85
-                },
-                {
-                    "id": 50,
+                    "id": 51,
                     "firstPlayerId": 1,
                     "secondPlayerId": 35,
                     "masterId": 1,
                     "playerId": 35,
-                    "eventId": 85
+                    "eventId": 86
+                },
+                {
+                    "id": 52,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 86
+                },
+                {
+                    "id": 53,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 46,
+                    "masterId": 2,
+                    "playerId": 46,
+                    "eventId": 86
                 }
-            ]
-        },
-        {
-            "id": 86,
-            "date_formated": "2024-07-10",
-            "title": "Тренировка",
-            "isDraft": false,
+            ],
             "players": [
                 {
                     "id": 3,
@@ -603,38 +614,36 @@
                     "updatedAt": "2024-08-10T11:29:46.333Z"
                 }
             ],
-            "pairs": [
-                {
-                    "id": 51,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 35,
-                    "masterId": 1,
-                    "playerId": 35,
-                    "eventId": 86
-                },
-                {
-                    "id": 52,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 12,
-                    "masterId": 2,
-                    "playerId": 12,
-                    "eventId": 86
-                },
-                {
-                    "id": 53,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 46,
-                    "masterId": 2,
-                    "playerId": 46,
-                    "eventId": 86
-                }
-            ]
+            "date_formated": "2024-07-10"
         },
         {
             "id": 87,
-            "date_formated": "2024-07-12",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [
+                {
+                    "id": 55,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "masterId": 1,
+                    "playerId": 19,
+                    "eventId": 87
+                },
+                {
+                    "id": 56,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 22,
+                    "masterId": 2,
+                    "playerId": 22,
+                    "eventId": 87
+                },
+                {
+                    "id": 54,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 11,
+                    "masterId": 2,
+                    "playerId": 11,
+                    "eventId": 87
+                }
+            ],
             "players": [
                 {
                     "id": 3,
@@ -700,38 +709,44 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
+            "date_formated": "2024-07-12"
+        },
+        {
+            "id": 88,
             "pairs": [
                 {
-                    "id": 55,
+                    "id": 57,
                     "firstPlayerId": 1,
-                    "secondPlayerId": 19,
+                    "secondPlayerId": 11,
                     "masterId": 1,
-                    "playerId": 19,
-                    "eventId": 87
+                    "playerId": 11,
+                    "eventId": 88
                 },
                 {
-                    "id": 56,
+                    "id": 58,
                     "firstPlayerId": 2,
                     "secondPlayerId": 22,
                     "masterId": 2,
                     "playerId": 22,
-                    "eventId": 87
+                    "eventId": 88
                 },
                 {
-                    "id": 54,
+                    "id": 59,
                     "firstPlayerId": 2,
-                    "secondPlayerId": 11,
+                    "secondPlayerId": 12,
                     "masterId": 2,
-                    "playerId": 11,
-                    "eventId": 87
+                    "playerId": 12,
+                    "eventId": 88
+                },
+                {
+                    "id": 60,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 20,
+                    "masterId": 1,
+                    "playerId": 20,
+                    "eventId": 88
                 }
-            ]
-        },
-        {
-            "id": 88,
-            "date_formated": "2024-07-17",
-            "title": "Тренировка",
-            "isDraft": false,
+            ],
             "players": [
                 {
                     "id": 6,
@@ -804,46 +819,28 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
+            "date_formated": "2024-07-17"
+        },
+        {
+            "id": 89,
             "pairs": [
                 {
-                    "id": 57,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 11,
-                    "masterId": 1,
-                    "playerId": 11,
-                    "eventId": 88
-                },
-                {
-                    "id": 58,
+                    "id": 61,
                     "firstPlayerId": 2,
-                    "secondPlayerId": 22,
+                    "secondPlayerId": 46,
                     "masterId": 2,
-                    "playerId": 22,
-                    "eventId": 88
+                    "playerId": 46,
+                    "eventId": 89
                 },
                 {
-                    "id": 59,
+                    "id": 62,
                     "firstPlayerId": 2,
                     "secondPlayerId": 12,
                     "masterId": 2,
                     "playerId": 12,
-                    "eventId": 88
-                },
-                {
-                    "id": 60,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 20,
-                    "masterId": 1,
-                    "playerId": 20,
-                    "eventId": 88
+                    "eventId": 89
                 }
-            ]
-        },
-        {
-            "id": 89,
-            "date_formated": "2024-07-19",
-            "title": "Тренировка",
-            "isDraft": false,
+            ],
             "players": [
                 {
                     "id": 3,
@@ -923,30 +920,11 @@
                     "updatedAt": "2024-08-10T11:29:46.333Z"
                 }
             ],
-            "pairs": [
-                {
-                    "id": 61,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 46,
-                    "masterId": 2,
-                    "playerId": 46,
-                    "eventId": 89
-                },
-                {
-                    "id": 62,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 12,
-                    "masterId": 2,
-                    "playerId": 12,
-                    "eventId": 89
-                }
-            ]
+            "date_formated": "2024-07-19"
         },
         {
             "id": 72,
-            "date_formated": "2024-05-24",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -1061,13 +1039,11 @@
                     "updatedAt": "2024-08-10T11:29:46.333Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-05-24"
         },
         {
             "id": 73,
-            "date_formated": "2024-05-22",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -1161,13 +1137,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-05-22"
         },
         {
             "id": 74,
-            "date_formated": "2024-05-29",
-            "title": "Треня",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -1282,13 +1256,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-05-29"
         },
         {
             "id": 75,
-            "date_formated": "2024-05-31",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 3,
@@ -1368,13 +1340,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-05-31"
         },
         {
             "id": 76,
-            "date_formated": "2024-06-05",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -1475,13 +1445,11 @@
                     "updatedAt": "2024-08-10T11:29:46.333Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-05"
         },
         {
             "id": 77,
-            "date_formated": "2024-06-07",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -1575,13 +1543,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-07"
         },
         {
             "id": 78,
-            "date_formated": "2024-06-12",
-            "title": "Начало 19-40",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 1,
@@ -1668,13 +1634,11 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-12"
         },
         {
             "id": 79,
-            "date_formated": "2024-06-14",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [],
             "players": [
                 {
                     "id": 3,
@@ -1768,13 +1732,36 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": []
+            "date_formated": "2024-06-14"
         },
         {
             "id": 93,
-            "date_formated": "2024-07-24",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [
+                {
+                    "id": 76,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 93
+                },
+                {
+                    "id": 77,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 93
+                },
+                {
+                    "id": 78,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 46,
+                    "masterId": 2,
+                    "playerId": 46,
+                    "eventId": 93
+                }
+            ],
             "players": [
                 {
                     "id": 3,
@@ -1854,38 +1841,44 @@
                     "updatedAt": "2024-08-10T11:29:46.333Z"
                 }
             ],
+            "date_formated": "2024-07-24"
+        },
+        {
+            "id": 94,
             "pairs": [
                 {
-                    "id": 77,
+                    "id": 71,
                     "firstPlayerId": 1,
-                    "secondPlayerId": 35,
+                    "secondPlayerId": 19,
                     "masterId": 1,
-                    "playerId": 35,
-                    "eventId": 93
+                    "playerId": 19,
+                    "eventId": 94
                 },
                 {
-                    "id": 78,
+                    "id": 72,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 22,
+                    "masterId": 2,
+                    "playerId": 22,
+                    "eventId": 94
+                },
+                {
+                    "id": 73,
                     "firstPlayerId": 2,
                     "secondPlayerId": 46,
                     "masterId": 2,
                     "playerId": 46,
-                    "eventId": 93
+                    "eventId": 94
                 },
                 {
-                    "id": 76,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 12,
-                    "masterId": 2,
-                    "playerId": 12,
-                    "eventId": 93
+                    "id": 74,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 11,
+                    "masterId": 1,
+                    "playerId": 11,
+                    "eventId": 94
                 }
-            ]
-        },
-        {
-            "id": 94,
-            "date_formated": "2024-07-26",
-            "title": "Тренировка",
-            "isDraft": false,
+            ],
             "players": [
                 {
                     "id": 10,
@@ -1951,46 +1944,20 @@
                     "updatedAt": "2024-08-10T11:29:46.333Z"
                 }
             ],
-            "pairs": [
-                {
-                    "id": 71,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 19,
-                    "masterId": 1,
-                    "playerId": 19,
-                    "eventId": 94
-                },
-                {
-                    "id": 72,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 22,
-                    "masterId": 2,
-                    "playerId": 22,
-                    "eventId": 94
-                },
-                {
-                    "id": 73,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 46,
-                    "masterId": 2,
-                    "playerId": 46,
-                    "eventId": 94
-                },
-                {
-                    "id": 74,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 11,
-                    "masterId": 1,
-                    "playerId": 11,
-                    "eventId": 94
-                }
-            ]
+            "date_formated": "2024-07-26"
         },
         {
             "id": 95,
-            "date_formated": "2024-07-31",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [
+                {
+                    "id": 75,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 95
+                }
+            ],
             "players": [
                 {
                     "id": 7,
@@ -2056,22 +2023,36 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": [
-                {
-                    "id": 75,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 35,
-                    "masterId": 1,
-                    "playerId": 35,
-                    "eventId": 95
-                }
-            ]
+            "date_formated": "2024-07-31"
         },
         {
             "id": 96,
-            "date_formated": "2024-08-02",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [
+                {
+                    "id": 79,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "masterId": 1,
+                    "playerId": 19,
+                    "eventId": 96
+                },
+                {
+                    "id": 80,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 12,
+                    "masterId": 1,
+                    "playerId": 12,
+                    "eventId": 96
+                },
+                {
+                    "id": 81,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 20,
+                    "masterId": 1,
+                    "playerId": 20,
+                    "eventId": 96
+                }
+            ],
             "players": [
                 {
                     "id": 7,
@@ -2165,38 +2146,28 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
-            "pairs": [
-                {
-                    "id": 79,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 19,
-                    "masterId": 1,
-                    "playerId": 19,
-                    "eventId": 96
-                },
-                {
-                    "id": 80,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 12,
-                    "masterId": 1,
-                    "playerId": 12,
-                    "eventId": 96
-                },
-                {
-                    "id": 81,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 20,
-                    "masterId": 1,
-                    "playerId": 20,
-                    "eventId": 96
-                }
-            ]
+            "date_formated": "2024-08-02"
         },
         {
             "id": 97,
-            "date_formated": "2024-08-07",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [
+                {
+                    "id": 82,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 48,
+                    "masterId": 2,
+                    "playerId": 48,
+                    "eventId": 97
+                },
+                {
+                    "id": 83,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 97
+                }
+            ],
             "players": [
                 {
                     "id": 3,
@@ -2255,30 +2226,44 @@
                     "updatedAt": "2024-07-02T15:44:12.507Z"
                 }
             ],
+            "date_formated": "2024-08-07"
+        },
+        {
+            "id": 98,
             "pairs": [
                 {
-                    "id": 82,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 48,
-                    "masterId": 2,
-                    "playerId": 48,
-                    "eventId": 97
+                    "id": 84,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 35,
+                    "masterId": 1,
+                    "playerId": 35,
+                    "eventId": 98
                 },
                 {
-                    "id": 83,
+                    "id": 85,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 46,
+                    "masterId": 2,
+                    "playerId": 46,
+                    "eventId": 98
+                },
+                {
+                    "id": 86,
                     "firstPlayerId": 2,
                     "secondPlayerId": 12,
                     "masterId": 2,
                     "playerId": 12,
-                    "eventId": 97
+                    "eventId": 98
+                },
+                {
+                    "id": 87,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "masterId": 1,
+                    "playerId": 19,
+                    "eventId": 98
                 }
-            ]
-        },
-        {
-            "id": 98,
-            "date_formated": "2024-08-09",
-            "title": "Тренировка",
-            "isDraft": false,
+            ],
             "players": [
                 {
                     "id": 3,
@@ -2358,46 +2343,20 @@
                     "updatedAt": "2024-08-10T11:29:46.333Z"
                 }
             ],
+            "date_formated": "2024-08-09"
+        },
+        {
+            "id": 99,
             "pairs": [
                 {
-                    "id": 84,
+                    "id": 88,
                     "firstPlayerId": 1,
                     "secondPlayerId": 35,
                     "masterId": 1,
                     "playerId": 35,
-                    "eventId": 98
-                },
-                {
-                    "id": 85,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 46,
-                    "masterId": 2,
-                    "playerId": 46,
-                    "eventId": 98
-                },
-                {
-                    "id": 86,
-                    "firstPlayerId": 2,
-                    "secondPlayerId": 12,
-                    "masterId": 2,
-                    "playerId": 12,
-                    "eventId": 98
-                },
-                {
-                    "id": 87,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 19,
-                    "masterId": 1,
-                    "playerId": 19,
-                    "eventId": 98
+                    "eventId": 99
                 }
-            ]
-        },
-        {
-            "id": 99,
-            "date_formated": "2024-08-14",
-            "title": "Тренировка",
-            "isDraft": false,
+            ],
             "players": [
                 {
                     "id": 3,
@@ -2526,22 +2485,36 @@
                     "updatedAt": "2024-08-14T21:15:19.689Z"
                 }
             ],
-            "pairs": [
-                {
-                    "id": 88,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 35,
-                    "masterId": 1,
-                    "playerId": 35,
-                    "eventId": 99
-                }
-            ]
+            "date_formated": "2024-08-14"
         },
         {
             "id": 100,
-            "date_formated": "2024-08-16",
-            "title": "Тренировка",
-            "isDraft": false,
+            "pairs": [
+                {
+                    "id": 89,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 44,
+                    "masterId": 1,
+                    "playerId": 44,
+                    "eventId": 100
+                },
+                {
+                    "id": 90,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 43,
+                    "masterId": 1,
+                    "playerId": 43,
+                    "eventId": 100
+                },
+                {
+                    "id": 91,
+                    "firstPlayerId": 1,
+                    "secondPlayerId": 19,
+                    "masterId": 1,
+                    "playerId": 19,
+                    "eventId": 100
+                }
+            ],
             "players": [
                 {
                     "id": 12,
@@ -2621,32 +2594,165 @@
                     "updatedAt": "2024-08-14T21:15:19.689Z"
                 }
             ],
+            "date_formated": "2024-08-16"
+        },
+        {
+            "id": 101,
             "pairs": [
                 {
-                    "id": 89,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 44,
-                    "masterId": 1,
-                    "playerId": 44,
-                    "eventId": 100
+                    "id": 92,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 12,
+                    "masterId": 2,
+                    "playerId": 12,
+                    "eventId": 101
                 },
                 {
-                    "id": 90,
-                    "firstPlayerId": 1,
-                    "secondPlayerId": 43,
-                    "masterId": 1,
-                    "playerId": 43,
-                    "eventId": 100
+                    "id": 93,
+                    "firstPlayerId": 2,
+                    "secondPlayerId": 17,
+                    "masterId": 2,
+                    "playerId": 17,
+                    "eventId": 101
                 },
                 {
-                    "id": 91,
+                    "id": 94,
                     "firstPlayerId": 1,
-                    "secondPlayerId": 19,
+                    "secondPlayerId": 35,
                     "masterId": 1,
-                    "playerId": 19,
-                    "eventId": 100
+                    "playerId": 35,
+                    "eventId": 101
                 }
-            ]
+            ],
+            "players": [
+                {
+                    "id": 3,
+                    "name": "Володя Юдаев",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 6,
+                    "name": "Инна Гулина",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 7,
+                    "name": "Лариса Басманова",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 8,
+                    "name": "Олег Котляров",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 10,
+                    "name": "Павел Кот",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 12,
+                    "name": "Рома Русаков",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 15,
+                    "name": "Сергей Коробов",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 16,
+                    "name": "Юра Малин",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 17,
+                    "name": "Ольга Сипина",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 20,
+                    "name": "Надежда Отпетова",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 35,
+                    "name": "Сергей Олейников",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 36,
+                    "name": "Володя Зубков",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 48,
+                    "name": "Дима Кирсанов",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 50,
+                    "name": "Сергей Казарян",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 11,
+                    "name": "Павел Роднянский",
+                    "profileId": null,
+                    "createdAt": "2024-07-02T15:44:12.507Z",
+                    "updatedAt": "2024-07-02T15:44:12.507Z"
+                },
+                {
+                    "id": 201,
+                    "name": "Максим Грибков",
+                    "profileId": null,
+                    "createdAt": "2024-07-05T17:58:55.614Z",
+                    "updatedAt": "2024-07-05T17:58:55.614Z"
+                },
+                {
+                    "id": 207,
+                    "name": "Фёдор Наумов",
+                    "profileId": null,
+                    "createdAt": "2024-08-14T21:15:19.689Z",
+                    "updatedAt": "2024-08-14T21:15:19.689Z"
+                },
+                {
+                    "id": 208,
+                    "name": "Коля Шантурин",
+                    "profileId": null,
+                    "createdAt": "2024-08-21T18:16:14.562Z",
+                    "updatedAt": "2024-08-21T18:16:14.562Z"
+                }
+            ],
+            "date_formated": "2024-08-21"
         }
     ],
     "pairs": [
@@ -3786,6 +3892,10 @@
         {
             "id": 207,
             "name": "Фёдор Наумов"
+        },
+        {
+            "id": 208,
+            "name": "Коля Шантурин"
         }
     ],
     "users": [

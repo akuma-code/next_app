@@ -8,7 +8,7 @@ export async function getPlayerInfo(payload: Prisma.PlayerFindUniqueArgs) {
         const { where, include, select } = payload;
         const p = prisma.player.findUnique({
             where,
-            select: { id: true, name: true }
+            select: { id: true, name: true, ...select }
 
             // include:{
             //     pairs:true,
@@ -19,7 +19,7 @@ export async function getPlayerInfo(payload: Prisma.PlayerFindUniqueArgs) {
             // }
         })
         const player = await p
-        const events = await p.events({ select: { id: true, date_formated: true, title: true } })
+        const events = await p.events({ select: { id: true, date_formated: true, title: true, _count: { select: { players: true, pairs: true } } } })
         const pairs = await p.pairs()
         const ticket = await p.ticket()
 

@@ -7,7 +7,8 @@ import EventsInfoPlayer from "../../_components/EventsPlayerInfo";
 const _select = {
     id: true,
     name: true,
-    events: { select: { id: true, date_formated: true } },
+
+    // _count: { select: { events: true, pairs: true } },
 } satisfies Prisma.PlayerSelect;
 
 const PlayerInfoPage = async ({ params }: { params: { id: string } }) => {
@@ -15,11 +16,20 @@ const PlayerInfoPage = async ({ params }: { params: { id: string } }) => {
     const id = params.id;
     const { player, events, pairs, ticket } = await getPlayerInfo({
         where: { id: Number(id) },
-        select: _select,
+        select: {
+            events: {
+                select: {
+                    id: true,
+                    date_formated: true,
+                    _count: { select: { players: true, pairs: true } },
+                },
+            },
+            ..._select,
+        } satisfies Prisma.PlayerSelect,
     });
-    const { alldata } = await fetch(
-        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/"
-    ).then((res) => res.json());
+    // const { alldata } = await fetch(
+    //     "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/"
+    // ).then((res) => res.json());
 
     return (
         <Grid

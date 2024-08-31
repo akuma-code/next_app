@@ -1,7 +1,14 @@
 "use client";
 
 import { _dbDateParser } from "@/Helpers/dateFuncs";
-import { List, ListItem } from "@mui/material";
+import {
+    Box,
+    List,
+    ListItem,
+    ListItemText,
+    Stack,
+    Typography,
+} from "@mui/material";
 import React from "react";
 
 interface EventsInfoPlayerProps {
@@ -9,18 +16,35 @@ interface EventsInfoPlayerProps {
         id: number;
         date_formated: string;
         title?: string | null;
+        _count?: { [x: string]: number };
     }[];
 }
 
 const EventsInfoPlayer: React.FC<EventsInfoPlayerProps> = ({ events }) => {
+    // console.log({ events });
     return (
-        <List>
+        <Stack
+            maxWidth={200}
+            flexWrap={"wrap"}
+            maxHeight={500}
+            overflow={"auto"}
+            direction={"row"}
+            gap={2}
+            // spacing={1}
+        >
+            <Box width={200}>Total: {events.length}</Box>
             {events.map((e) => (
-                <ListItem key={e.id} divider>
-                    {_dbDateParser(e.date_formated).dd_mmmm}
-                </ListItem>
+                <ListItemText
+                    key={e.id}
+                    primary={_dbDateParser(e.date_formated).dd_mmmm}
+                    secondary={`players: ${e?._count?.players.toString()}`}
+                />
+
+                // <Typography key={e.id}>
+                //     {_dbDateParser(e.date_formated).dd_mmmm}
+                // </Typography>
             ))}
-        </List>
+        </Stack>
     );
 };
 
