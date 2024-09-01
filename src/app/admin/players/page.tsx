@@ -6,8 +6,11 @@ import Link from "next/link";
 import AdminPlayerList from "./AdminPlayerList";
 import { _log } from "@/Helpers/helpersFns";
 import { DescriptionButtonQuery } from "@/ClientComponents/UI/DescButton";
-import { clonePlayers } from "@/seed/full_db/clone_db_funcs";
-const clone_action = clonePlayers.bind(null);
+
+import { fetchAndCreatePlayers } from "@/Services/events/db_event";
+
+const clone_action = fetchAndCreatePlayers.bind(null);
+
 async function AvPlayers(query: { searchParams: { action: string } }) {
     const players = await getPlayers();
 

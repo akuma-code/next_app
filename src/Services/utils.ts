@@ -2,6 +2,7 @@
 import prisma from "@/client/client";
 import { getDBManyEventsData, getDbManyPairsData } from "./events/db_event";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 
 
 type PromiseType<T> = T extends Promise<infer U> ? U : never
@@ -75,7 +76,7 @@ export async function getPlayersData(options?: { log?: boolean }) {
 
 export async function getAllData() {
     try {
-        const { data: events } = await getDBManyEventsData({}, { pairs: true, players: true, date_formated: true })
+        const { data: events } = await getDBManyEventsData({}, { pairs: true, players: true, date_formated: true, eventInfo: false } satisfies Prisma.EventSelect)
         const { data: pairs } = await getDbManyPairsData({}, { master: true, player: true, event: true })
 
         const players = await prisma.player.findMany({ select: { id: true, name: true } })

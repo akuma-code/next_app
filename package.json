@@ -12,7 +12,6 @@
     "postinstall": "prisma generate"
   },
   "prisma": {
-    "seed_db": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seedFn.ts",
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed/full_db/seed.ts"
   },
   "dependencies": {

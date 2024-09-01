@@ -24,6 +24,18 @@ model Player {
   @@map("players")
 }
 
+model Partner {
+  id       Int     @id @default(autoincrement())
+  // player   Player? @relation(fields: [playerId], references: [id])
+  // event    Event?  @relation(fields: [eventId], references: [id])
+  master   Master? @relation(fields: [masterId], references: [id])
+  playerId Int?
+  eventId  Int?
+  masterId Int?
+
+  @@ignore
+}
+
 model Event {
   id            Int        @id @default(autoincrement())
   date_formated String     @unique @map("date")
@@ -84,9 +96,10 @@ model Info {
 }
 
 model Master {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  pair Pair[]
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  pair     Pair[]
+  partners Partner[] @ignore
 
   @@map("masters")
 }

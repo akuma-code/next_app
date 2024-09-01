@@ -80,6 +80,11 @@ export const DescriptionButtonQuery = (props: {
         queryFn: fn,
         enabled: enabled,
     });
+
+    const hadleShow = useCallback((e: React.MouseEvent) => {
+        e.preventDefault();
+        setShow((prev) => !prev);
+    }, []);
     show && enabled && console.log(q.data);
     return (
         <Card
@@ -97,7 +102,7 @@ export const DescriptionButtonQuery = (props: {
                     disabled={q.isLoading}
                     color={"warning"}
                     onClick={toggle}
-                    onDoubleClick={() => setShow((prev) => !prev)}
+                    onContextMenu={hadleShow}
                     variant="contained"
                     size="small"
                     startIcon={

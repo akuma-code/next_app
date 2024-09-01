@@ -5,6 +5,10 @@ import {
 } from "@/ClientComponents/UI/DescButton";
 import { ClientBackup } from "@/Components/Backup/ClientSideBackup";
 import { fetcher } from "@/Helpers/fetcher";
+import {
+    fetchAndCreatePlayers,
+    sync_events_pairs,
+} from "@/Services/events/db_event";
 import { readFile } from "@/Services/fs/data_service";
 import { getImportantData } from "@/app/api/backup/events/actions";
 import { Box } from "@mui/material";
@@ -22,6 +26,7 @@ export default async function BackupPage({
                 m={2}
                 // maxWidth={800}
                 gap={2}
+                flexWrap={"wrap"}
             >
                 <ClientBackup />
                 <DescriptionButtonQuery
@@ -38,6 +43,10 @@ export default async function BackupPage({
                     action={fetchServer.bind(null)}
                     title="Вытянуть данные c сервера"
                     description="ссылка: https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/events"
+                />
+                <DescriptionButtonQuery
+                    action={sync_events_pairs.bind(null)}
+                    title="Вытянуть events и создать их"
                 />
             </Box>
         </MrtBoundary>
