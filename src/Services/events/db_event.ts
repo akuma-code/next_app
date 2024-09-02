@@ -2,6 +2,7 @@
 
 import prisma from "@/client/client"
 import { makeSerializable } from "@/Helpers/serialize"
+import { reseedMasters } from "@/seed/seed"
 import { Event, Prisma } from "@prisma/client"
 import { DefaultArgs } from "@prisma/client/runtime/library"
 import { revalidatePath } from "next/cache"
@@ -313,6 +314,8 @@ export async function sync_events_pairs() {
 
             })
         )
+
+        await reseedMasters()
         // const tsx_pairs_update = await sync_pairs(pairs)
 
         return await prisma.$transaction([...tsx_create_new, ...tsx_create_pairs])

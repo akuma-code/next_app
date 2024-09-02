@@ -64,6 +64,7 @@ import {
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { createPlayer, getPlayers } from "@/Services/playerService";
 import prisma from "@/client/client";
+import useMediaDetect from "@/Hooks/useMediaDetect";
 
 interface Pair {
     id: number;
@@ -91,6 +92,7 @@ export const EventView: React.FC<Eventinfo> = ({
     const [showConnect, connectAction] = useToggle();
     const [showCreate, createAction] = useToggle();
     const [showRemove, removeControl] = useToggle();
+    const { isMobile } = useMediaDetect();
     // const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
 
     const handlePairChange = async (
@@ -174,14 +176,14 @@ export const EventView: React.FC<Eventinfo> = ({
             >
                 <EventButtons>
                     <SpeedDialAction
-                        // tooltipOpen
+                        tooltipOpen={isMobile}
                         tooltipPlacement="right"
                         icon={<Icon path={mdiAccountPlusOutline} size={0.8} />}
                         tooltipTitle={"Новый игрок"}
                         onClick={toggleCreate}
                     />
                     <SpeedDialAction
-                        // tooltipOpen
+                        tooltipOpen={isMobile}
                         tooltipPlacement="right"
                         icon={<Icon path={mdiSphereOff} size={0.8} />}
                         tooltipTitle={"показать удаление"}
@@ -189,7 +191,7 @@ export const EventView: React.FC<Eventinfo> = ({
                     />
 
                     <SpeedDialAction
-                        // tooltipOpen
+                        tooltipOpen={isMobile}
                         tooltipPlacement="right"
                         icon={
                             <Icon
