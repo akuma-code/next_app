@@ -177,6 +177,19 @@ export async function deleteEvent(id: number) {
         revalidatePath("/");
     }
 }
+export async function disconnectPlayer(playerId: number, eventId: number) {
+    try {
+
+        const e = await prisma.event.update({
+            where: { id: eventId },
+            data: { players: { disconnect: { id: playerId } } },
+        });
+        console.log(e);
+        return e
+    } catch (error) {
+        throw error
+    } finally { revalidatePath("/") }
+}
 export async function updateEventPlayers(payload: EventUpdatePayload) {
     const { id, _new_data } = payload;
 

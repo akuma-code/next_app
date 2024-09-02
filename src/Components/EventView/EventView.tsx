@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useTransition } from "react";
 
 import { IEvent_Front, avatarColor } from "@/ClientComponents/EventsList";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
@@ -17,15 +17,22 @@ import {
     BoxProps,
     Button,
     ButtonGroup,
+    Dialog,
+    DialogContent,
+    DialogTitle,
     Divider,
     Fade,
     IconButton,
+    LinearProgress,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
     Menu,
     MenuItem,
+    SpeedDialAction,
+    Stack,
+    TextField,
     Tooltip,
     Typography,
 } from "@mui/material";
@@ -34,6 +41,29 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { AddPlayerDialog } from "./AddPlayerDialog";
 import CreatePlayerBtn from "./CreatePlayerButton";
+import { EventButtons } from "@/ClientComponents/SpeedButtons/EventSpeedDial";
+import Icon from "@mdi/react";
+import {
+    mdiAccountMinus,
+    mdiAccountPlusOutline,
+    mdiCardAccountDetailsOutline,
+    mdiCheck,
+    mdiClose,
+    mdiConnection,
+    mdiSphereOff,
+} from "@mdi/js";
+import { AddPlayerSpeedDialog } from "./AddPlayerSpeedDial";
+import { off } from "process";
+import { _log } from "@/Helpers/helpersFns";
+import { useToggle } from "@/Hooks/useToggle";
+import {
+    connectOnePlayer,
+    disconnectPlayer,
+    updateEventPlayers,
+} from "@/Services/eventService";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { createPlayer, getPlayers } from "@/Services/playerService";
+import prisma from "@/client/client";
 
 interface Pair {
     id: number;
@@ -48,17 +78,6 @@ interface Eventinfo {
     masters: { id: number; name: string }[];
 }
 
-function parseEvent(event: TEvent, masters: { id: number; name: string }[]) {
-    const { pairs, players } = event;
-    const withPair = pairs.map((p) => {
-        const pl = players.find((pl) => pl.id === p.secondPlayerId);
-        const m = masters.find((ma) => ma.id === p.firstPlayerId)!;
-        return pl
-            ? { ...p, player: pl.name, master: m?.name }
-            : { ...p, player: "", master: "" };
-    });
-    return withPair;
-}
 export const EventView: React.FC<Eventinfo> = ({
     boxProps,
     event,
@@ -69,7 +88,9 @@ export const EventView: React.FC<Eventinfo> = ({
     const { data } = useSession();
     const { players, date_formated, title, _count, id, pairs } = event;
     const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
-
+    const [showConnect, connectAction] = useToggle();
+    const [showCreate, createAction] = useToggle();
+    const [showRemove, removeControl] = useToggle();
     // const pairMasterIdx = (id: number) => pairs.findIndex(p => p.firstPlayerId === id)
 
     const handlePairChange = async (
@@ -121,13 +142,17 @@ export const EventView: React.FC<Eventinfo> = ({
         return _players;
     }, [pairs, players]);
     // const pairText = (name?: string | null) => name ? `тренер: ${name}` : null
+    const toggleCreate = () => {
+        createAction.on();
+    };
+
     return (
         <Box
             {...boxProps}
             sx={{
                 borderRadius: 4,
-                minWidth: 280,
-                maxWidth: "fit-content",
+                minWidth: 330,
+                maxWidth: 400,
                 border: "2px solid",
                 borderColor: "primary.dark",
                 bgcolor: "background.paper",
@@ -142,10 +167,40 @@ export const EventView: React.FC<Eventinfo> = ({
                     display: "flex",
                     p: 1.5,
                     alignItems: "center",
-                    gap: 1,
-                    justifyContent: "space-evenly",
+                    gap: 2,
+                    justifyContent: "space-between",
+                    position: "relative",
                 }}
             >
+                <EventButtons>
+                    <SpeedDialAction
+                        // tooltipOpen
+                        tooltipPlacement="right"
+                        icon={<Icon path={mdiAccountPlusOutline} size={0.8} />}
+                        tooltipTitle={"Новый игрок"}
+                        onClick={toggleCreate}
+                    />
+                    <SpeedDialAction
+                        // tooltipOpen
+                        tooltipPlacement="right"
+                        icon={<Icon path={mdiSphereOff} size={0.8} />}
+                        tooltipTitle={"показать удаление"}
+                        onClick={removeControl.toggle}
+                    />
+
+                    <SpeedDialAction
+                        // tooltipOpen
+                        tooltipPlacement="right"
+                        icon={
+                            <Icon
+                                path={mdiCardAccountDetailsOutline}
+                                size={0.8}
+                            />
+                        }
+                        onClick={() => router.push(pathname + "/edit")}
+                        tooltipTitle={"Редактировать"}
+                    />
+                </EventButtons>
                 <Box>
                     <Typography variant="h5" component={"div"}>
                         {title}
@@ -165,39 +220,33 @@ export const EventView: React.FC<Eventinfo> = ({
                     {_count?.players}
                 </Avatar>
             </Box>
+
             <Divider flexItem>
                 <ButtonGroup variant="contained" fullWidth>
-                    <Button
-                        color="error"
-                        size="small"
-                        onClick={router.back}
-                        startIcon={<FastRewindTwoTone />}
-                        sx={{ px: 2 }}
-                    >
-                        Назад
-                    </Button>
-                    <Button
+                    {/* <Button
                         color="warning"
                         size="small"
                         onClick={() => router.push(pathname + "/edit")}
                         startIcon={<SettingsTwoTone />}
-                        sx={{ px: 2 }}
+                        sx={{ px: 1 }}
                     >
                         Изменить
-                    </Button>
+                    </Button> */}
+                    <AddPlayerDialog event_players={players} event_id={id} />
                 </ButtonGroup>
             </Divider>
 
-            <Fade in={!!players}>
+            {/* <Fade in={!!players}>
                 <ButtonGroup
                     variant="contained"
                     fullWidth
                     sx={{ mt: 1, mr: 2 }}
                 >
-                    <AddPlayerDialog event_players={players} event_id={id} />
+                  
                     <CreatePlayerBtn />
                 </ButtonGroup>
-            </Fade>
+            </Fade> */}
+
             <List>
                 {player_pairs.map((p, index) => (
                     <ListItem
@@ -250,6 +299,7 @@ export const EventView: React.FC<Eventinfo> = ({
                                     X
                                 </Avatar>
                             </MenuItem>
+
                             {masters.map((m) => (
                                 <MenuItem
                                     key={m.name}
@@ -262,9 +312,35 @@ export const EventView: React.FC<Eventinfo> = ({
                                 </MenuItem>
                             ))}
                         </SelectPairButton>
+                        {showRemove && (
+                            <IconButton
+                                hidden={showRemove}
+                                aria-label="remove player"
+                                title="remove"
+                                onClick={async () =>
+                                    await disconnectPlayer(p.id, id)
+                                }
+                                edge="end"
+                                color="error"
+                                sx={{ bgcolor: "darkgray" }}
+                            >
+                                <Icon
+                                    path={mdiAccountMinus}
+                                    size={1}
+                                    className="px-1 "
+                                />
+                            </IconButton>
+                        )}
                     </ListItem>
                 ))}
             </List>
+            <ConnectDialog
+                event_id={id}
+                event_players={players}
+                show={showConnect}
+                onClose={connectAction.off}
+            />
+            <CreateDialog show={showCreate} onClose={createAction.off} />
         </Box>
     );
 };
@@ -272,7 +348,140 @@ export const EventView: React.FC<Eventinfo> = ({
 interface MenuButtonProps {
     children?: React.ReactNode;
 }
+async function getData() {
+    return await getPlayers();
+}
+const ConnectDialog = ({
+    event_id,
+    event_players,
+    show,
+    onClose,
+}: {
+    event_players: { id: number; name: string }[];
+    event_id: number;
+    show: boolean;
+    onClose: () => void;
+}) => {
+    // const [open, { on, off }] = useToggle(show);
+    const eventIds = event_players.map((p) => p.id);
 
+    const q = useQuery({
+        queryKey: ["players", "all"],
+        queryFn: getData,
+        placeholderData: keepPreviousData,
+        select: (data) => data.filter((d) => !eventIds.includes(d.id)),
+        enabled: show,
+    });
+    if (q.error) {
+        _log(q.error);
+        return <Box>Fetch players error</Box>;
+    }
+
+    async function handleConnectPlayer(eventId: number, playerId: number) {
+        const connect = connectOnePlayer.bind(null, eventId, playerId);
+        await connect();
+        onClose();
+    }
+
+    if (q.isLoading) return <LinearProgress />;
+    return (
+        <Dialog open={show} onClose={onClose}>
+            <DialogTitle>Добавить на тренировку</DialogTitle>
+            <DialogContent>
+                <Stack direction={"column"} spacing={1} justifyContent={"left"}>
+                    {q.data?.map((p) => (
+                        <Button
+                            sx={{ textAlign: "left" }}
+                            variant="outlined"
+                            size="small"
+                            key={p.id}
+                            onClick={() => handleConnectPlayer(event_id, p.id)}
+                        >
+                            {p.name}
+                        </Button>
+                    ))}
+                </Stack>
+            </DialogContent>
+        </Dialog>
+    );
+};
+const CreateDialog = ({
+    onClose,
+    show,
+}: {
+    show: boolean;
+    onClose: () => void;
+}) => {
+    // const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const [player, setPlayer] = useState({ name: "" });
+    const [isCreating, start] = useTransition();
+    // const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+
+    const handleClose = () => {
+        onClose();
+    };
+
+    const onCreate = () => {
+        start(async () => {
+            await createPlayer(player.name);
+        });
+    };
+
+    // function handleReset() {
+    //     setState(prev => input)
+    // }
+    // const show = Boolean(anchorEl);
+    return (
+        <Dialog open={show} onClose={onClose}>
+            <DialogTitle>Добавить на тренировку</DialogTitle>
+            <DialogContent>
+                <Box
+                    m={1}
+                    p={1}
+                    display={"flex"}
+                    alignItems={"center"}
+                    flexDirection={"row"}
+                    gap={1}
+                >
+                    <TextField
+                        size="small"
+                        name={"name"}
+                        value={player.name}
+                        onChange={(e) =>
+                            setPlayer((prev) => ({
+                                ...prev,
+                                name: e.target.value,
+                            }))
+                        }
+                        variant="outlined"
+                        label={`Введите имя`}
+                    />
+                    <ButtonGroup sx={{ pt: 0 }} size="small">
+                        <Button
+                            color="warning"
+                            sx={{ bgcolor: "success.main" }}
+                            type="submit"
+                            title="Подтвердить"
+                            onClick={onCreate}
+                            disabled={isCreating}
+                        >
+                            <Icon path={mdiCheck} size={1} color={"success"} />
+                        </Button>
+                        <Button
+                            onClick={handleClose}
+                            sx={{ bgcolor: "error.main" }}
+                            title="Вернуть начальное значение"
+                        >
+                            <Icon path={mdiClose} size={1} color={"#000"} />
+                        </Button>
+                    </ButtonGroup>
+                </Box>
+            </DialogContent>
+        </Dialog>
+    );
+};
 const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -349,7 +558,5 @@ const SelectPairButton: React.FC<MenuButtonProps> = ({ children }) => {
 };
 
 SelectPairButton.displayName = "_________Pair Select";
-
-const RadioSelector = () => {};
 
 EventView.displayName = "______EventIdView";
