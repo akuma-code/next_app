@@ -4,8 +4,8 @@ import React from "react";
 
 interface LoadingStpProps {}
 
-const LoadingStp: React.FC<LoadingStpProps> = () => {
-    return <LoadSpinner />;
+const Loading: React.FC<LoadingStpProps> = () => {
+    return <LoadSpinner text="APP LOADING..." />;
 };
 
-export default LoadingStp;
+export default Loading;

@@ -40,14 +40,14 @@ export default async function BackupPage({
                     description="Прочитать данные из data.json"
                 />
                 <DescriptionButtonQuery
-                    action={fetchServer.bind(null)}
+                    action={fetchServerBackup.bind(null)}
                     title="Вытянуть данные c сервера"
-                    description="ссылка: https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/events"
+                    description="ссылка: https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup"
                 />
-                <DescriptionButtonQuery
+                {/* <DescriptionButtonQuery
                     action={sync_events_pairs.bind(null)}
                     title="Вытянуть events и создать их"
-                />
+                /> */}
             </Box>
         </MrtBoundary>
     );
@@ -67,6 +67,16 @@ async function fetchServer() {
     "use server";
     const data = fetch(
         "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/events"
+    ).then(
+        (r) => r.json(),
+        (e) => console.log({ e })
+    );
+    return data;
+}
+async function fetchServerBackup() {
+    "use server";
+    const data = fetch(
+        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup"
     ).then(
         (r) => r.json(),
         (e) => console.log({ e })

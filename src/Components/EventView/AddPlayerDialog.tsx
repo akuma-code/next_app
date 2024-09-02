@@ -5,14 +5,16 @@ import { _log } from "@/Helpers/helpersFns";
 import { useToggle } from "@/Hooks/useToggle";
 import { connectOnePlayer } from "@/Services/eventService";
 import { getPlayers } from "@/Services/playerService";
-import { mdiDebian } from "@mdi/js";
-import { Add } from "@mui/icons-material";
+import { mdiAccountMultiplePlus, mdiDebian } from "@mdi/js";
+import Icon from "@mdi/react";
+import { AddCard } from "@mui/icons-material";
 import {
     Box,
     Button,
     Dialog,
     DialogContent,
     DialogTitle,
+    Fade,
     LinearProgress,
     Stack,
 } from "@mui/material";
@@ -34,7 +36,7 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
     const eventIds = event_players.map((p) => p.id);
 
     const q = useQuery({
-        queryKey: ["event", "players", "all"],
+        queryKey: ["players", "all"],
         queryFn: fetchPlayers,
         placeholderData: keepPreviousData,
         select: (data) => data.filter((d) => !eventIds.includes(d.id)),
@@ -49,19 +51,19 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
         await connect();
         off();
     }
-    if (!q.isSuccess)
-        return <LoadSpinner mdiPath={mdiDebian} text="" size={2} />;
+    // if (!q.isSuccess)
+    //     return <LoadSpinner mdiPath={mdiDebian} text="" size={2} />;
     return (
         <>
             <Button
-                size="small"
                 color="secondary"
-                variant="outlined"
-                fullWidth
+                size="small"
+                variant="contained"
+                sx={{ alignItems: "center" }}
                 onClick={on}
-                startIcon={<Add />}
+                startIcon={<Icon path={mdiAccountMultiplePlus} size={0.8} />}
             >
-                Добавить игрока
+                Добавить
             </Button>
 
             <Dialog open={open} onClose={off}>
@@ -72,7 +74,7 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
                         spacing={1}
                         justifyContent={"left"}
                     >
-                        {q.data.map((p) => (
+                        {q.data?.map((p) => (
                             <Button
                                 sx={{ textAlign: "left" }}
                                 variant="outlined"

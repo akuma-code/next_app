@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { _log } from "@/Helpers/helpersFns";
 import { Prisma } from "@prisma/client";
 import { DefaultArgs, Payload } from "@prisma/client/runtime/library";
+import { eventSelect } from "../SelectorPrisma/eventSelect";
 
 
 const event = prisma.event
@@ -216,13 +217,16 @@ const defaultEventSelect = {
     eventInfo: false
 
 } satisfies Prisma.EventSelect
+
 export async function getEvents(
-    payload: Prisma.EventFindManyArgs
+    { where, select, ...rest }: Prisma.EventFindManyArgs
 ) {
     try {
-        const { where, select = defaultEventSelect, ...rest } = payload
+        const _ds = select ? select : eventSelect()
 
-        const events = await prisma.event.findMany({ where, select, ...rest })
+        // const { where, select = _ds, ...rest } = payload
+
+        const events = await prisma.event.findMany({ where, select: _ds, ...rest })
         return events
     } catch (error) {
         console.error(error)

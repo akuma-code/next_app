@@ -27,16 +27,19 @@ async function fetchData() {
 }
 export async function clonePlayers() {
     try {
-        const server_data = await fetchServer() as { players: { id: number, name: string }[], events: any[], pairs: any[] }
+        // const server_data = await fetchServer() as { players: { id: number, name: string }[], events: any[], pairs: any[] }
         const server_players = await fetchData()
         if (!server_players) {
             console.log("no players")
             return null
         }
+
+        await prisma.player.deleteMany()
+        const server_id_pool = server_players?.map(p => p.id)
         const existed_players = await prisma.player.findMany({ select: { id: true, name: true } })
 
 
-        if (existed_players.length === server_data.players.length) return console.log("players in sync, all good")
+        // if (existed_players.length === server_data.players.length) return console.log("players in sync, all good")
 
         const to_create = server_players.filter(p => !existed_players.map(e => e.id).includes(p.id))
 

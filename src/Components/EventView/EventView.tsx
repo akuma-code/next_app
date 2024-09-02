@@ -18,6 +18,7 @@ import {
     Button,
     ButtonGroup,
     Divider,
+    Fade,
     IconButton,
     List,
     ListItem,
@@ -32,6 +33,7 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { AddPlayerDialog } from "./AddPlayerDialog";
+import CreatePlayerBtn from "./CreatePlayerButton";
 
 interface Pair {
     id: number;
@@ -125,7 +127,7 @@ export const EventView: React.FC<Eventinfo> = ({
             sx={{
                 borderRadius: 4,
                 minWidth: 280,
-                maxWidth: "max-content",
+                maxWidth: "fit-content",
                 border: "2px solid",
                 borderColor: "primary.dark",
                 bgcolor: "background.paper",
@@ -140,7 +142,7 @@ export const EventView: React.FC<Eventinfo> = ({
                     display: "flex",
                     p: 1.5,
                     alignItems: "center",
-                    columnGap: 1,
+                    gap: 1,
                     justifyContent: "space-evenly",
                 }}
             >
@@ -170,6 +172,7 @@ export const EventView: React.FC<Eventinfo> = ({
                         size="small"
                         onClick={router.back}
                         startIcon={<FastRewindTwoTone />}
+                        sx={{ px: 2 }}
                     >
                         Назад
                     </Button>
@@ -184,9 +187,17 @@ export const EventView: React.FC<Eventinfo> = ({
                     </Button>
                 </ButtonGroup>
             </Divider>
-            <Box mx={2} mt={1}>
-                <AddPlayerDialog event_players={players} event_id={id} />
-            </Box>
+
+            <Fade in={!!players}>
+                <ButtonGroup
+                    variant="contained"
+                    fullWidth
+                    sx={{ mt: 1, mr: 2 }}
+                >
+                    <AddPlayerDialog event_players={players} event_id={id} />
+                    <CreatePlayerBtn />
+                </ButtonGroup>
+            </Fade>
             <List>
                 {player_pairs.map((p, index) => (
                     <ListItem

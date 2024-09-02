@@ -239,6 +239,7 @@ export async function fetchAndCreatePlayers() {
             console.log("no players")
             throw new Error("Fetch error")
         }
+
         const existed_players = await prisma.player.findMany({ select: { id: true, name: true } })
 
 
@@ -266,7 +267,7 @@ export async function fetchAndCreatePlayers() {
 
 export async function sync_events_pairs() {
     try {
-
+        await fetchAndCreatePlayers()
         await prisma.event.deleteMany()
         await prisma.pair.deleteMany()
 
