@@ -14,6 +14,7 @@ import {
     Tooltip,
     TextField,
     Autocomplete,
+    Typography,
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
@@ -62,7 +63,7 @@ export function PlayersListView({
     );
     const filtered_list = useMemo(
         () => players.filter((p) => p.name.includes(search ?? "")),
-        [search]
+        [players, search]
     );
     return (
         <Box
@@ -111,7 +112,7 @@ export function PlayersListView({
             <List
                 dense
                 sx={{
-                    m: 1,
+                    mx: 1,
                     pr: 2,
                     maxHeight: "70vh",
                     // maxHeight: 'inherit',
@@ -120,13 +121,19 @@ export function PlayersListView({
                         border: "2px solid #00b0ea9d",
                         borderRadius: 2,
                     },
-
+                    bgcolor: "beige",
                     transition: "all .4s ease",
                 }}
             >
                 <ListSubheader
-                    component={"div"}
-                    sx={{ textAlign: "center", fontSize: "1.7rem" }}
+                    component={Typography}
+                    sx={{
+                        textAlign: "center",
+                        fontSize: "1.2rem",
+
+                        w: "100%",
+                        bgcolor: "inherit",
+                    }}
                 >
                     Список игроков
                 </ListSubheader>
@@ -138,7 +145,7 @@ export function PlayersListView({
                         sx={{
                             bgcolor: p.ticket ? "#2db8e2d5" : "inherit",
                             borderRadius: 2,
-                            my: 1,
+                            mt: 1,
                         }}
                         selected={p.id === Number(selected)}
                     >
