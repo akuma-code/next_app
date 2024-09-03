@@ -24,7 +24,6 @@ async function MainPage({
             date_formated: true,
             pairs: true,
             players: { select: { id: true, name: true } },
-            eventInfo: false,
             _count: { select: { players: true, pairs: true } },
         },
         take: rpp,
@@ -38,7 +37,7 @@ async function MainPage({
             date_formated: true,
             pairs: false,
             players: false,
-            eventInfo: false,
+
             _count: { select: { players: true, pairs: true } },
         },
         {

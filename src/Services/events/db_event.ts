@@ -41,8 +41,8 @@ const defaultEventSelect = {
     players: { select: { id: true, name: true } },
     pairs: { select: { id: true, eventId: true, masterId: true, playerId: true } },
     isDraft: false,
-    eventInfo: false
-
+    cost: true
+    // 
 } satisfies Prisma.EventSelect
 
 
@@ -74,7 +74,7 @@ export async function getDBOneEventData<S extends Prisma.EventSelect<DefaultArgs
         const data = await db.findUniqueOrThrow({
             where: search,
             select: {
-                id: true, eventInfo: false,
+                id: true,
                 ...selected,
             }
 
@@ -158,7 +158,7 @@ export async function getDBManyEventsData(search?: PrismaGetManyEvents['where'],
             where: search,
             select: {
                 id: true,
-                eventInfo: false,
+
                 ...selected
             },
             ...config

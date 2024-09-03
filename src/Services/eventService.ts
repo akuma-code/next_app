@@ -7,6 +7,7 @@ import prisma from "@/client/client";
 import { db_events } from "@/dataStore/backup_db";
 import { getMasters } from "./masterService";
 import { getPlayers } from "./playerService";
+import { connectPlayerWithTicket } from "./tickets/ticketActions";
 
 export interface EventCreatePayload {
     event_date: string;
@@ -31,7 +32,10 @@ export interface EventUpdatePayload {
         players: { id: number; name: string }[];
         title?: string | null;
         isDraft?: boolean;
+        cost?: number
     };
+
+
 }
 function validateDate(date_to_valid: string) {
     const regex = /\d{2}_\d{2}_\d{4}/gi;
@@ -56,7 +60,7 @@ export async function eventCreate(payload: DTO_NewEvent) {
                 title: true,
                 players: true,
                 isDraft: true,
-                eventInfo: true,
+
                 pairs: true,
             },
         });
@@ -69,7 +73,7 @@ export async function eventCreate(payload: DTO_NewEvent) {
     }
 }
 
-export async function makeNewEvent(payload: DTO_NewEvent) {
+export async function makeNewEvent(payload: DTO_NewEvent, config = { cost: 1 }) {
     const { date_formated, players, title, isDraft = false } = payload;
     const existEvent = await prisma.event.findUnique({
         where: { date_formated },
@@ -79,7 +83,7 @@ export async function makeNewEvent(payload: DTO_NewEvent) {
         const { id } = existEvent;
         return await updateEventPlayers({
             id,
-            _new_data: { players, date_formated, title, isDraft },
+            _new_data: { players, date_formated, title, isDraft, cost: config.cost },
         });
     }
 
@@ -190,10 +194,10 @@ export async function disconnectPlayer(playerId: number, eventId: number) {
         throw error
     } finally { revalidatePath("/") }
 }
-export async function updateEventPlayers(payload: EventUpdatePayload) {
+export async function updateEventPlayers(payload: EventUpdatePayload,) {
     const { id, _new_data } = payload;
 
-    const { title, players, date_formated, isDraft } = _new_data;
+    const { title, players, date_formated, isDraft, cost } = _new_data;
     const _players = players.map((p) => ({ id: p.id, name: p.name }));
     try {
         const ev = await prisma.event.update({
@@ -205,6 +209,7 @@ export async function updateEventPlayers(payload: EventUpdatePayload) {
                 players: {
                     set: [],
                     connect: _players,
+
                 },
             },
         });
@@ -407,20 +412,27 @@ export async function connectPlayersToEvent(
     }
 }
 
-export async function connectOnePlayer(eventId: number, playerId: number) {
+export async function connectOnePlayer(eventId: number, playerId: number, cost?: number) {
     try {
+
+        if (cost) {
+            return await connectPlayerWithTicket({ id: eventId }, { cost, id: playerId })
+        }
         const p = await prisma.player.update({
             where: { id: playerId },
             data: {
                 events: {
                     connect: { id: eventId },
                 },
+
             },
             select: {
                 id: true,
                 name: true,
             },
         });
+
+
         return p;
     } catch (error) {
         console.log(error);

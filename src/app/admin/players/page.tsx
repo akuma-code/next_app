@@ -32,9 +32,7 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                 </Box>
                 <Stack gap={1} flexGrow={1} useFlexGap m={3} minWidth={170}>
                     <ShowCreateFormButton />
-                    <Link
-                        href={{ query: showDel ? null : { action: "delete" } }}
-                    >
+                    <Link href={{ query: showDel ? {} : { action: "delete" } }}>
                         <Button variant="contained" fullWidth>
                             Delete mode: {showDel ? "on" : "off"}
                         </Button>
@@ -50,7 +48,7 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
             </Stack>
             <Box flexGrow={1} mt={1}>
                 {showCreate && <CreatePlayerForm />}
-                {showEdit && <EditPlayerForm />}
+                {/* {showEdit && <EditPlayerForm />} */}
             </Box>
         </Stack>
     );

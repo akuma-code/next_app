@@ -1,0 +1,71 @@
+'use server'
+
+
+import prisma from "@/client/client";
+import { Prisma } from "@prisma/client";
+import { DefaultArgs, InternalArgs } from "@prisma/client/runtime/library";
+
+export type ATicketSelector = {
+    all: Prisma.TicketSelect<DefaultArgs>
+    main: Prisma.TicketSelectScalar
+
+}
+export type ATicket = Prisma.TicketGetPayload<{
+    select: {
+        uuid: true,
+        amount: true,
+        playerId: true,
+        event_dates: true,
+        player: { select: { id: true, name: true } },
+        eAt: true
+    }
+}>
+export async function ticketSelect<S extends keyof ATicketSelector>(type: keyof ATicketSelector = 'main') {
+    switch (type) {
+        case "main": { return { amount: true, event_dates: true, playerId: true, uuid: true } as ATicketSelector['main'] };
+        case "all": { return { amount: true, eAt: true, event_dates: true, player: true, playerId: true, uuid: true } as ATicketSelector['all'] }
+        default: { return { amount: true, event_dates: true, playerId: true, uuid: true } as ATicketSelector['main'] };
+    }
+}
+export async function getTickets<T extends Prisma.TicketFindManyArgs>(args: T) {
+    try {
+        const t = await prisma.ticket.findMany(args)
+        return t
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export async function getOneTicket<T extends InternalArgs = DefaultArgs>(args: Prisma.TicketFindUniqueArgs<T>) {
+
+    try {
+        const { where, select } = args;
+
+        const t = await prisma.ticket.findUnique({ where, select })
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function createTicket(args: Prisma.TicketCreateArgs) {
+    try {
+        const t = await prisma.ticket.create(args)
+        console.log("🚀 ~ created Ticket :", t)
+        return t
+    } catch (error) {
+        throw error
+    }
+}
+export async function deleteTicket(args: Prisma.TicketDeleteArgs) {
+    try {
+        const t = await prisma.ticket.delete(args)
+
+        console.log("🚀 ~ deleted Ticket :", t)
+        return t
+    } catch (error) {
+        throw error
+    }
+
+
+}

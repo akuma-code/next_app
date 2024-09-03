@@ -34,20 +34,20 @@ export default async function BackupPage({
                     title="Сохранить основные данные"
                     description="Сохранение данных по игрокам, тренировкам и парам на диск [без айдишников, только строки]"
                 />
-                <DescriptionButtonQuery
+                {/* <DescriptionButtonQuery
                     action={loadData.bind(null)}
                     title="Вытянуть данные"
                     description="Прочитать данные из data.json"
-                />
+                /> */}
                 <DescriptionButtonQuery
                     action={fetchServerBackup.bind(null)}
                     title="Вытянуть данные c сервера"
                     description="ссылка: https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup"
                 />
-                {/* <DescriptionButtonQuery
+                <DescriptionButtonQuery
                     action={sync_events_pairs.bind(null)}
                     title="Вытянуть events и создать их"
-                /> */}
+                />
             </Box>
         </MrtBoundary>
     );

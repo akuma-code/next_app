@@ -121,30 +121,7 @@ type P_PlayerIncludes = Partial<
   Record<keyof Prisma.$PlayerPayload["objects"], boolean>
 >;
 
-export async function getPlayers(includes?: P_PlayerIncludes): Promise<
-  ({
-    info: { uuid: string; rttf_score: number | null; playerId: number } | null;
-    events: {
-      id: number;
-      date_formated: string;
-      title: string | null;
-      isDraft: boolean | null;
-    }[];
-    profile: {
-      id: number;
-      name: string | null;
-      playerId: number | null;
-      userId: number;
-    } | null;
-    _count: { events: number };
-  } & {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    profileId: number | null;
-  })[]
-> {
+export async function getPlayers(includes?: P_PlayerIncludes) {
   let defaultInclude = {
     events: false,
     info: false,
@@ -158,6 +135,7 @@ export async function getPlayers(includes?: P_PlayerIncludes): Promise<
     const p = await prisma.player.findMany({
       include: {
         ...defaultInclude,
+        ticket: true,
         _count: { select: { events: true } },
       },
       orderBy: [
@@ -191,6 +169,7 @@ export async function getOnePlayer(id: number) {
         profileId: true,
         name: true,
         id: true,
+        ticket: true
       },
     });
     return p;
@@ -200,24 +179,31 @@ export async function getOnePlayer(id: number) {
   }
 }
 export async function getPlayerEvents(id: number) {
-  const db = prisma.player;
+  console.log({ id })
   try {
-    const p = await db.findUnique({
-      where: { id },
+    const db = prisma.player;
+    const p = await db.findUniqueOrThrow({
+      where: { id: id },
       select: {
         id: true,
         name: true,
+        ticket: true,
         events: {
           select: {
             date_formated: true,
             id: true,
+
           },
+          take: -10,
+
         },
+        _count: { select: { events: true } }
       },
     });
     return p;
   } catch (error) {
-    throw new Error("Find player's events error");
+    console.error(error)
+    throw error
   }
 }
 

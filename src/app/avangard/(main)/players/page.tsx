@@ -6,17 +6,17 @@ import { PlayersListView } from "./PlayersListView";
 import { MRTPlayers } from "@/ClientComponents/MRT/Avangard/MRTPlayers";
 
 async function AvPlayers(query: {
-    searchParams: { action: string; player_id: string; view: string };
+    searchParams: { action: string; player_id?: string; view: string };
 }) {
     const players = await getPlayers({
+        ticket: true,
+        pair: true,
         events: true,
-        info: true,
-        profile: true,
     });
     const view = query.searchParams.view;
     const playerId = query.searchParams.player_id;
-    const eid = playerId ? Number(playerId) : 0;
-    const ep = await getPlayerEvents(eid);
+
+    const ep = playerId ? await getPlayerEvents(+playerId) : undefined;
 
     return (
         <Stack
@@ -27,17 +27,17 @@ async function AvPlayers(query: {
             <Stack
                 justifyContent={"center"}
                 direction={{ sm: "column", md: "row" }}
-                gap={1}
+                gap={2}
             >
-                {!view || view === "list" ? (
+                {(view === "list" || !view) && (
                     <>
                         <PlayersListView
                             players={players}
-                            selected={playerId}
+                            selected={playerId || null}
                         />
-                        <PlayersEventList event_info={ep} />
+                        {ep && <PlayersEventList event_info={ep} />}
                     </>
-                ) : null}
+                )}
 
                 {view === "table" ? <MRTPlayers players={players} /> : null}
             </Stack>

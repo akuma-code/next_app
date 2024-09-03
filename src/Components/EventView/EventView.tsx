@@ -72,9 +72,9 @@ interface Pair {
     firstPlayerId: number;
     secondPlayerId: number;
 }
-type TEvent = IEvent_Front & { pairs: Pair[] };
+type TEvent = IEvent_Front & { pairs: Pair[]; cost: number };
 interface Eventinfo {
-    boxProps?: BoxProps;
+    boxProps?: BoxProps<"div">;
     event: TEvent;
     masters: { id: number; name: string }[];
 }
@@ -86,9 +86,9 @@ export const EventView: React.FC<Eventinfo> = ({
 }) => {
     const router = useRouter();
     const pathname = usePathname();
-    const { data } = useSession();
-    const { players, date_formated, title, _count, id, pairs } = event;
-    const { dd_mmmm, dd_mm_yyyy } = _dbDateParser(date_formated);
+    const session = useSession();
+    const { players, date_formated, title, _count, id, pairs, cost } = event;
+    const { dd_mm_yyyy } = _dbDateParser(date_formated);
     const [showConnect, connectAction] = useToggle();
     const [showCreate, createAction] = useToggle();
     const [showRemove, removeControl] = useToggle();
@@ -116,13 +116,6 @@ export const EventView: React.FC<Eventinfo> = ({
         event.players.find((p) => p.id === secondPlayerId);
     const master_ = (firstPlayerId: number) =>
         masters.find((m) => m.id === firstPlayerId);
-    const name_pairs = (pairs: Pair[]) => {
-        return pairs.map((pair) => ({
-            id: pair.id,
-            master: master_(pair.firstPlayerId),
-            player: player_(pair.secondPlayerId),
-        }));
-    };
 
     // const extendPairs = useMemo(() => name_pairs(event.pairs), [event])
 
@@ -154,6 +147,7 @@ export const EventView: React.FC<Eventinfo> = ({
             sx={{
                 borderRadius: 4,
                 minWidth: 330,
+                width: "fit-content",
                 maxWidth: 400,
                 border: "2px solid",
                 borderColor: "primary.dark",
@@ -171,27 +165,27 @@ export const EventView: React.FC<Eventinfo> = ({
                     alignItems: "center",
                     gap: 2,
                     justifyContent: "space-between",
-                    position: "relative",
+                    // position: "relative",
                 }}
             >
                 <EventButtons>
                     <SpeedDialAction
-                        tooltipOpen={isMobile}
+                        tooltipOpen={!isMobile}
+                        tooltipPlacement="right"
+                        icon={<Icon path={mdiSphereOff} size={0.8} />}
+                        tooltipTitle={"управление"}
+                        onClick={removeControl.toggle}
+                    />
+                    <SpeedDialAction
+                        tooltipOpen={!isMobile}
                         tooltipPlacement="right"
                         icon={<Icon path={mdiAccountPlusOutline} size={0.8} />}
                         tooltipTitle={"Новый игрок"}
                         onClick={toggleCreate}
                     />
-                    <SpeedDialAction
-                        tooltipOpen={isMobile}
-                        tooltipPlacement="right"
-                        icon={<Icon path={mdiSphereOff} size={0.8} />}
-                        tooltipTitle={"показать удаление"}
-                        onClick={removeControl.toggle}
-                    />
 
                     <SpeedDialAction
-                        tooltipOpen={isMobile}
+                        tooltipOpen={!isMobile}
                         tooltipPlacement="right"
                         icon={
                             <Icon
@@ -291,47 +285,55 @@ export const EventView: React.FC<Eventinfo> = ({
                                 py: 0.3,
                             }}
                         />
-
-                        <SelectPairButton>
-                            <MenuItem
-                                sx={{ justifyContent: "right" }}
-                                onClick={() => handleDeletePair(p.pair)}
-                            >
-                                <Avatar sx={{ bgcolor: "warning.light" }}>
-                                    X
-                                </Avatar>
-                            </MenuItem>
-
-                            {masters.map((m) => (
-                                <MenuItem
-                                    key={m.name}
-                                    onClick={() =>
-                                        handlePairChange(m, p.id, p.pair)
-                                    }
-                                >
-                                    <Avatar />
-                                    {m.name}
-                                </MenuItem>
-                            ))}
-                        </SelectPairButton>
                         {showRemove && (
-                            <IconButton
-                                hidden={showRemove}
-                                aria-label="remove player"
-                                title="remove"
-                                onClick={async () =>
-                                    await disconnectPlayer(p.id, id)
-                                }
-                                edge="end"
-                                color="error"
-                                sx={{ bgcolor: "darkgray" }}
-                            >
-                                <Icon
-                                    path={mdiAccountMinus}
-                                    size={1}
-                                    className="px-1 "
-                                />
-                            </IconButton>
+                            <>
+                                <SelectPairButton>
+                                    <MenuItem
+                                        sx={{ justifyContent: "right" }}
+                                        onClick={() => handleDeletePair(p.pair)}
+                                    >
+                                        <Avatar
+                                            sx={{ bgcolor: "warning.light" }}
+                                        >
+                                            X
+                                        </Avatar>
+                                    </MenuItem>
+
+                                    {masters.map((m) => (
+                                        <MenuItem
+                                            key={m.name}
+                                            onClick={() =>
+                                                handlePairChange(
+                                                    m,
+                                                    p.id,
+                                                    p.pair
+                                                )
+                                            }
+                                        >
+                                            <Avatar />
+                                            {m.name}
+                                        </MenuItem>
+                                    ))}
+                                </SelectPairButton>
+
+                                <IconButton
+                                    hidden={showRemove}
+                                    aria-label="remove player"
+                                    title="remove"
+                                    onClick={async () =>
+                                        await disconnectPlayer(p.id, id)
+                                    }
+                                    edge="end"
+                                    color="error"
+                                    sx={{ bgcolor: "darkgray" }}
+                                >
+                                    <Icon
+                                        path={mdiAccountMinus}
+                                        size={1}
+                                        className="px-1 "
+                                    />
+                                </IconButton>
+                            </>
                         )}
                     </ListItem>
                 ))}

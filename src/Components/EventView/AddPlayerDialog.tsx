@@ -5,6 +5,7 @@ import { _log } from "@/Helpers/helpersFns";
 import { useToggle } from "@/Hooks/useToggle";
 import { connectOnePlayer } from "@/Services/eventService";
 import { getPlayers } from "@/Services/playerService";
+import { connectPlayerWithTicket } from "@/Services/tickets/ticketActions";
 import { mdiAccountMultiplePlus, mdiDebian } from "@mdi/js";
 import Icon from "@mdi/react";
 import { AddCard } from "@mui/icons-material";
@@ -47,7 +48,11 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
     }
 
     async function handleConnectPlayer(eventId: number, playerId: number) {
-        const connect = connectOnePlayer.bind(null, eventId, playerId);
+        const connect = connectPlayerWithTicket.bind(
+            null,
+            { id: eventId },
+            { id: playerId, cost: 1 }
+        );
         await connect();
         off();
     }

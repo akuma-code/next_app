@@ -10,6 +10,7 @@ import { DayOfWeek } from "@/Helpers/dateFuncs";
 import { EventViewCard } from "@/Components/EventView/EventViewCard";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
+import { Prisma } from "@prisma/client";
 export interface IEvent_Front {
     id: number;
     date_formated: string;
@@ -17,6 +18,14 @@ export interface IEvent_Front {
     players: {
         id: number;
         name: string;
+        tikect?: Prisma.TicketGetPayload<{
+            select: {
+                amount: true;
+                uuid: true;
+                playerId: true;
+                event_dates: true;
+            };
+        }>;
     }[];
     _count?: { players: number };
 }
@@ -49,30 +58,30 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({
 
     return (
         <Box
-            maxWidth={ { sm: 450, md: 600 } }
-            bgcolor={ "background.paper" }
-            p={ 2 }
-            m={ 0 }
-            sx={ {
+            maxWidth={{ sm: 450, md: 600 }}
+            bgcolor={"background.paper"}
+            p={2}
+            m={0}
+            sx={{
                 borderBottomLeftRadius: 6,
                 borderBottomRightRadius: 6,
                 border: "2px solid black",
                 borderTop: 0,
                 textAlign: "center",
-            } }
+            }}
         >
             <Zoom
-                in={ !!events }
-                timeout={ 300 }
-            // unmountOnExit
+                in={!!events}
+                timeout={300}
+                // unmountOnExit
             >
                 <Fab
-                    aria-label={ "add event" }
-                    color={ "success" }
+                    aria-label={"add event"}
+                    color={"success"}
                     href="/avangard/events/create"
-                    LinkComponent={ Link }
+                    LinkComponent={Link}
                     variant="extended"
-                    sx={ { placeSelf: "center" } }
+                    sx={{ placeSelf: "center" }}
                 >
                     <AddIcon />
                     Начать новую тренировку
@@ -80,28 +89,28 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({
             </Zoom>
             <Grid
                 container
-                spacing={ 2 }
+                spacing={2}
                 // maxWidth={ { xs: 300, md: 450, lg: 600 } }
-                maxHeight={ { sm: "60vh", md: "70vh" } }
-                sx={ { pt: 1, pr: 2, overflowY: "scroll" } }
+                maxHeight={{ sm: "60vh", md: "70vh" }}
+                sx={{ pt: 1, pr: 2, overflowY: "scroll" }}
             >
-                { events.map((e) => (
+                {events.map((e) => (
                     <Grid
-                        key={ e.id }
+                        key={e.id}
                         item
-                        sm={ 6 }
-                        md={ 4 }
-                        xl={ 3 }
-                        maxWidth={ { sm: 300 } }
+                        sm={6}
+                        md={4}
+                        xl={3}
+                        maxWidth={{ sm: 300 }}
                     >
                         <EventViewCard
-                            event={ e }
-                            title={ dm(e.date_formated) }
-                            subtitle={ dayjs().year().toString() }
-                            description={ dayWeek(e.date_formated) }
+                            event={e}
+                            title={dm(e.date_formated)}
+                            subtitle={dayjs().year().toString()}
+                            description={dayWeek(e.date_formated)}
                         />
                     </Grid>
-                )) }
+                ))}
             </Grid>
         </Box>
     );

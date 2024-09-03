@@ -214,7 +214,7 @@ const defaultEventSelect = {
     players: { select: { id: true, name: true } },
     pairs: { select: { id: true, eventId: true, masterId: true, playerId: true } },
     isDraft: false,
-    eventInfo: false
+
 
 } satisfies Prisma.EventSelect
 

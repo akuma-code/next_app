@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  previewFeatures = ["driverAdapters", "omitApi"]
 }
 
 datasource db {
@@ -14,14 +14,26 @@ model Player {
   name      String
   info      Info?
   events    Event[]  @relation("EventToPlayer")
-  profile   Profile?
   profileId Int?     @unique
+  profile   Profile?
+  ticket    Ticket?
+
+  pair      Pair[]
+  pair2     Pair2[]
   createdAt DateTime @default(now()) @map("cAt")
   updatedAt DateTime @updatedAt @map("uAt")
-  // Profile   Profile?
-  pair      Pair[]
 
   @@map("players")
+}
+
+model Ticket {
+  uuid        String   @id @default(uuid())
+  amount      Int      @default(0)
+  eAt         String   @default("never")
+  event_dates String[]
+
+  playerId Int    @unique
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
 }
 
 model Partner {
@@ -41,9 +53,11 @@ model Event {
   date_formated String     @unique @map("date")
   title         String?    @default("Тренировка")
   isDraft       Boolean?   @default(false)
-  eventInfo     EventInfo?
+  eventInfo     EventInfo? @ignore
+  cost          Int?       @default(1)
   pairs         Pair[]
   players       Player[]   @relation("EventToPlayer")
+  pairs2        Pair2[]
 
   @@map("events")
 }
@@ -56,10 +70,20 @@ model Pair {
   playerId       Int
   eventId        Int
   master         Master? @relation(fields: [masterId], references: [id])
-  player         Player  @relation(fields: [playerId], references: [id])
+  player         Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
   event          Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@map("pairs")
+}
+
+model Pair2 {
+  id          Int     @id @default(autoincrement())
+  playerId    Int
+  eventId     Int
+  played_with String?
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  event  Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model EventInfo {
