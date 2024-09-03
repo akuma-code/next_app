@@ -9,7 +9,6 @@ export function eventSelect(type: EventSelectorType = "standart") {
         id: true,
         date_formated: true,
         title: true,
-        eventInfo: false,
         pairs: true,
         players: { select: { id: true, name: true } }
     } satisfies Prisma.EventSelect
@@ -18,7 +17,6 @@ export function eventSelect(type: EventSelectorType = "standart") {
         id: true,
         date_formated: true,
         title: true,
-        eventInfo: false,
         pairs: true,
         players: { select: { id: true, name: true } }
     } satisfies Prisma.EventSelect
