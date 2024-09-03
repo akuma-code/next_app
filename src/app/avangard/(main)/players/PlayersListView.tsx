@@ -43,20 +43,23 @@ export function PlayersListView({
             name: p.name,
             isSelected: p.id.toString() === selected,
         }));
-    }, [selected]);
+    }, [selected, players]);
     const query = useQuerySearch();
     const getHref = (player_id: number) =>
         "?" + query("player_id", player_id.toString());
 
-    const handleSearch = useCallback((e: SyntheticEvent, v: string | null) => {
-        setSearch((prev) => v);
-        if (v) {
-            const search_id = selected ? +selected : null;
-            const pl = players.find((p) => p.id === search_id);
+    const handleSearch = useCallback(
+        (e: SyntheticEvent, v: string | null) => {
+            setSearch((prev) => v);
+            if (v) {
+                const search_id = selected ? +selected : null;
+                const pl = players.find((p) => p.id === search_id);
 
-            select_player(pl ? pl : null);
-        }
-    }, []);
+                select_player(pl ? pl : null);
+            }
+        },
+        [selected, players]
+    );
     const filtered_list = useMemo(
         () => players.filter((p) => p.name.includes(search ?? "")),
         [search]

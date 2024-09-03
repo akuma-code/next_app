@@ -69,7 +69,6 @@ export const default_event_select: Prisma.EventSelect<DefaultArgs> = {
     pairs: true,
     players: true,
     title: true,
-    eventInfo: false
 }
 export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail>
 
