@@ -9,7 +9,6 @@ const eventsCache = cache(async () => {
             include: {
                 players: true,
                 pairs: true,
-                eventInfo: true
             },
         })
         const pairs = await db.pair.findMany({
