@@ -3,7 +3,15 @@
 import { _log } from "@/Helpers/helpersFns";
 import { stringToColor } from "@/Helpers/stringToColor";
 import { OpenInFullTwoTone } from "@mui/icons-material";
-import { Box, Button, Fab, Grid, Zoom } from "@mui/material";
+import {
+    Box,
+    Button,
+    Fab,
+    Grid,
+    SpeedDial,
+    SpeedDialAction,
+    Zoom,
+} from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import { DayOfWeek } from "@/Helpers/dateFuncs";
@@ -11,6 +19,7 @@ import { EventViewCard } from "@/Components/EventView/EventViewCard";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
+import { QuickEventCreate } from "@/app/avangard/(main)/_components/QuickEventCreate";
 export interface IEvent_Front {
     id: number;
     date_formated: string;
@@ -70,12 +79,7 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({
                 textAlign: "center",
             }}
         >
-            <Zoom
-                in={!!events}
-                timeout={300}
-                // unmountOnExit
-            >
-                <Fab
+            {/* <Fab
                     aria-label={"add event"}
                     color={"success"}
                     href="/avangard/events/create"
@@ -85,8 +89,7 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({
                 >
                     <AddIcon />
                     Начать новую тренировку
-                </Fab>
-            </Zoom>
+                </Fab> */}
             <Grid
                 container
                 spacing={2}
@@ -94,6 +97,9 @@ export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({
                 maxHeight={{ sm: "60vh", md: "70vh" }}
                 sx={{ pt: 1, pr: 2, overflowY: "scroll" }}
             >
+                <Grid item sx={{ position: "relative" }} sm={2}>
+                    <QuickEventCreate></QuickEventCreate>
+                </Grid>
                 {events.map((e) => (
                     <Grid
                         key={e.id}

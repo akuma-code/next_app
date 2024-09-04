@@ -1,50 +1,19 @@
 "use client";
 
 import { useToggle } from "@/Hooks/useToggle";
-import { connectOnePlayer } from "@/Services/eventService";
-import { createPlayer } from "@/Services/playerService";
-import {
-    mdiAccountMultiplePlus,
-    mdiAccountPlusOutline,
-    mdiStickerEmoji,
-} from "@mdi/js";
+import { mdiStickerEmoji } from "@mdi/js";
 import Icon from "@mdi/react";
 import { SettingsTwoTone } from "@mui/icons-material";
-import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
-import PrintIcon from "@mui/icons-material/Print";
-import SaveIcon from "@mui/icons-material/Save";
-import ShareIcon from "@mui/icons-material/Share";
 import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import * as React from "react";
 
-const actions = [
-    { icon: <FileCopyIcon />, name: "Copy" },
-    { icon: <SaveIcon />, name: "Save" },
-    { icon: <PrintIcon />, name: "Print" },
-    { icon: <ShareIcon />, name: "Share" },
-];
-
-const eventActions = [
-    {
-        icon: <Icon path={mdiAccountPlusOutline} size={0.8} />,
-        name: "create",
-        action: createPlayer.bind(null),
-    },
-    {
-        icon: <Icon path={mdiAccountMultiplePlus} size={0.8} />,
-        name: "add",
-        action: connectOnePlayer.bind(null),
-    },
-];
-
 type ActionProps = {
     children?: React.ReactNode;
-    backdrop?: boolean;
 };
-export function EventButtons({ children, backdrop }: ActionProps) {
+export function EventButtons({ children }: ActionProps) {
     const [drop, c] = useToggle(false);
     return (
         <Box

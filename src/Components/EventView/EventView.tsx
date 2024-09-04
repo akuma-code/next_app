@@ -50,6 +50,7 @@ import {
     mdiCheck,
     mdiClose,
     mdiConnection,
+    mdiSphere,
     mdiSphereOff,
 } from "@mdi/js";
 import { AddPlayerSpeedDialog } from "./AddPlayerSpeedDial";
@@ -172,7 +173,7 @@ export const EventView: React.FC<Eventinfo> = ({
                     <SpeedDialAction
                         tooltipOpen={!isMobile}
                         tooltipPlacement="right"
-                        icon={<Icon path={mdiSphereOff} size={0.8} />}
+                        icon={<Icon path={mdiSphere} size={0.8} />}
                         tooltipTitle={"управление"}
                         onClick={removeControl.toggle}
                     />
