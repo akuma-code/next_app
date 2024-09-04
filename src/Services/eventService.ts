@@ -74,21 +74,25 @@ export async function eventCreate(payload: DTO_NewEvent) {
 }
 
 export async function makeNewEvent(payload: DTO_NewEvent, config = { cost: 1 }) {
-    const { date_formated, players, title, isDraft = false } = payload;
-    const existEvent = await prisma.event.findUnique({
-        where: { date_formated },
-    });
-
-    if (existEvent) {
-        const { id } = existEvent;
-        return await updateEventPlayers({
-            id,
-            _new_data: { players, date_formated, title, isDraft, cost: config.cost },
+    try {
+        const { date_formated, players, title, isDraft = false } = payload;
+        const existEvent = await prisma.event.findUnique({
+            where: { date_formated },
         });
-    }
 
-    const e = await eventCreate(payload);
-    return e;
+        if (existEvent) {
+            const { id } = existEvent;
+            return await updateEventPlayers({
+                id,
+                _new_data: { players, date_formated, title, isDraft, cost: config.cost },
+            });
+        }
+
+        const e = await eventCreate(payload);
+        return e;
+    } catch (error) {
+        throw error
+    } finally { revalidatePath("/") }
 }
 
 export async function seedEvents(mock?: typeof db_events) {
