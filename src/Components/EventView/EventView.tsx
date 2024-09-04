@@ -5,6 +5,7 @@ import { IEvent_Front, avatarColor } from "@/ClientComponents/EventsList";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
 import { name_letters } from "@/Helpers/stringFns";
 import {
+    act,
     addPair,
     removePair,
     updatePair,
@@ -383,9 +384,7 @@ const ConnectDialog = ({
     }
 
     async function handleConnectPlayer(eventId: number, playerId: number) {
-        const connect = connectOnePlayer.bind(null, eventId, playerId);
-        await connect();
-        onClose();
+        return connectOnePlayer.bind(null, eventId, playerId, 1);
     }
 
     if (q.isLoading) return <LinearProgress />;

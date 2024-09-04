@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from "@/client/client"
-import { DTO_NewEvent, eventCreate, updateEventPlayers } from "../eventService";
+import { connectOnePlayer, DTO_NewEvent, eventCreate, updateEventPlayers } from "../eventService";
 import { revalidatePath } from "next/cache";
 import { _log } from "@/Helpers/helpersFns";
 import { Prisma } from "@prisma/client";
@@ -179,7 +179,12 @@ export async function editOneEvent(search: EditEventDto['search'], new_data: Edi
     }
 
 }
+export async function act(eventId: number, playerId: number, onClose: () => void) {
 
+    const connect = await connectOnePlayer(eventId, playerId);
+    return connect
+    onClose()
+}
 export async function upsertPair(where: Prisma.PairWhereUniqueInput, data: { eventId: number, pairId: number | null, playerId: number, masterId: number | null, id?: number | null }) {
     const p = prisma.pair
     const { eventId, masterId, pairId, playerId, id } = data
