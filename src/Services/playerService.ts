@@ -121,15 +121,14 @@ type P_PlayerIncludes = Partial<
   Record<keyof Prisma.$PlayerPayload["objects"], boolean>
 >;
 
-export async function getPlayers(includes?: P_PlayerIncludes) {
+export async function getPlayers(includes?: Prisma.PlayerInclude) {
   let defaultInclude = {
-    events: false,
+    events: true,
     info: false,
     profile: false,
-  };
-  if (includes) {
-    defaultInclude = { ...defaultInclude, ...includes };
-  }
+    ticket: true
+  } satisfies Prisma.PlayerInclude;
+
 
   try {
     const p = await prisma.player.findMany({
@@ -178,8 +177,7 @@ export async function getOnePlayer(id: number) {
     throw new Error("findone error");
   }
 }
-export async function getPlayerEvents(id: number) {
-  console.log({ id })
+export async function getPlayerEvents(id: number, config = { take: 10 }) {
   try {
     const db = prisma.player;
     const p = await db.findUniqueOrThrow({
@@ -194,7 +192,7 @@ export async function getPlayerEvents(id: number) {
             id: true,
 
           },
-          take: -10,
+          take: -config.take,
 
         },
         _count: { select: { events: true } }
