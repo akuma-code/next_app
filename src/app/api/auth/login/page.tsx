@@ -20,11 +20,11 @@ async function SignInPage() {
                     action={async (fd) => {
                         "use server";
                         try {
-                            await signIn("credentials", fd);
+                            await signIn("credentials", fd).then(() =>
+                                redirect("/avangard/events")
+                            );
                         } catch (error) {
                             console.error(error);
-                        } finally {
-                            redirect("/avangard/events");
                         }
                     }}
                 >

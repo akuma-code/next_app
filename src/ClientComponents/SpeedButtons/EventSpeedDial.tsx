@@ -18,10 +18,12 @@ export function EventButtons({ children }: ActionProps) {
     return (
         <Box
             sx={{
-                transform: "translateZ(10px)",
+                transform: "translateZ(-10px)",
                 flexGrow: 0,
                 zIndex: 30,
                 width: 50,
+                height: 50,
+                position: "relative",
             }}
         >
             <SpeedDial
@@ -29,7 +31,7 @@ export function EventButtons({ children }: ActionProps) {
                 ariaLabel="Fast actions"
                 sx={{
                     position: "absolute",
-                    top: -30,
+                    top: 0,
                     right: 0,
                     bgcolor: (t) =>
                         drop ? alpha(t.palette.primary.main, 0.7) : "inherit",

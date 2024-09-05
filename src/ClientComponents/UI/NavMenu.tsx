@@ -21,8 +21,8 @@ export const NavMenu = ({
     const { data, status } = useSession();
     const { toggleColorMode } = useContext(ColorModeContext);
     const [open, { on, off }] = useToggle();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [p, start] = useTransition();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         on();
         setAnchorEl(event.currentTarget);

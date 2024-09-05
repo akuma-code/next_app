@@ -1,13 +1,8 @@
-import { LoggerButton } from "@/ClientComponents/UI/Logger";
 import { EventView } from "@/Components/EventView/EventView";
-import { reduceArrayToObject, reducePairs } from "@/Helpers/reduceToObject";
-import { getEventPairs } from "@/Services/events/eventActions";
+import { reduceArrayToObject } from "@/Helpers/reduceToObject";
 import { getEventById } from "@/Services/eventService";
 import { getMasters } from "@/Services/masterService";
 import { Box } from "@mui/material";
-import { playersRecord } from "@/utils/playersList";
-import EventView_v2 from "@/Components/EventView/EventView_v2";
-import { getDBOneEventData } from "@/Services/events/db_event";
 
 const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     params,

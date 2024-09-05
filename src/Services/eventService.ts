@@ -1,13 +1,12 @@
 "use server";
 
+import prisma from "@/client/client";
+import { db_events } from "@/dataStore/backup_db";
 import { _formated_date } from "@/Helpers/dateFuncs";
 import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
-import prisma from "@/client/client";
-import { db_events } from "@/dataStore/backup_db";
 import { getMasters } from "./masterService";
 import { getPlayers } from "./playerService";
-import { connectPlayerWithTicket } from "./tickets/ticketActions";
 
 export interface EventCreatePayload {
     event_date: string;
@@ -29,16 +28,16 @@ export interface EventUpdatePayload {
     id: number;
     _new_data: {
         date_formated?: string;
-        players: { id: number; name: string }[];
+        players: { id: number; name: string, ticket?: any | null }[];
         title?: string | null;
         isDraft?: boolean;
-        cost?: number
+        cost?: number | null
     };
 
 
 }
 function validateDate(date_to_valid: string) {
-    const regex = /\d{2}_\d{2}_\d{4}/gi;
+    const regex = /\d{2}-\d{2}-\d{4}/gi;
     const isValid = regex.test(date_to_valid);
     _log("__date: ", date_to_valid, { isValid });
     return isValid;
@@ -245,21 +244,7 @@ export async function getEventsUnique(date?: string) {
     }
 }
 
-async function getEventsWithPlayers() {
-    const ev = await prisma.event.findMany({
-        where: { players: {} },
 
-        select: {
-            date_formated: true,
-            id: true,
-            players: true,
-            _count: { select: { players: true } },
-        },
-        orderBy: { date_formated: "asc" },
-    });
-
-    return ev;
-}
 
 export async function getEventsByMonth(
     month?: string,
@@ -337,10 +322,11 @@ export async function getEventById(eventId: string) {
                 id: true,
                 date_formated: true,
                 title: true,
-                players: true,
+                players: { select: { id: true, name: true, ticket: true, } },
                 _count: { select: { players: true } },
                 isDraft: true,
                 pairs: true,
+                cost: true
             },
         });
         return event;
@@ -416,12 +402,10 @@ export async function connectPlayersToEvent(
     }
 }
 
-export async function connectOnePlayer(eventId: number, playerId: number, cost?: number) {
+export async function connectOnePlayer(eventId: number, playerId: number) {
     try {
 
-        if (cost) {
-            return await connectPlayerWithTicket({ id: eventId }, { cost, id: playerId, })
-        }
+
         const p = await prisma.player.update({
             where: { id: playerId },
             data: {

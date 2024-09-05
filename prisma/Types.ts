@@ -1,3 +1,5 @@
+'use client'
+
 import { getOneUserByEmail } from "@/Services/userService";
 import { Prisma } from "@prisma/client";
 import { DefaultArgs, InternalArgs, ModelArgs, ResultArgs } from "@prisma/client/runtime/library";
@@ -51,7 +53,7 @@ export type PrismaPlayer = {
         //   title: string | null;
     }[]
     | [];
-    info?: { uuid: string; rttf_score: number | null; playerId: number } | null;
+    // info?: { uuid: string; rttf_score: number | null; playerId: number } | null;
     profile: {
         id: number;
         name: string | null;
@@ -63,13 +65,15 @@ export type PrismaPlayer = {
     };
 };
 
-export const default_event_select: Prisma.EventSelect<DefaultArgs> = {
-    date_formated: true,
+export const default_event_select = {
     id: true,
+    date_formated: true,
     pairs: true,
-    players: true,
+    pairs2: false,
+    players: { select: { id: true, name: true, ticket: true, events: true } },
     title: true,
-}
+    cost: true,
+} satisfies Prisma.EventSelect
 export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail>
 
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput

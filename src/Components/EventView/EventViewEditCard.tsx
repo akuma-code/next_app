@@ -1,6 +1,6 @@
 "use client";
 
-import { IEvent_Front } from "@/ClientComponents/EventsList";
+import { IEvent_Front, IEvent_Front_ } from "@/ClientComponents/EventsList";
 import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 import { _log } from "@/Helpers/helpersFns";
 import { name_letters } from "@/Helpers/stringFns";
@@ -30,24 +30,26 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 
 interface EditEventCardProps {
-    event: IEvent_Front;
+    event: IEvent_Front_;
     buttonVariant?: "base" | "icon";
     // ExtendButtonBase<IconButtonTypeMap<{}, "button">>
 }
 
 type AcValueChangeHandler = (
     event: SyntheticEvent<Element, Event>,
-    value: { id: number; name: string }[],
+    value: { id: number; name: string; ticket?: any }[],
     reason: AutocompleteChangeReason,
-    details?:
-        | AutocompleteChangeDetails<{ id: number; name: string }>
-        | undefined
+    details?: AutocompleteChangeDetails<{
+        id: number;
+        name: string;
+        ticket?: any;
+    }>
 ) => void | undefined;
 export const EventViewEditCard: React.FC<EditEventCardProps> = ({
     event,
     buttonVariant = "base",
 }) => {
-    const { id, date_formated, players, title } = event;
+    const { id, date_formated, players, title, cost } = event;
     const [ev, setEvent] = useState(event);
     const r = useRouter();
     const [isChanging, { on, off }] = useToggle(false);
@@ -75,10 +77,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
         reason,
         details
     ) => {
-        // _log({ reason })
-        // _log({ details })
-        // change_control.on()
-        setAcSelect((prev) => new_value);
+        setAcSelect(new_value);
     };
     const ac_options = useMemo(() => all_players, [all_players]);
     const handleSubmitEvent = async () => {
@@ -87,6 +86,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
             ...ev,
             players: ac_select,
             date_formated: _formated_date(eventDate),
+            cost: cost || 1,
         };
 
         _log({ event_data });

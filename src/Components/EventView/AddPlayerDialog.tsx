@@ -4,9 +4,9 @@ import LoadSpinner from "@/app/avangard/loading";
 import { _log } from "@/Helpers/helpersFns";
 import { useToggle } from "@/Hooks/useToggle";
 import { connectOnePlayer } from "@/Services/eventService";
-import { getPlayers } from "@/Services/playerService";
+import { getOnePlayer, getPlayers } from "@/Services/playerService";
 import { connectPlayerWithTicket } from "@/Services/tickets/ticketActions";
-import { mdiAccountMultiplePlus, mdiDebian } from "@mdi/js";
+import { mdiAccountMultiplePlus, mdiCashMinus, mdiDebian } from "@mdi/js";
 import Icon from "@mdi/react";
 import { AddCard } from "@mui/icons-material";
 import {
@@ -27,6 +27,7 @@ interface AddPlayerProps {
 }
 async function fetchPlayers() {
     const players = await getPlayers();
+    console.table(players);
     return players;
 }
 export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
@@ -37,8 +38,8 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
     const eventIds = event_players.map((p) => p.id);
 
     const q = useQuery({
-        queryKey: ["players", "all"],
-        queryFn: fetchPlayers,
+        queryKey: ["players", "id"],
+        queryFn: async (key) => await fetchPlayers(),
         placeholderData: keepPreviousData,
         select: (data) => data.filter((d) => !eventIds.includes(d.id)),
     });
@@ -51,7 +52,7 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
         const connect = connectPlayerWithTicket.bind(
             null,
             { id: eventId },
-            { id: playerId, cost: 1 }
+            { playerId: playerId, cost: 1 }
         );
         await connect();
         off();
@@ -88,6 +89,7 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
                                 onClick={() =>
                                     handleConnectPlayer(event_id, p.id)
                                 }
+                                endIcon={p.ticket? <Icon path={mdiCashMinus}/>:null}
                             >
                                 {p.name}
                             </Button>

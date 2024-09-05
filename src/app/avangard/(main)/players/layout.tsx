@@ -6,10 +6,9 @@ import { EventHeader } from "@/Components/Nav/EventsHeader";
 
 async function PlayersLayout({ children }: { children: React.ReactNode }) {
     return (
-        <Box p={ 2 }>
-
-            <EventHeader />
-            { children }
+        <Box p={2}>
+            {/* <EventHeader /> */}
+            {children}
         </Box>
     );
 }

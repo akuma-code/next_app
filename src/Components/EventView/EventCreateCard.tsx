@@ -6,24 +6,22 @@ import { _log } from "@/Helpers/helpersFns";
 import { name_letters } from "@/Helpers/stringFns";
 import { useGetAllPlayers } from "@/Hooks/useGetEventPlayers";
 import { deleteEvent, makeNewEvent } from "@/Services/eventService";
+import { mdiAccountCashOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 import {
     Autocomplete,
     AutocompleteChangeDetails,
     AutocompleteChangeReason,
     Avatar,
-    Box,
     Button,
     ButtonGroup,
     Card,
     CardActions,
     CardContent,
     CardHeader,
-    Checkbox,
     Chip,
     FormControl,
     FormLabel,
-    ListItem,
-    ListItemButton,
     Stack,
     TextField,
     ToggleButton,
@@ -34,8 +32,6 @@ import dayjs, { Dayjs } from "dayjs";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 import { IPlayer } from "./EventBlank";
-import Icon from "@mdi/react";
-import { mdiAccountCashOutline, mdiBiohazard, mdiCurrencyUsd } from "@mdi/js";
 
 interface CreateEventCardProps {
     // ExtendButtonBase<IconButtonTypeMap<{}, "button">>
@@ -43,10 +39,14 @@ interface CreateEventCardProps {
 
 type AcValueChangeHandler = (
     event: SyntheticEvent<Element, Event>,
-    value: { id: number; name: string }[],
+    value: { id: number; name: string; ticket?: any | null }[],
     reason: AutocompleteChangeReason,
     details?:
-        | AutocompleteChangeDetails<{ id: number; name: string }>
+        | AutocompleteChangeDetails<{
+              id: number;
+              name: string;
+              ticket?: any | null;
+          }>
         | undefined
 ) => void | undefined;
 
