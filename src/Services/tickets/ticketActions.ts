@@ -7,7 +7,7 @@ import { _dbDateParser } from "@/Helpers/dateFuncs"
 import dayjs from "dayjs"
 import { revalidatePath } from "next/cache"
 
-export async function createTicketForPlayer({ playerId, new_ticket = { amount: 0, eAt: 'never' } }: { playerId: number, new_ticket: { amount: number, eAt?: string } }) {
+export async function createTicketForPlayer({ playerId, new_ticket = { amount: 10, eAt: 'never' } }: { playerId: number, new_ticket: { amount: number, eAt?: string } }) {
     // const p = await prisma.player.findUnique({ where: { id: playerId }, select: { ticket: true, id: true } })
     try {
         const { amount, eAt } = new_ticket
@@ -48,7 +48,7 @@ export async function ticketCountPlus(where: Prisma.TicketFindUniqueArgs['where'
             where,
             data: {
                 amount: { increment: amount },
-                event_dates: { push: date }
+                // event_dates: { push: date }
             }
         })
 
@@ -62,12 +62,12 @@ export async function ticketCountPlus(where: Prisma.TicketFindUniqueArgs['where'
 }
 
 
-export async function connectPlayerWithTicket(where: Prisma.EventUpdateArgs['where'], data: { id: number, cost: number, date?: string }) {
+export async function connectPlayerWithTicket(where: Prisma.EventUpdateArgs['where'], data: { playerId: number, cost: number, date?: string }) {
 
     try {
         const date = data.date ? data.date : dayjs().format("YYYY-MM-DD")
         const p = await prisma.player.update({
-            where: { id: data.id }, data: {
+            where: { id: data.playerId }, data: {
                 events: {
                     connect: {
                         id: where.id,
@@ -79,7 +79,7 @@ export async function connectPlayerWithTicket(where: Prisma.EventUpdateArgs['whe
                     upsert:
                     {
                         create: {
-                            amount: data.cost
+                            event_dates: { set: [data.date || ""] }
                         },
                         update: {
                             amount: {
@@ -88,7 +88,7 @@ export async function connectPlayerWithTicket(where: Prisma.EventUpdateArgs['whe
                             event_dates: { push: date },
                         },
                         where: {
-                            playerId: data.id
+                            playerId: data.playerId
                         }
                     }
                 },

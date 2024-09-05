@@ -20,25 +20,35 @@ import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { QuickEventCreate } from "@/app/avangard/(main)/_components/QuickEventCreate";
-export interface IEvent_Front {
+export interface IEvent_Front_ {
     id: number;
     date_formated: string;
     title?: string | null;
     players: {
         id: number;
         name: string;
-        tikect?: Prisma.TicketGetPayload<{
+        ticket?: Prisma.TicketGetPayload<{
             select: {
                 amount: true;
                 uuid: true;
                 playerId: true;
                 event_dates: true;
             };
-        }>;
+        }> | null;
     }[];
     _count?: { players: number };
 }
-
+export type IEvent_Front = Prisma.EventGetPayload<{
+    select: {
+        id: true;
+        date_formated: true;
+        players: { select: { id: true; name: true; ticket: true } };
+        pairs: true;
+        cost: true;
+        title: true;
+        _count: { select: { players: true } };
+    };
+}>;
 export const avatarColor = (numb: number) => {
     const colors = {
         xs: "#00771a",
@@ -55,9 +65,19 @@ export const avatarColor = (numb: number) => {
     return colors.md;
 };
 
-export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({
-    events,
-}) => {
+export const EventsList: React.FC<{
+    events: Prisma.EventGetPayload<{
+        select: {
+            id: true;
+            date_formated: true;
+            players: { select: { id: true; name: true; ticket: true } };
+            pairs: true;
+            cost: true;
+            title: true;
+            _count: { select: { players: true } };
+        };
+    }>[];
+}> = ({ events }) => {
     const d = (date: string) => date.replaceAll("_", ".");
     const dm = (date: string) =>
         dayjs(date, "YYYY-MM-DD", "ru").format("DD MMMM");
