@@ -89,6 +89,7 @@ export const AppHeader: React.FC = async () => {
                     </Box>
                 </Suspense>
             </Toolbar>
+            {/* <Toolbar /> */}
         </AppBar>
     );
 };

@@ -1,4 +1,5 @@
 import { AppHeader } from "@/Components/Nav/AppHeaderNavbar";
+import { NavigationBar } from "@/Components/Nav/NavigationBar";
 
 export default async function Template({
     children,
@@ -7,7 +8,8 @@ export default async function Template({
 }) {
     return (
         <>
-            <AppHeader />
+            {/* <AppHeader /> */}
+            <NavigationBar />
             {children}
         </>
     );

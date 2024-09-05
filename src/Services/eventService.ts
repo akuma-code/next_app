@@ -38,7 +38,7 @@ export interface EventUpdatePayload {
 
 }
 function validateDate(date_to_valid: string) {
-    const regex = /\d{2}_\d{2}_\d{4}/gi;
+    const regex = /\d{2}-\d{2}-\d{4}/gi;
     const isValid = regex.test(date_to_valid);
     _log("__date: ", date_to_valid, { isValid });
     return isValid;

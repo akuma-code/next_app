@@ -21,10 +21,9 @@ async function SignInPage() {
                         "use server";
                         try {
                             await signIn("credentials", fd);
+                            redirect("/avangard/events");
                         } catch (error) {
                             console.error(error);
-                        } finally {
-                            redirect("/avangard/events");
                         }
                     }}
                 >
