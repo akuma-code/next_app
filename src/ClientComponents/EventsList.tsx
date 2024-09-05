@@ -23,6 +23,7 @@ export interface IEvent_Front_ {
             };
         }> | null;
     }[];
+    cost?: number;
     _count?: { players: number };
 }
 export type IEvent_Front = Prisma.EventGetPayload<{

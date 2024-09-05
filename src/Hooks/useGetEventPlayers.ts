@@ -10,6 +10,7 @@ export default function useGetEventPlayers(date?: string) {
     const [players, setPlayers] = useState<{
         id: number;
         name: string;
+        ticket?: any
         createdAt: Date;
         updatedAt: Date;
     }[]>([])
@@ -32,7 +33,7 @@ export function useGetAllPlayers() {
     const [players, setPlayers] = useState<{
         id: number;
         name: string;
-        ticket: any | null
+        ticket?: any | null
     }[]>([])
 
     useEffect(() => {

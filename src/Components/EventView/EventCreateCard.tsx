@@ -25,7 +25,7 @@ import {
     Stack,
     TextField,
     ToggleButton,
-    Typography
+    Typography,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
@@ -39,10 +39,14 @@ interface CreateEventCardProps {
 
 type AcValueChangeHandler = (
     event: SyntheticEvent<Element, Event>,
-    value: { id: number; name: string }[],
+    value: { id: number; name: string; ticket?: any | null }[],
     reason: AutocompleteChangeReason,
     details?:
-        | AutocompleteChangeDetails<{ id: number; name: string }>
+        | AutocompleteChangeDetails<{
+              id: number;
+              name: string;
+              ticket?: any | null;
+          }>
         | undefined
 ) => void | undefined;
 

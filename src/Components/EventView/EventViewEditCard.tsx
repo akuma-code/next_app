@@ -1,6 +1,6 @@
 "use client";
 
-import { IEvent_Front } from "@/ClientComponents/EventsList";
+import { IEvent_Front, IEvent_Front_ } from "@/ClientComponents/EventsList";
 import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 import { _log } from "@/Helpers/helpersFns";
 import { name_letters } from "@/Helpers/stringFns";
@@ -30,22 +30,20 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 
 interface EditEventCardProps {
-    event: IEvent_Front;
+    event: IEvent_Front_;
     buttonVariant?: "base" | "icon";
     // ExtendButtonBase<IconButtonTypeMap<{}, "button">>
 }
 
 type AcValueChangeHandler = (
     event: SyntheticEvent<Element, Event>,
-    value: { id: number; name: string; ticket: any | null }[],
+    value: { id: number; name: string; ticket?: any }[],
     reason: AutocompleteChangeReason,
-    details?:
-        | AutocompleteChangeDetails<{
-              id: number;
-              name: string;
-              ticket: any | null;
-          }>
-        | undefined
+    details?: AutocompleteChangeDetails<{
+        id: number;
+        name: string;
+        ticket?: any;
+    }>
 ) => void | undefined;
 export const EventViewEditCard: React.FC<EditEventCardProps> = ({
     event,
@@ -79,9 +77,6 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
         reason,
         details
     ) => {
-        // _log({ reason })
-        // _log({ details })
-        // change_control.on()
         setAcSelect(new_value);
     };
     const ac_options = useMemo(() => all_players, [all_players]);
