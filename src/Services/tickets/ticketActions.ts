@@ -67,7 +67,8 @@ export async function connectPlayerWithTicket(where: Prisma.EventUpdateArgs['whe
     try {
         const date = data.date ? data.date : dayjs().format("YYYY-MM-DD")
         const p = await prisma.player.update({
-            where: { id: data.id }, data: {
+            where: { id: data.id },
+            data: {
                 events: {
                     connect: {
                         id: where.id,
@@ -95,7 +96,7 @@ export async function connectPlayerWithTicket(where: Prisma.EventUpdateArgs['whe
 
             },
             select: {
-                id: true, name: true, ticket: true
+                id: true, name: true, ticket: true, _count: { select: { events: true } }
             }
         })
         return p

@@ -420,7 +420,7 @@ export async function connectOnePlayer(eventId: number, playerId: number, cost?:
     try {
 
         if (cost) {
-            return await connectPlayerWithTicket({ id: eventId }, { cost, id: playerId })
+            return await connectPlayerWithTicket({ id: eventId }, { cost, id: playerId, })
         }
         const p = await prisma.player.update({
             where: { id: playerId },

@@ -384,7 +384,7 @@ const ConnectDialog = ({
     }
 
     async function handleConnectPlayer(eventId: number, playerId: number) {
-        return connectOnePlayer.bind(null, eventId, playerId, 1);
+        return connectOnePlayer.bind(null, eventId, playerId);
     }
 
     if (q.isLoading) return <LinearProgress />;
