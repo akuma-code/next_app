@@ -37,17 +37,21 @@ interface EditEventCardProps {
 
 type AcValueChangeHandler = (
     event: SyntheticEvent<Element, Event>,
-    value: { id: number; name: string }[],
+    value: { id: number; name: string; ticket: any | null }[],
     reason: AutocompleteChangeReason,
     details?:
-        | AutocompleteChangeDetails<{ id: number; name: string }>
+        | AutocompleteChangeDetails<{
+              id: number;
+              name: string;
+              ticket: any | null;
+          }>
         | undefined
 ) => void | undefined;
 export const EventViewEditCard: React.FC<EditEventCardProps> = ({
     event,
     buttonVariant = "base",
 }) => {
-    const { id, date_formated, players, title } = event;
+    const { id, date_formated, players, title, cost } = event;
     const [ev, setEvent] = useState(event);
     const r = useRouter();
     const [isChanging, { on, off }] = useToggle(false);
@@ -78,7 +82,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
         // _log({ reason })
         // _log({ details })
         // change_control.on()
-        setAcSelect((prev) => new_value);
+        setAcSelect(new_value);
     };
     const ac_options = useMemo(() => all_players, [all_players]);
     const handleSubmitEvent = async () => {
@@ -87,6 +91,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
             ...ev,
             players: ac_select,
             date_formated: _formated_date(eventDate),
+            cost: cost || 1,
         };
 
         _log({ event_data });

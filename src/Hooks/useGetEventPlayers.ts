@@ -32,6 +32,7 @@ export function useGetAllPlayers() {
     const [players, setPlayers] = useState<{
         id: number;
         name: string;
+        ticket: any | null
     }[]>([])
 
     useEffect(() => {
