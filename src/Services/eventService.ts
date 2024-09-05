@@ -28,10 +28,10 @@ export interface EventUpdatePayload {
     id: number;
     _new_data: {
         date_formated?: string;
-        players: { id: number; name: string }[];
+        players: { id: number; name: string, ticket?: any | null }[];
         title?: string | null;
         isDraft?: boolean;
-        cost?: number
+        cost?: number | null
     };
 
 
