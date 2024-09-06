@@ -1,11 +1,9 @@
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
-import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
+import { DescriptionButtonQuery } from "@/ClientComponents/UI/DescButton";
 import { getPlayers } from "@/Services/playerService";
 import { Box, Button, Stack } from "@mui/material";
 import Link from "next/link";
 import AdminPlayerList from "./AdminPlayerList";
-import { _log } from "@/Helpers/helpersFns";
-import { DescriptionButtonQuery } from "@/ClientComponents/UI/DescButton";
 
 import { fetchAndCreatePlayers } from "@/Services/events/db_event";
 
@@ -14,7 +12,6 @@ const clone_action = fetchAndCreatePlayers.bind(null);
 async function AvPlayers(query: { searchParams: { action: string } }) {
     const players = await getPlayers();
 
-    const showEdit = query?.searchParams?.action === "edit";
     const showCreate = query?.searchParams?.action === "create";
     const showDel = query?.searchParams?.action === "delete";
 
@@ -48,7 +45,6 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
             </Stack>
             <Box flexGrow={1} mt={1}>
                 {showCreate && <CreatePlayerForm />}
-                {/* {showEdit && <EditPlayerForm />} */}
             </Box>
         </Stack>
     );

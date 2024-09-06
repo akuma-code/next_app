@@ -3,6 +3,7 @@
 import { ExitButton } from "@/ClientComponents/UI/ExitButton";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
 import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
+import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { NavMenu } from "@/ClientComponents/UI/NavMenu";
 import useMediaDetect from "@/Hooks/useMediaDetect";
 import { useToggle } from "@/Hooks/useToggle";
@@ -36,18 +37,18 @@ import { Suspense, useState } from "react";
 const routes = [
     {
         to: "/avangard/events",
-        text: "Тренировки",
+        text: "Авангард",
         path: mdiTableTennis,
     },
     {
-        to: "/admin",
-        text: "Админка",
-        path: mdiPassport,
+        to: "/avangard",
+        text: "Статистика",
+        path: mdiApplicationImport,
     },
     {
-        to: "/avangard",
-        text: "Сводка",
-        path: mdiApplicationImport,
+        to: "/admin",
+        text: "Управление",
+        path: mdiPassport,
     },
 ];
 
@@ -93,19 +94,39 @@ function MobileBar() {
                 />
             </IconButton>
 
-            <Drawer anchor={"left"} open={show} onClose={handleClose}>
+            <Drawer
+                anchor={"left"}
+                open={show}
+                onClose={handleClose}
+                closeAfterTransition
+            >
                 <List>
                     {routes.map((r) => (
-                        <ListItem key={r.to} divider>
-                            <Link href={r.to}>
-                                <ListItemIcon>
-                                    <Icon path={r.path} size={1} />
-                                </ListItemIcon>
-                                {r.text}
-                            </Link>
+                        <ListItem
+                            key={r.to}
+                            divider
+                            alignItems="center"
+                            sx={{ gap: 2 }}
+                        >
+                            <NavLink href={r.to}>{r.text}</NavLink>
+                            <ListItemIcon color="warning.main">
+                                <Icon path={r.path} size={1} />
+                            </ListItemIcon>
                         </ListItem>
                     ))}
                 </List>
+                {session.status === "authenticated" ? (
+                    <ExitButton />
+                ) : (
+                    <>
+                        <LinkMui href="/api/auth/login" color="#00ffaa">
+                            Войти
+                        </LinkMui>
+                        <LinkMui href="/api/auth/register" color="#00ffaa">
+                            Зарегестрироваться
+                        </LinkMui>
+                    </>
+                )}
             </Drawer>
             <Box
                 gap={1}
@@ -114,7 +135,6 @@ function MobileBar() {
                 justifyContent={"space-between"}
             >
                 <NavMenu />
-                {session.status === "authenticated" && <ExitButton />}
             </Box>
         </Toolbar>
     );

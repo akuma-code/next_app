@@ -2,19 +2,19 @@
 
 import { _log } from "@/Helpers/helpersFns";
 import { editPlayer } from "@/Services/playerService";
-import { Button, Fade, Paper, Stack, TextField } from "@mui/material";
-import { Player, Prisma } from "@prisma/client";
+import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
+import { Fade, Paper, Stack, TextField } from "@mui/material";
+import { Prisma } from "@prisma/client";
 import { redirect, useParams, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import React, { useState } from "react";
 import ResetButton from "./UI/ResetButton";
 import SubmitButton from "./UI/SubmitButton";
-import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
 
 interface EditPlayerFormProps {
     player: Prisma.PlayerGetPayload<{
         select: {
             id: true;
-            // name: true;
+            name: true;
             ticket: true;
             // info: { select: { rttf_score: true } };
         };
@@ -22,12 +22,10 @@ interface EditPlayerFormProps {
 }
 async function addTicket(playerId: number, amount: number) {
     const t = createTicketForPlayer.bind(null);
-    return await t({ playerId, new_ticket: { amount } });
+    return await t({ playerId, new_ticket: { amount, limit: 10 } });
 }
 
-const EditPlayerForm: React.FunctionComponent<EditPlayerFormProps> = ({
-    player,
-}) => {
+const EditPlayerForm: React.FC<EditPlayerFormProps> = ({ player }) => {
     const [p, setPlayer] = useState(() => player);
 
     const s = useSearchParams();
@@ -52,7 +50,8 @@ const EditPlayerForm: React.FunctionComponent<EditPlayerFormProps> = ({
         }
         setPlayer((prev) => ({ ...prev, ...new_data }));
         await editPlayer(playerId, {
-            ...p,
+            name: new_data.name,
+            info: { update: { rttf_score: new_data.rttf_score } },
         });
         redirect("/avangard/players/" + playerId);
     };

@@ -1,6 +1,7 @@
 import { Tooltip, IconButton, Avatar, Menu } from "@mui/material";
 import { Fragment, useState } from "react";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 //*_________________________________________________________________
 
@@ -22,18 +23,18 @@ const SelectPairButton: React.FC<{ children?: React.ReactNode }> = ({
             <Tooltip title="Занятия с тренером">
                 <IconButton
                     onClick={handleOpen}
-                    size="small"
-                    sx={{ mx: 1 }}
+                    // sx={{ mx: 1 }}
                     aria-controls={open ? "account-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                     color="primary"
+                    edge="start"
                 >
                     <Avatar
-                        sx={{ bgcolor: "primary.dark", width: 32, height: 32 }}
-                        variant="circular"
+                        sx={{ bgcolor: "primary.main", width: 30, height: 30 }}
+                        variant="rounded"
                     >
-                        <SupervisorAccountIcon sx={{ color: "primary" }} />
+                        <PersonAddAltIcon sx={{ color: "primary" }} />
                     </Avatar>
                 </IconButton>
             </Tooltip>
@@ -54,8 +55,8 @@ const SelectPairButton: React.FC<{ children?: React.ReactNode }> = ({
                             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                             mt: 1.5,
                             "& .MuiAvatar-root": {
-                                width: 32,
-                                height: 32,
+                                width: 28,
+                                height: 28,
                                 gap: 1,
                             },
                             "&::before": {

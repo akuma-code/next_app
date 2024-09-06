@@ -7,6 +7,8 @@ import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
 import { getMasters } from "./masterService";
 import { getPlayers } from "./playerService";
+import { ticketCountMinus, ticketCountPlus, verifyPlayerTicketAmount } from "./tickets/ticketActions";
+import dayjs from "dayjs";
 
 export interface EventCreatePayload {
     event_date: string;
@@ -117,61 +119,61 @@ export async function seedEvents(mock?: typeof db_events) {
     }
 }
 
-export async function createEvent(payload: EventCreatePayload) {
-    const { event_date, ids } = payload;
-    const date = validateDate(event_date)
-        ? event_date
-        : _formated_date(event_date);
-    // if (!dayjs(event_date).isValid()) {
-    //     _log(`${event_date} is wrong!`)
-    //     throw new Error(`\n\nEvent date is invalid: ${event_date}`)
-    // }
+// export async function createEvent(payload: EventCreatePayload) {
+//     const { event_date, ids } = payload;
+//     const date = validateDate(event_date)
+//         ? event_date
+//         : _formated_date(event_date);
+//     // if (!dayjs(event_date).isValid()) {
+//     //     _log(`${event_date} is wrong!`)
+//     //     throw new Error(`\n\nEvent date is invalid: ${event_date}`)
+//     // }
 
-    const existEvent = await prisma.event.findUnique({
-        where: { date_formated: date },
-    });
-    if (existEvent) {
-        try {
-            const ee = await connectPlayersToEvent(existEvent.id, ids);
+//     const existEvent = await prisma.event.findUnique({
+//         where: { date_formated: date },
+//     });
+//     if (existEvent) {
+//         try {
+//             const ee = await connectPlayersToEvent(existEvent.id, ids);
 
-            return ee;
-        } catch (error) {
-            console.log(" \n", error);
-            throw new Error("___Update event error:");
-        } finally {
-            revalidatePath("/");
-        }
-    }
-    try {
-        const ev = await prisma.event.create({
-            data: {
-                isDraft: false,
+//             return ee;
+//         } catch (error) {
+//             console.log(" \n", error);
+//             throw new Error("___Update event error:");
+//         } finally {
+//             revalidatePath("/");
+//         }
+//     }
+//     try {
+//         const ev = await prisma.event.create({
+//             data: {
+//                 isDraft: false,
 
-                date_formated: date,
-                players: {
-                    connect: ids,
-                },
-            },
-            select: {
-                players: {
-                    select: {
-                        id: true,
-                        name: true,
-                    },
-                },
-                date_formated: true,
-            },
-        });
+//                 date_formated: date,
+//                 players: {
+//                     connect: ids,
+//                 },
+//             },
+//             select: {
+//                 players: {
+//                     select: {
+//                         id: true,
+//                         name: true,
+//                     },
+//                 },
+//                 date_formated: true,
+//             },
+//         });
 
-        _log("\nCreated event: ", ev);
-        return ev;
-    } catch (error) {
-        console.log("___Create event error: \n", error);
-        throw new Error("Error while create event");
-    } finally {
-        revalidatePath("/");
-    }
-}
+//         _log("\nCreated event: ", ev);
+//         return ev;
+//     } catch (error) {
+//         console.log("___Create event error: \n", error);
+//         throw new Error("Error while create event");
+//     } finally {
+//         revalidatePath("/");
+//     }
+// }
 export async function deleteEvent(id: number) {
     try {
         const ev = await prisma.event.delete({ where: { id } });
@@ -185,12 +187,19 @@ export async function deleteEvent(id: number) {
     }
 }
 export async function disconnectPlayer(playerId: number, eventId: number) {
+    const p = await prisma.player.findUnique({ where: { id: playerId }, select: { ticket: true, id: true, name: true } })
+    if (!p) return
+    const tt = await verifyPlayerTicketAmount(p)
     try {
 
         const e = await prisma.event.update({
             where: { id: eventId },
             data: { players: { disconnect: { id: playerId } } },
         });
+
+        if (tt) {
+            await ticketCountPlus({ uuid: tt.uuid }, { amount: 1, event_date: _formated_date(dayjs()) })
+        }
         console.log(e);
         return e
     } catch (error) {
@@ -264,8 +273,9 @@ export async function getEventsByMonth(
                     id: true,
                     date_formated: true,
                     title: true,
-                    pairs: { select: { id: true, firstPlayerId: true, secondPlayerId: true } },
-                    players: { select: { id: true, name: true, pair: true } },
+                    cost: true,
+                    pairs: true,
+                    players: { select: { id: true, name: true, pair: true, ticket: true } },
                     _count: { select: { players: true } },
                 },
             });
@@ -284,8 +294,9 @@ export async function getEventsByMonth(
                 id: true,
                 date_formated: true,
                 title: true,
-                pairs: { select: { id: true, firstPlayerId: true, secondPlayerId: true } },
-                players: { select: { id: true, name: true } },
+                cost: true,
+                pairs: true,
+                players: { select: { id: true, name: true, ticket: true, pair: true } },
                 _count: { select: { players: true } },
             },
             orderBy: { date_formated: _order },
@@ -335,40 +346,8 @@ export async function getEventById(eventId: string) {
         throw new Error("get eventId error:");
     }
 }
-export async function getOneEventByDate(date: string) {
-    const e = prisma.event;
-    try {
-        const event = await e.findUnique({
-            where: { date_formated: date },
-            select: {
-                id: true,
-                date_formated: true,
-                title: true,
-                players: true,
-                //  _count: { select: { players: true }                  }
-            },
-        });
-        return event;
-    } catch (error) {
-        console.log(" \n", error);
-        throw new Error("get event by date error:");
-    }
-}
 
-export async function createBlankEvent(date: string, title?: string) {
-    try {
-        const _date = validateDate(date) ? date : _formated_date(date);
-        const pev = await prisma.event.create({
-            data: { date_formated: _date, title: title, players: {} },
-            select: { id: true, date_formated: true },
-        });
-        _log("created event: \n", pev);
-        return pev;
-    } catch (error) {
-        console.log(" \n", error);
-        throw new Error("create blank_event error");
-    }
-}
+
 
 export async function connectPlayersToEvent(
     id: number,

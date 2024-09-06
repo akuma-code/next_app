@@ -1,18 +1,12 @@
 import { PlayersEventList } from "@/Components/EventView/PlayersEventList";
 import { getPlayerEvents, getPlayers } from "@/Services/playerService";
-import { Box, Stack } from "@mui/material";
-import Link from "next/link";
+import { Stack } from "@mui/material";
 import { PlayersListView } from "./PlayersListView";
-import { MRTPlayers } from "@/ClientComponents/MRT/Avangard/MRTPlayers";
 
 async function AvPlayers(query: {
     searchParams: { action: string; player_id?: string; view: string };
 }) {
-    const players = await getPlayers({
-        ticket: true,
-        pair: true,
-        events: true,
-    });
+    const players = await getPlayers();
     const view = query.searchParams.view;
     const playerId = query.searchParams.player_id;
 
@@ -38,8 +32,6 @@ async function AvPlayers(query: {
                         {ep && <PlayersEventList event_info={ep} />}
                     </>
                 )}
-
-                {view === "table" ? <MRTPlayers players={players} /> : null}
             </Stack>
         </Stack>
     );

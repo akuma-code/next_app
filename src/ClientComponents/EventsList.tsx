@@ -7,25 +7,7 @@ import { Box, Grid } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
-export interface IEvent_Front_ {
-    id: number;
-    date_formated: string;
-    title?: string | null;
-    players: {
-        id: number;
-        name: string;
-        ticket?: Prisma.TicketGetPayload<{
-            select: {
-                amount: true;
-                uuid: true;
-                playerId: true;
-                event_dates: true;
-            };
-        }> | null;
-    }[];
-    cost?: number;
-    _count?: { players: number };
-}
+
 export type IEvent_Front = Prisma.EventGetPayload<{
     select: {
         id: true;

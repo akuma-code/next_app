@@ -29,6 +29,7 @@ model Player {
 model Ticket {
   uuid        String   @id @default(uuid())
   amount      Int      @default(0)
+  limit       Int      @default(10)
   eAt         String   @default("never")
   event_dates String[]
 

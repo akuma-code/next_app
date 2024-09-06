@@ -14,6 +14,7 @@ export type ATicket = Prisma.TicketGetPayload<{
     select: {
         uuid: true,
         amount: true,
+        limit: true,
         playerId: true,
         event_dates: true,
         player: { select: { id: true, name: true } },
@@ -40,9 +41,10 @@ export async function getTickets<T extends Prisma.TicketFindManyArgs>(args: T) {
 export async function getOneTicket<T extends InternalArgs = DefaultArgs>(args: Prisma.TicketFindUniqueArgs<T>) {
 
     try {
-        const { where, select } = args;
+        const { where, select } = args as { where: Prisma.TicketFindUniqueArgs['where'], select: Prisma.TicketSelect };
 
         const t = await prisma.ticket.findUnique({ where, select })
+        return t
     } catch (error) {
         throw error
     }

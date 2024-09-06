@@ -13,7 +13,7 @@ import {
     PlayersTable,
     PLR,
 } from "@/ClientComponents/UserTable/PlayersMRT";
-import { PlayerWithInfo } from "@/Services/playerService";
+import { PlayerWithTicket } from "@/Services/playerService";
 import UsersMRT from "@/ClientComponents/UserTable/UsersMRT";
 import { DTO_User } from "@/ClientComponents/userList";
 import { useSearchParams } from "next/navigation";
@@ -44,7 +44,7 @@ type ApiEventsResponse = {
     players?: ApiPlayersResponse;
 }[];
 
-type FetchedPlayers = Pick<PlayerWithInfo, "id" | "name"> & {
+type FetchedPlayers = Pick<PlayerWithTicket, "id" | "name"> & {
     info: { rttf_score?: number };
 };
 const link =

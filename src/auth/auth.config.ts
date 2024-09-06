@@ -33,7 +33,7 @@ const config = {
                     return null
                 }
 
-                revalidatePath("/")
+
                 return user
 
 

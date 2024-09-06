@@ -79,8 +79,7 @@ export type UserPersonalData = Prisma.PromiseReturnType<typeof getOneUserByEmail
 export type P_ProfileCreateArgs = Prisma.ProfileCreateInput
 export type P_UserAndProfile = Prisma.$UserPayload['scalars'] & { profile?: Prisma.$ProfilePayload['scalars'] | null }
 
-export type P_EventFields = Prisma.EventScalarFieldEnum
-export type P_DB = Record<P_EventFields, Prisma.$EventPayload<InternalArgs>>
 
 
 export type DB_JSON_DATA = typeof backup_last;
+

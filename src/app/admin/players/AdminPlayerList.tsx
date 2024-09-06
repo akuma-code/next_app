@@ -1,27 +1,20 @@
 "use client";
 
 import DeleteButton from "@/ClientComponents/UI/DeleteButton";
-import { useToggle } from "@/Hooks/useToggle";
-import { PlayerWithInfo } from "@/Services/playerService";
-import { EditTwoTone, DeleteTwoTone } from "@mui/icons-material";
+import { PlayerWithTicket } from "@/Services/playerService";
+import { DeleteTwoTone } from "@mui/icons-material";
 import {
-    alpha,
     List,
     ListItem,
-    ListItemButton,
-    ListItemIcon,
     ListItemSecondaryAction,
     ListItemText,
-    Stack,
-    Typography,
 } from "@mui/material";
-import { Info, Player } from "@prisma/client";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-const AdminPlayerList = ({ players }: { players: PlayerWithInfo[] }) => {
+const AdminPlayerList = ({ players }: { players: PlayerWithTicket[] }) => {
     const q = useSearchParams();
     const action = q.get("action");
     const deleteMode = action === "delete";

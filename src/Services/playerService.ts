@@ -1,36 +1,19 @@
 "use server";
-import { Info, Player, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 import { _log } from "@/Helpers/helpersFns";
 
+import prisma from "@/client/client";
 import { parseNames } from "@/dataStore/avangardPlayers";
 import { revalidatePath } from "next/cache";
-import prisma from "@/client/client";
 
-const ASC = "asc" as const;
-const DESC = "desc" as const;
-const orderByEvents = [{ events: { _count: DESC }, id: ASC }];
 type DeletePayload = {
   id: number;
 };
 
-type InfoCreatePayload = {
-  rttf_score?: number;
-};
 
-export type PlayerWithInfo = {
-  id: number;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-  info: {
-    uuid: string;
-    rttf_score: number | null;
-
-    playerId: number;
-  } | null;
-};
-export async function createPlayer(name: string, info?: InfoCreatePayload) {
+export type PlayerWithTicket = Prisma.PlayerGetPayload<{ select: { id: true, name: true, ticket: true, createdAt: true } }>
+export async function createPlayer(name: string) {
   try {
     const player = await prisma.player.create({
       data: {
@@ -38,22 +21,7 @@ export async function createPlayer(name: string, info?: InfoCreatePayload) {
       }
 
     });
-    // if (info) {
-    //   const { rttf_score } = info;
 
-    //   const addInfo = await prisma.player.update({
-    //     where: { id: player.id },
-    //     data: {
-    //       info: {
-    //         create: {
-    //           rttf_score,
-    //         },
-    //       },
-    //     },
-    //   });
-
-    //   return addInfo;
-    // }
 
     return player;
 
@@ -85,10 +53,10 @@ export async function deletePlayer(payload: DeletePayload) {
 
 export async function editPlayer(
   PlayerId: string,
-  data: Partial<Player & Info>
+  data: Prisma.PlayerUpdateInput
 ) {
-  const { name, rttf_score } = data;
-  const score = rttf_score ? +rttf_score : null;
+  const { name, } = data;
+  // const score = rttf_score ? +rttf_score : null;
   try {
     const id = Number(PlayerId);
     const p = await prisma.player.findUnique({ where: { id } });
@@ -99,13 +67,14 @@ export async function editPlayer(
       const pp = await prisma.player.update({
         where: { id },
         data: {
-          name,
-          info: {
-            upsert: {
-              create: { rttf_score: score },
-              update: { rttf_score: score },
-            },
-          },
+          ...data
+          // name,
+          // info: {
+          //   upsert: {
+          //     create: { rttf_score: score },
+          //     update: { rttf_score: score },
+          //   },
+          // },
         },
         // include: { PlayerInfo: true }
       });
@@ -117,11 +86,8 @@ export async function editPlayer(
     revalidatePath("/");
   }
 }
-type P_PlayerIncludes = Partial<
-  Record<keyof Prisma.$PlayerPayload["objects"], boolean>
->;
 
-export async function getPlayers(includes?: Prisma.PlayerInclude) {
+export async function getPlayers() {
   let defaultInclude = {
     events: true,
     info: false,
@@ -224,15 +190,6 @@ export async function seedPlayers() {
   }
 }
 
-export async function getEventsByPlayerId({ playerId }: { playerId: number }) {
-  const player_events = await prisma.player
-    .findUnique({
-      where: { id: playerId },
-    })
-    .events();
+export async function getEventsByPlayerId() {
 
-  const filtered = await prisma.event.groupBy({
-    by: ["date_formated"],
-    having: { date_formated: {} },
-  });
 }

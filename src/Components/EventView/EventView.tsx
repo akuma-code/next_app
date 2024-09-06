@@ -19,7 +19,8 @@ import {
     mdiAccountPlusOutline,
     mdiCardAccountDetailsOutline,
     mdiCash,
-    mdiSphere,
+    mdiEye,
+    mdiEyeOff,
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
@@ -28,14 +29,16 @@ import {
     Box,
     BoxProps,
     Button,
+    ButtonGroup,
     Divider,
-    IconButton,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
     MenuItem,
     SpeedDialAction,
+    Stack,
+    ToggleButton,
     Typography,
 } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
@@ -118,8 +121,9 @@ export const EventView: React.FC<Eventinfo> = ({
             sx={{
                 borderRadius: 4,
                 minWidth: 330,
-                width: "fit-content",
-                maxWidth: 400,
+                width: "max-content",
+                maxWidth: 420,
+                height: "max-content",
                 border: "2px solid",
                 borderColor: "primary.dark",
                 bgcolor: "background.paper",
@@ -134,19 +138,19 @@ export const EventView: React.FC<Eventinfo> = ({
                     display: "flex",
                     p: 1.5,
                     alignItems: "center",
-                    gap: 2,
+                    gap: 1,
                     justifyContent: "space-between",
                     // position: "relative",
                 }}
             >
                 <EventButtons>
-                    <SpeedDialAction
+                    {/* <SpeedDialAction
                         tooltipOpen={!isMobile}
                         tooltipPlacement="right"
                         icon={<Icon path={mdiSphere} size={0.8} />}
                         tooltipTitle={"управление"}
                         onClick={removeControl.toggle}
-                    />
+                    /> */}
                     <SpeedDialAction
                         tooltipOpen={!isMobile}
                         tooltipPlacement="right"
@@ -189,44 +193,82 @@ export const EventView: React.FC<Eventinfo> = ({
             </Box>
 
             <Divider flexItem>
-                <Button
-                    onClick={handleOpenConnect}
-                    color="warning"
-                    size="small"
-                    variant="contained"
-                    startIcon={<SupervisorAccountIcon />}
-                >
-                    Добавить
-                </Button>
+                <ButtonGroup variant="contained" fullWidth>
+                    <Button
+                        onClick={handleOpenConnect}
+                        color="warning"
+                        // size="small"
+                        // variant="contained"
+                        startIcon={<SupervisorAccountIcon />}
+                    >
+                        Добавить
+                    </Button>
+                    <ToggleButton
+                        color="warning"
+                        // sx={{ bgcolor: "grey" }}
+                        value={showRemove}
+                        onClick={removeControl.toggle}
+                        selected={showRemove}
+                    >
+                        <Icon path={showRemove ? mdiEye : mdiEyeOff} size={1} />
+                    </ToggleButton>
+                </ButtonGroup>
             </Divider>
 
             <List>
-                {player_pairs.map((p, index) => (
+                {player_pairs.map((p) => (
                     <ListItem
-                        key={index}
+                        key={p.id}
                         sx={{
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
+                            minHeight: "3rem",
+                            gap: 1,
                         }}
-                        dense
                         divider
+                        disablePadding
                     >
-                        <ListItemAvatar>
-                            <Avatar
-                                variant="rounded"
+                        {showRemove ? (
+                            <Button
+                                aria-label="remove player"
+                                // title="remove"
+                                onClick={async () =>
+                                    await disconnectPlayer(p.id, id)
+                                }
+                                // edge="start"
+                                color="error"
                                 sx={{
-                                    width: 32,
-                                    height: 32,
-                                    bgColor: "primary.light",
-                                    p: 0.5,
-                                    color: "primary.main",
-                                    fontSize: 15,
+                                    bgcolor: "darkgray",
+                                    flexGrow: 0,
+                                    display: "flex",
+                                    p: 1,
+                                    fontSize: "1rem",
                                 }}
                             >
-                                {name_letters(p.name)}
-                            </Avatar>
-                        </ListItemAvatar>
+                                <Icon
+                                    path={mdiAccountMinus}
+                                    size={0.8}
+                                    className="flex-grow text-center"
+                                />
+                            </Button>
+                        ) : (
+                            <ListItemAvatar>
+                                <Avatar
+                                    variant="rounded"
+                                    sx={{
+                                        width: 30,
+                                        height: 30,
+                                        bgColor: "primary.light",
+                                        // p: 0.5,
+                                        color: "primary.main",
+                                        // fontSize: 15,
+                                    }}
+                                >
+                                    {name_letters(p.name)}
+                                </Avatar>
+                            </ListItemAvatar>
+                        )}
                         <ListItemText
                             primary={p.name}
                             primaryTypographyProps={{ textAlign: "left" }}
@@ -238,15 +280,18 @@ export const EventView: React.FC<Eventinfo> = ({
                                 bgcolor: "primary.light",
                                 textAlign: "right",
                                 color: "primary.contrastText",
-                                px: 1,
-                                py: 0.3,
+                                // px: 1,
+                                // py: 0.3,
                             }}
                         />
                         {showRemove ? (
-                            <>
+                            <Stack
+                                direction={"row"}
+                                spacing={1}
+                                alignSelf={"center"}
+                            >
                                 <SelectPairButton>
                                     <MenuItem
-                                        sx={{ justifyContent: "right" }}
                                         onClick={() => handleDeletePair(p.pair)}
                                     >
                                         <Avatar
@@ -267,30 +312,34 @@ export const EventView: React.FC<Eventinfo> = ({
                                                 )
                                             }
                                         >
-                                            <Avatar />
                                             {m.name}
                                         </MenuItem>
                                     ))}
                                 </SelectPairButton>
 
-                                <IconButton
-                                    hidden={showRemove}
+                                {/* <Button
                                     aria-label="remove player"
-                                    title="remove"
+                                    // title="remove"
                                     onClick={async () =>
                                         await disconnectPlayer(p.id, id)
                                     }
-                                    edge="end"
+                                    // edge="start"
                                     color="error"
-                                    sx={{ bgcolor: "darkgray" }}
+                                    sx={{
+                                        bgcolor: "darkgray",
+                                        flexGrow: 0,
+                                        display: "flex",
+                                        p: 1,
+                                        fontSize: "1rem",
+                                    }}
                                 >
                                     <Icon
                                         path={mdiAccountMinus}
-                                        size={1}
-                                        className="px-1 "
+                                        size={0.8}
+                                        className="flex-grow text-center"
                                     />
-                                </IconButton>
-                            </>
+                                </Button> */}
+                            </Stack>
                         ) : (
                             p.ticket && (
                                 <Avatar

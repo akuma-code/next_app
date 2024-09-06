@@ -147,6 +147,8 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.log("events fires: in")
                 console.table(message.user)
                 console.table(message.profile)
+                console.table(message.account)
+
             },
             updateUser(message) {
                 console.log("events fires: update")

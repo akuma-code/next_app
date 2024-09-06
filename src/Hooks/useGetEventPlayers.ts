@@ -1,7 +1,7 @@
 'use client'
 
 import { getEventsUnique } from "@/Services/eventService"
-import { PlayerWithInfo, getPlayers } from "@/Services/playerService"
+import { PlayerWithTicket, getPlayers } from "@/Services/playerService"
 import allP from "@/utils/playersList"
 import { useEffect, useMemo, useState } from "react"
 

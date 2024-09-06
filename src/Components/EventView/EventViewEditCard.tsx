@@ -1,6 +1,6 @@
 "use client";
 
-import { IEvent_Front, IEvent_Front_ } from "@/ClientComponents/EventsList";
+import { IEvent_Front } from "@/ClientComponents/EventsList";
 import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 import { _log } from "@/Helpers/helpersFns";
 import { name_letters } from "@/Helpers/stringFns";
@@ -30,7 +30,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 
 interface EditEventCardProps {
-    event: IEvent_Front_;
+    event: IEvent_Front;
     buttonVariant?: "base" | "icon";
     // ExtendButtonBase<IconButtonTypeMap<{}, "button">>
 }
@@ -55,7 +55,8 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
     const [isChanging, { on, off }] = useToggle(false);
     const [isChanged, change_control] = useToggle();
     const [ac_value, setAcValue] = useState("");
-    const [ac_select, setAcSelect] = useState(players);
+    const [ac_select, setAcSelect] =
+        useState<{ id: number; name: string; ticket?: any }[]>(players);
     const [eventDate, setEventDate] = useState<Dayjs | null>(
         () => _dbDateParser(date_formated)._dayjs
     );

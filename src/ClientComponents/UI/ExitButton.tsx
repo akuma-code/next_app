@@ -8,14 +8,12 @@ import { signOut } from "next-auth/react";
 export const ExitButton = () => {
     return (
         <Button
-            size={ 'small' }
+            size={"small"}
             color="warning"
             variant="outlined"
-            onClick={ async () =>
-                await signOut({ redirect: true, callbackUrl: "/" })
-            }
+            onClick={async () => await signOut()}
         >
-            <Typography fontSize={ 16 } >Выход</Typography>
+            <Typography fontSize={16}>Выход</Typography>
         </Button>
     );
 };

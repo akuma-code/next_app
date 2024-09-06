@@ -2,6 +2,7 @@ import { CredentialsInputs } from "@/ClientComponents/auth/CredentialsForm";
 import { _log } from "@/Helpers/helpersFns";
 import { signIn } from "@/auth/auth";
 import { Button, Container, Stack } from "@mui/material";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 async function SignInPage() {
@@ -20,11 +21,11 @@ async function SignInPage() {
                     action={async (fd) => {
                         "use server";
                         try {
-                            await signIn("credentials", fd).then(() =>
-                                redirect("/avangard/events")
-                            );
+                            await signIn("credentials", fd);
                         } catch (error) {
                             console.error(error);
+                        } finally {
+                            revalidatePath("/");
                         }
                     }}
                 >

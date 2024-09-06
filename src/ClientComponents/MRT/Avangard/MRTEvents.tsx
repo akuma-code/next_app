@@ -19,8 +19,9 @@ import { mrt_event_options } from "../mrt.config";
 import { EventCreateCard } from "@/Components/EventView/EventCreateCard";
 import { memo, useMemo, useState } from "react";
 import DoubleChip from "./DoubleChip";
+import { Prisma } from "@prisma/client";
 
-export interface EventDto {
+export interface EventDto_ {
     id: number;
     date_formated: string;
     title?: string | null;
@@ -32,10 +33,34 @@ export interface EventDto {
     }[];
     isDraft?: boolean;
 }
+export type EventDto = Prisma.EventGetPayload<{
+    select: {
+        id: true;
+        date_formated: true;
+        players: { select: { id: true; name: true; ticket: true } };
+        pairs: true;
+        cost: true;
+        title: true;
+        _count: { select: { players: true } };
+    };
+}>;
+export type EventDto2_ = Prisma.EventGetPayload<{
+    select: {
+        id: true;
+        date_formated: true;
+        players: { select: { id: true; name: true; ticket: true } };
+        pairs: true;
+        cost: true;
+        title: true;
+        _count: { select: { players: true } };
+        isDraft: true;
+    };
+}>;
 export interface EventDto2 {
     id: number;
     date_formated: string;
     title?: string | null;
+    cost?: number | null;
     players: { id: number; name: string }[];
     pairs?: {
         id?: number;
@@ -95,10 +120,10 @@ const event_columns: MRT_ColumnDef<EventDto2>[] = [
             return (
                 <Grid
                     container
-                    gridTemplateColumns={ 5 }
-                    direction={ "row" }
-                    md={ 15 }
-                    spacing={ 0.5 }
+                    gridTemplateColumns={5}
+                    direction={"row"}
+                    md={15}
+                    spacing={0.5}
                 >
                     {/* {_p.names.map((n) => (
                         <Grid item key={n} md={3}>
@@ -107,11 +132,11 @@ const event_columns: MRT_ColumnDef<EventDto2>[] = [
                     ))} */}
                     <Grid
                         item
-                        md={ 18 }
-                        textAlign={ "center" }
-                    // sx={{ bgcolor: "secondary.dark" }}
+                        md={18}
+                        textAlign={"center"}
+                        // sx={{ bgcolor: "secondary.dark" }}
                     >
-                        { _p.total }
+                        {_p.total}
                     </Grid>
                 </Grid>
             );
@@ -134,7 +159,7 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
     const current = q.get("month");
     const _month = dayjs(current, "MM", "ru");
     const router = useRouter();
-    const cols = useMemo(() => event_columns, [])
+    const cols = useMemo(() => event_columns, []);
     // .format("MMMM");
     // const Pairs = eventsCache().then((res) => res.pairs);
 
@@ -168,17 +193,17 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
         renderBottomToolbar() {
             return (
                 <Box
-                    p={ 1 }
-                    justifyContent={ "space-around" }
-                    display={ "flex" }
-                    gap={ 2 }
-                    alignItems={ "center" }
+                    p={1}
+                    justifyContent={"space-around"}
+                    display={"flex"}
+                    gap={2}
+                    alignItems={"center"}
                 >
-                    { current ? (
+                    {current ? (
                         `Выбран:  ${dayjs(_month, "ru").format("MMMM")}`
                     ) : (
                         <div></div>
-                    ) }
+                    )}
                     <MonthPicker />
                 </Box>
             );
@@ -189,39 +214,39 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
                     color="info"
                     variant="contained"
                     size="small"
-                    onClick={ () => table.setCreatingRow(true) }
+                    onClick={() => table.setCreatingRow(true)}
                 >
                     Новая тренировка
                 </Button>
             );
         },
         renderRowActionMenuItems: ({ closeMenu, row }) => [
-            <MenuItem divider key={ 0 } onClick={ closeMenu }>
-                <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
+            <MenuItem divider key={0} onClick={closeMenu}>
+                <Stack direction={"row"} width={"100%"} gap={2}>
                     <EditTwoTone className="mx-1" />
-                    <Box flexGrow={ 1 }> Изменить</Box>
+                    <Box flexGrow={1}> Изменить</Box>
                 </Stack>
             </MenuItem>,
             <MenuItem
-                key={ 1 }
-                onClick={ async () =>
+                key={1}
+                onClick={async () =>
                     alert(await showInfo(row.original).finally(closeMenu))
                 }
             >
-                <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
-                    <Icon path={ mdiPaletteAdvanced } size={ 1 } />
+                <Stack direction={"row"} width={"100%"} gap={2}>
+                    <Icon path={mdiPaletteAdvanced} size={1} />
                     Инфо
                 </Stack>
             </MenuItem>,
             <MenuItem
-                key={ 2 }
-                onClick={ () => {
+                key={2}
+                onClick={() => {
                     router.push(`/avangard/events/${row.original.id}`);
                     closeMenu();
-                } }
+                }}
             >
-                <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
-                    <Icon path={ mdiTableTennis } size={ 1 } />
+                <Stack direction={"row"} width={"100%"} gap={2}>
+                    <Icon path={mdiTableTennis} size={1} />
                     Перейти
                 </Stack>
             </MenuItem>,
@@ -239,7 +264,7 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
         },
     });
 
-    return <MaterialReactTable table={ table } />;
+    return <MaterialReactTable table={table} />;
 }
 
 function playersMap(props: { players: EventDto2["players"] }) {
@@ -266,14 +291,14 @@ interface EventParsedInfo {
     total: number;
     names: string[];
     pairs:
-    | {
-        masterId: number;
-        playerId: number;
-    }[]
-    | undefined;
+        | {
+              masterId: number;
+              playerId: number;
+          }[]
+        | undefined;
 }
 async function showInfo(e: EventDto2) {
-    let info = parseEvent(e as EventDto);
+    let info = parseEvent(e as unknown as EventDto);
     return JSON.stringify(info, null, 2);
 }
 
@@ -286,7 +311,10 @@ function EventDetailInfo({
 }) {
     const enabled = row.getIsExpanded();
     const event = row.original;
-    const info = useMemo(() => parseEvent(event as EventDto), [event]);
+    const info = useMemo(
+        () => parseEvent(event as unknown as EventDto),
+        [event]
+    );
     // const pp = usePairs(event.id, enabled);
     const _pairs = info?.pairs as EventDto2["pairs"];
     const hasPair = (name: string) =>
@@ -296,50 +324,49 @@ function EventDetailInfo({
         _pairs?.find((p) => p.player === PP)?.id ?? null;
     return (
         <Box>
-            <Grid container columns={ 12 }>
-                <Grid item md={ 6 }>
-                    { " " }
-                    Всего: { info?.total }, (C тренером: { info?.pairs?.length })
+            <Grid container columns={12}>
+                <Grid item md={6}>
+                    {" "}
+                    Всего: {info?.total}, (C тренером: {info?.pairs?.length})
                 </Grid>
 
                 <Grid
                     // md={12}
                     container
                     item
-                    wrap={ "wrap" }
-                    columnGap={ 1 }
-                    rowGap={ 2 }
-                    direction={ "row" }
-                    columns={ 10 }
+                    wrap={"wrap"}
+                    columnGap={1}
+                    rowGap={2}
+                    direction={"row"}
+                    columns={10}
                 >
-                    { event.players
+                    {event.players
                         .sort((a, b) => (hasPair(a.name) ? 1 : -1))
                         .map((p) => (
                             <Grid
                                 item
-                                key={ p.name }
-                                md={ 1 }
-                                alignItems={ "center" }
-                                flexGrow={ 1 }
-                            // border={"1px solid"}
+                                key={p.name}
+                                md={1}
+                                alignItems={"center"}
+                                flexGrow={1}
+                                // border={"1px solid"}
                             >
-                                { hasPair(p.name) ? (
+                                {hasPair(p.name) ? (
                                     <DoubleChip
-                                        player={ p }
-                                        master={ {
+                                        player={p}
+                                        master={{
                                             name: _pairs?.find(
                                                 (pp) => pp.player === p.name
                                             )?.master!,
-                                        } }
-                                        pairId={ pairId(p.name) ?? undefined }
+                                        }}
+                                        pairId={pairId(p.name) ?? undefined}
                                     />
                                 ) : (
-                                    <DoubleChip player={ p } />
-                                ) }
+                                    <DoubleChip player={p} />
+                                )}
                             </Grid>
-                        )) }
+                        ))}
                 </Grid>
-
             </Grid>
         </Box>
     );
@@ -349,13 +376,13 @@ function PlayerChip(props: { name: string; variant?: "outlined" | "filled" }) {
     const [v, setV] = useState(props.variant || "outlined");
     return (
         <Chip
-            variant={ v }
+            variant={v}
             color="primary"
-            label={ props.name }
-            icon={ <Icon path={ mdiHuman } size={ 0.8 } /> }
+            label={props.name}
+            icon={<Icon path={mdiHuman} size={0.8} />}
             size="small"
             clickable
-            onClick={ () =>
+            onClick={() =>
                 setV((prev) => (prev === "outlined" ? "filled" : "outlined"))
             }
         />

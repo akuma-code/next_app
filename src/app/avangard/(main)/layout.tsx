@@ -20,7 +20,7 @@ const links = [
 export const metadata: Metadata = {
     title: "Тренировки",
     description: "Расписание тренировок",
-    icons: "/icon.ico",
+    icons: "favicon.ico",
 };
 
 const AvangardLayout: React.FC<{
