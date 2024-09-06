@@ -1,7 +1,7 @@
 "use client";
 import { MRT_TableOptions } from "material-react-table";
 import { EventDto, EventDto2 } from "./Avangard/MRTEvents";
-import { PrismaPlayer } from "@/Types";
+import { PrismaPlayer, PrismaPlayer_ } from "@/Types";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
 import { mdiCodeTags, mdiCog, mdiFileSettings } from "@mdi/js";
 import { Icon } from "@mdi/react";
@@ -80,10 +80,13 @@ export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
             },
             size: 80,
             Header: (props) => {
-                return <Icon path={ mdiCodeTags } size={ 1 } aria-label="actions" />;
+                return (
+                    <Icon path={mdiCodeTags} size={1} aria-label="actions" />
+                );
             },
+            grow: 0,
 
-            enableColumnActions: false
+            enableColumnActions: true,
         },
         "mrt-row-expand": {
             muiTableHeadCellProps: {
@@ -96,10 +99,15 @@ export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
     },
 };
 
-export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer>> = {
+export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
     muiTableContainerProps: {
-        sx: { maxHeight: "60vh" },
+        sx: {
+            maxHeight: "62vh",
+            maxWidth: "fit-content",
+            border: "2px solid #00008b36",
+        },
     },
+
     defaultColumn: {
         muiTableBodyCellProps: {
             align: "left",
@@ -118,30 +126,48 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer>> = {
             muiTableBodyCellProps: {
                 align: "left",
             },
-            size: 100,
+            size: 150,
+            grow: 1,
+        },
+        "mrt-row-numbers": {
+            muiTableHeadCellProps: {
+                align: "center",
+                sx: { borderRight: "1px solid", borderLeft: "1px solid" },
+            },
+            muiTableBodyCellProps: {
+                align: "center",
+                sx: { borderRight: "1px solid", borderLeft: "1px solid" },
+            },
+            size: 50,
+        },
+        "mrt-row-expand": {
+            grow: 0,
         },
     },
     layoutMode: "grid",
+    enablePagination: true,
     enableMultiRowSelection: true,
-    enableRowSelection: false,
+    enableRowSelection: true,
     enableCellActions: true,
     enableRowActions: true,
-    editDisplayMode: "row",
+    editDisplayMode: "modal",
     enableRowNumbers: true,
+    enableEditing: true,
     localization: MRT_Localization_RU,
     initialState: {
         columnVisibility: { id: false },
         pagination: {
             pageIndex: 0,
-            pageSize: 50,
+            pageSize: 10,
         },
-        density: "compact",
+        density: "comfortable",
     },
     state: {
         columnOrder: [
             "mrt-row-select",
-            "mrt-row-expand",
             "mrt-row-numbers",
+            "mrt-row-expand",
+            "name",
             // "mrt-row-actions",
         ],
     },

@@ -98,9 +98,20 @@ export async function getPlayers() {
 
   try {
     const p = await prisma.player.findMany({
-      include: {
-        ...defaultInclude,
+      // include: {
+
+      //   ticket: true,
+      //   _count: { select: { events: true } },
+      // },
+      select: {
+        id: true,
+        name: true,
+        pair: true,
         ticket: true,
+        profile: true,
+        events: true,
+        createdAt: true,
+        updatedAt: true,
         _count: { select: { events: true } },
       },
       orderBy: [

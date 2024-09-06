@@ -6,6 +6,8 @@ import Link from "next/link";
 import AdminPlayerList from "./AdminPlayerList";
 
 import { fetchAndCreatePlayers } from "@/Services/events/db_event";
+import { MRTPlayers } from "@/ClientComponents/MRT/Avangard/MRTPlayers";
+import { CGauge } from "./_gauge";
 
 const clone_action = fetchAndCreatePlayers.bind(null);
 
@@ -27,7 +29,7 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                 <Box ml={2} pr={4} flexGrow={1}>
                     <AdminPlayerList players={players}></AdminPlayerList>
                 </Box>
-                <Stack gap={1} flexGrow={1} useFlexGap m={3} minWidth={170}>
+                {/* <Stack gap={1} flexGrow={1} useFlexGap m={3} minWidth={170}>
                     <ShowCreateFormButton />
                     <Link href={{ query: showDel ? {} : { action: "delete" } }}>
                         <Button variant="contained" fullWidth>
@@ -41,12 +43,22 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
                         title="Sync players"
                         description="Синхронизация игроков с сервером"
                     />
-                </Stack>
+                </Stack> */}
             </Stack>
             <Box flexGrow={1} mt={1}>
                 {showCreate && <CreatePlayerForm />}
             </Box>
         </Stack>
+    );
+}
+
+async function AdminPlayersPage() {
+    const p = await getPlayers();
+
+    return (
+        <Box>
+            <MRTPlayers players={p} />
+        </Box>
     );
 }
 
@@ -70,4 +82,4 @@ function ShowCreateFormButton() {
     );
 }
 
-export default AvPlayers;
+export default AdminPlayersPage;

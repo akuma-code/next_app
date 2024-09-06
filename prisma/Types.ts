@@ -65,6 +65,20 @@ export type PrismaPlayer = {
     };
 };
 
+
+export type PrismaPlayer_ = Prisma.PlayerGetPayload<{
+    select: {
+        id: true,
+        name: true,
+        pair: true,
+        ticket: true,
+        profile: true,
+        events: true,
+        createdAt: true,
+        updatedAt: true
+        _count: { select: { events: true } }
+    }
+}>
 export const default_event_select = {
     id: true,
     date_formated: true,
