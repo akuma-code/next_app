@@ -272,7 +272,7 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
                     </DialogContent>
                     <DialogActions>
                         <MRT_EditActionButtons
-                            variant="text"
+                            variant="icon"
                             table={table}
                             row={row}
                         />

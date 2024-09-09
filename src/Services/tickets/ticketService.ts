@@ -21,13 +21,7 @@ export type ATicket = Prisma.TicketGetPayload<{
         eAt: true
     }
 }>
-export async function ticketSelect<S extends keyof ATicketSelector>(type: keyof ATicketSelector = 'main') {
-    switch (type) {
-        case "main": { return { amount: true, event_dates: true, playerId: true, uuid: true } as ATicketSelector['main'] };
-        case "all": { return { amount: true, eAt: true, event_dates: true, player: true, playerId: true, uuid: true } as ATicketSelector['all'] }
-        default: { return { amount: true, event_dates: true, playerId: true, uuid: true } as ATicketSelector['main'] };
-    }
-}
+
 export async function getTickets<T extends Prisma.TicketFindManyArgs>(args: T) {
     try {
         const t = await prisma.ticket.findMany(args)
@@ -71,3 +65,5 @@ export async function deleteTicket(args: Prisma.TicketDeleteArgs) {
 
 
 }
+
+
