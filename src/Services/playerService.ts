@@ -34,6 +34,33 @@ export async function createPlayer(name: string) {
   }
 }
 
+export async function CreateNewPlayer(payload: Prisma.PlayerCreateArgs) {
+  try {
+    const [lastPlayer] = await prisma.player.findMany({ take: -1, select: { id: true } })
+
+    const p = await prisma.player.create({ ...payload, data: { id: lastPlayer.id + 1, ...payload.data } })
+    return p
+  } catch (error) {
+    console.log(error)
+    throw error
+  } finally {
+    revalidatePath("/")
+  }
+}
+export async function EditPlayer(payload: Prisma.PlayerUpdateArgs) {
+  try {
+
+
+    const p = await prisma.player.update(payload)
+    return p
+  } catch (error) {
+    console.log(error)
+    throw error
+  } finally {
+    revalidatePath("/")
+  }
+}
+
 export async function deletePlayer(payload: DeletePayload) {
   const { id } = payload;
   const p = await prisma.player.findFirst({ where: { id } });
@@ -42,11 +69,13 @@ export async function deletePlayer(payload: DeletePayload) {
     try {
       const d = await prisma.player.delete({ where: { id } });
       _log("deleted: ", d);
-      revalidatePath("/");
+
       return d;
     } catch (error) {
       _log("___Delete error: \n", error);
       throw new Error("delete error");
+    } finally {
+      revalidatePath("/");
     }
   }
 }

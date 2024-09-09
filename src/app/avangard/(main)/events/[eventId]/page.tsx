@@ -1,5 +1,6 @@
 import { EventView } from "@/Components/EventView/EventView";
 import { reduceArrayToObject } from "@/Helpers/reduceToObject";
+import { getEvents } from "@/Services/events/eventActions";
 import { getEventById } from "@/Services/eventService";
 import { getMasters } from "@/Services/masterService";
 import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
@@ -24,10 +25,15 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     // );
     return (
         <Box display={"flex"} flexDirection={"row"} gap={2}>
-            <EventView event={{ ...event, cost: 1 }} masters={masters} />
+            <EventView event={{ ...event }} masters={masters} />
             {/* <EventView_v2 eventId={ Number(eventId) } masters={ masters } /> */}
         </Box>
     );
 };
 
 export default EventIdPage;
+
+export async function generateStaticParams() {
+    const events = (await getEvents({ where: {} })) || [];
+    return events.map((e) => ({ eventId: e.id.toString() }));
+}

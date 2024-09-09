@@ -19,6 +19,7 @@ import {
     mdiAccountPlusOutline,
     mdiCardAccountDetailsOutline,
     mdiCash,
+    mdiCurrencyRub,
     mdiEye,
     mdiEyeOff,
 } from "@mdi/js";
@@ -51,7 +52,7 @@ interface Pair {
     secondPlayerId: number;
 }
 
-type TEvent = IEvent_Front & { pairs: Pair[]; cost: number };
+type TEvent = IEvent_Front & { pairs: Pair[]; cost: number | null };
 interface Eventinfo {
     boxProps?: BoxProps<"div">;
     event: TEvent;
@@ -223,7 +224,8 @@ export const EventView: React.FC<Eventinfo> = ({
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            minHeight: "3rem",
+                            alignItems: "center",
+                            minHeight: "2.5rem",
                             gap: 1,
                         }}
                         divider
@@ -348,21 +350,20 @@ export const EventView: React.FC<Eventinfo> = ({
                                         bgcolor: "lightblue",
                                         color: "primary.dark",
                                         width: 72,
-                                        height: 32,
+                                        height: 48,
                                         gap: 1,
                                         display: "flex",
                                     }}
                                 >
                                     <Icon
                                         className="flex-grow"
-                                        path={mdiCash}
-                                        size={1.5}
+                                        path={mdiCurrencyRub}
+                                        size={1}
                                     />
 
                                     <Box
                                         flexGrow={1}
-                                        border={"1px solid red"}
-                                        minWidth={24}
+                                        minWidth={18}
                                         textAlign={"center"}
                                     >
                                         {p.ticket.amount}

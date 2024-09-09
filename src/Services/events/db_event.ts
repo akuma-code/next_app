@@ -244,7 +244,7 @@ export async function fetchAndCreatePlayers() {
         const existed_players = await prisma.player.findMany({ select: { id: true, name: true } })
 
 
-        if (existed_players.length === server_players.length) return console.log("players in sync, all good")
+        // if (existed_players.length === server_players.length) return console.log("players in sync, all good")
 
         const to_create = server_players.filter(p => !existed_players.map(e => e.id).includes(p.id))
 
@@ -331,41 +331,7 @@ export async function sync_events_pairs() {
 
 }
 
-async function sync_pairs(pairs: Prisma.PairGetPayload<true>[]) {
-    try {
-        const db_pairs = await prisma.pair.findMany()
-        const db_pairs_id_pool = db_pairs.map(p => p.id)
-
-        const validate_pair_args = (p: Prisma.PairGetPayload<true>) => Prisma.validator<Prisma.PairUncheckedCreateNestedManyWithoutMasterInput>()({
-            connect: {
-                id: p.id,
-                playerId: p.playerId,
-                firstPlayerId: p.firstPlayerId,
-                secondPlayerId: p.secondPlayerId,
-                eventId: p.eventId,
-                masterId: p.masterId
-            }
-
-        })
-        const new_valid_pairs = pairs.filter(p => !db_pairs_id_pool.includes(p.id)).map(validate_pair_args)
-
-        console.log("🚀 ~ sync_pairs ~ new_valid_pairs:", new_valid_pairs)
-        const tsx = new_valid_pairs.map(p => prisma.pair.upsert({
-            where: { id: p.connect.id },
-            update: {
-                player: {
-                    connect: { id: p.connect.playerId },
-                },
-                event: { connect: { id: p.connect.eventId } },
-                master: { connect: { id: p.connect.masterId! } }
-            },
-            create: p.connect
-        })
-        )
-        return prisma.$transaction(tsx)
-    } catch (error) {
-        throw error
-    }
-
-
+export async function reSyncPlayers() {
+    await prisma.player.deleteMany().then(console.log)
+    await fetchAndCreatePlayers().then(console.log)
 }
