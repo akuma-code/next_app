@@ -187,7 +187,6 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
                                 return (
                                     <ListItem
                                         {...p}
-                                        key={option.name}
                                         secondaryAction={
                                             <Checkbox
                                                 style={{
