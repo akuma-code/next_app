@@ -97,112 +97,113 @@ export const EventViewEditDialog: React.FC<EditEventDialogProps> = ({
         await updateEventPlayers({ id: event_data.id, _new_data: event_data });
         control.off();
     };
-    return (
-        <>
-            <div>
-                {buttonVariant === "base" ? (
-                    <Button
-                        onClick={control.toggle}
-                        variant="outlined"
-                        size="small"
-                    >
-                        Изменить
-                    </Button>
-                ) : (
-                    <IconButton onClick={control.toggle}>
-                        <SettingsTwoTone />
-                    </IconButton>
-                )}
-            </div>
-            <Dialog open={open} onClose={control.off}>
-                <DialogTitle>
-                    <Box display={"flex"} justifyContent={"space-between"}>
-                        Edit Event id: {id}
-                        <Button
-                            onClick={handleSubmitEvent}
-                            disabled={isChanged}
-                        >
-                            Submit
-                        </Button>
-                    </Box>
-                </DialogTitle>
-                <DialogContent>
-                    <Stack rowGap={1} maxWidth={300}>
-                        <TextField
-                            name="title"
-                            value={ev.title}
-                            size="small"
-                            onChange={changeTitleHandler}
-                            helperText={"Изменить название"}
-                        />
-                        <DatePicker
-                            name="date"
-                            value={eventDate}
-                            onChange={setEventDate}
-                            slotProps={{
-                                textField: {
-                                    size: "small",
-                                    helperText: "изменить дату",
-                                },
-                            }}
-                        />
+    return null;
+    // (
+    // <>
+    //     <div>
+    //         {buttonVariant === "base" ? (
+    //             <Button
+    //                 onClick={control.toggle}
+    //                 variant="outlined"
+    //                 size="small"
+    //             >
+    //                 Изменить
+    //             </Button>
+    //         ) : (
+    //             <IconButton onClick={control.toggle}>
+    //                 <SettingsTwoTone />
+    //             </IconButton>
+    //         )}
+    //     </div>
+    //     <Dialog open={open} onClose={control.off}>
+    //         <DialogTitle>
+    //             <Box display={"flex"} justifyContent={"space-between"}>
+    //                 Edit Event id: {id}
+    //                 <Button
+    //                     onClick={handleSubmitEvent}
+    //                     disabled={isChanged}
+    //                 >
+    //                     Submit
+    //                 </Button>
+    //             </Box>
+    //         </DialogTitle>
+    //         <DialogContent>
+    //             <Stack rowGap={1} maxWidth={300}>
+    //                 <TextField
+    //                     name="title"
+    //                     value={ev.title}
+    //                     size="small"
+    //                     onChange={changeTitleHandler}
+    //                     helperText={"Изменить название"}
+    //                 />
+    //                 <DatePicker
+    //                     name="date"
+    //                     value={eventDate}
+    //                     onChange={setEventDate}
+    //                     slotProps={{
+    //                         textField: {
+    //                             size: "small",
+    //                             helperText: "изменить дату",
+    //                         },
+    //                     }}
+    //                 />
 
-                        <Autocomplete
-                            multiple
-                            disableCloseOnSelect
-                            loading={isLoading}
-                            value={ac_select}
-                            onChange={handleAcValueChange}
-                            inputValue={ac_value}
-                            onInputChange={handleInputChange}
-                            renderInput={(params) => <TextField {...params} />}
-                            options={ac_options}
-                            getOptionLabel={(option) => option.name}
-                            isOptionEqualToValue={(option, value) =>
-                                option.id === value.id
-                            }
-                            renderOption={(props, option, { selected }) => {
-                                const p = props;
-                                return (
-                                    <li key={option.name} {...p}>
-                                        <Checkbox
-                                            style={{
-                                                marginRight: 4,
-                                                marginLeft: 4,
-                                            }}
-                                            checked={selected}
-                                        />
-                                        {option.name}
-                                    </li>
-                                );
-                            }}
-                            limitTags={6}
-                            getLimitTagsText={(more) =>
-                                `+${more}, итого: ${ac_select.length}`
-                            }
-                            renderTags={(selected, getTagProps) =>
-                                selected.map((p, index) => {
-                                    const { key, ...rest } = getTagProps({
-                                        index,
-                                    });
+    //                 <Autocomplete
+    //                     multiple
+    //                     disableCloseOnSelect
+    //                     loading={isLoading}
+    //                     value={ac_select}
+    //                     onChange={handleAcValueChange}
+    //                     inputValue={ac_value}
+    //                     onInputChange={handleInputChange}
+    //                     renderInput={(params) => <TextField {...params} />}
+    //                     options={ac_options}
+    //                     getOptionLabel={(option) => option.name}
+    //                     isOptionEqualToValue={(option, value) =>
+    //                         option.id === value.id
+    //                     }
+    //                     renderOption={(props, option, { selected }) => {
+    //                         const p = props;
+    //                         return (
+    //                             <li {...p}>
+    //                                 <Checkbox
+    //                                     style={{
+    //                                         marginRight: 4,
+    //                                         marginLeft: 4,
+    //                                     }}
+    //                                     checked={selected}
+    //                                 />
+    //                                 {option.name}
+    //                             </li>
+    //                         );
+    //                     }}
+    //                     limitTags={6}
+    //                     getLimitTagsText={(more) =>
+    //                         `+${more}, итого: ${ac_select.length}`
+    //                     }
+    //                     renderTags={(selected, getTagProps) =>
+    //                         selected.map((p, index) => {
+    //                             const { key, ...rest } = getTagProps({
+    //                                 index,
+    //                             });
 
-                                    const label = name_letters(p.name);
-                                    return (
-                                        <Chip
-                                            variant="filled"
-                                            label={label}
-                                            {...rest}
-                                            key={p.name}
-                                        />
-                                    );
-                                })
-                            }
-                        />
-                    </Stack>
-                </DialogContent>
-            </Dialog>
-        </>
-    );
+    //                             const label = name_letters(p.name);
+    //                             return (
+    //                                 <Chip
+    //                                     variant="filled"
+    //                                     label={label}
+    //                                     {...rest}
+    //                                     key={p.name}
+    //                                 />
+    //                             );
+    //                         })
+    //                     }
+    //                 />
+    //             </Stack>
+    //         </DialogContent>
+    //     </Dialog>
+    // </>
+    // );
 };
 
 EventViewEditDialog.displayName = "____EditEventDialog";
