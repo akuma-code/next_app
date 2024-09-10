@@ -48,6 +48,10 @@ export default async function BackupPage({
                     action={sync_events_pairs.bind(null)}
                     title="Вытянуть events и создать их"
                 />
+                <DescriptionButtonQuery
+                    action={fetchServer}
+                    title="/api/db/events"
+                />
             </Box>
         </MrtBoundary>
     );
@@ -66,7 +70,7 @@ async function loadData() {
 async function fetchServer() {
     "use server";
     const data = fetch(
-        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup/events"
+        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/db/event"
     ).then(
         (r) => r.json(),
         (e) => console.log({ e })

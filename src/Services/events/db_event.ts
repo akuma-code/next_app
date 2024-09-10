@@ -279,11 +279,11 @@ export async function sync_events_pairs() {
         // await fetchAndCreatePlayers()
         await prisma.event.deleteMany()
         await prisma.pair.deleteMany()
-
+        await reseedMasters()
         const { events, pairs } = await fetchServer().then(r => r.alldata) as { events: Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>[], pairs: Prisma.PairGetPayload<{ select: { master: true, player: true, event: true } }>[] }
 
 
-        const existed_events_id_pool = await prisma.event.findMany({ select: { id: true } }).then(r => r.map(e => e.id))
+        const existed_events_id_pool = await prisma.event.findMany({ select: { id: true, } }).then(r => r.map(e => e.id))
 
         console.log("🚀 ~ sync_events_pairs ~ existed_events_id_pool:", existed_events_id_pool)
 
@@ -323,7 +323,7 @@ export async function sync_events_pairs() {
             })
         )
 
-        await reseedMasters()
+
         // const tsx_pairs_update = await sync_pairs(pairs)
 
         return await prisma.$transaction([...tsx_create_new, ...tsx_create_pairs])

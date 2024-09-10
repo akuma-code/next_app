@@ -61,6 +61,7 @@ import {
     reSyncPlayers,
 } from "@/Services/events/db_event";
 import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
+import { useGetAllPlayers } from "@/Hooks/useGetEventPlayers";
 
 type TValues = Record<
     LiteralUnion<
@@ -175,7 +176,7 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
     const [open, c] = useToggle();
     const [selected_player, select] = useState<PrismaPlayer_ | null>(null);
     const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
-
+    const [qplayers, p_loading] = useGetAllPlayers();
     const [isPending, s] = useTransition();
     const handleReSync = () =>
         s(async () => {
@@ -197,10 +198,10 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
     const table = useMaterialReactTable({
         ...mrt_players_options,
         columns: player_columns,
-        data: players,
+        data: qplayers,
         state: {
             // rowSelection,
-            // isLoading: !players || isPending,
+            isLoading: p_loading,
             isSaving: isPending,
             columnOrder: [
                 "mrt-row-select",
@@ -210,7 +211,7 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
                 "name",
             ],
         },
-
+        enableStickyHeader: true,
         renderDetailPanel: PlayerControlDetail,
         muiExpandButtonProps: ({ row, table }) => ({
             onClick: () =>

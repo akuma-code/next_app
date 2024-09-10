@@ -1,9 +1,9 @@
 'use client'
 
 import { getEventsUnique } from "@/Services/eventService"
-import { PlayerWithTicket, getPlayers } from "@/Services/playerService"
-import allP from "@/utils/playersList"
-import { useEffect, useMemo, useState } from "react"
+import { getPlayers } from "@/Services/playerService"
+import { PrismaPlayer_ } from "@/Types"
+import { useEffect, useState } from "react"
 
 export default function useGetEventPlayers(date?: string) {
     const [isPending, setPending] = useState(false)
@@ -30,11 +30,7 @@ export default function useGetEventPlayers(date?: string) {
 }
 export function useGetAllPlayers() {
     const [isPending, setPending] = useState(false)
-    const [players, setPlayers] = useState<{
-        id: number;
-        name: string;
-        ticket?: any | null
-    }[]>([])
+    const [players, setPlayers] = useState<PrismaPlayer_[]>([])
 
     useEffect(() => {
         const getall = async () => {
