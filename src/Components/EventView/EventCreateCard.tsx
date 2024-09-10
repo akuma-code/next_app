@@ -32,6 +32,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from "react";
 import { IPlayer } from "./EventBlank";
+import { PrismaPlayer_ } from "@/Types";
 
 interface CreateEventCardProps {
     // ExtendButtonBase<IconButtonTypeMap<{}, "button">>
@@ -39,7 +40,7 @@ interface CreateEventCardProps {
 
 type AcValueChangeHandler = (
     event: SyntheticEvent<Element, Event>,
-    value: { id: number; name: string; ticket?: any | null }[],
+    value: PrismaPlayer_[],
     reason: AutocompleteChangeReason,
     details?:
         | AutocompleteChangeDetails<{
