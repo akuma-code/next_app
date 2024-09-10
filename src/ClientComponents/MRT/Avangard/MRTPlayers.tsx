@@ -314,7 +314,6 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
         },
 
         onEditingRowSave: handleSavePlayer,
-        getRowId: (row) => row.id.toString(),
 
         // renderRowActionMenuItems: RowActionMenu,
         // renderRowActionMenuItems(props) {
