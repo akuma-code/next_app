@@ -33,8 +33,6 @@ const AvangardLayout: React.FC<{
                     sm: "column",
                     md: "row",
                 }}
-                // spacing={ 1 }
-                // bgcolor={ 'background' }
             >
                 <Box
                     flexGrow={1}
@@ -52,13 +50,13 @@ const AvangardLayout: React.FC<{
                 >
                     {links.map((item) => (
                         <NavLink key={item.href} href={item.href}>
-                            <Typography variant="body1" component={"div"}>
+                            <Typography variant="subtitle2" component={"div"}>
                                 {item.label}
                             </Typography>
                         </NavLink>
                     ))}
                 </Box>
-                <Box flexGrow={1}>{children}</Box>
+                <Box flexGrow={2}>{children}</Box>
             </Stack>
             <div id="modal-root" />
         </aside>

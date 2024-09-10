@@ -1,7 +1,7 @@
 import StackedBarChart from "@/Components/Charts/StackedBarChart";
 import { getDBManyEventsData } from "@/Services/events/db_event";
 import { getEvents } from "@/Services/events/eventActions";
-import { Grid } from "@mui/material";
+import { Grid2 } from "@mui/material";
 import { Board } from "./_components/Board";
 import { ItemsList } from "./_components/EventList";
 
@@ -31,24 +31,24 @@ async function MainPage({
         orderBy: { date_formated: "desc" },
     });
 
-    const { data, total } = await getDBManyEventsData(
-        { isDraft: false },
-        {
-            date_formated: true,
-            pairs: false,
-            players: false,
+    // const { data, total } = await getDBManyEventsData(
+    //     { isDraft: false },
+    //     {
+    //         date_formated: true,
+    //         pairs: false,
+    //         players: false,
 
-            _count: { select: { players: true, pairs: true } },
-        },
-        {
-            skip: skip,
-            take: rpp,
-            orderBy: { date_formated: "desc" },
-        }
-    );
+    //         _count: { select: { players: true, pairs: true } },
+    //     },
+    //     {
+    //         skip: skip,
+    //         take: rpp,
+    //         orderBy: { date_formated: "desc" },
+    //     }
+    // );
 
     return (
-        <Grid
+        <Grid2
             container
             columns={12}
             gap={1}
@@ -62,17 +62,17 @@ async function MainPage({
                 },
             }}
         >
-            <Grid item md={4}>
+            <Grid2 width={"auto"}>
                 <Board />
-            </Grid>
+            </Grid2>
 
-            <Grid item md={4}>
+            <Grid2 width={"auto"}>
                 <StackedBarChart />
-            </Grid>
-            <Grid item md={3}>
+            </Grid2>
+            <Grid2 width={"auto"}>
                 {e_data && <ItemsList items={e_data} />}
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     );
 }
 

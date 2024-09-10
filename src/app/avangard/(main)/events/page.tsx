@@ -1,5 +1,11 @@
 import { OrderFilterControls } from "@/ClientComponents/UI/Filters/OrderFiltersControl";
-import { AppBar, Box, CircularProgress, Toolbar } from "@mui/material";
+import {
+    AppBar,
+    Box,
+    CircularProgress,
+    Container,
+    Toolbar,
+} from "@mui/material";
 import { Suspense } from "react";
 import { ViewSwitch } from "./viewSwitch";
 
@@ -15,7 +21,7 @@ async function EventsPage({
 
     return (
         // <MrtBoundary>
-        <Box sx={{}} p={1}>
+        <Container maxWidth={"md"}>
             <Suspense
                 fallback={
                     <CircularProgress variant="indeterminate" color="error" />
@@ -38,7 +44,7 @@ async function EventsPage({
                 </AppBar>
                 <ViewSwitch view={{ type: view }} options={{ month, order }} />
             </Suspense>
-        </Box>
+        </Container>
         // </MrtBoundary>
     );
 }

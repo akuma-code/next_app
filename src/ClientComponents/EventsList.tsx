@@ -3,7 +3,7 @@
 import { QuickEventCreate } from "@/app/avangard/(main)/_components/QuickEventCreate";
 import { EventViewCard } from "@/Components/EventView/EventViewCard";
 import { DayOfWeek } from "@/Helpers/dateFuncs";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Grid2 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
@@ -57,7 +57,7 @@ export const EventsList: React.FC<{
 
     return (
         <Box
-            maxWidth={{ sm: 450, md: 600 }}
+            maxWidth={{ sm: 450, md: "100vw" }}
             bgcolor={"background.paper"}
             p={2}
             m={0}
@@ -80,34 +80,27 @@ export const EventsList: React.FC<{
                     <AddIcon />
                     Начать новую тренировку
                 </Fab> */}
-            <Grid
+            <Grid2
                 container
                 spacing={2}
                 // maxWidth={ { xs: 300, md: 450, lg: 600 } }
                 maxHeight={{ sm: "60vh", md: "70vh" }}
                 sx={{ pt: 1, pr: 2, overflowY: "scroll" }}
             >
-                <Grid item sx={{ position: "relative" }} sm={2}>
-                    <QuickEventCreate></QuickEventCreate>
-                </Grid>
+                <Grid2 sx={{ position: "relative" }}>
+                    <QuickEventCreate />
+                </Grid2>
                 {events.map((e) => (
-                    <Grid
-                        key={e.id}
-                        item
-                        sm={6}
-                        md={4}
-                        xl={3}
-                        maxWidth={{ sm: 300 }}
-                    >
+                    <Grid2 key={e.id} maxWidth={{ sm: 300 }}>
                         <EventViewCard
                             event={e}
                             title={dm(e.date_formated)}
                             subtitle={dayjs().year().toString()}
                             description={dayWeek(e.date_formated)}
                         />
-                    </Grid>
+                    </Grid2>
                 ))}
-            </Grid>
+            </Grid2>
         </Box>
     );
 };

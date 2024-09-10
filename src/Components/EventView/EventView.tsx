@@ -44,6 +44,7 @@ import {
 } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 import { ConnectDialog, CreatePlayerDialog } from "../Modals/PlayersDialogs";
+import { Prisma } from "@prisma/client";
 
 interface Pair {
     id: number;
@@ -52,7 +53,17 @@ interface Pair {
     secondPlayerId: number;
 }
 
-type TEvent = IEvent_Front & { pairs: Pair[]; cost: number | null };
+type TEvent = Prisma.EventGetPayload<{
+    select: {
+        id: true;
+        date_formated: true;
+        players: { select: { id: true; name: true; ticket: true } };
+        pairs: true;
+        cost: true;
+        title: true;
+        _count: { select: { players: true } };
+    };
+}>;
 interface Eventinfo {
     boxProps?: BoxProps<"div">;
     event: TEvent;

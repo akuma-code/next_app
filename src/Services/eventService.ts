@@ -323,7 +323,7 @@ export async function getEventsByMonthDto(
 }
 export async function getEventById(eventId: string) {
     const id = Number(eventId);
-    if (isNaN(id)) throw new Error(`Event Id Invalid: ${eventId}`);
+    // if (isNaN(id)) throw new Error(`Event Id Invalid: ${eventId}`);
 
     const e = prisma.event;
     try {

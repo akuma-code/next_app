@@ -134,7 +134,7 @@ export const EventViewCard = ({
                     >
                         <Button
                             color="primary"
-                            // LinkComponent={Link}
+                            LinkComponent={Link}
                             // href={pathname + `/${event.id}`}
                             onClick={() =>
                                 router.push(`${pathname}/${event.id}`)
@@ -147,10 +147,8 @@ export const EventViewCard = ({
                             <Button
                                 startIcon={<SettingsTwoTone />}
                                 color="secondary"
-                                LinkComponent={Link}
-                                href={pathname + `/${event.id}/edit`}
                             >
-                                Править
+                                развернуть
                             </Button>
                         )}
                     </ButtonGroup>

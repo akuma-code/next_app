@@ -3,6 +3,7 @@
 import prisma from "@/client/client"
 import { makeSerializable } from "@/Helpers/serialize"
 import { reseedMasters } from "@/seed/seed"
+import { PrismaPlayer_ } from "@/Types"
 import { Event, Prisma } from "@prisma/client"
 import { DefaultArgs } from "@prisma/client/runtime/library"
 import { revalidatePath } from "next/cache"
@@ -241,7 +242,7 @@ export async function fetchAndCreatePlayers() {
             throw new Error("Fetch error")
         }
 
-        const existed_players = await prisma.player.findMany({ select: { id: true, name: true, ticket: true } })
+        const existed_players = await prisma.player.findMany({ select: { id: true, name: true, ticket: true, events: true } })
 
 
         // if (existed_players.length === server_players.length) return console.log("players in sync, all good")
@@ -253,12 +254,14 @@ export async function fetchAndCreatePlayers() {
             id: player.id, name: player.name, ticket: player.ticket ? ({
                 connectOrCreate: {
                     where: { playerId: player.id },
-                    create: player.ticket || {}
+                    create: player.ticket || undefined
 
                 }
             }) : (undefined)
         })
-        const validated_players = to_create.map(validate)
+
+        const validateUpsert = <T extends Partial<PrismaPlayer_>>(player: T) => Prisma.validator<Prisma.PlayerUpsertArgs>()({})
+        const validated_players = server_players.map(validate)
         // const tsx_delete = prisma.player.deleteMany()
 
         const tsx = validated_players.map(p => prisma.player.create({ data: p }))
@@ -276,7 +279,7 @@ export async function fetchAndCreatePlayers() {
 
 export async function sync_events_pairs() {
     try {
-        // await fetchAndCreatePlayers()
+        await fetchAndCreatePlayers()
         await prisma.event.deleteMany()
         await prisma.pair.deleteMany()
         await reseedMasters()
