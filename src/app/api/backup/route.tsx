@@ -68,7 +68,7 @@ export async function GET(
         if (query === "events") {
             // console.clear()
             const db_events = await getEventsData({ log: withLog });
-            console.table("___ ___ restore events");
+            // console.table("___ ___ restore events");
             console.table(db_events);
             return NextResponse.json(db_events);
         }

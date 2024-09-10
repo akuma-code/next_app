@@ -1,22 +1,17 @@
 "use client";
+import useMediaDetect from "@/Hooks/useMediaDetect";
 import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ruRU } from "@mui/material/locale";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import {
-    QueryClient,
-    QueryFunction
-} from "@tanstack/react-query";
+import { QueryFunction } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import weekday from "dayjs/plugin/weekday";
 import React, { useMemo } from "react";
 import { getDesignTokens } from "../theme";
-import useMediaDetect from "@/Hooks/useMediaDetect";
-
-
 
 dayjs.extend(weekday);
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
@@ -31,15 +26,13 @@ export const queryFetch: QueryFunction = async ({ queryKey }) => {
     return data.json();
 };
 
-
 export const ColorModeContext = React.createContext({
-    toggleColorMode: () => { },
+    toggleColorMode: () => {},
 });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
-    const { device, isMobile, isDesktop } = useMediaDetect()
-    // console.log('prefersDarkMode: ', prefersDarkMode)
+    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+    // const { device, isMobile, isDesktop } = useMediaDetect();
     const savedmode: PaletteMode = prefersDarkMode ? "dark" : "light";
 
     const [mode, setMode] = React.useState<PaletteMode>(savedmode);
@@ -49,7 +42,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             toggleColorMode: () => {
                 setMode((prevMode: PaletteMode) => {
                     const new_color = prevMode === "light" ? "dark" : "light";
-                    // localStorage.setItem('colormode', new_color)
                     return new_color;
                 });
             },
@@ -63,53 +55,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         [mode]
     );
     return (
-        <ColorModeContext.Provider value={ colorMode }>
+        <ColorModeContext.Provider value={colorMode}>
             <AppRouterCacheProvider>
-
-                <ThemeProvider theme={ THEME }>
+                <ThemeProvider theme={THEME}>
                     <CssBaseline enableColorScheme />
                     <LocalizationProvider
-                        dateAdapter={ AdapterDayjs }
+                        dateAdapter={AdapterDayjs}
                         adapterLocale="ru"
                     >
-                        { children }
-
+                        {children}
                     </LocalizationProvider>
                 </ThemeProvider>
-
             </AppRouterCacheProvider>
         </ColorModeContext.Provider>
     );
 }
-
-
-
-
-// function makeQueryClient() {
-//     return new QueryClient({
-//         defaultOptions: {
-//             queries: {
-//                 queryFn: queryFetch,
-//                 // With SSR, we usually want to set some default staleTime
-//                 // above 0 to avoid refetching immediately on the client
-//                 staleTime: 60 * 1000,
-//             },
-//         },
-//     });
-// }
-
-// let browserQueryClient: QueryClient | undefined = undefined;
-
-// export function getQueryClient() {
-//     if (typeof window === "undefined") {
-//         // Server: always make a new query client
-//         return makeQueryClient();
-//     } else {
-//         // Browser: make a new query client if we don't already have one
-//         // This is very important so we don't re-make a new client if React
-//         // suspends during the initial render. This may not be needed if we
-//         // have a suspense boundary BELOW the creation of the query client
-//         if (!browserQueryClient) browserQueryClient = makeQueryClient();
-//         return browserQueryClient;
-//     }
-// }
