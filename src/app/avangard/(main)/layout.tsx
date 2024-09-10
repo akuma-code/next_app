@@ -11,10 +11,10 @@ const links = [
         href: "/avangard/players",
         label: "Игроки",
     },
-    {
-        href: "/avangard/board/add",
-        label: "Запись на тренировку",
-    },
+    // {
+    //     href: "/avangard/board/add",
+    //     label: "Запись на тренировку",
+    // },
 ];
 
 export const metadata: Metadata = {
@@ -25,8 +25,7 @@ export const metadata: Metadata = {
 
 const AvangardLayout: React.FC<{
     children?: React.ReactNode;
-    view: React.ReactNode;
-}> = async ({ children, view }) => {
+}> = async ({ children }) => {
     return (
         <aside>
             <Stack
@@ -60,7 +59,6 @@ const AvangardLayout: React.FC<{
                     ))}
                 </Box>
                 <Box flexGrow={1}>{children}</Box>
-                <Box>{view}</Box>
             </Stack>
             <div id="modal-root" />
         </aside>
