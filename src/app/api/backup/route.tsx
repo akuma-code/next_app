@@ -41,7 +41,7 @@ export async function GET(
     request: Request,
     context?: { searchParams: { data: string } }
 ) {
-    await syncPairs();
+    // await syncPairs();
     const u = new URL(request.url);
     const query = (u.searchParams.get("data") as BackupTypeQuery) ?? "all";
     // _log({ request })

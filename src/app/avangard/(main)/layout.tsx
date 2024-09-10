@@ -25,7 +25,8 @@ export const metadata: Metadata = {
 
 const AvangardLayout: React.FC<{
     children?: React.ReactNode;
-}> = async ({ children }) => {
+    view: React.ReactNode;
+}> = async ({ children, view }) => {
     return (
         <aside>
             <Stack
@@ -59,6 +60,7 @@ const AvangardLayout: React.FC<{
                     ))}
                 </Box>
                 <Box flexGrow={1}>{children}</Box>
+                <Box>{view}</Box>
             </Stack>
             <div id="modal-root" />
         </aside>

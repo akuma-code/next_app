@@ -10,7 +10,11 @@ import {
 } from "@/Services/playerService";
 import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
 import { PrismaPlayer_ } from "@/Types";
-import { mdiTicketConfirmationOutline } from "@mdi/js";
+import {
+    mdiFileCertificateOutline,
+    mdiFileRemoveOutline,
+    mdiTicketConfirmationOutline,
+} from "@mdi/js";
 import Icon from "@mdi/react";
 import {
     AccountCircleTwoTone,
@@ -41,6 +45,7 @@ import {
     MRT_EditActionButtons,
     MRT_Row,
     MRT_RowSelectionState,
+    MRT_TableInstance,
     MRT_TableOptions,
     useMaterialReactTable,
     // createRow,
@@ -52,6 +57,7 @@ import {
     fetchAndCreatePlayers,
     reSyncPlayers,
 } from "@/Services/events/db_event";
+import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
 
 type TValues = Record<
     LiteralUnion<
@@ -168,11 +174,8 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
     const [open, c] = useToggle();
     const [selected_player, select] = useState<PrismaPlayer_ | null>(null);
     const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
-    const openDeleteConfirmModal = async (row: MRT_Row<PrismaPlayer_>) => {
-        if (window.confirm("Are you sure you want to delete this user?")) {
-            await deletePlayer({ id: row.original.id });
-        }
-    };
+
+    const tt = useTicket();
     const [isPending, s] = useTransition();
     const handleReSync = () =>
         s(async () => {
@@ -205,25 +208,35 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
             ],
         },
         renderDetailPanel: PlayerControlDetail,
-        renderRowActions({ row, table }) {
-            return (
-                <Box sx={{ display: "flex", gap: ".5rem" }}>
-                    <Tooltip title="Edit">
-                        <IconButton onClick={() => table.setEditingRow(row)}>
-                            <EditTwoTone />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                        <IconButton
-                            color="error"
-                            onClick={() => openDeleteConfirmModal(row)}
-                        >
-                            <DeleteTwoTone />
-                        </IconButton>
-                    </Tooltip>
-                </Box>
-            );
-        },
+        // renderRowActions({ row, table,  }) {
+        // return (
+        //     <Box sx={{ display: "flex", gap: ".5rem" }}>
+        //         <Tooltip title="Edit">
+        //             <IconButton onClick={() => table.setEditingRow(row)}>
+        //                 <EditTwoTone />
+        //             </IconButton>
+        //         </Tooltip>
+        //         {/* <Tooltip title="Open Ticket">
+        //             <IconButton
+        //                 onClick={async () =>
+        //                     await tt.openTicket(row.original, { limit: 10 })
+        //                 }
+        //             >
+        //                 <Icon path={mdiFileCertificateOutline} size={1} />
+        //             </IconButton>
+        //         </Tooltip> */}
+        //         <Tooltip title="Delete">
+        //             <IconButton
+        //                 color="warning"
+        //                 onClick={() => openDeleteConfirmModal(row)}
+        //             >
+        //                 <DeleteTwoTone />
+        //             </IconButton>
+        //         </Tooltip>
+        //     </Box>
+        // );
+
+        // },
         renderTopToolbarCustomActions(props) {
             const { table } = props;
             return (
@@ -238,7 +251,7 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
                     <Button variant="contained">Дабавить абонемент</Button>
                     <Button
                         variant="contained"
-                        color={"info"}
+                        color={"warning"}
                         onClick={handleReSync}
                     >
                         Синхронизировать
@@ -300,16 +313,16 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
         onEditingRowSave: handleSavePlayer,
         // getRowId: (row) => `${row.id}`,
 
-        // renderRowActionMenuItems: RowActionMenu,
+        renderRowActionMenuItems: RowActionMenu,
     });
 
     return (
         <>
-            <EditTicketDialog
+            {/* <EditTicketDialog
                 open={open}
                 onClose={c.off}
                 selected_player={selected_player}
-            />
+            /> */}
             <MaterialReactTable table={table} />
         </>
     );
@@ -322,20 +335,19 @@ const RowActionMenu = ({
     closeMenu: () => void;
     row: MRT_Row<PrismaPlayer_>;
 }) => [
-    <MenuItem divider key={0}>
-        <Stack direction={"row"} width={"100%"} gap={2}>
-            <EditTwoTone className="mx-1" />
-            <Box flexGrow={1}> Изменить</Box>
-        </Stack>
-    </MenuItem>,
+    // <MenuItem divider key={0}>
+    //     <Stack direction={"row"} width={"100%"} gap={2}>
+    //         <EditTwoTone className="mx-1" />
+    //         <Box flexGrow={1}> Изменить</Box>
+    //     </Stack>
+    // </MenuItem>,
 
     <MenuItem
-        divider
-        key={1}
+        key={"delete"}
         onClick={async () =>
             await handleDeletePlayer({
                 player_id: row.original.id,
-            }).finally(() => closeMenu())
+            }).then(closeMenu)
         }
     >
         <Stack direction={"row"} width={"100%"} gap={2}>
@@ -344,14 +356,8 @@ const RowActionMenu = ({
         </Stack>
     </MenuItem>,
 
-    <MenuItem key={2}>
-        <Stack direction={"row"} width={"100%"} gap={2}>
-            <AccountCircleTwoTone /> <span className="mp-1"> Профиль</span>
-        </Stack>
-    </MenuItem>,
-
     <MenuItem
-        key={3}
+        key={"info"}
         onClick={() => {
             console.clear();
             console.info("player: ", row.original);
@@ -362,122 +368,53 @@ const RowActionMenu = ({
             <ShareTwoTone /> Консоль
         </Stack>
     </MenuItem>,
-
-    <MenuItem
-        key={4}
-        onClick={async () => {
-            closeMenu();
-        }}
-    >
-        <Stack direction={"row"} width={"100%"} gap={2}>
-            <Icon path={mdiTicketConfirmationOutline} size={1} />
-            Абонемент
-        </Stack>
-    </MenuItem>,
 ];
-
+const openDeleteConfirmModal = async (row: MRT_Row<PrismaPlayer_>) => {
+    if (window.confirm(`Уверены что хотите удалить ${row.original.name}`)) {
+        await deletePlayer({ id: row.original.id });
+    }
+};
 async function handleDeletePlayer({ player_id }: { player_id: number }) {
-    await deletePlayer({ id: player_id });
+    if (window.confirm(`Уверены что хотите удалить игрока?`)) {
+        await deletePlayer({ id: player_id });
+    }
 }
-async function addTicket(id: number, limit = 10) {
-    const t = await createTicketForPlayer({
-        playerId: id,
-        new_ticket: { amount: 10, limit, eAt: "2024-12-31" },
-    });
-    console.table(t);
-    return t;
-}
-export function EditTicketDialog({
-    open,
-    onClose,
-    selected_player,
+
+export function PlayerControlDetail({
+    row,
+    table,
 }: {
-    open: boolean;
-    onClose: () => void;
-    selected_player: PrismaPlayer_ | null;
+    row: MRT_Row<PrismaPlayer_>;
+    table: MRT_TableInstance<PrismaPlayer_>;
 }) {
-    return (
-        <Dialog open={open} onClose={onClose}>
-            <DialogContent>{selected_player?.name}</DialogContent>
-        </Dialog>
-    );
-}
-
-export function PlayerControlDetail({ row }: { row: MRT_Row<PrismaPlayer_> }) {
     const { original } = row;
     const { _count, events, profile, ticket, name } = original;
-
+    const tt = useTicket();
     return (
-        <Box border={"1px solid"} key={row.id}>
-            <Grid2 container columns={12} spacing={1}></Grid2>
-        </Box>
-    );
-}
-
-export function PlayerEventsDetail({ row }: { row: MRT_Row<PrismaPlayer_> }) {
-    const [open, { toggle }] = useToggle(true);
-    const { original } = row;
-    const { _count, events, profile, ticket, name } = original;
-    const _det = monthReducer(events);
-    if (!_det) return null;
-    const { year, months, days } = _det;
-
-    const months_array = Object.entries(months).map(([m, c]) => ({
-        month: m,
-        count: c,
-    }));
-    const days_array = Object.entries(days).map(([m, c]) => ({
-        month: m,
-        dates: c,
-    }));
-    // console.log(days_array);
-    return (
-        <Grid container>
-            <Grid
-                item
-                container
-                gridRow={4}
-                columnGap={0}
-                gap={1}
-                sx={{
-                    [`& .MuiGrid-item`]: {
-                        border: "1px solid grey",
-                        p: 1,
-                        alignItems: "center",
-                        display: "flex",
-                        // justifyContent: "space-between",
-                        gap: 1,
-                    },
-                }}
+        <Box
+            sx={{
+                display: "flex",
+                gap: ".5rem",
+                border: "1px solid",
+                width: "100%",
+                flexGrow: 1,
+            }}
+        >
+            <Button
+                onClick={async () =>
+                    await tt.openTicket(original, { limit: 10 })
+                }
+                startIcon={<Icon path={mdiFileCertificateOutline} size={1} />}
             >
-                {months_array.map((d, idx) => (
-                    <Grid key={idx * 0.3} textAlign={"center"}>
-                        <Grid item justifyContent={"center"}>
-                            {d.month}
-                        </Grid>
-                        <Grid item justifyContent={"center"}>
-                            {open ? d.count : days_array[idx].dates.join(", ")}
-                        </Grid>
-                    </Grid>
-                ))}
-
-                <Grid item direction={"column"}>
-                    {/* <Grid ml={1} item> */}
-                    <Grid justifyContent={"end"}>
-                        <b>{year}</b>
-                    </Grid>
-                    <Grid>
-                        <b> Итого: {_count.events}</b>
-                    </Grid>
-                </Grid>
-                {/* </Grid> */}
-            </Grid>
-
-            <Grid item>
-                <Button onClick={toggle} variant="outlined">
-                    Даты / Кол-во
-                </Button>
-            </Grid>
-        </Grid>
+                открыть абонемент
+            </Button>
+            <Button
+                color="error"
+                onClick={async () => await tt.removeTicket(original)}
+                startIcon={<Icon path={mdiFileRemoveOutline} size={1} />}
+            >
+                закрыть абонемент
+            </Button>
+        </Box>
     );
 }

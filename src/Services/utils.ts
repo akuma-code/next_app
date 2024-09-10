@@ -42,12 +42,12 @@ export async function getPlayersData(options?: { log?: boolean }) {
         select: {
             id: true,
             name: true,
+            ticket: true
             // info: true,
             // profile: true,
 
         },
-        where: { name: { not: undefined } },
-        distinct: ["name"]
+
 
 
     })

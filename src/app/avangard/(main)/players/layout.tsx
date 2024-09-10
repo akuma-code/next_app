@@ -4,11 +4,18 @@ import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import Link from "next/link";
 import { EventHeader } from "@/Components/Nav/EventsHeader";
 
-async function PlayersLayout({ children }: { children: React.ReactNode }) {
+function PlayersLayout({
+    children,
+    view,
+}: {
+    children: React.ReactNode;
+    view: React.ReactNode;
+}) {
     return (
         <Box p={2}>
             {/* <EventHeader /> */}
-            {children}
+            <Box>{children}</Box>
+            <Box>{view}</Box>
         </Box>
     );
 }

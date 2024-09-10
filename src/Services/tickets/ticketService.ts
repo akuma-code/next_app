@@ -4,6 +4,7 @@
 import prisma from "@/client/client";
 import { Prisma } from "@prisma/client";
 import { DefaultArgs, InternalArgs } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 
 export type ATicketSelector = {
     all: Prisma.TicketSelect<DefaultArgs>
@@ -51,6 +52,8 @@ export async function createTicket(args: Prisma.TicketCreateArgs) {
         return t
     } catch (error) {
         throw error
+    } finally {
+        revalidatePath("/")
     }
 }
 export async function deleteTicket(args: Prisma.TicketDeleteArgs) {
@@ -61,6 +64,8 @@ export async function deleteTicket(args: Prisma.TicketDeleteArgs) {
         return t
     } catch (error) {
         throw error
+    } finally {
+        revalidatePath("/")
     }
 
 

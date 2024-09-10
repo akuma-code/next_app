@@ -13,6 +13,7 @@ import Link from "next/link";
 
 interface ContainerLayoutProps {
     children: React.ReactNode;
+    view: React.ReactNode;
 }
 
 const links = [
@@ -40,7 +41,10 @@ export const metadata: Metadata = {
     icons: "/icon_admin.ico",
 };
 
-const AdminLayout: React.FC<ContainerLayoutProps> = async ({ children }) => {
+const AdminLayout: React.FC<ContainerLayoutProps> = async ({
+    children,
+    view,
+}) => {
     return (
         <Stack direction={{ sm: "column" }} m={1}>
             <Paper>
@@ -75,6 +79,7 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({ children }) => {
                 </List>
 
                 <Box>{children}</Box>
+                <Box>{view}</Box>
             </Paper>
         </Stack>
     );

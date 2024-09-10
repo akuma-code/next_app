@@ -29,7 +29,7 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
             muiTableBodyCellProps: {
                 align: "left",
             },
-            minSize: 100,
+            minSize: 200,
             grow: 1,
         },
         "mrt-row-numbers": {
