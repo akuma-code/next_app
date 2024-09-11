@@ -21,8 +21,8 @@ export type IEvent_Front = Prisma.EventGetPayload<{
 }>;
 export const avatarColor = (numb: number) => {
     const colors = {
-        xs: "#00771a",
-        sm: "#636d4a",
+        xs: "#dcf1e0",
+        sm: "#c5eb66",
         md: "#588891",
         lg: "#ffa600",
         xl: "#ff0000",
@@ -79,15 +79,8 @@ export const EventsList: React.FC<{
                 maxHeight={{ sm: "60vh", md: "70vh" }}
                 sx={{ pt: 1, pr: 1, overflowY: "scroll" }}
                 offset={{ md: 1, xs: 2 }}
+                size={"auto"}
             >
-                {/* <Grid2
-                    alignItems={"center"}
-                    size={6}
-                    sx={{ position: "relative" }}
-                >
-                   
-                    
-                </Grid2> */}
                 {events.map((e) => (
                     <Grid2 key={e.id} size={{ xs: 9, md: 3 }}>
                         <EventViewCard

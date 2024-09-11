@@ -15,7 +15,7 @@ export default async function ComparePage() {
                 sx={{ bgcolor: "#afd850" }}
             >
                 <Grid2 overflow={"auto"}>
-                    <Server_DB_Card take={5} order={"desc"} />
+                    <Server_DB_Card take={10} order={"desc"} />
                 </Grid2>
                 <Grid2>
                     <DB_CardLocal take={5} />

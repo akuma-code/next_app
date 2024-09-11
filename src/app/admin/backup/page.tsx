@@ -52,6 +52,11 @@ export default async function BackupPage({
                     action={fetchServer}
                     title="/api/db/events"
                 />
+                <DescriptionButtonQuery
+                    action={fetchSS}
+                    title="Fetch Google"
+                    description="https://script.google.com/macros/s/AKfycbz2FrlUXh0JNFIqc9VT2OBSLUvUdGhRq-6RZ775asudiBdT8DGfS8q5hZ8QIlZCeyfVnA/exec"
+                />
             </Box>
         </MrtBoundary>
     );
@@ -80,7 +85,33 @@ async function fetchServer() {
 async function fetchServerBackup() {
     "use server";
     const data = fetch(
-        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup"
+        "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup",
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods":
+                    "GET, POST, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            },
+        }
+    ).then(
+        (r) => r.json(),
+        (e) => console.log({ e })
+    );
+    return data;
+}
+async function fetchSS() {
+    "use server";
+    const data = fetch(
+        "https://script.google.com/macros/s/AKfycbz2FrlUXh0JNFIqc9VT2OBSLUvUdGhRq-6RZ775asudiBdT8DGfS8q5hZ8QIlZCeyfVnA/exec",
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods":
+                    "GET, POST, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            },
+        }
     ).then(
         (r) => r.json(),
         (e) => console.log({ e })
