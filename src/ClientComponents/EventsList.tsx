@@ -22,7 +22,7 @@ export type IEvent_Front = Prisma.EventGetPayload<{
 export const avatarColor = (numb: number) => {
     const colors = {
         xs: "#00771a",
-        sm: "#d3ff6e",
+        sm: "#636d4a",
         md: "#588891",
         lg: "#ffa600",
         xl: "#ff0000",
@@ -68,30 +68,28 @@ export const EventsList: React.FC<{
                 borderTop: 0,
                 textAlign: "center",
             }}
+            position={"relative"}
         >
-            {/* <Fab
-                    aria-label={"add event"}
-                    color={"success"}
-                    href="/avangard/events/create"
-                    LinkComponent={Link}
-                    variant="extended"
-                    sx={{ placeSelf: "center" }}
-                >
-                    <AddIcon />
-                    Начать новую тренировку
-                </Fab> */}
+            <QuickEventCreate />
+
             <Grid2
                 container
-                spacing={2}
+                gap={1}
                 // maxWidth={ { xs: 300, md: 450, lg: 600 } }
                 maxHeight={{ sm: "60vh", md: "70vh" }}
-                sx={{ pt: 1, pr: 2, overflowY: "scroll" }}
+                sx={{ pt: 1, pr: 1, overflowY: "scroll" }}
+                offset={{ md: 1, xs: 2 }}
             >
-                <Grid2 sx={{ position: "relative" }}>
-                    <QuickEventCreate />
-                </Grid2>
+                {/* <Grid2
+                    alignItems={"center"}
+                    size={6}
+                    sx={{ position: "relative" }}
+                >
+                   
+                    
+                </Grid2> */}
                 {events.map((e) => (
-                    <Grid2 key={e.id} maxWidth={{ sm: 300 }}>
+                    <Grid2 key={e.id} size={{ xs: 9, md: 3 }}>
                         <EventViewCard
                             event={e}
                             title={dm(e.date_formated)}

@@ -32,7 +32,11 @@ const links = [
 
     {
         href: "/admin/backup",
-        label: "Backup",
+        label: "ДБ",
+    },
+    {
+        href: "/admin/compare",
+        label: "Local<->Server",
     },
 ];
 export const metadata: Metadata = {
