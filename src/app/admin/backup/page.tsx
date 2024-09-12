@@ -9,7 +9,7 @@ import {
     fetchAndCreatePlayers,
     sync_events_pairs,
 } from "@/Services/events/db_event";
-import { readFile } from "@/Services/fs/data_service";
+import { readFileFn } from "@/Services/fs/data_service";
 import { getImportantData } from "@/app/api/backup/events/actions";
 import { Box } from "@mui/material";
 const saveToDisk = process.env.DB_SAVE_TO_HDD === "1";
@@ -64,7 +64,7 @@ export default async function BackupPage({
 
 async function loadData() {
     "use server";
-    const e = (await readFile("./public/json/data.json")) as {
+    const e = (await readFileFn("./public/json/data.json")) as {
         pairs: any[];
         events: string[];
     }[];

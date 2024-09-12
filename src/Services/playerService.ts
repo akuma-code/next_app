@@ -57,6 +57,7 @@ export async function EditPlayer(payload: Prisma.PlayerUpdateArgs) {
 export async function deletePlayer(payload: DeletePayload) {
   const { id } = payload;
   const p = await prisma.player.findFirst({ where: { id } });
+
   // _log(p)
   if (p) {
     try {

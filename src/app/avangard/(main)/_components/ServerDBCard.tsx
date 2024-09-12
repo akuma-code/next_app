@@ -41,7 +41,7 @@ export function Server_DB_Card({
 
     return (
         <Card elevation={3} sx={{ maxHeight: "50vh", overflow: "auto" }}>
-            <CardHeader title={"Server"} />
+            <CardHeader title={"Server: " + q.data?.length} />
             <Divider></Divider>
             <CardContent>
                 {q.isLoading && (
@@ -66,6 +66,6 @@ async function getData(take?: number, skip?: number, order?: "asc" | "desc") {
         "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/db/event" +
             search
     );
-    console.log(t + s);
+
     return db.json() as unknown as PrismaEventResponse[];
 }

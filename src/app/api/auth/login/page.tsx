@@ -3,6 +3,7 @@ import { _log } from "@/Helpers/helpersFns";
 import { signIn } from "@/auth/auth";
 import { Button, Container, Stack } from "@mui/material";
 import { revalidatePath } from "next/cache";
+import { isRedirectError } from "next/dist/client/components/redirect";
 import { redirect } from "next/navigation";
 
 async function SignInPage() {
@@ -20,10 +21,18 @@ async function SignInPage() {
                 <form
                     action={async (fd) => {
                         "use server";
+
                         try {
-                            await signIn("credentials", fd);
+                            const { email, password } = Object.fromEntries(fd);
+                            return await signIn("credentials", {
+                                email,
+                                password,
+                                redirect: false,
+                            });
                         } catch (error) {
+                            if (isRedirectError(error)) return;
                             console.error(error);
+                            throw error;
                         } finally {
                             revalidatePath("/");
                         }

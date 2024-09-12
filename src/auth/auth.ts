@@ -41,6 +41,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         pages: {
             signIn: '/api/auth/login',
             newUser: '/api/auth/register',
+            error: '/api/auth/error'
 
         },
         // theme: { brandColor: "#aaaccc", colorScheme: "dark" },
@@ -143,7 +144,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 console.table(message.user)
             },
             signIn(message) {
-                if (message.isNewUser) console.log(`Welcome ${message.user.email}`)
+                if (message.user) console.log(`Welcome ${message.user.email}`)
                 console.log("events fires: in")
                 console.table(message.user)
                 console.table(message.profile)

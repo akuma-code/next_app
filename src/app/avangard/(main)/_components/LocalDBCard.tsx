@@ -32,7 +32,7 @@ export function DB_CardLocal({ take, skip }: { take?: number; skip?: number }) {
     if (q.isError) {
         return <Alert>{q.error.message}</Alert>;
     }
-    const text = "Local";
+    const text = "Local: " + q.data?.length;
     return (
         <Card elevation={3} sx={{ maxHeight: "50vh", overflow: "auto" }}>
             <CardHeader title={text} />

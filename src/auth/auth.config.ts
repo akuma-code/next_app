@@ -1,17 +1,18 @@
 
 import { getUserByEmail } from "@/Services/userService"
 // import { User } from "@prisma/client"
-import { NextAuthConfig, type User } from "next-auth"
+import { AuthError, NextAuthConfig, type User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import CustomError from "./customError"
 
 const config = {
     providers: [
         Credentials({
             credentials: {
                 email: { label: "Email", },
-                password: { label: "Пароль", type: "password" }
+                password: { label: "Пароль", type: "password" },
             },
 
             name: "email",
@@ -21,16 +22,15 @@ const config = {
                 let user: null | User = null
                 user = await getUserByEmail({ email: credentials.email as string, })
                 if (!user) {
-                    console.error(`________Юзверь с мылом ${credentials.email} не найден______`)
+                    console.error(`\n________Юзверь с мылом ${credentials.email} не найден______\n`)
                     return null
                 }
                 const db_pass = user.password
-                // console.log({ db_pass, c_pass: credentials.password })
-                // const c_pass = await hash(credentials.password as string, 5)
+
                 const isPassCorrect = db_pass === credentials.password as string
                 if (!isPassCorrect) {
                     console.log({ db_pass }, "not equal!")
-                    return null
+                    throw new AuthError("\n\nPassword wrong!!!\n\n")
                 }
 
 
