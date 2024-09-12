@@ -21,9 +21,9 @@ export const metadata: Metadata = {
 const RootLayout: React.FC<{
     children: React.ReactNode;
     // modal: React.ReactNode;
-    modalEvent: React.ReactNode;
-    slot: React.ReactNode;
-}> = async ({ children, modalEvent, slot }) => {
+    // modalEvent: React.ReactNode;
+    // slot: React.ReactNode;
+}> = async ({ children }) => {
     const session = await auth();
     const cls = [inter.className, "bg-[#7ad5f3c9]"].join(" ");
     // console.clear();
@@ -39,10 +39,7 @@ const RootLayout: React.FC<{
                                 elevation={2}
                                 color="primary.main"
                             >
-                                {slot}
-
                                 {children}
-                                {modalEvent}
                             </Paper>
                             <SpeedInsights />
                         </Providers>
