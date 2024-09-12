@@ -227,7 +227,7 @@ async function fetchServer() {
     }
 }
 async function fetchData() {
-    const server_data = await fetchServer() as { alldata: { players: { id: number, name: string, ticket?: any | null }[], events: Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>[], pairs: Prisma.PairGetPayload<{ select: { master: true, player: true, event: true } }>[] } } | undefined
+    const server_data = await fetchServer() as { alldata: { players: PrismaPlayer_[], events: Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>[], pairs: Prisma.PairGetPayload<{ select: { master: true, player: true, event: true } }>[] } } | undefined
     console.log({ server_data })
     return server_data?.alldata.players
 
@@ -260,13 +260,19 @@ export async function fetchAndCreatePlayers() {
             }) : (undefined)
         })
 
-        const validateUpsert = <T extends Partial<PrismaPlayer_>>(player: T) => Prisma.validator<Prisma.PlayerUpsertArgs>()({})
+        const validateUpsert = <T extends typeof existed_players[number]>(p: T) => Prisma.validator<Prisma.PlayerUpsertArgs>()({
+            where: { id: p.id },
+            update: { name: p.name },
+            create: { name: p.name, events: { connect: p.events } }
+        })
         const validated_players = server_players.map(validate)
+        const validated_players_UP = server_players.map(validateUpsert)
         // const tsx_delete = prisma.player.deleteMany()
 
         const tsx = validated_players.map(p => prisma.player.create({ data: p }))
+        const tsx_ = validated_players_UP.map(p => prisma.player.upsert(p))
 
-        const result = await prisma.$transaction(tsx)
+        const result = await prisma.$transaction(tsx_)
         console.table(result)
         return result
     } catch (error) {

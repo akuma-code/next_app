@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@mui/material";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 enum Error {
@@ -29,11 +31,14 @@ export default function AuthErrorPage() {
                 className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 text-center shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
             />
             <h5 className="mb-2 flex flex-row items-center justify-center gap-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Something went wrong
+                Ошибка авторизации
             </h5>
             <div className="font-normal text-gray-700 dark:text-gray-400">
-                {errorMap[error] || "Please contact us if this error persists."}
+                {errorMap[error] || "Попробуйте еще раз"}
             </div>
+            <Link href="/api/auth/login">
+                <Button variant="contained">LOGIN</Button>
+            </Link>
         </div>
     );
 }
