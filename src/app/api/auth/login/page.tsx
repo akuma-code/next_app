@@ -21,21 +21,21 @@ async function SignInPage() {
                 <form
                     action={async (fd) => {
                         "use server";
-
-                        try {
-                            const { email, password } = Object.fromEntries(fd);
-                            return await signIn("credentials", {
-                                email,
-                                password,
-                                redirect: false,
-                            });
-                        } catch (error) {
-                            if (isRedirectError(error)) return;
-                            console.error(error);
-                            throw error;
-                        } finally {
-                            revalidatePath("/");
-                        }
+                        const { email, password } = Object.fromEntries(fd);
+                        await signIn("credentials", {
+                            email,
+                            password,
+                            redirectTo: "/",
+                        });
+                        // try {
+                        //     return
+                        // } catch (error) {
+                        //     if (isRedirectError(error)) return;
+                        //     console.error(error);
+                        //     throw error;
+                        // } finally {
+                        //     revalidatePath("/");
+                        // }
                     }}
                 >
                     <CredentialsInputs />
