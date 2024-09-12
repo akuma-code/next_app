@@ -7,6 +7,7 @@ import backup from "./../../../public/json/data.json";
 import TodoList from "./_components/todo";
 import { reseedEventsFromJson } from "./actions";
 import { verifySession } from "@/auth/verifySession";
+import AccessDenied from "@/ClientComponents/auth/AccessDenied";
 
 const action = reseedEventsFromJson.bind(null, backup);
 
@@ -19,14 +20,18 @@ async function AministratorPage(params: { searchParams: { show: string } }) {
     //     console.error("Unauthorized user!");
     //     redirect("/api/auth/error");
     // }
+
+    if (!isAuth) return <AccessDenied />;
     return (
         <Suspense fallback={<LinearProgress />}>
             <Container maxWidth="md">
                 {/* <AdminCard seedAction={action} /> */}
-                <TodoList
-                    todo_items={todos.undone || []}
-                    done={todos.done || []}
-                />
+                {todos && (
+                    <TodoList
+                        todo_items={todos.undone || []}
+                        done={todos.done || []}
+                    />
+                )}
             </Container>
         </Suspense>
     );
@@ -43,20 +48,25 @@ async function load(file_path: string) {
 }
 
 async function getTodos() {
-    const done = (await load(`public/todos/todos_done.json`)) ?? [];
-    const undone = (await load(`public/todos/todos_undone.json`)) ?? [];
-    console.log("todos:\n", { done, undone });
-    return {
-        done: done.map((s: string, idx: number) => ({
-            id: idx + 1,
-            label: s,
-            done: true,
-        })),
-        undone: undone.map((s: string, idx: number) => ({
-            id: idx + 1,
-            label: s,
-            done: false,
-        })),
-    };
+    try {
+        const done = (await load(`public/todos/todos_done.json`)) ?? [];
+        const undone = (await load(`public/todos/todos_undone.json`)) ?? [];
+
+        console.log("todos:\n", { done, undone });
+        return {
+            done: done.map((s: string, idx: number) => ({
+                id: idx + 1,
+                label: s,
+                done: true,
+            })),
+            undone: undone.map((s: string, idx: number) => ({
+                id: idx + 1,
+                label: s,
+                done: false,
+            })),
+        };
+    } catch (error) {
+        throw error;
+    }
 }
 export default AministratorPage;
