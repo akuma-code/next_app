@@ -1,3 +1,5 @@
+import { verifySession } from "@/auth/verifySession";
+import AccessDenied from "@/ClientComponents/auth/AccessDenied";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
 import { NavLink } from "@/ClientComponents/UI/NavLink";
 import {
@@ -49,6 +51,8 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
     children,
     view,
 }) => {
+    const { isAuth } = await verifySession();
+
     return (
         <Stack direction={{ sm: "column" }} m={1}>
             <Paper>
@@ -81,8 +85,7 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
                         </NavLink>
                     ))}
                 </List>
-
-                <Box>{children}</Box>
+                {isAuth ? <Box>{children}</Box> : <AccessDenied />}
                 <Box>{view}</Box>
             </Paper>
         </Stack>

@@ -15,13 +15,13 @@ async function AministratorPage(params: { searchParams: { show: string } }) {
     // const str_items = await loadStrings();
     const todos = await getTodos();
     // const session = await auth();
-    const { isAuth } = await verifySession();
     // if (!isAuth) {
     //     console.error("Unauthorized user!");
     //     redirect("/api/auth/error");
     // }
 
-    if (!isAuth) return <AccessDenied />;
+    // const { isAuth } = await verifySession();
+    // if (!isAuth) return <AccessDenied />;
     return (
         <Suspense fallback={<LinearProgress />}>
             <Container maxWidth="md">
@@ -66,7 +66,7 @@ async function getTodos() {
             })),
         };
     } catch (error) {
-        throw error;
+        return null;
     }
 }
 export default AministratorPage;

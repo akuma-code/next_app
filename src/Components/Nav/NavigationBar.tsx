@@ -2,33 +2,28 @@
 
 import { ExitButton } from "@/ClientComponents/UI/ExitButton";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
-import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
 import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { NavMenu } from "@/ClientComponents/UI/NavMenu";
 import useMediaDetect from "@/Hooks/useMediaDetect";
 import { useToggle } from "@/Hooks/useToggle";
 import {
-    mdiMicrosoftXboxControllerMenu,
-    mdiTrainCar,
-    mdiTableTennis,
-    mdiPassport,
     mdiApplicationImport,
+    mdiMicrosoftXboxControllerMenu,
+    mdiPassport,
+    mdiTableTennis,
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
     AppBar,
-    Toolbar,
-    Breadcrumbs,
-    Typography,
     Box,
-    Menu,
-    MenuItem,
-    IconButton,
-    Button,
+    Breadcrumbs,
     Drawer,
+    IconButton,
     List,
     ListItem,
     ListItemIcon,
+    Toolbar,
+    Typography,
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -142,6 +137,7 @@ function MobileBar() {
 
 function PcBar() {
     const session = useSession();
+
     return (
         <Toolbar variant="regular" sx={{ display: "flex" }}>
             <Breadcrumbs separator={"/"} sx={{ color: "white", flexGrow: 2 }}>
