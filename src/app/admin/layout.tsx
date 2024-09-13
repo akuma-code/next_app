@@ -2,8 +2,13 @@ import { verifySession } from "@/auth/verifySession";
 import AccessDenied from "@/ClientComponents/auth/AccessDenied";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
 import { NavLink } from "@/ClientComponents/UI/NavLink";
+import { mdiChevronDoubleRight, mdiMathNorm } from "@mdi/js";
+import Icon from "@mdi/react";
+
 import {
     Box,
+    Breadcrumbs,
+    Button,
     List,
     ListItem,
     ListItemButton,
@@ -27,18 +32,18 @@ const links = [
         href: "/admin/users",
         label: "Пользователи",
     },
-    {
-        href: "/admin/players",
-        label: "Игроки",
-    },
 
     {
         href: "/admin/backup",
-        label: "ДБ",
+        label: "DB",
     },
     {
         href: "/admin/compare",
-        label: "Local<->Server",
+        label: "Сервак",
+    },
+    {
+        href: "/admin/players",
+        label: "Игроки",
     },
 ];
 export const metadata: Metadata = {
@@ -54,41 +59,39 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
     const { isAuth } = await verifySession();
 
     return (
-        <Stack direction={{ sm: "column" }} m={1}>
-            <Paper>
-                <List
-                    sx={{
-                        display: "flex",
-                        flexDirection: { sm: "row" },
-                        bgcolor: "background.default",
-                        justifyContent: "start",
-                        p: 1,
-                        // justifyItems: 'center'
-                    }}
-                    dense
-                >
-                    {links.map((link) => (
-                        <NavLink
-                            key={link.href}
-                            href={link.href}
-                            label={link.label}
-                            // className="text-center flex-grow"
-                        >
-                            <ListItem
-                                disableGutters
-                                sx={{ flexGrow: 1, textAlign: "center" }}
-                                divider
-                                dense
+        <Paper>
+            {isAuth ? (
+                <Stack direction={{ sm: "column" }} m={1} gap={1}>
+                    <Breadcrumbs
+                        separator={<Icon path={mdiMathNorm} size={1} />}
+                        maxItems={3}
+                    >
+                        {links.map((link) => (
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                size={"small"}
+                                key={link.href}
                             >
-                                {link.label}
-                            </ListItem>
-                        </NavLink>
-                    ))}
-                </List>
-                {isAuth ? <Box>{children}</Box> : <AccessDenied />}
-                <Box>{view}</Box>
-            </Paper>
-        </Stack>
+                                <LinkMui
+                                    key={link.href}
+                                    href={link.href}
+                                    underline="hover"
+                                    fontSize={"1rem"}
+                                >
+                                    {link.label}
+                                </LinkMui>
+                            </Button>
+                        ))}
+                    </Breadcrumbs>
+                    {/* </List> */}
+                    <Box>{children}</Box>
+                    <Box>{view}</Box>
+                </Stack>
+            ) : (
+                <AccessDenied />
+            )}
+        </Paper>
     );
 };
 

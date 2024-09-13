@@ -45,6 +45,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { ConnectDialog, CreatePlayerDialog } from "../Modals/PlayersDialogs";
 import { Prisma } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 interface Pair {
     id: number;
@@ -83,7 +84,8 @@ export const EventView: React.FC<Eventinfo> = ({
     const [showCreate, createAction] = useToggle();
     const [showRemove, removeControl] = useToggle();
     const { isMobile } = useMediaDetect();
-
+    const { data, status } = useSession();
+    const canSee = status === "authenticated";
     const handlePairChange = async (
         master: { id: number; name: string },
         playerId: number,
@@ -111,7 +113,7 @@ export const EventView: React.FC<Eventinfo> = ({
     const player_pairs = useMemo(() => {
         const pairPlayerIdx = (id: number) =>
             pairs.findIndex((p) => p.secondPlayerId === id);
-        const _players = players.map((p) => {
+        const _players = players?.map((p) => {
             const idx = pairPlayerIdx(p.id);
             const withpair =
                 idx >= 0 ? { ...p, pair: pairs[idx] } : { ...p, pair: null };
@@ -155,35 +157,32 @@ export const EventView: React.FC<Eventinfo> = ({
                     // position: "relative",
                 }}
             >
-                <EventButtons>
-                    {/* <SpeedDialAction
-                        tooltipOpen={!isMobile}
-                        tooltipPlacement="right"
-                        icon={<Icon path={mdiSphere} size={0.8} />}
-                        tooltipTitle={"управление"}
-                        onClick={removeControl.toggle}
-                    /> */}
-                    <SpeedDialAction
-                        tooltipOpen={!isMobile}
-                        tooltipPlacement="right"
-                        icon={<Icon path={mdiAccountPlusOutline} size={0.8} />}
-                        tooltipTitle={"Создать"}
-                        onClick={toggleCreate}
-                    />
+                {canSee && (
+                    <EventButtons>
+                        <SpeedDialAction
+                            tooltipOpen={!isMobile}
+                            tooltipPlacement="right"
+                            icon={
+                                <Icon path={mdiAccountPlusOutline} size={0.8} />
+                            }
+                            tooltipTitle={"Создать"}
+                            onClick={toggleCreate}
+                        />
 
-                    <SpeedDialAction
-                        tooltipOpen={!isMobile}
-                        tooltipPlacement="right"
-                        icon={
-                            <Icon
-                                path={mdiCardAccountDetailsOutline}
-                                size={0.8}
-                            />
-                        }
-                        onClick={() => router.push(pathname + "/edit")}
-                        tooltipTitle={"Редактировать"}
-                    />
-                </EventButtons>
+                        <SpeedDialAction
+                            tooltipOpen={!isMobile}
+                            tooltipPlacement="right"
+                            icon={
+                                <Icon
+                                    path={mdiCardAccountDetailsOutline}
+                                    size={0.8}
+                                />
+                            }
+                            onClick={() => router.push(pathname + "/edit")}
+                            tooltipTitle={"Редактировать"}
+                        />
+                    </EventButtons>
+                )}
                 <Box>
                     <Typography variant="h5" component={"div"}>
                         {title}
@@ -203,30 +202,33 @@ export const EventView: React.FC<Eventinfo> = ({
                     {_count?.players}
                 </Avatar>
             </Box>
-
-            <Divider flexItem>
-                <ButtonGroup variant="contained" fullWidth>
-                    <Button
-                        onClick={handleOpenConnect}
-                        color="warning"
-                        // size="small"
-                        // variant="contained"
-                        startIcon={<SupervisorAccountIcon />}
-                    >
-                        Добавить
-                    </Button>
-                    <ToggleButton
-                        color="warning"
-                        // sx={{ bgcolor: "grey" }}
-                        value={showRemove}
-                        onClick={removeControl.toggle}
-                        selected={showRemove}
-                    >
-                        <Icon path={showRemove ? mdiEye : mdiEyeOff} size={1} />
-                    </ToggleButton>
-                </ButtonGroup>
-            </Divider>
-
+            {canSee && (
+                <Divider flexItem>
+                    <ButtonGroup variant="contained" fullWidth>
+                        <Button
+                            onClick={handleOpenConnect}
+                            color="warning"
+                            // size="small"
+                            // variant="contained"
+                            startIcon={<SupervisorAccountIcon />}
+                        >
+                            Добавить
+                        </Button>
+                        <ToggleButton
+                            color="warning"
+                            // sx={{ bgcolor: "grey" }}
+                            value={showRemove}
+                            onClick={removeControl.toggle}
+                            selected={showRemove}
+                        >
+                            <Icon
+                                path={showRemove ? mdiEye : mdiEyeOff}
+                                size={1}
+                            />
+                        </ToggleButton>
+                    </ButtonGroup>
+                </Divider>
+            )}
             <List>
                 {player_pairs.map((p) => (
                     <ListItem

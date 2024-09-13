@@ -39,7 +39,7 @@ const defaultEventSelect = {
     id: true,
     date_formated: true,
     title: true,
-    players: { select: { id: true, name: true } },
+    players: { select: { id: true, name: true, ticket: true } },
     pairs: { select: { id: true, eventId: true, masterId: true, playerId: true } },
     isDraft: false,
     cost: true
@@ -68,7 +68,7 @@ export interface GetEventResponse {
 }
 
 
-export async function getDBOneEventData<S extends Prisma.EventSelect<DefaultArgs>>(search: PrismaGetOneEvent['where'], selected?: S) {
+export async function getDBOneEventData<S extends Prisma.EventSelect>(search: PrismaGetOneEvent['where'], selected?: S) {
 
     try {
 
@@ -89,7 +89,25 @@ export async function getDBOneEventData<S extends Prisma.EventSelect<DefaultArgs
 
 
 }
-
+export async function getEvent(args: Prisma.EventFindUniqueArgs) {
+    const s = {
+        select: {
+            id: true,
+            date_formated: true,
+            players: { select: { id: true, name: true, ticket: true } },
+            pairs: true,
+            cost: true,
+            title: true,
+            _count: { select: { players: true } },
+        }
+    } satisfies { select: Prisma.EventSelect }
+    try {
+        const e = await prisma.event.findUnique(args)
+        return e
+    } catch (error) {
+        console.log(error)
+    }
+}
 export async function getEventWithConfig({ where, select }: PrismaGetOneEvent) {
     // if (!where.id) return null
 
@@ -205,7 +223,7 @@ export async function aggregatePlayers() {
 
         });
         const serial = makeSerializable(players);
-        console.log(players)
+        // console.log(players)
         return serial.map(s => s._count)
     } catch (error) {
         throw error
@@ -232,11 +250,21 @@ async function fetchData() {
     return server_data?.alldata.players
 
 }
-
+async function fetchPlayers() {
+    try {
+        const data = await fetch(
+            "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/db/player"
+        )
+        return data.json();
+    } catch (error) {
+        throw error
+    }
+}
 export async function fetchAndCreatePlayers() {
     try {
         // const server_data = await fetchServer() as { players: { id: number, name: string }[], events: any[], pairs: any[] }
-        const server_players = await fetchData()
+        const server_players = await fetchPlayers() as PrismaPlayer_[]
+        console.table(server_players)
         if (!server_players || server_players.length === 0) {
             console.log("no players")
             throw new Error("Fetch error")
@@ -251,36 +279,107 @@ export async function fetchAndCreatePlayers() {
 
         // const create_data_players = server_data.players
         const validate = <T extends typeof to_create[number]>(player: T) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()({
-            id: player.id, name: player.name, ticket: player.ticket ? ({
-                connectOrCreate: {
-                    where: { playerId: player.id },
-                    create: player.ticket || undefined
+            id: player.id, name: player.name,
+            // ticket: player.ticket ? ({
+            //     connectOrCreate: {
+            //         where: { playerId: player.id },
+            //         create: player.ticket || undefined
 
-                }
-            }) : (undefined)
+            //     }
+            // }) : (undefined)
         })
 
-        const validateUpsert = <T extends typeof existed_players[number]>(p: T) => Prisma.validator<Prisma.PlayerUpsertArgs>()({
-            where: { id: p.id },
-            update: { name: p.name },
-            create: { name: p.name, events: { connect: p.events } }
-        })
+        // const validateUpsert = <T extends typeof existed_players[number]>(p: T) => Prisma.validator<Prisma.PlayerUpsertArgs>()({
+        //     where: { id: p.id },
+        //     update: {
+        //         name: p.name,
+        //         events: { connect: p.events },
+        //         ticket: p.ticket ? ({
+        //             connectOrCreate: {
+        //                 where: { playerId: p.id },
+        //                 create: p.ticket || undefined
+
+        //             }
+        //         }) : undefined
+        //     },
+
+        //     create: { name: p.name, events: { connect: p.events }, id: p.id }
+        // })
         const validated_players = server_players.map(validate)
-        const validated_players_UP = server_players.map(validateUpsert)
+        const validated_players_UP = server_players.map(makeArgs_upsertPlayer)
         // const tsx_delete = prisma.player.deleteMany()
 
         const tsx = validated_players.map(p => prisma.player.create({ data: p }))
         const tsx_ = validated_players_UP.map(p => prisma.player.upsert(p))
 
         const result = await prisma.$transaction(tsx_)
+        console.log("RESULT:\n")
         console.table(result)
         return result
     } catch (error) {
-        console.log(error)
+        console.log({ error })
         throw error
     } finally {
         revalidatePath("/")
     }
+}
+
+function makeArgs_upsertPlayer(p: PrismaPlayer_) {
+
+    const { id, events, name, ticket, pair } = p
+
+    const connect_events = events ? events.map(e => ({ date_formated: e.date_formated })) : []
+    // const connect_ticket = ticket ? { playerId: ticket.playerId } : undefined
+
+    const validPlayer = Prisma.validator<Prisma.PlayerUpsertArgs>()({
+        where: { id },
+        update: {
+            name,
+            events: { connect: connect_events },
+            ticket: ticket ? {
+
+                create: {
+                    amount: ticket.amount,
+                    limit: ticket.limit,
+                    eAt: ticket.eAt,
+                    event_dates: { set: ticket.event_dates },
+                    uuid: ticket.uuid
+                }
+
+            } : {}
+
+        },
+
+        create: {
+            name,
+            id,
+            events: { connect: connect_events },
+        },
+        select: { id: true, name: true, ticket: true, events: { select: { date_formated: true } } }
+    })
+
+    return validPlayer
+
+    //  p.ticket ? ({
+    //                     connectOrCreate: {
+    //                         where: { playerId: p.id },
+    //                         create: p.ticket,
+
+
+    //                     }
+    //                 }) : undefined
+    // ticket: {
+    //     upsert: {
+    //         where: { playerId: id },
+    //         update: {
+    //             amount: ticket ? ticket.amount : undefined,
+    //             event_dates: ticket ? { set: ticket.event_dates } : undefined,
+    //             limit: ticket ? ticket.limit : undefined
+    //         },
+    //         create: ticket ? { amount: ticket.amount, limit: ticket.limit, eAt: ticket.eAt } : {}
+
+    //     }
+    // }
 }
 
 export async function sync_events_pairs() {
@@ -349,6 +448,6 @@ export async function sync_events_pairs() {
 }
 
 export async function reSyncPlayers() {
-    await prisma.player.deleteMany().then(console.log)
-    await fetchAndCreatePlayers().then(console.log)
+    // await prisma.player.deleteMany().then(console.log)
+    await fetchAndCreatePlayers().then(r => r, console.error)
 }

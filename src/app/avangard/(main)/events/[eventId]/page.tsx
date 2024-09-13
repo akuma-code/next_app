@@ -1,29 +1,50 @@
 import { EventView } from "@/Components/EventView/EventView";
 import { reduceArrayToObject } from "@/Helpers/reduceToObject";
-import { getDBOneEventData } from "@/Services/events/db_event";
+import { getDBOneEventData, getEvent } from "@/Services/events/db_event";
 import { getEvents } from "@/Services/events/eventActions";
 import { getEventById } from "@/Services/eventService";
 import { getMasters } from "@/Services/masterService";
 import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
 import { Alert, Box } from "@mui/material";
+import { Prisma } from "@prisma/client";
 import { Suspense } from "react";
-
+type TEvent = Prisma.EventGetPayload<{
+    select: {
+        id: true;
+        date_formated: true;
+        players: { select: { id: true; name: true; ticket: true } };
+        pairs: true;
+        cost: true;
+        title: true;
+        _count: { select: { players: true } };
+    };
+}>;
 const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     params,
 }) => {
     const { eventId } = params;
-    if (!eventId) return null;
-    const event = await getDBOneEventData(
-        { id: +eventId },
-        {
+    if (!eventId || isNaN(Number(eventId))) return null;
+    const event = await getEvent({
+        where: { id: Number(eventId) },
+        select: {
             id: true,
             date_formated: true,
             cost: true,
             pairs: true,
             title: true,
-            players: true,
-        }
-    );
+            players: {
+                select: {
+                    id: true,
+                    name: true,
+                    ticket: true,
+                    pair: true,
+                    events: true,
+                    // profile: true,
+                },
+            },
+            _count: { select: { players: true } },
+        },
+    });
 
     const masters = await getMasters();
 
@@ -38,22 +59,14 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     // );
     return (
         <Suspense fallback={<Alert color="success">Wait...</Alert>}>
-            <Box display={"flex"} flexDirection={"row"} gap={2}>
-                {event && (
-                    <EventView
-                        event={{ ...(event as any) }}
-                        masters={masters}
-                    />
-                )}
-                {/* <EventView_v2 eventId={ Number(eventId) } masters={ masters } /> */}
-            </Box>
+            {eventId && (
+                <EventView
+                    event={event as unknown as TEvent}
+                    masters={masters}
+                />
+            )}
         </Suspense>
     );
 };
 
 export default EventIdPage;
-
-export async function generateStaticParams() {
-    const events = (await getEvents({ select: { id: true } }))!;
-    return events.map((e) => ({ eventId: e.id.toString() }));
-}

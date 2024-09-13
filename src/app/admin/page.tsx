@@ -52,7 +52,7 @@ async function getTodos() {
         const done = (await load(`public/todos/todos_done.json`)) ?? [];
         const undone = (await load(`public/todos/todos_undone.json`)) ?? [];
 
-        console.log("todos:\n", { done, undone });
+        // console.log("todos:\n", { done, undone });
         return {
             done: done.map((s: string, idx: number) => ({
                 id: idx + 1,
@@ -66,6 +66,7 @@ async function getTodos() {
             })),
         };
     } catch (error) {
+        console.log(error);
         return null;
     }
 }

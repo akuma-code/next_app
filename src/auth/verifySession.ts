@@ -13,9 +13,9 @@ export const verifySession = cache(async () => {
     if (!session) {
         console.error("NO SESSION FOUND")
         // redirect('/api/auth/login')
-        return { isAuth: false }
+        return { isAuth: false, user: null, role: null }
     }
 
-    return { isAuth: true, userId: session.user.userId }
+    return { isAuth: true, user: session.user, role: session.user.role }
 })
 

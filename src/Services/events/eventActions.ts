@@ -235,6 +235,7 @@ export async function getEvents(
         return events
     } catch (error) {
         console.error(error)
+        throw error
     }
 }
 

@@ -46,9 +46,7 @@ export async function ViewSwitch(props: ViewSwitchProps) {
     const { order, month } = options;
     const monthEvents = await getEventsByMonth(month, order as OrderType);
     const monthEventsDto = await getEventsByMonthDto(month, order as OrderType);
-    const { data } = await getDBManyEventsData({
-        date_formated: { startsWith: `2024_${month}` },
-    });
+
     switch (type) {
         case "card":
             return <CardView events={monthEvents} />;

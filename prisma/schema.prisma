@@ -28,13 +28,13 @@ model Player {
 
 model Ticket {
   uuid        String   @id @default(uuid())
-  amount      Int      @default(0)
+  amount      Int      @default(10)
   limit       Int      @default(10)
   eAt         String   @default("never")
   event_dates String[]
 
   playerId Int    @unique
-  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Partner {

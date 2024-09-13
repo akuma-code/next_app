@@ -1,12 +1,14 @@
 "use client";
 
 import { QuickEventCreate } from "@/app/avangard/(main)/_components/QuickEventCreate";
+
 import { EventViewCard } from "@/Components/EventView/EventViewCard";
 import { DayOfWeek } from "@/Helpers/dateFuncs";
 import { Box, Grid, Grid2 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
+import { useSession } from "next-auth/react";
 
 export type IEvent_Front = Prisma.EventGetPayload<{
     select: {
@@ -48,7 +50,8 @@ export const EventsList: React.FC<{
         };
     }>[];
 }> = ({ events }) => {
-    const d = (date: string) => date.replaceAll("_", ".");
+    const { data, status } = useSession();
+    const canSee = status === "authenticated";
     const dm = (date: string) =>
         dayjs(date, "YYYY-MM-DD", "ru").format("DD MMMM");
 
@@ -70,7 +73,7 @@ export const EventsList: React.FC<{
             }}
             position={"relative"}
         >
-            <QuickEventCreate />
+            {canSee && <QuickEventCreate />}
 
             <Grid2
                 container

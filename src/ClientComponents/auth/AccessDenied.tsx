@@ -18,32 +18,21 @@ export default function AccessDenied() {
                 В доступе отказано
             </Typography>
             <Box p={5} textAlign={"center"}>
-                {/* <Stack>
-
-            </Stack> */}
                 <Typography variant="h5" component={"div"}>
-                    <Alert
-                        variant="filled"
-                        color="error"
-                        closeText="close"
-
-                        // closeText="df"
-                        // icon={<Icon path={mdiAccountAlert} size={2} />}
-                        // sx={{ alignText: "center", display: "flex" }}
-                    >
+                    <Alert variant="filled" color="error" closeText="close">
                         <LinkMui
-                            href="/api/auth/signin"
+                            href="/api/auth/login"
                             onClick={(e) => {
                                 e.preventDefault();
                                 signIn();
                             }}
                         >
-                            Вы должны быть {` `}авторизованы!
+                            Вы должны быть авторизованы!
                         </LinkMui>
                         <br />
                         Залогиньтесь, пожалуйста!
-                    </Alert>{" "}
-                </Typography>{" "}
+                    </Alert>
+                </Typography>
             </Box>
         </>
     );
