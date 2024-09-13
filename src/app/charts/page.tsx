@@ -1,9 +1,6 @@
 import StackedBarChart from "@/Components/Charts/StackedBarChart";
-import { getDBManyEventsData } from "@/Services/events/db_event";
-import { getEvents } from "@/Services/events/eventActions";
 import { Grid2 } from "@mui/material";
-import { Board } from "./_components/Board";
-import { ItemsList } from "./_components/EventList";
+import { Board } from "../avangard/(main)/_components/Board";
 
 const validateNumber = (n: number, x?: number) => (!isNaN(n) ? n : x ? x : 0);
 async function MainPage({

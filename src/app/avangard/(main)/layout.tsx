@@ -20,7 +20,7 @@ const links = [
 export const metadata: Metadata = {
     title: "Тренировки",
     description: "Расписание тренировок",
-    icons: "favicon.ico",
+    icons: "public/icon_admin.ico",
 };
 
 const AvangardLayout: React.FC<{
@@ -50,7 +50,7 @@ const AvangardLayout: React.FC<{
                 >
                     {links.map((item) => (
                         <NavLink key={item.href} href={item.href}>
-                            <Typography variant="subtitle2" component={"div"}>
+                            <Typography variant="subtitle1" component={"div"}>
                                 {item.label}
                             </Typography>
                         </NavLink>

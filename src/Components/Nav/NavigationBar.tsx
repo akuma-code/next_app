@@ -18,6 +18,7 @@ import {
     Box,
     Breadcrumbs,
     Drawer,
+    Grow,
     IconButton,
     List,
     ListItem,
@@ -27,7 +28,7 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 
 const routes = [
     {
@@ -36,7 +37,7 @@ const routes = [
         path: mdiTableTennis,
     },
     {
-        to: "/avangard",
+        to: "/charts",
         text: "Статистика",
         path: mdiApplicationImport,
     },
@@ -46,10 +47,30 @@ const routes = [
         path: mdiPassport,
     },
 ];
-
+const NavBar = ({
+    device,
+}: {
+    device: "mobile" | "desctop" | null | string;
+}) => {
+    const m = MobileBar;
+    const p = PcBar;
+    // return p
+    switch (device) {
+        case "mobile":
+            return MobileBar();
+        case "desctop":
+            return PcBar();
+        default:
+            return PcBar();
+    }
+};
 export function NavigationBar() {
     const session = useSession();
-    const { isMobile } = useMediaDetect();
+    const { isMobile, device } = useMediaDetect();
+    // const NavBarSelector = useMemo(
+    //     () => (device === "mobile" ? <MobileBar /> : <PcBar />),
+    //     [device]
+    // );
 
     return (
         <AppBar
@@ -58,6 +79,8 @@ export function NavigationBar() {
             elevation={4}
             sx={{ mb: 1 }}
         >
+            {/* <NavBar device={device} /> */}
+            {/* {NavBar({ device: device })} */}
             <Suspense fallback={<div>loading...</div>}>
                 {isMobile ? <MobileBar /> : <PcBar />}
             </Suspense>
@@ -66,17 +89,17 @@ export function NavigationBar() {
 }
 
 function MobileBar() {
-    const [show, cl] = useToggle();
+    const [show, cl] = useToggle(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const session = useSession();
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         cl.on();
-        setAnchorEl(event.currentTarget);
+        // setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
         cl.off();
-        setAnchorEl(null);
+        // setAnchorEl(null);
     };
     const isOpen = Boolean(anchorEl);
     return (
@@ -113,14 +136,14 @@ function MobileBar() {
                 {session.status === "authenticated" ? (
                     <ExitButton />
                 ) : (
-                    <>
-                        <LinkMui href="/api/auth/login" color="#00ffaa">
+                    <Box p={1}>
+                        <LinkMui href="/api/auth/login" color="#0e225a">
                             Войти
                         </LinkMui>
                         <LinkMui href="/api/auth/register" color="#00ffaa">
                             Зарегестрироваться
                         </LinkMui>
-                    </>
+                    </Box>
                 )}
             </Drawer>
             <Box
