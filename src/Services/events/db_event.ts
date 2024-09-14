@@ -275,19 +275,13 @@ export async function fetchAndCreatePlayers() {
 
         // if (existed_players.length === server_players.length) return console.log("players in sync, all good")
 
-        const to_create = server_players.filter(p => !existed_players.map(e => e.id).includes(p.id))
+        // const to_create = server_players.filter(p => !existed_players.map(e => e.id).includes(p.id))
 
         // const create_data_players = server_data.players
-        const validate = <T extends typeof to_create[number]>(player: T) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()({
-            id: player.id, name: player.name,
-            // ticket: player.ticket ? ({
-            //     connectOrCreate: {
-            //         where: { playerId: player.id },
-            //         create: player.ticket || undefined
+        // const validate = <T extends typeof to_create[number]>(player: T) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()({
+        //     id: player.id, name: player.name,
 
-            //     }
-            // }) : (undefined)
-        })
+        // })
 
         // const validateUpsert = <T extends typeof existed_players[number]>(p: T) => Prisma.validator<Prisma.PlayerUpsertArgs>()({
         //     where: { id: p.id },
@@ -305,11 +299,11 @@ export async function fetchAndCreatePlayers() {
 
         //     create: { name: p.name, events: { connect: p.events }, id: p.id }
         // })
-        const validated_players = server_players.map(validate)
+        // const validated_players = server_players.map(validate)
         const validated_players_UP = server_players.map(makeArgs_upsertPlayer)
         // const tsx_delete = prisma.player.deleteMany()
 
-        const tsx = validated_players.map(p => prisma.player.create({ data: p }))
+        // const tsx = validated_players.map(p => prisma.player.create({ data: p }))
         const tsx_ = validated_players_UP.map(p => prisma.player.upsert(p))
 
         const result = await prisma.$transaction(tsx_)
@@ -330,12 +324,16 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
 
     const connect_events = events ? events.map(e => ({ date_formated: e.date_formated })) : []
     // const connect_ticket = ticket ? { playerId: ticket.playerId } : undefined
+    const validate_events_CoC = (e: typeof events[number]) => Prisma.validator<Prisma.EventCreateOrConnectWithoutPairsInput>()({
+        where: { date_formated: e.date_formated }, create: e
+    })
 
+    const valid_events = events.map(validate_events_CoC)
     const validPlayer = Prisma.validator<Prisma.PlayerUpsertArgs>()({
         where: { id },
         update: {
             name,
-            events: { connect: connect_events },
+            events: { connectOrCreate: valid_events },
             ticket: ticket ? {
 
                 create: {
@@ -354,6 +352,17 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
             name,
             id,
             events: { connect: connect_events },
+            ticket: ticket ? {
+
+                create: {
+                    amount: ticket.amount,
+                    limit: ticket.limit,
+                    eAt: ticket.eAt,
+                    event_dates: { set: ticket.event_dates },
+                    uuid: ticket.uuid
+                }
+
+            } : {}
         },
         select: { id: true, name: true, ticket: true, events: { select: { date_formated: true } } }
     })
@@ -384,9 +393,9 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
 
 export async function sync_events_pairs() {
     try {
-        await fetchAndCreatePlayers()
-        await prisma.event.deleteMany()
-        await prisma.pair.deleteMany()
+        // await fetchAndCreatePlayers()
+        // await prisma.event.deleteMany()
+        // await prisma.pair.deleteMany()
         await reseedMasters()
         const { events, pairs } = await fetchServer().then(r => r.alldata) as { events: Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>[], pairs: Prisma.PairGetPayload<{ select: { master: true, player: true, event: true } }>[] }
 
@@ -448,6 +457,8 @@ export async function sync_events_pairs() {
 }
 
 export async function reSyncPlayers() {
-    // await prisma.player.deleteMany().then(console.log)
-    await fetchAndCreatePlayers().then(r => r, console.error)
+    await prisma.player.deleteMany().then(console.log)
+
+    await fetchAndCreatePlayers().then(async () => await sync_events_pairs(), console.error)
+    // await sync_events_pairs()
 }

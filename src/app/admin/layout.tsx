@@ -1,22 +1,11 @@
 import { verifySession } from "@/auth/verifySession";
 import AccessDenied from "@/ClientComponents/auth/AccessDenied";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
-import { NavLink } from "@/ClientComponents/UI/NavLink";
-import { mdiChevronDoubleRight, mdiMathNorm } from "@mdi/js";
+import { mdiMathNorm } from "@mdi/js";
 import Icon from "@mdi/react";
 
-import {
-    Box,
-    Breadcrumbs,
-    Button,
-    List,
-    ListItem,
-    ListItemButton,
-    Paper,
-    Stack,
-} from "@mui/material";
+import { Box, Breadcrumbs, Button, Paper, Stack } from "@mui/material";
 import { Metadata } from "next";
-import Link from "next/link";
 
 interface ContainerLayoutProps {
     children: React.ReactNode;
@@ -49,7 +38,7 @@ const links = [
 export const metadata: Metadata = {
     title: "Админка",
     description: "Панель администратора",
-    icons: "/icon_admin.ico",
+    icons: "public/icon_admin.ico",
 };
 
 const AdminLayout: React.FC<ContainerLayoutProps> = async ({

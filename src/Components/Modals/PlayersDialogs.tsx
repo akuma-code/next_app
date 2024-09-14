@@ -94,31 +94,38 @@ export const ConnectDialog = ({
         _log(q.error);
         return <Box>Fetch players error</Box>;
     }
-
+    const handleConnect = (
+        p: { name: string; id: number; ticket: any | null },
+        eventId: number
+    ) =>
+        start(async () => {
+            await connectPlayerHandler(p, eventId);
+        });
     // if (q.isLoading) return <LinearProgress />;
     return (
         <Dialog open={show} onClose={onClose}>
             <DialogTitle justifyContent={"center"} textAlign={"center"}>
-                {isConnecting ? (
-                    <Box
-                        component={Stack}
-                        alignContent={"center"}
-                        alignItems={"center"}
-                    >
+                <Box
+                    component={Stack}
+                    alignContent={"center"}
+                    alignItems={"center"}
+                >
+                    {isConnecting ? (
                         <Icon
                             path={mdiRadioboxIndeterminateVariant}
                             size={1}
                             spin={1}
                         />
-                    </Box>
-                ) : (
-                    <Box>Добавить</Box>
-                )}
+                    ) : (
+                        "Добавить"
+                    )}
+                </Box>
             </DialogTitle>
             <DialogContent>
                 <Stack direction={"column"} spacing={1} justifyContent={"left"}>
                     {q.data?.map((p) => (
                         <Button
+                            disabled={isConnecting}
                             endIcon={
                                 p.ticket ? (
                                     <Icon path={mdiBitcoin} size={1} />
@@ -132,9 +139,7 @@ export const ConnectDialog = ({
                             variant="outlined"
                             size="small"
                             key={p.id}
-                            onClick={async () =>
-                                await connectPlayerHandler(p, event.id)
-                            }
+                            onClick={() => handleConnect(p, event.id)}
                         >
                             {p.name} {p.ticket && `[${p.ticket.amount}]`}
                         </Button>

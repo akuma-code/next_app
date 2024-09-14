@@ -20,7 +20,9 @@ export function reducePairs<T extends { secondPlayerId: number, firstPlayerId: n
     return reduced
 }
 
-
-export function handlePairsUpdate<T extends {}>() {
-
+export function _mapId_arr<T extends { id: number }>(items: T[]) {
+    return items.map((i) => i.id);
+}
+export function _mapId_obj<T extends { id: number }>(items: T[]) {
+    return items.map((i) => ({ id: i.id }));
 }

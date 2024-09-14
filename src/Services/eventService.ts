@@ -61,7 +61,6 @@ export async function eventCreate(payload: DTO_NewEvent) {
                 title: true,
                 players: true,
                 isDraft: true,
-
                 pairs: true,
             },
         });

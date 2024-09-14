@@ -8,6 +8,7 @@ import type { Provider } from 'next-auth/providers'
 import prisma from "@/client/client"
 import { AdapterUser } from "@auth/core/adapters"
 import authConfig from './auth.config'
+import { request } from "http"
 
 
 export type UserAuthPayload = {
@@ -135,6 +136,14 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // console.log({ token })
                 return session
             },
+            authorized({ auth: session, request: { nextUrl } }) {
+                const isLoggedIn = !!session?.user;
+                console.log("auth", session)
+                const s = nextUrl.hostname
+                console.log({ s })
+                if (isLoggedIn) return true
+                return false
+            },
 
         },
         events: {
@@ -147,7 +156,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 if (message.user) console.log(`Welcome ${message.user.email}`)
                 console.log("events fires: in")
                 console.table(message.user)
-                console.table(message.profile)
+                // console.table(message.profile)
                 console.table(message.account)
 
             },

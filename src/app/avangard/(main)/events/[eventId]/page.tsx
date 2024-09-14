@@ -1,4 +1,4 @@
-import { EventView } from "@/Components/EventView/EventView";
+import { EventView, TEvent } from "@/Components/EventView/EventView";
 import { reduceArrayToObject } from "@/Helpers/reduceToObject";
 import { getDBOneEventData, getEvent } from "@/Services/events/db_event";
 import { getEvents } from "@/Services/events/eventActions";
@@ -8,23 +8,23 @@ import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
 import { Alert, Box } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import { Suspense } from "react";
-type TEvent = Prisma.EventGetPayload<{
-    select: {
-        id: true;
-        date_formated: true;
-        players: { select: { id: true; name: true; ticket: true } };
-        pairs: true;
-        cost: true;
-        title: true;
-        _count: { select: { players: true } };
-    };
-}>;
+// type TEvent = Prisma.EventGetPayload<{
+//     select: {
+//         id: true;
+//         date_formated: true;
+//         players: { select: { id: true; name: true; ticket: true } };
+//         pairs: true;
+//         cost: true;
+//         title: true;
+//         _count: { select: { players: true } };
+//     };
+// }>;
 const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     params,
 }) => {
     const { eventId } = params;
     if (!eventId || isNaN(Number(eventId))) return null;
-    const event = await getEvent({
+    const event = (await getEvent({
         where: { id: Number(eventId) },
         select: {
             id: true,
@@ -44,7 +44,7 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
             },
             _count: { select: { players: true } },
         },
-    });
+    })) as unknown as TEvent;
 
     const masters = await getMasters();
 
@@ -59,12 +59,7 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     // );
     return (
         <Suspense fallback={<Alert color="success">Wait...</Alert>}>
-            {eventId && (
-                <EventView
-                    event={event as unknown as TEvent}
-                    masters={masters}
-                />
-            )}
+            {eventId && <EventView event={event} masters={masters} />}
         </Suspense>
     );
 };

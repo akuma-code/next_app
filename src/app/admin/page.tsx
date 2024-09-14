@@ -1,31 +1,18 @@
-import { auth } from "@/auth/auth";
 import { readFileFn } from "@/Services/fs/data_service";
 import { Container, LinearProgress } from "@mui/material";
-import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Suspense } from "react";
-import backup from "./../../../public/json/data.json";
 import TodoList from "./_components/todo";
-import { reseedEventsFromJson } from "./actions";
-import { verifySession } from "@/auth/verifySession";
-import AccessDenied from "@/ClientComponents/auth/AccessDenied";
-
-const action = reseedEventsFromJson.bind(null, backup);
 
 async function AministratorPage(params: { searchParams: { show: string } }) {
     // const str_items = await loadStrings();
     const todos = await getTodos();
-    // const session = await auth();
-    // if (!isAuth) {
-    //     console.error("Unauthorized user!");
-    //     redirect("/api/auth/error");
-    // }
 
-    // const { isAuth } = await verifySession();
-    // if (!isAuth) return <AccessDenied />;
     return (
         <Suspense fallback={<LinearProgress />}>
             <Container maxWidth="md">
                 {/* <AdminCard seedAction={action} /> */}
+                {/* <Link href="/admin/v/view">VIEWLINK</Link> */}
                 {todos && (
                     <TodoList
                         todo_items={todos.undone || []}

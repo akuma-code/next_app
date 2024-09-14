@@ -13,13 +13,14 @@ import {
     removePair,
     updatePair,
 } from "@/Services/events/eventActions";
-import { disconnectPlayer } from "@/Services/eventService";
+import { deleteEvent, disconnectPlayer } from "@/Services/eventService";
 import {
     mdiAccountMinus,
     mdiAccountPlusOutline,
     mdiCardAccountDetailsOutline,
     mdiCash,
     mdiCurrencyRub,
+    mdiDatabaseOff,
     mdiEye,
     mdiEyeOff,
 } from "@mdi/js";
@@ -54,7 +55,7 @@ interface Pair {
     secondPlayerId: number;
 }
 
-type TEvent = Prisma.EventGetPayload<{
+export type TEvent = Prisma.EventGetPayload<{
     select: {
         id: true;
         date_formated: true;
@@ -129,14 +130,19 @@ export const EventView: React.FC<Eventinfo> = ({
         connectAction.on();
         removeControl.on();
     };
+
+    const handleDeleteEvent = async () => {
+        await deleteEvent(id);
+        router.push("/");
+    };
     return (
         <Box
             {...boxProps}
             sx={{
                 borderRadius: 4,
                 minWidth: 330,
-                width: "max-content",
-                maxWidth: 420,
+                width: "fit-content",
+                maxWidth: 400,
                 height: "max-content",
                 border: "2px solid",
                 borderColor: "primary.dark",
@@ -150,7 +156,7 @@ export const EventView: React.FC<Eventinfo> = ({
             <Box
                 sx={{
                     display: "flex",
-                    p: 1.5,
+                    p: 1,
                     alignItems: "center",
                     gap: 1,
                     justifyContent: "space-between",
@@ -181,10 +187,17 @@ export const EventView: React.FC<Eventinfo> = ({
                             onClick={() => router.push(pathname + "/edit")}
                             tooltipTitle={"Редактировать"}
                         />
+                        <SpeedDialAction
+                            tooltipOpen={!isMobile}
+                            tooltipPlacement="right"
+                            icon={<Icon path={mdiDatabaseOff} size={0.8} />}
+                            onClick={handleDeleteEvent}
+                            tooltipTitle={"Удалить"}
+                        />
                     </EventButtons>
                 )}
                 <Box>
-                    <Typography variant="h5" component={"div"}>
+                    <Typography variant="h6" component={"div"} fontSize={20}>
                         {title}
                     </Typography>
                     <Typography variant="body1" fontSize={18}>
@@ -331,29 +344,6 @@ export const EventView: React.FC<Eventinfo> = ({
                                         </MenuItem>
                                     ))}
                                 </SelectPairButton>
-
-                                {/* <Button
-                                    aria-label="remove player"
-                                    // title="remove"
-                                    onClick={async () =>
-                                        await disconnectPlayer(p.id, id)
-                                    }
-                                    // edge="start"
-                                    color="error"
-                                    sx={{
-                                        bgcolor: "darkgray",
-                                        flexGrow: 0,
-                                        display: "flex",
-                                        p: 1,
-                                        fontSize: "1rem",
-                                    }}
-                                >
-                                    <Icon
-                                        path={mdiAccountMinus}
-                                        size={0.8}
-                                        className="flex-grow text-center"
-                                    />
-                                </Button> */}
                             </Stack>
                         ) : (
                             p.ticket && (
@@ -363,7 +353,7 @@ export const EventView: React.FC<Eventinfo> = ({
                                         bgcolor: "lightblue",
                                         color: "primary.dark",
                                         width: 72,
-                                        height: 48,
+                                        height: 42,
                                         gap: 1,
                                         display: "flex",
                                     }}

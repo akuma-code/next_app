@@ -1,11 +1,9 @@
 "use client";
-import { MRT_TableOptions } from "material-react-table";
-import { EventDto, EventDto2 } from "./Avangard/MRTEvents";
-import { PrismaPlayer, PrismaPlayer_ } from "@/Types";
-import { MRT_Localization_RU } from "material-react-table/locales/ru";
-import { mdiCodeTags, mdiCog, mdiFileSettings } from "@mdi/js";
+import { mdiCodeTags } from "@mdi/js";
 import { Icon } from "@mdi/react";
-import { Box } from "@mui/material";
+import { MRT_TableOptions } from "material-react-table";
+import { MRT_Localization_RU } from "material-react-table/locales/ru";
+import { EventDto2 } from "./Avangard/MRTEvents";
 export const mrt_event_options: Partial<MRT_TableOptions<EventDto2>> = {
     layoutMode: "grid",
     enableColumnFilters: true,

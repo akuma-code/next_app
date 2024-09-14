@@ -2,13 +2,13 @@ import { CredentialsInputs } from "@/ClientComponents/auth/CredentialsForm";
 import { _log } from "@/Helpers/helpersFns";
 import { signIn } from "@/auth/auth";
 import { Button, Container, Stack } from "@mui/material";
-import { revalidatePath } from "next/cache";
-import { isRedirectError } from "next/dist/client/components/redirect";
-import { redirect } from "next/navigation";
 
-async function SignInPage() {
-    // const { url } = request
-    // const { href } = new URL(await request.url)
+async function SignInPage({
+    searchParams,
+}: {
+    searchParams: { callbackUrl: string };
+}) {
+    const callbackUrl = searchParams?.callbackUrl || "/";
 
     return (
         <Container maxWidth={"md"}>
@@ -25,17 +25,8 @@ async function SignInPage() {
                         await signIn("credentials", {
                             email,
                             password,
-                            redirectTo: "/",
+                            redirectTo: callbackUrl,
                         });
-                        // try {
-                        //     return
-                        // } catch (error) {
-                        //     if (isRedirectError(error)) return;
-                        //     console.error(error);
-                        //     throw error;
-                        // } finally {
-                        //     revalidatePath("/");
-                        // }
                     }}
                 >
                     <CredentialsInputs />

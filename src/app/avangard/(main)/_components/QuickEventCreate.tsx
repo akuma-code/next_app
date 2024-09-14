@@ -1,7 +1,7 @@
 "use client";
 
 import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
-import { _formated_date } from "@/Helpers/dateFuncs";
+import { _date, _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 import useMediaDetect from "@/Hooks/useMediaDetect";
 import { useToggle } from "@/Hooks/useToggle";
 import { makeNewEvent } from "@/Services/eventService";
@@ -29,8 +29,12 @@ type Props = {
 export function QuickEventCreate({ children }: Props) {
     const { isMobile } = useMediaDetect();
     const [drop, c] = useToggle(false);
-    const [isPending, start] = useTransition();
+    // const [isPending, start] = useTransition();
     const router = useRouter();
+    const handleCreate = async () => {
+        const e = await quickCreate();
+        router.push("/avangard/events/" + e.id);
+    };
     return (
         <Box
             sx={{
@@ -75,7 +79,7 @@ export function QuickEventCreate({ children }: Props) {
                     tooltipPlacement="right"
                     icon={<Icon path={mdiNewBox} size={1} />}
                     tooltipTitle={"Быстрый старт"}
-                    onClick={quickCreate.bind(null)}
+                    onClick={handleCreate}
                 />
                 <SpeedDialAction
                     tooltipOpen={!isMobile}
@@ -93,11 +97,16 @@ export function QuickEventCreate({ children }: Props) {
 
 async function quickCreate() {
     const today = _formated_date(dayjs());
-    const title = "Тренировка " + today;
+    const date = today.split("-")[2];
+    const day = _date(today).day_name;
+    const { dd_mmmm } = _dbDateParser(today);
+    const title = `${day},
+     ${dd_mmmm}`;
     const e = await makeNewEvent(
-        { date_formated: today, title, players: [], isDraft: false },
+        { date_formated: today, title: title, players: [], isDraft: false },
         { cost: 1 }
     );
+    console.table(e);
 
     return e;
 }
