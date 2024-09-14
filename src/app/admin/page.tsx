@@ -3,23 +3,23 @@ import { Container, LinearProgress } from "@mui/material";
 import Link from "next/link";
 import { Suspense } from "react";
 import TodoList from "./_components/todo";
-
+import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 async function AministratorPage(params: { searchParams: { show: string } }) {
     // const str_items = await loadStrings();
     const todos = await getTodos();
 
     return (
         <Suspense fallback={<LinearProgress />}>
-            <Container maxWidth="md">
-                {/* <AdminCard seedAction={action} /> */}
-                {/* <Link href="/admin/v/view">VIEWLINK</Link> */}
-                {todos && (
-                    <TodoList
-                        todo_items={todos.undone || []}
-                        done={todos.done || []}
-                    />
-                )}
-            </Container>
+            {/* <Container maxWidth="md"> */}
+            {/* <AdminCard seedAction={action} /> */}
+            {/* <Link href="/admin/v/view">VIEWLINK</Link> */}
+            {todos && (
+                <TodoList
+                    todo_items={todos.undone || []}
+                    done={todos.done || []}
+                />
+            )}
+            {/* </Container> */}
         </Suspense>
     );
 }

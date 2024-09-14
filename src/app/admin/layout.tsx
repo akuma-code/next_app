@@ -5,6 +5,7 @@ import { mdiMathNorm } from "@mdi/js";
 import Icon from "@mdi/react";
 
 import { Box, Breadcrumbs, Button, Paper, Stack } from "@mui/material";
+import { AppProvider } from "@toolpad/core/nextjs";
 import { Metadata } from "next";
 
 interface ContainerLayoutProps {

@@ -1,15 +1,14 @@
-import { Box, Container, Paper } from "@mui/material";
+import { auth } from "@/auth/auth";
+import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
+import { Container, Paper } from "@mui/material";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import React from "react";
-import { AppHeader } from "../Components/Nav/AppHeaderNavbar";
 import "./globals.css";
 import Providers from "./providers";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth/auth";
-import Link from "next/link";
-import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
+import { AppProvider } from "@toolpad/core/nextjs";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 

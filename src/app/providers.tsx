@@ -10,9 +10,16 @@ import { QueryFunction } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import weekday from "dayjs/plugin/weekday";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
-
+import { AppProvider, Router } from "@toolpad/core/AppProvider";
+import {
+    Account,
+    AuthenticationContext,
+    SessionContext,
+    Session,
+} from "@toolpad/core";
+import { signIn, signOut, useSession } from "next-auth/react";
 dayjs.extend(weekday);
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0];
@@ -34,8 +41,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     // const { device, isMobile, isDesktop } = useMediaDetect();
     const savedmode: PaletteMode = prefersDarkMode ? "dark" : "light";
-
-    const [mode, setMode] = React.useState<PaletteMode>(savedmode);
+    const { data } = useSession();
+    const [mode, setMode] = useState<PaletteMode>(savedmode);
     const colorMode = React.useMemo(
         () => ({
             // The dark mode switch would invoke this method
@@ -48,7 +55,25 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         }),
         []
     );
+    const authentication = React.useMemo(() => {
+        return {
+            signIn: () => {
+                return data;
+            },
+            signOut: () => {
+                return null;
+            },
+        };
+    }, [data]);
+    const [pathname, setPathname] = React.useState("/");
 
+    const router = React.useMemo<Router>(() => {
+        return {
+            pathname,
+            searchParams: new URLSearchParams(),
+            navigate: (path) => setPathname(String(path)),
+        };
+    }, [pathname]);
     // (isMobile || isDesktop) && console.log({ device })
     const THEME = useMemo(
         () => createTheme({ ...getDesignTokens(mode) }, ruRU),
@@ -63,6 +88,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                         dateAdapter={AdapterDayjs}
                         adapterLocale="ru"
                     >
+                        {/* <AppProvider router={router} theme={THEME}>
+                            <SessionContext.Provider value={data}>
+                                <Account />
+                            </SessionContext.Provider>
+                        </AppProvider> */}
                         {children}
                     </LocalizationProvider>
                 </ThemeProvider>
