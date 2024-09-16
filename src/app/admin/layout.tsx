@@ -5,6 +5,7 @@ import { mdiMathNorm } from "@mdi/js";
 import Icon from "@mdi/react";
 
 import { Box, Breadcrumbs, Button, Paper, Stack } from "@mui/material";
+import { DashboardLayout } from "@toolpad/core";
 import { AppProvider } from "@toolpad/core/nextjs";
 import { Metadata } from "next";
 
@@ -49,39 +50,18 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
     const { isAuth } = await verifySession();
 
     return (
-        <Paper>
+        <>
             {isAuth ? (
-                <Stack direction={{ sm: "column" }} m={1} gap={1}>
-                    <Breadcrumbs
-                        separator={<Icon path={mdiMathNorm} size={1} />}
-                        maxItems={3}
-                    >
-                        {links.map((link) => (
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                size={"small"}
-                                key={link.href}
-                            >
-                                <LinkMui
-                                    key={link.href}
-                                    href={link.href}
-                                    underline="hover"
-                                    fontSize={"1rem"}
-                                >
-                                    {link.label}
-                                </LinkMui>
-                            </Button>
-                        ))}
-                    </Breadcrumbs>
-                    {/* </List> */}
-                    <Box>{children}</Box>
-                    <Box>{view}</Box>
-                </Stack>
+                // <Stack direction={{ sm: "column" }} m={1} gap={1}>
+
+                <Box>
+                    {children}
+                    {view}
+                </Box>
             ) : (
                 <AccessDenied />
             )}
-        </Paper>
+        </>
     );
 };
 

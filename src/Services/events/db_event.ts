@@ -351,7 +351,7 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
         create: {
             name,
             id,
-            events: { connect: connect_events },
+            events: { connectOrCreate: valid_events },
             ticket: ticket ? {
 
                 create: {
@@ -396,6 +396,7 @@ export async function sync_events_pairs() {
         // await fetchAndCreatePlayers()
         // await prisma.event.deleteMany()
         // await prisma.pair.deleteMany()
+        // await prisma.master.deleteMany()
         await reseedMasters()
         const { events, pairs } = await fetchServer().then(r => r.alldata) as { events: Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>[], pairs: Prisma.PairGetPayload<{ select: { master: true, player: true, event: true } }>[] }
 
@@ -459,6 +460,6 @@ export async function sync_events_pairs() {
 export async function reSyncPlayers() {
     await prisma.player.deleteMany().then(console.log)
 
-    await fetchAndCreatePlayers().then(async () => await sync_events_pairs(), console.error)
+    await fetchAndCreatePlayers().then(async () => await sync_events_pairs(), console.error).finally(() => revalidatePath("/"))
     // await sync_events_pairs()
 }

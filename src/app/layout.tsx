@@ -9,6 +9,7 @@ import React from "react";
 import "./globals.css";
 import Providers from "./providers";
 import { AppProvider } from "@toolpad/core/nextjs";
+import { DashboardLayout } from "@toolpad/core";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -32,16 +33,16 @@ const RootLayout: React.FC<{
                 <SessionProvider session={session} refetchOnWindowFocus>
                     <MrtBoundary>
                         <Providers>
-                            <Paper
-                                maxWidth={"lg"}
-                                component={Container}
+                            {/* <Paper
+                                // maxWidth={"lg"}
+                                // component={Container}
                                 elevation={2}
                                 color="primary.main"
-                            >
-                                {children}
-                            </Paper>
-                            <SpeedInsights />
+                            > */}
+                            <DashboardLayout>{children}</DashboardLayout>
+                            {/* </Paper> */}
                         </Providers>
+                        <SpeedInsights />
                     </MrtBoundary>
                 </SessionProvider>
             </body>

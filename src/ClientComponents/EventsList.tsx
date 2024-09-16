@@ -62,7 +62,6 @@ export const EventsList: React.FC<{
         <Box
             maxWidth={{ sm: 450, md: "100vw" }}
             bgcolor={"background.paper"}
-            p={2}
             m={0}
             sx={{
                 borderBottomLeftRadius: 6,

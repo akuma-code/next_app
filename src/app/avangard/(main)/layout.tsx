@@ -1,5 +1,6 @@
 import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { Box, Stack, Typography } from "@mui/material";
+import { DashboardLayout, PageContainer } from "@toolpad/core";
 import { Metadata } from "next";
 
 const links = [
@@ -63,4 +64,8 @@ const AvangardLayout: React.FC<{
     );
 };
 
-export default AvangardLayout;
+async function tollbarLayout({ children }: { children?: React.ReactNode }) {
+    return <PageContainer>{children}</PageContainer>;
+}
+
+export default tollbarLayout;

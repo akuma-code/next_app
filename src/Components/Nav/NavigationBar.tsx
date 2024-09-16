@@ -67,10 +67,10 @@ const NavBar = ({
 export function NavigationBar() {
     const session = useSession();
     const { isMobile, device } = useMediaDetect();
-    // const NavBarSelector = useMemo(
-    //     () => (device === "mobile" ? <MobileBar /> : <PcBar />),
-    //     [device]
-    // );
+    const NavBarSelector = useMemo(
+        () => (isMobile ? MobileBar : PcBar),
+        [isMobile]
+    );
 
     return (
         <AppBar
@@ -82,7 +82,8 @@ export function NavigationBar() {
             {/* <NavBar device={device} /> */}
             {/* {NavBar({ device: device })} */}
             <Suspense fallback={<div>loading...</div>}>
-                {isMobile ? <MobileBar /> : <PcBar />}
+                {/* {isMobile ? <MobileBar /> : <PcBar />} */}
+                <NavBarSelector />
             </Suspense>
         </AppBar>
     );

@@ -5,7 +5,8 @@ import { MRT_Localization_RU } from "material-react-table/locales/ru";
 export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
     muiTableContainerProps: {
         sx: {
-            maxHeight: "62vh",
+            // display: "flex",
+            // maxHeight: "71vh",
             maxWidth: "90wv",
             border: "2px solid #00008b36",
         },

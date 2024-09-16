@@ -1,6 +1,7 @@
 import { CredentialsInputs } from "@/ClientComponents/auth/CredentialsForm";
 import { _log } from "@/Helpers/helpersFns";
 import { signIn } from "@/auth/auth";
+import SignInToolPage from "@/auth/signInPage";
 import { Button, Container, Stack } from "@mui/material";
 
 async function SignInPage({
@@ -65,4 +66,4 @@ const GitHubsLoginForm = ({
     );
 };
 
-export default SignInPage;
+export default SignInToolPage;

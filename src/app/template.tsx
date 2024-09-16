@@ -9,7 +9,7 @@ export default async function Template({
     return (
         <>
             {/* <AppHeader /> */}
-            <NavigationBar />
+            {/* <NavigationBar /> */}
             {children}
         </>
     );

@@ -32,7 +32,7 @@
     "@prisma/extension-accelerate": "^1.1.0",
     "@tanstack/react-query": "^5.54.1",
     "@tanstack/react-query-devtools": "^5.54.1",
-    "@toolpad/core": "^0.6.0",
+    "@toolpad/core": "^0.5.2",
     "@types/bcrypt": "^5.0.2",
     "@vercel/speed-insights": "^1.0.12",
     "bcrypt": "^5.1.1",

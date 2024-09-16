@@ -6,6 +6,7 @@ import AdminPlayerList from "./AdminPlayerList";
 
 import { MRTPlayers } from "@/ClientComponents/MRT/Avangard/MRTPlayers";
 import { fetchAndCreatePlayers } from "@/Services/events/db_event";
+import { PageContainer } from "@toolpad/core";
 
 const clone_action = fetchAndCreatePlayers.bind(null);
 
@@ -54,9 +55,9 @@ async function AdminPlayersPage() {
     const p = await getPlayers();
 
     return (
-        <Box>
+        <PageContainer>
             <MRTPlayers players={p} />
-        </Box>
+        </PageContainer>
     );
 }
 
