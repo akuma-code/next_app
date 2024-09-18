@@ -52,9 +52,9 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
 }
 
 async function AdminPlayersPage() {
-    const p = await getPlayers();
+    // const p = await getPlayers();
 
-    return <MRTPlayers players={p} />;
+    return <MRTPlayers />;
 }
 
 function CloseFormButton() {

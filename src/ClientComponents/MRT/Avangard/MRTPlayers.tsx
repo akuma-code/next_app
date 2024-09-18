@@ -146,7 +146,7 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
         muiTableHeadCellProps: {
             align: "center",
         },
-        enableEditing: false,
+        enableEditing: true,
         minSize: 80,
         grow: 1,
         Cell({ row }) {
@@ -157,7 +157,7 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
 
             return `${amount}/${limit}`;
         },
-        Edit: () => null,
+        // Edit: () => null,
     },
     {
         accessorKey: "ticket",
@@ -172,7 +172,7 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
         Edit: () => null,
     },
 ];
-export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
+export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
     const [open, c] = useToggle();
     const [selected_player, select] = useState<PrismaPlayer_ | null>(null);
     const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
@@ -184,15 +184,30 @@ export function MRTPlayers({ players }: { players: PrismaPlayer_[] }) {
         });
 
     const handleSavePlayer: MRT_TableOptions<PrismaPlayer_>["onEditingRowSave"] =
-        async ({ values, table, row }) => {
+        ({ values, table, row }) => {
             const { name, ticket } = values;
+            const a = values["ticket.amount"];
+            const l = values["ticket.limit"];
             const {
                 original: { id },
             } = row;
+            console.log(a, l);
             s(async () => {
-                await EditPlayer({ where: { id }, data: { name } });
-                table.setEditingRow(null); //exit editing mode
+                await EditPlayer({
+                    where: { id },
+                    data: {
+                        name,
+                        // ticket: {
+                        //     update: {
+                        //         amount: { set: a },
+                        //         limit: l,
+                        //     },
+                        // },
+                    },
+                    select: { id: true, name: true, ticket: true },
+                });
             });
+            table.setEditingRow(null); //exit editing mode
         };
 
     const table = useMaterialReactTable({

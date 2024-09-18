@@ -45,6 +45,7 @@ export async function EditPlayer(payload: Prisma.PlayerUpdateArgs) {
 
 
     const p = await prisma.player.update(payload)
+    console.log(p)
     return p
   } catch (error) {
     console.log(error)

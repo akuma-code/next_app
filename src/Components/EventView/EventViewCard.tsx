@@ -103,7 +103,7 @@ export const EventViewCard = ({
                 >
                     <Box>
                         <AvatarGroup
-                            max={3}
+                            max={4}
                             sx={{
                                 "& .MuiAvatar-root": {
                                     fontFamily: "Ubuntu",
@@ -126,32 +126,32 @@ export const EventViewCard = ({
                     </Box>
                     {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */}
 
-                    <ButtonGroup
-                        size="small"
-                        orientation="vertical"
-                        variant={"contained"}
-                        sx={{ borderRadius: 30 }}
-                    >
-                        <Button
-                            color="primary"
-                            LinkComponent={Link}
-                            // href={pathname + `/${event.id}`}
-                            onClick={() =>
-                                router.push(`${pathname}/${event.id}`)
-                            }
-                            startIcon={<OpenWithOutlinedIcon />}
+                    {data?.user && (
+                        <ButtonGroup
+                            size="small"
+                            orientation="vertical"
+                            variant={"contained"}
+                            sx={{ borderRadius: 30 }}
                         >
-                            Открыть
-                        </Button>
-                        {data?.user && (
+                            <Button
+                                color="primary"
+                                LinkComponent={Link}
+                                // href={pathname + `/${event.id}`}
+                                onClick={() =>
+                                    router.push(`${pathname}/${event.id}`)
+                                }
+                                startIcon={<OpenWithOutlinedIcon />}
+                            >
+                                Открыть
+                            </Button>
                             <Button
                                 startIcon={<SettingsTwoTone />}
                                 color="secondary"
                             >
                                 развернуть
                             </Button>
-                        )}
-                    </ButtonGroup>
+                        </ButtonGroup>
+                    )}
 
                     {/* </Stack> */}
                 </Box>
