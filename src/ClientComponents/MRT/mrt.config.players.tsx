@@ -6,8 +6,8 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
     muiTableContainerProps: {
         sx: {
             // display: "flex",
-            // maxHeight: "71vh",
-            maxWidth: "90wv",
+            maxHeight: "65vh",
+            // maxWidth: "md",
             border: "2px solid #00008b36",
         },
     },

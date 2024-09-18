@@ -177,7 +177,7 @@ export async function getOnePlayer(id: number) {
     throw new Error("findone error");
   }
 }
-export async function getPlayerEvents(id: number, config = { take: 10 }) {
+export async function getPlayerEvents(id: number, config = { take: 100 }) {
   try {
     const db = prisma.player;
     const p = await db.findUniqueOrThrow({
@@ -192,7 +192,8 @@ export async function getPlayerEvents(id: number, config = { take: 10 }) {
             id: true,
 
           },
-          take: -config.take,
+          ...config,
+          // take: -config.take,
 
         },
         _count: { select: { events: true } }

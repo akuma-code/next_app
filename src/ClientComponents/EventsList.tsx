@@ -56,7 +56,7 @@ export const EventsList: React.FC<{
         dayjs(date, "YYYY-MM-DD", "ru").format("DD MMMM");
 
     const dayWeek = (d: string) =>
-        DayOfWeek[dayjs(d, "DD.MM.YYYY", "ru").weekday()];
+        DayOfWeek[dayjs(d, "YYYY-MM-DD", "ru").weekday()];
 
     return (
         <Box
@@ -80,8 +80,9 @@ export const EventsList: React.FC<{
                 // maxWidth={ { xs: 300, md: 450, lg: 600 } }
                 maxHeight={{ sm: "60vh", md: "70vh" }}
                 sx={{ pt: 1, pr: 1, overflowY: "scroll" }}
-                offset={{ md: 1, xs: 2 }}
+                offset={{ md: 2, xs: 2 }}
                 size={"auto"}
+                columns={12}
             >
                 {events.map((e) => (
                     <Grid2 key={e.id} size={{ xs: 9, md: 3 }}>

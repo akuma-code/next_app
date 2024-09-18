@@ -54,11 +54,7 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
 async function AdminPlayersPage() {
     const p = await getPlayers();
 
-    return (
-        <PageContainer>
-            <MRTPlayers players={p} />
-        </PageContainer>
-    );
+    return <MRTPlayers players={p} />;
 }
 
 function CloseFormButton() {

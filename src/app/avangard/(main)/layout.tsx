@@ -65,7 +65,11 @@ const AvangardLayout: React.FC<{
 };
 
 async function tollbarLayout({ children }: { children?: React.ReactNode }) {
-    return <PageContainer>{children}</PageContainer>;
+    return (
+        <Box maxWidth={{ md: 900, xs: 350 }}>
+            <PageContainer maxWidth={"md"}>{children}</PageContainer>
+        </Box>
+    );
 }
 
 export default tollbarLayout;

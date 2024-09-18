@@ -28,23 +28,28 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Icon from "@mdi/react";
 import { mdiSetAll } from "@mdi/js";
 dayjs.extend(weekday);
+import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 
 //*!________________________
 
 type ExtendedNavigatePage = { visible?: boolean } & NavigationPageItem;
 type ExtendedNavigate = (NavigationItem | ExtendedNavigatePage)[];
 const ROUTES: ExtendedNavigate = [
-    { kind: "header", title: "Stats" },
+    // { kind: "header", title: "Stats" },
     {
         segment: "avangard",
-        title: "Авангард",
+        title: "Тренировки",
         kind: "page",
         visible: true,
         children: [
-            { title: "Тренировки", segment: "events", kind: "page" },
+            { title: "Расписание", segment: "events", kind: "page" },
             { title: "Игроки", segment: "players", kind: "page" },
         ],
     },
+    { kind: "divider" },
+    { segment: "charts", title: "Статистика", kind: "page" },
+    { kind: "divider" },
+
     {
         segment: "admin",
         title: "Админка",
@@ -138,41 +143,37 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         [mode]
     );
     return (
-        <ColorModeContext.Provider value={colorMode}>
-            <AppRouterCacheProvider>
-                <CssBaseline enableColorScheme />
-                <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                    adapterLocale="ru"
-                >
-                    {/* <AppProvider router={router} theme={THEME}>
+        <AppProvider
+            session={session.data}
+            router={router}
+            theme={THEME}
+            authentication={{ signIn, signOut }}
+            navigation={ROUTES}
+            branding={{
+                title: "Авангард",
+                logo: <SportsKabaddiIcon />,
+                //  <Icon path={mdiSetAll} size={1.4} color={"#21ccd8"} />,
+            }}
+        >
+            <ColorModeContext.Provider value={colorMode}>
+                <AppRouterCacheProvider>
+                    <CssBaseline enableColorScheme />
+                    <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        adapterLocale="ru"
+                    >
+                        {/* <AppProvider router={router} theme={THEME}>
                             <SessionContext.Provider value={data}>
                                 <Account />
                             </SessionContext.Provider>
                         </AppProvider> */}
-                    <AppProvider
-                        session={session.data}
-                        router={router}
-                        theme={THEME}
-                        authentication={{ signIn, signOut }}
-                        navigation={ROUTES}
-                        branding={{
-                            title: "Авангард",
-                            logo: (
-                                <Icon
-                                    path={mdiSetAll}
-                                    size={1.4}
-                                    color={"red"}
-                                />
-                            ),
-                        }}
-                    >
+
                         {/* <ThemeProvider theme={THEME}>
                             </ThemeProvider> */}
                         {children}
-                    </AppProvider>
-                </LocalizationProvider>
-            </AppRouterCacheProvider>
-        </ColorModeContext.Provider>
+                    </LocalizationProvider>
+                </AppRouterCacheProvider>
+            </ColorModeContext.Provider>
+        </AppProvider>
     );
 }

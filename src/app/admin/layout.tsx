@@ -5,7 +5,7 @@ import { mdiMathNorm } from "@mdi/js";
 import Icon from "@mdi/react";
 
 import { Box, Breadcrumbs, Button, Paper, Stack } from "@mui/material";
-import { DashboardLayout } from "@toolpad/core";
+import { DashboardLayout, PageContainer } from "@toolpad/core";
 import { AppProvider } from "@toolpad/core/nextjs";
 import { Metadata } from "next";
 
@@ -53,12 +53,19 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
         <>
             {isAuth ? (
                 // <Stack direction={{ sm: "column" }} m={1} gap={1}>
-
-                <Box>
-                    {children}
+                <Box
+                //  maxWidth={{ md: 980, xs: 350 }}
+                >
+                    <PageContainer maxWidth={"lg"}>{children}</PageContainer>
                     {view}
                 </Box>
             ) : (
+                // <Box maxWidth={{ md: "90vw", xs: 350 }}>
+                //     <PageContainer>
+                //         {children}
+
+                //     </PageContainer>
+                // </Box>
                 <AccessDenied />
             )}
         </>
