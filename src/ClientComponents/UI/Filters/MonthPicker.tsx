@@ -26,9 +26,9 @@ function MonthPicker() {
     }
     return (
         <MobileDatePicker
-            views={ ["month"] }
-            selectedSections={ "month" }
-            onMonthChange={ handleChangeDate }
+            views={["month"]}
+            selectedSections={"month"}
+            onMonthChange={handleChangeDate}
             name="month"
             openTo="month"
             label="Укажите месяц" // open={ open }
@@ -39,7 +39,7 @@ function MonthPicker() {
                     // day: highlightDate,
                 }
             }
-            slotProps={ {
+            slotProps={{
                 layout: {
                     sx: {
                         color: "#ffffff",
@@ -69,12 +69,12 @@ function MonthPicker() {
                     },
                     clearable: true,
                     InputProps: {
-                        endAdornment: <Icon path={ mdiCalendar } size={ 1 } />,
+                        endAdornment: <Icon path={mdiCalendar} size={1} />,
                     },
                 },
-            } }
+            }}
         />
     );
 }
 
-export default React.memo(MonthPicker);
+export default MonthPicker;

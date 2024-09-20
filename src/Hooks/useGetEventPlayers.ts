@@ -1,8 +1,9 @@
 'use client'
 
 import { getEventsUnique } from "@/Services/eventService"
-import { getPlayers } from "@/Services/playerService"
+import { GET_PLAYERS, getPlayers } from "@/Services/playerService"
 import { PrismaPlayer_ } from "@/Types"
+import { useQuery } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 
 export default function useGetEventPlayers(date?: string) {
@@ -47,4 +48,16 @@ export function useGetAllPlayers() {
     }, [])
 
     return [players, isPending] as const
+}
+
+export function useMRTPlayers(config?: { take?: number, skip?: number }) {
+    const take = config?.take
+    const skip = config?.skip
+    const q = useQuery({
+        queryKey: ['players', take, skip],
+        queryFn: async () => await GET_PLAYERS({ take, skip }),
+    })
+
+    return q
+
 }

@@ -28,4 +28,4 @@ export const TicketGauge = ({
         />
     );
 };
-const el = React.memo(TicketGauge);
+const el = React(TicketGauge);

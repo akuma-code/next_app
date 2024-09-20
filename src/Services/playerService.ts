@@ -6,6 +6,7 @@ import { _log } from "@/Helpers/helpersFns";
 import prisma from "@/client/client";
 import { parseNames } from "@/dataStore/avangardPlayers";
 import { revalidatePath } from "next/cache";
+import { PrismaPlayer_ } from "@/Types";
 
 type DeletePayload = {
   id: number;
@@ -110,7 +111,25 @@ export async function editPlayer(
     revalidatePath("/");
   }
 }
-
+export async function GET_PLAYERS(params: Prisma.PlayerFindManyArgs, config?: Pick<Prisma.PlayerFindManyArgs, 'skip' | "take" | "select">) {
+  const args = { ...params, ...config }
+  const p: PrismaPlayer_[] = await prisma.player.findMany({
+    ...args,
+    select: {
+      id: true,
+      name: true,
+      pair: true,
+      ticket: true,
+      profile: true,
+      events: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: { select: { events: true } },
+    } as Prisma.PlayerSelect
+  })
+  console.log("players: ", p?.length)
+  return p
+}
 export async function getPlayers() {
   let defaultInclude = {
     events: true,

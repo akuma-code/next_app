@@ -273,4 +273,4 @@ function TransferList({
     );
 }
 
-export default React.memo(TodoList);
+export default TodoList;

@@ -37,18 +37,6 @@ const EventBoard = ({
         players,
         pairs
     );
-    useEffect(() => {
-        // start(async () => {
-        //     await getDBOneEventData(
-        //         { id: eventId },
-        //         { pairs: true, players: true, id: true, date_formated: true }
-        //     ).then((r) => {
-        //         // _log({ e });
-        //         setCurrent(r);
-        //         return r;
-        //     });
-        // });
-    }, [eventId]);
 
     return (
         <Card

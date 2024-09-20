@@ -54,14 +54,15 @@ import {
     // createRow,
     type MRT_ColumnDef,
 } from "material-react-table";
-import { useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { mrt_players_options } from "../mrt.config.players";
 import {
     fetchAndCreatePlayers,
     reSyncPlayers,
 } from "@/Services/events/db_event";
 import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
-import { useGetAllPlayers } from "@/Hooks/useGetEventPlayers";
+import { useGetAllPlayers, useMRTPlayers } from "@/Hooks/useGetEventPlayers";
+import { Prisma } from "@prisma/client";
 
 type TValues = Record<
     LiteralUnion<
@@ -161,7 +162,6 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
     },
     {
         accessorKey: "ticket",
-
         id: "status",
         header: "Статус",
         grow: 1,
@@ -173,10 +173,12 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
     },
 ];
 export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
-    const [open, c] = useToggle();
-    const [selected_player, select] = useState<PrismaPlayer_ | null>(null);
-    const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
-    const [qplayers, p_loading] = useGetAllPlayers();
+    // const [open, c] = useToggle();
+    // const [selected_player, select] = useState<PrismaPlayer_ | null>(null);
+    // const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
+    // const [qplayers, p_loading] = useGetAllPlayers();
+    const QP = useMRTPlayers();
+    const _qp = useMemo(() => (QP.isSuccess ? QP.data : []), []);
     const [isPending, s] = useTransition();
     const handleReSync = () =>
         s(async () => {
@@ -185,27 +187,31 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
 
     const handleSavePlayer: MRT_TableOptions<PrismaPlayer_>["onEditingRowSave"] =
         ({ values, table, row }) => {
-            const { name, ticket } = values;
+            const { name, status } = values;
             const a = values["ticket.amount"];
             const l = values["ticket.limit"];
             const {
                 original: { id },
             } = row;
-            console.log(a, l);
-            s(async () => {
-                await EditPlayer({
+            console.log({ values });
+            const validate = (i: typeof values) =>
+                Prisma.validator<Prisma.PlayerUpdateArgs>()({
                     where: { id },
                     data: {
                         name,
-                        // ticket: {
-                        //     update: {
-                        //         amount: { set: a },
-                        //         limit: l,
-                        //     },
-                        // },
+                        ticket: status
+                            ? {
+                                  update: {
+                                      amount: status.amount,
+                                      limit: status.limit,
+                                  },
+                              }
+                            : undefined,
                     },
-                    select: { id: true, name: true, ticket: true },
                 });
+            const args = validate(values);
+            s(async () => {
+                await EditPlayer(args);
             });
             table.setEditingRow(null); //exit editing mode
         };
@@ -213,10 +219,10 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
     const table = useMaterialReactTable({
         ...mrt_players_options,
         columns: player_columns,
-        data: qplayers,
+        data: _qp,
         state: {
             // rowSelection,
-            isLoading: p_loading,
+            isLoading: QP.isLoading,
             isSaving: isPending,
             columnOrder: [
                 "mrt-row-select",

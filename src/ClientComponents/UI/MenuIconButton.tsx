@@ -28,28 +28,25 @@ const MenuIconButton: React.FC<MenuButtonProps> = ({
 
     return (
         <React.Fragment>
-            <Tooltip title={ title }>
-
+            <Tooltip title={title}>
                 <Button
-                    startIcon={ icon ? icon : <Icon path={ mdiCog } size={ 1 } /> }
-                    onClick={ handleOpen }
-                    color={ "secondary" }
+                    startIcon={icon ? icon : <Icon path={mdiCog} size={1} />}
+                    onClick={handleOpen}
+                    color={"secondary"}
                     variant="outlined"
-                    size={ "small" }
+                    size={"small"}
                 >
-                    <Typography variant="caption">
-                        { title }
-                    </Typography>
+                    <Typography variant="caption">{title}</Typography>
                 </Button>
             </Tooltip>
 
             <Menu
-                anchorEl={ anchorEl }
+                anchorEl={anchorEl}
                 id="account-menu"
-                open={ open }
-                onClose={ handleClose }
-                onClick={ handleClose }
-                slotProps={ {
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                slotProps={{
                     paper: {
                         elevation: 1,
                         sx: {
@@ -76,11 +73,11 @@ const MenuIconButton: React.FC<MenuButtonProps> = ({
                             },
                         },
                     },
-                } }
-                transformOrigin={ { horizontal: "right", vertical: "top" } }
-                anchorOrigin={ { horizontal: "right", vertical: "bottom" } }
+                }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-                { children }
+                {children}
             </Menu>
         </React.Fragment>
     );
@@ -88,6 +85,4 @@ const MenuIconButton: React.FC<MenuButtonProps> = ({
 
 MenuIconButton.displayName = "_________IconButtonMenu";
 
-export default React.memo(MenuIconButton);
-
-
+export default MenuIconButton;
