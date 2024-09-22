@@ -28,4 +28,3 @@ export const TicketGauge = ({
         />
     );
 };
-const el = React(TicketGauge);
