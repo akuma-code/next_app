@@ -1,22 +1,18 @@
 {
-  "plugins": [
-    // "@typescript-eslint"
-    // "@next/eslint-plugin-next" // https://github.com/vercel/next.js/blob/canary/packages/eslint-plugin-next/lib/index.js
-  ],
   "extends": [
-    // "next/core-web-vitals"
+    // "eslint:recommended",
     "next"
-    // "eslint:recommended"
+    // "next/core-web-vitals"
   ],
   "reportUnusedDisableDirectives": true,
   "rules": {
     "react-hooks/exhaustive-deps": 1,
     "import/no-anonymous-default-export": 1,
     "react/jsx-key": 0,
-    "@next/next/no-async-client-component": 1
-    // "no-undef": 0
-    // "no-unused-vars": 1,
-    // "no-useless-catch": 1,
+    "no-unused-vars": 0,
+    "no-undef": 0,
+    "@next/next/no-async-client-component": 1,
+    "no-useless-catch": 0
     // "@typescript-eslint/explicit-function-return-type": 1
   }
 }

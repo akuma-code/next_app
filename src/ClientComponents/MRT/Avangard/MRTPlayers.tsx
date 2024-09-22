@@ -1,68 +1,53 @@
 "use client";
-import { monthReducer } from "@/Helpers/eventsMonthParser";
-import { useToggle } from "@/Hooks/useToggle";
+import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
+import { useMRTPlayers } from "@/Hooks/useGetEventPlayers";
+import {
+    reSyncPlayers
+} from "@/Services/events/db_event";
 import {
     CreateNewPlayer,
-    createPlayer,
     deletePlayer,
-    EditPlayer,
-    editPlayer,
+    EditPlayer
 } from "@/Services/playerService";
-import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
 import { PrismaPlayer_ } from "@/Types";
 import {
     mdiFileCertificateOutline,
-    mdiFileRemoveOutline,
-    mdiTicketConfirmationOutline,
+    mdiFileRemoveOutline
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
-    AccountCircleTwoTone,
     DeleteTwoTone,
     EditTwoTone,
-    ShareTwoTone,
-    Edit,
+    ShareTwoTone
 } from "@mui/icons-material";
 import {
     Box,
     Button,
     ButtonGroup,
-    Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Grid,
-    Grid2,
     IconButton,
     MenuItem,
     Stack,
-    TextField,
     ToggleButton,
     ToggleButtonGroup,
-    Tooltip,
+    Tooltip
 } from "@mui/material";
+import { Prisma } from "@prisma/client";
 import {
     LiteralUnion,
     MaterialReactTable,
-    MRT_ActionMenuItem,
     MRT_EditActionButtons,
     MRT_Row,
-    MRT_RowSelectionState,
     MRT_TableInstance,
     MRT_TableOptions,
     useMaterialReactTable,
     // createRow,
-    type MRT_ColumnDef,
+    type MRT_ColumnDef
 } from "material-react-table";
-import { useCallback, useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { mrt_players_options } from "../mrt.config.players";
-import {
-    fetchAndCreatePlayers,
-    reSyncPlayers,
-} from "@/Services/events/db_event";
-import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
-import { useGetAllPlayers, useMRTPlayers } from "@/Hooks/useGetEventPlayers";
-import { Prisma } from "@prisma/client";
 
 type TValues = Record<
     LiteralUnion<
@@ -178,7 +163,10 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
     // const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
     // const [qplayers, p_loading] = useGetAllPlayers();
     const QP = useMRTPlayers();
-    const _qp = useMemo(() => (QP.isSuccess ? QP.data : []), []);
+    const _qp = useMemo(
+        () => (QP.isSuccess ? QP.data : []),
+        [QP.data, QP.isSuccess]
+    );
     const [isPending, s] = useTransition();
     const handleReSync = () =>
         s(async () => {
