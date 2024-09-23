@@ -54,7 +54,7 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
     enableRowSelection: false,
     enableCellActions: true,
     enableRowActions: true,
-    editDisplayMode: "modal",
+    editDisplayMode: "row",
     enableRowNumbers: true,
     enableEditing: true,
     localization: MRT_Localization_RU,

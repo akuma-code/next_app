@@ -1,25 +1,16 @@
 "use client";
 import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
 import { useMRTPlayers } from "@/Hooks/useGetEventPlayers";
-import {
-    reSyncPlayers
-} from "@/Services/events/db_event";
+import { reSyncPlayers } from "@/Services/events/db_event";
 import {
     CreateNewPlayer,
     deletePlayer,
-    EditPlayer
+    EditPlayer,
 } from "@/Services/playerService";
 import { PrismaPlayer_ } from "@/Types";
-import {
-    mdiFileCertificateOutline,
-    mdiFileRemoveOutline
-} from "@mdi/js";
+import { mdiFileCertificateOutline, mdiFileRemoveOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import {
-    DeleteTwoTone,
-    EditTwoTone,
-    ShareTwoTone
-} from "@mui/icons-material";
+import { DeleteTwoTone, EditTwoTone, ShareTwoTone } from "@mui/icons-material";
 import {
     Box,
     Button,
@@ -32,7 +23,7 @@ import {
     Stack,
     ToggleButton,
     ToggleButtonGroup,
-    Tooltip
+    Tooltip,
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import {
@@ -44,9 +35,9 @@ import {
     MRT_TableOptions,
     useMaterialReactTable,
     // createRow,
-    type MRT_ColumnDef
+    type MRT_ColumnDef,
 } from "material-react-table";
-import { useMemo, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { mrt_players_options } from "../mrt.config.players";
 
 type TValues = Record<
@@ -99,7 +90,7 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
         muiEditTextFieldProps: {
             required: true,
             variant: "outlined",
-            helperText: "Player name",
+            helperText: "Изменить имя игрока",
         },
     },
     {
@@ -119,11 +110,9 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
     },
 
     {
-        id: "amount",
+        id: "ticket",
         accessorFn(originalRow) {
-            return originalRow.ticket?.amount
-                ? originalRow.ticket.amount.toString()
-                : "";
+            return originalRow.ticket ? originalRow.ticket.amount : "";
         },
         header: "Абонемент",
         muiTableBodyCellProps: {
@@ -133,40 +122,41 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
             align: "center",
         },
         enableEditing: true,
+        muiEditTextFieldProps: {
+            variant: "outlined",
+            helperText: "остаток на абонементе",
+        },
         minSize: 80,
         grow: 1,
         Cell({ row }) {
             // if (!row.original.ticket?.amount) return "";
             const { ticket } = row.original;
-            if (!ticket) return null;
+            if (!ticket) return "нет";
             const { amount, limit } = ticket;
 
             return `${amount}/${limit}`;
         },
         // Edit: () => null,
     },
-    {
-        accessorKey: "ticket",
-        id: "status",
-        header: "Статус",
-        grow: 1,
-        minSize: 100,
-        Cell: ({ row }) =>
-            row.original.ticket?.amount ? `Абонемент` : "Фактический",
-        muiEditTextFieldProps: {},
-        Edit: () => null,
-    },
+    // {
+    //     accessorKey: "ticket",
+    //     id: "status",
+    //     header: "Статус",
+    //     grow: 1,
+    //     minSize: 100,
+    //     Cell: ({ row }) =>
+    //         row.original.ticket?.amount ? `Абонемент` : "Фактический",
+    //     muiEditTextFieldProps: {},
+    //     Edit: () => null,
+    // },
 ];
-export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
+export function MRTPlayers() {
     // const [open, c] = useToggle();
     // const [selected_player, select] = useState<PrismaPlayer_ | null>(null);
     // const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
     // const [qplayers, p_loading] = useGetAllPlayers();
     const QP = useMRTPlayers();
-    const _qp = useMemo(
-        () => (QP.isSuccess ? QP.data : []),
-        [QP.data, QP.isSuccess]
-    );
+    const _qp = useMemo(() => (QP.data ? QP.data : []), [QP.data]);
     const [isPending, s] = useTransition();
     const handleReSync = () =>
         s(async () => {
@@ -175,9 +165,10 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
 
     const handleSavePlayer: MRT_TableOptions<PrismaPlayer_>["onEditingRowSave"] =
         ({ values, table, row }) => {
-            const { name, status } = values;
-            const a = values["ticket.amount"];
-            const l = values["ticket.limit"];
+            const { name, ticket } = values;
+
+            // const a = values["ticket.amount"];
+            // const l = values["ticket.limit"];
             const {
                 original: { id },
             } = row;
@@ -186,12 +177,12 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
                 Prisma.validator<Prisma.PlayerUpdateArgs>()({
                     where: { id },
                     data: {
-                        name,
-                        ticket: status
+                        name: i.name,
+                        ticket: i.ticket
                             ? {
                                   update: {
-                                      amount: status.amount,
-                                      limit: status.limit,
+                                      amount: Number(i.ticket),
+                                      //   limit: { increment: Number(i.ticket) },
                                   },
                               }
                             : undefined,
@@ -199,11 +190,19 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
                 });
             const args = validate(values);
             s(async () => {
-                await EditPlayer(args);
+                await EditPlayer({
+                    ...args,
+                    select: {
+                        id: true,
+                        name: true,
+                        ticket: true,
+                        _count: { select: { events: true } },
+                    },
+                });
             });
             table.setEditingRow(null); //exit editing mode
         };
-
+    const cbSavePlayer = useCallback(handleSavePlayer, []);
     const table = useMaterialReactTable({
         ...mrt_players_options,
         columns: player_columns,
@@ -220,6 +219,7 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
                 "name",
             ],
         },
+        enableRowActions: true,
         enableStickyHeader: true,
         renderDetailPanel: PlayerControlDetail,
         muiExpandButtonProps: ({ row, table }) => ({
@@ -322,13 +322,12 @@ export function MRTPlayers({ players }: { players?: PrismaPlayer_[] }) {
             }
         },
 
-        onEditingRowSave: handleSavePlayer,
+        onEditingRowSave: cbSavePlayer,
 
         // renderRowActionMenuItems: RowActionMenu,
         // renderRowActionMenuItems(props) {
         //     return RowActionMenu(props);
         // },
-        enableRowActions: true,
     });
 
     return <MaterialReactTable table={table} />;
