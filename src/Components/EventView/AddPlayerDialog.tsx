@@ -1,22 +1,17 @@
 "use client";
 
-import LoadSpinner from "@/app/avangard/loading";
 import { _log } from "@/Helpers/helpersFns";
 import { useToggle } from "@/Hooks/useToggle";
-import { connectOnePlayer } from "@/Services/eventService";
-import { getOnePlayer, getPlayers } from "@/Services/playerService";
+import { getPlayers } from "@/Services/playerService";
 import { connectPlayerWithTicket } from "@/Services/tickets/ticketActions";
-import { mdiAccountMultiplePlus, mdiCashMinus, mdiDebian } from "@mdi/js";
+import { mdiAccountMultiplePlus, mdiCashMinus } from "@mdi/js";
 import Icon from "@mdi/react";
-import { AddCard } from "@mui/icons-material";
 import {
     Box,
     Button,
     Dialog,
     DialogContent,
     DialogTitle,
-    Fade,
-    LinearProgress,
     Stack,
 } from "@mui/material";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -89,7 +84,11 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
                                 onClick={() =>
                                     handleConnectPlayer(event_id, p.id)
                                 }
-                                endIcon={p.ticket? <Icon path={mdiCashMinus}/>:null}
+                                endIcon={
+                                    p.ticket ? (
+                                        <Icon path={mdiCashMinus} />
+                                    ) : null
+                                }
                             >
                                 {p.name}
                             </Button>

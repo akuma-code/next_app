@@ -37,7 +37,7 @@ export default function AuthErrorPage() {
                 {errorMap[error] || "Попробуйте еще раз"}
             </div>
             <Link href="/api/auth/login">
-                <Button variant="contained">LOGIN</Button>
+                <Button variant="contained">Авторизация</Button>
             </Link>
         </div>
     );

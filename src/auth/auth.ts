@@ -3,12 +3,12 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { UserRole } from "@prisma/client"
 import NextAuth, { DefaultSession, User } from "next-auth"
 import { JWTOptions, type JWT } from 'next-auth/jwt'
-import type { Provider } from 'next-auth/providers'
+// import type { Provider } from 'next-auth/providers'
 
 import prisma from "@/client/client"
 import { AdapterUser } from "@auth/core/adapters"
+import { Provider } from "@auth/core/providers"
 import authConfig from './auth.config'
-import { request } from "http"
 
 
 export type UserAuthPayload = {
@@ -124,7 +124,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // if (trigger) {
                 //     session.sessionToken === token.refresh_token
                 // }
-                if (token.sub) session.sessionToken = token.sub
+                // if (token.sub) session.sessionToken = token.sub
                 session.user.role = token.role as UserRole
                 session.user.name = token.name
                 session.user_id = token.userId
@@ -136,14 +136,14 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
                 // console.log({ token })
                 return session
             },
-            authorized({ auth: session, request: { nextUrl } }) {
-                const isLoggedIn = !!session?.user;
-                console.log("auth", session)
-                const s = nextUrl.hostname
-                console.log({ s })
-                if (isLoggedIn) return true
-                return false
-            },
+            // authorized({ auth: session, request: { nextUrl } }) {
+            //     const isLoggedIn = !!session?.user;
+            //     console.log("auth", session)
+            //     const s = nextUrl.hostname
+            //     console.log({ s })
+            //     if (isLoggedIn) return true
+            //     return false
+            // },
 
         },
         events: {
