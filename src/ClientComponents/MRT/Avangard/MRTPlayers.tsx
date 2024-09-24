@@ -37,7 +37,7 @@ import {
     // createRow,
     type MRT_ColumnDef,
 } from "material-react-table";
-import { useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { mrt_players_options } from "../mrt.config.players";
 
 type TValues = Record<
@@ -156,7 +156,7 @@ export function MRTPlayers() {
     // const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
     // const [qplayers, p_loading] = useGetAllPlayers();
     const QP = useMRTPlayers();
-    const _qp = useMemo(() => (QP.data ? QP.data : []), [QP.data]);
+    // const _qp = useMemo(() => (QP.data ? QP.data : []), [QP.data]);
     const [isPending, s] = useTransition();
     const handleReSync = () =>
         s(async () => {
@@ -165,10 +165,6 @@ export function MRTPlayers() {
 
     const handleSavePlayer: MRT_TableOptions<PrismaPlayer_>["onEditingRowSave"] =
         ({ values, table, row }) => {
-            const { name, ticket } = values;
-
-            // const a = values["ticket.amount"];
-            // const l = values["ticket.limit"];
             const {
                 original: { id },
             } = row;
@@ -206,7 +202,7 @@ export function MRTPlayers() {
     const table = useMaterialReactTable({
         ...mrt_players_options,
         columns: player_columns,
-        data: _qp,
+        data: QP.data || [],
         state: {
             // rowSelection,
             isLoading: QP.isLoading,

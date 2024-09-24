@@ -1,14 +1,12 @@
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
 import { getPlayers } from "@/Services/playerService";
-import { Box, Button, Stack } from "@mui/material";
-import Link from "next/link";
+import { Box, Stack } from "@mui/material";
 import AdminPlayerList from "./AdminPlayerList";
 
 import { MRTPlayers } from "@/ClientComponents/MRT/Avangard/MRTPlayers";
-import { fetchAndCreatePlayers } from "@/Services/events/db_event";
-import { PageContainer } from "@toolpad/core";
+import MRT_Players_v2 from "@/ClientComponents/MRT/Avangard/MRT_Players_v2";
 
-const clone_action = fetchAndCreatePlayers.bind(null);
+// const clone_action = fetchAndCreatePlayers.bind(null);
 
 async function AvPlayers(query: { searchParams: { action: string } }) {
     const players = await getPlayers();
@@ -54,26 +52,15 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
 async function AdminPlayersPage() {
     // const p = await getPlayers();
 
-    return <MRTPlayers />;
-}
-
-function CloseFormButton() {
     return (
-        <Link href="/admin/players">
-            <Button variant="contained" color="secondary" fullWidth>
-                Close
-            </Button>
-        </Link>
-    );
-}
-
-function ShowCreateFormButton() {
-    return (
-        <Link href={"/admin/players?action=create"}>
-            <Button variant="contained" color="primary" fullWidth>
-                Добавить игрока
-            </Button>
-        </Link>
+        <Box
+            maxWidth={{ lg: "fit-content", xs: "90vw" }}
+            minWidth={{ lg: 700, xs: 300 }}
+            border="1px solid orange"
+            // p={1}
+        >
+            <MRT_Players_v2 />
+        </Box>
     );
 }
 

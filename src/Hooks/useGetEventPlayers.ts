@@ -56,6 +56,40 @@ export function useMRTPlayers(config?: { take?: number, skip?: number }) {
     const q = useQuery({
         queryKey: ['players', take, skip],
         queryFn: async () => await GET_PLAYERS({ take, skip }),
+        refetchOnWindowFocus: true,
+        gcTime: 1000 * 60 * 5
+
+    })
+
+    return q
+
+}
+
+export type MRT_Player = {
+    name: string;
+    id: number;
+    hasTicket: boolean;
+    events_count: number;
+
+};
+
+const s_filter = (data: PrismaPlayer_[]) => {
+    return data.map((p) => ({
+        name: p.name,
+        id: p.id,
+        hasTicket: !!p.ticket,
+        events_count: p._count.events,
+    })) as MRT_Player[];
+}
+export function useMRTPlayersSelect() {
+
+    const q = useQuery({
+        queryKey: ['players'],
+        queryFn: async () => await GET_PLAYERS({}) as PrismaPlayer_[],
+        refetchOnWindowFocus: true,
+        gcTime: 1000 * 60 * 5,
+        select: s_filter
+
     })
 
     return q
