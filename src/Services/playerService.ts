@@ -116,7 +116,7 @@ export async function GET_PLAYERS(params: Prisma.PlayerFindManyArgs, config?: Pi
   const p: PrismaPlayer_[] = await prisma.player.findMany({
     ...args,
     orderBy: { events: { _count: 'desc' } },
-    select: {
+    select: config?.select ? { ...config.select } : {
       id: true,
       name: true,
       pair: true,

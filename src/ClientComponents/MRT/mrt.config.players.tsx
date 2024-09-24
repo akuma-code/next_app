@@ -43,7 +43,7 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
                 align: "center",
                 sx: { borderRight: "1px solid", borderLeft: "1px solid" },
             },
-            size: 50,
+            size: 10,
         },
         "mrt-row-expand": {
             grow: 0,
@@ -75,6 +75,7 @@ export const mrt_players_options_v2: Partial<MRT_TableOptions<MRT_Player>> = {
             align: "left",
         },
         muiTableHeadCellProps: {
+            align: "center",
             // sx: { border: "1px solid" },
         },
     },
@@ -96,7 +97,7 @@ export const mrt_players_options_v2: Partial<MRT_TableOptions<MRT_Player>> = {
                 align: "left",
             },
             minSize: 100,
-            maxSize: 300,
+            // maxSize: 300,
             grow: 1,
         },
         "mrt-row-numbers": {
@@ -114,7 +115,7 @@ export const mrt_players_options_v2: Partial<MRT_TableOptions<MRT_Player>> = {
             grow: 0,
         },
     },
-
+    rowNumberDisplayMode: "original",
     enablePagination: true,
     enableMultiRowSelection: true,
     enableRowSelection: false,
@@ -124,11 +125,4 @@ export const mrt_players_options_v2: Partial<MRT_TableOptions<MRT_Player>> = {
     enableRowNumbers: true,
     enableEditing: true,
     localization: MRT_Localization_RU,
-    initialState: {
-        pagination: {
-            pageIndex: 0,
-            pageSize: 100,
-        },
-        density: "compact",
-    },
 };

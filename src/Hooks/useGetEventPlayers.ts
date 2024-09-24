@@ -81,14 +81,17 @@ const s_filter = (data: PrismaPlayer_[]) => {
         events_count: p._count.events,
     })) as MRT_Player[];
 }
-export function useMRTPlayersSelect() {
+export function useMRTPlayersSelect(preload_data?: PrismaPlayer_[], p?: { pageIndex: number, pageSize?: number }) {
+    // const take = pageSize ? pageIndex + 1 * pageSize : undefined
+    // const skip = take ? take * pageIndex : undefined
 
     const q = useQuery({
-        queryKey: ['players'],
-        queryFn: async () => await GET_PLAYERS({}) as PrismaPlayer_[],
+        queryKey: ['players', p?.pageIndex, p?.pageSize],
+        queryFn: async () => await GET_PLAYERS({ select: { name: true, id: true, ticket: true, _count: { select: { events: true } } } }) as PrismaPlayer_[],
         refetchOnWindowFocus: true,
         gcTime: 1000 * 60 * 5,
-        select: s_filter
+        select: s_filter,
+        placeholderData: preload_data
 
     })
 

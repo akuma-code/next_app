@@ -1,10 +1,11 @@
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
-import { getPlayers } from "@/Services/playerService";
+import { GET_PLAYERS, getPlayers } from "@/Services/playerService";
 import { Box, Stack } from "@mui/material";
 import AdminPlayerList from "./AdminPlayerList";
 
 import { MRTPlayers } from "@/ClientComponents/MRT/Avangard/MRTPlayers";
 import MRT_Players_v2 from "@/ClientComponents/MRT/Avangard/MRT_Players_v2";
+import { PrismaPlayer_ } from "@/Types";
 
 // const clone_action = fetchAndCreatePlayers.bind(null);
 
@@ -50,7 +51,7 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
 }
 
 async function AdminPlayersPage() {
-    // const p = await getPlayers();
+    const p = (await GET_PLAYERS({})) as PrismaPlayer_[];
 
     return (
         <Box
@@ -59,7 +60,7 @@ async function AdminPlayersPage() {
             border="1px solid orange"
             // p={1}
         >
-            <MRT_Players_v2 />
+            <MRT_Players_v2 preload={p} />
         </Box>
     );
 }

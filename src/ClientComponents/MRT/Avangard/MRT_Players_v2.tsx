@@ -16,6 +16,7 @@ import {
     LiteralUnion,
     MaterialReactTable,
     MRT_EditActionButtons,
+    MRT_PaginationState,
     MRT_Row,
     MRT_TableInstance,
     MRT_TableOptions,
@@ -32,29 +33,45 @@ import Icon from "@mdi/react";
 import {
     mdiAccountPlusOutline,
     mdiDatabaseSyncOutline,
+    mdiHumanEdit,
+    mdiInformationVariantCircleOutline,
     mdiStickerCheck,
     mdiStickerRemove,
     mdiStickerRemoveOutline,
     mdiTicketPercentOutline,
 } from "@mdi/js";
-import { Alert, Button, ButtonGroup } from "@mui/material";
+import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import TicketInfo from "@/Components/Modals/TicketInfo";
 
 async function update_database() {
     return await reSyncPlayers();
 }
-
-const MRT_Players_v2 = () => {
+//!           _______________________________
+const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
+    //!  _______________________________
+    const [pagination, setPage] = useState<MRT_PaginationState>({
+        pageIndex: 0,
+        pageSize: 30,
+    });
     const {
         data = [],
         isLoading,
         error,
         isSuccess,
         isError,
-    } = useMRTPlayersSelect();
+    } = useMRTPlayersSelect(preload);
+
+    const {
+        data: updated_player,
+        mutate: update_player,
+        isError: isUpdateError,
+        error: updateError,
+        isPending,
+    } = useUpdatePlayerMrt();
     const [errors, setErrors] = useState<Record<string, string | undefined>>(
         {}
     );
-
     const COLS: MRT_ColumnDef<MRT_Player>[] = useMemo(
         () =>
             [
@@ -66,11 +83,34 @@ const MRT_Players_v2 = () => {
                     muiTableHeadCellProps: {
                         align: "center",
                     },
+                    muiTableBodyCellProps: {
+                        align: "right",
+                    },
+                    muiEditTextFieldProps: {
+                        error: errors.name !== undefined,
+                        helperText: errors.name,
+                        onChange: (e) => {
+                            const v = e.target.value;
+                            if (v.length < 1) {
+                                setErrors((e) => ({
+                                    ...e,
+                                    name: "Поле не должно быть пустым!",
+                                }));
+                            } else {
+                                setErrors((prev) => ({
+                                    ...prev,
+                                    name: undefined,
+                                }));
+                            }
+                        },
+                        // onBlur: () => setErrors((prev) => ({})),
+                    },
                 },
                 {
                     header: "Кол-во тренировок",
                     accessorKey: "events_count",
                     Edit: () => null,
+
                     // minSize: 150,
                     grow: 1,
                     muiTableHeadCellProps: {
@@ -81,11 +121,12 @@ const MRT_Players_v2 = () => {
                     },
                 },
                 {
-                    Header: () => (
+                    Header: (p) => (
                         <Icon
                             path={mdiTicketPercentOutline}
-                            size={1.5}
-                            className="m-1"
+                            size={1.2}
+                            {...p}
+                            // className="m-1"
                         />
                     ),
                     accessorKey: "hasTicket",
@@ -107,24 +148,27 @@ const MRT_Players_v2 = () => {
                         align: "center",
                     },
                     Cell(props) {
-                        return props.row.original.hasTicket ? (
+                        // return props.row.original.hasTicket ? (
+                        return (
                             <Icon
-                                path={mdiStickerCheck}
-                                size={1}
-                                color={"#0b4210"}
-                            />
-                        ) : (
-                            <Icon
-                                path={mdiStickerRemove}
-                                size={1}
-                                color={"#f7910d"}
+                                path={
+                                    props.row.original.hasTicket
+                                        ? mdiStickerCheck
+                                        : mdiStickerRemove
+                                }
+                                size={0.9}
+                                color={
+                                    props.row.original.hasTicket
+                                        ? "#0b4210"
+                                        : "#f7910d"
+                                }
                             />
                         );
                     },
                     Edit: () => null,
                 },
             ] as MRT_ColumnDef<MRT_Player>[],
-        []
+        [errors]
     );
 
     const table = useMaterialReactTable({
@@ -134,17 +178,30 @@ const MRT_Players_v2 = () => {
         data,
         enableColumnResizing: true,
         enableStickyHeader: true,
+        positionPagination: "top",
+        positionToolbarAlertBanner: "head-overlay",
         muiTableContainerProps: {
             sx: {
-                maxHeight: "65vh",
+                maxHeight: "60vh",
                 // maxWidth: 700,
             },
         },
+        muiTopToolbarProps: {
+            justifyContent: "start",
+        },
+        initialState: {
+            density: "compact",
+            // pagination: { pageSize: 50, pageIndex: 0 },
+        },
+        onPaginationChange: setPage,
+
         state: {
             // rowSelection,
+            pagination,
             isLoading: isLoading,
-            isSaving: isLoading,
-            showAlertBanner: isError,
+            isSaving: isPending,
+            showAlertBanner: isError || isUpdateError,
+            showSkeletons: isLoading,
             columnOrder: [
                 "mrt-row-select",
                 "mrt-row-expand",
@@ -158,11 +215,21 @@ const MRT_Players_v2 = () => {
         muiToolbarAlertBannerProps: isError
             ? {
                   color: "error",
-                  children: "Ошибка загрузки данных!",
+                  children: errors.query,
               }
             : undefined,
 
-        renderTopToolbarCustomActions(props) {
+        // manualPagination: true,
+        onEditingRowSave: (props) => {
+            const { exitEditingMode, row, values } = props;
+            const { name } = values;
+            update_player({ id: row.original.id, name });
+            exitEditingMode();
+        },
+        onEditingRowCancel(props) {
+            setErrors({});
+        },
+        renderBottomToolbarCustomActions(props) {
             const { table } = props;
             return (
                 <ButtonGroup color="secondary" sx={{ m: 2 }} size="small">
@@ -173,7 +240,7 @@ const MRT_Players_v2 = () => {
                             <Icon path={mdiAccountPlusOutline} size={1} />
                         }
                     >
-                        Добавить игрока
+                        Создать
                     </Button>
                     <Button
                         variant="contained"
@@ -188,12 +255,42 @@ const MRT_Players_v2 = () => {
                 </ButtonGroup>
             );
         },
+        renderRowActions(props) {
+            const { row, table } = props;
+            return [
+                // <MRT_EditActionButtons row={row} table={table} key={"edit"} />,
+
+                <IconButton
+                    key={"edit_" + row.id}
+                    onClick={() => table.setEditingRow(row)}
+                >
+                    <Icon path={mdiHumanEdit} size={1} />
+                </IconButton>,
+                row.original.hasTicket ? (
+                    <TicketInfo row={row} key="info" />
+                ) : null,
+            ];
+        },
     });
     useEffect(() => {
-        if (isError) setErrors({ message: error.message });
+        if (isError) setErrors({ query: error.message });
+        if (isUpdateError) setErrors({ update: updateError.message });
         return () => setErrors({});
-    }, [error, isError]);
+    }, [error, isError, isUpdateError, updateError]);
     return <MaterialReactTable table={table} />;
 };
+
+export function useUpdatePlayerMrt() {
+    return useMutation({
+        mutationKey: ["player", "update"],
+        mutationFn: (payload: Partial<MRT_Player>) =>
+            EditPlayer({
+                where: { id: payload.id },
+                data: { name: payload.name },
+                select: { id: true, name: true },
+            }),
+        gcTime: 60 * 1000,
+    });
+}
 
 export default MRT_Players_v2;
