@@ -66,6 +66,26 @@ const MRT_Players_v2 = () => {
                     muiTableHeadCellProps: {
                         align: "center",
                     },
+                    muiEditTextFieldProps: {
+                        error: errors.name !== undefined,
+                        helperText: errors.name,
+                        onChange: (e) => {
+                            const v = e.target.value;
+                            const old_errors = errors;
+                            if (v.length < 1) {
+                                setErrors((e) => ({
+                                    ...e,
+                                    name: "Поле не должно быть пустым!",
+                                }));
+                            } else {
+                                setErrors((prev) => ({
+                                    ...prev,
+                                    name: undefined,
+                                }));
+                            }
+                        },
+                        // onBlur: () => setErrors((prev) => ({})),
+                    },
                 },
                 {
                     header: "Кол-во тренировок",
@@ -81,11 +101,11 @@ const MRT_Players_v2 = () => {
                     },
                 },
                 {
-                    Header: () => (
+                    Header: (
                         <Icon
                             path={mdiTicketPercentOutline}
-                            size={1.5}
-                            className="m-1"
+                            size={1.2}
+                            // className="m-1"
                         />
                     ),
                     accessorKey: "hasTicket",
@@ -107,24 +127,34 @@ const MRT_Players_v2 = () => {
                         align: "center",
                     },
                     Cell(props) {
-                        return props.row.original.hasTicket ? (
+                        // return props.row.original.hasTicket ? (
+                        return (
                             <Icon
-                                path={mdiStickerCheck}
-                                size={1}
-                                color={"#0b4210"}
-                            />
-                        ) : (
-                            <Icon
-                                path={mdiStickerRemove}
-                                size={1}
-                                color={"#f7910d"}
+                                path={
+                                    props.row.original.hasTicket
+                                        ? mdiStickerCheck
+                                        : mdiStickerRemove
+                                }
+                                size={0.9}
+                                color={
+                                    props.row.original.hasTicket
+                                        ? "#0b4210"
+                                        : "#f7910d"
+                                }
                             />
                         );
+                        // ) : (
+                        //     <Icon
+                        //         path={mdiStickerRemove}
+                        //         size={1}
+                        //         color={"#f7910d"}
+                        //     />
+                        // );
                     },
                     Edit: () => null,
                 },
             ] as MRT_ColumnDef<MRT_Player>[],
-        []
+        [errors]
     );
 
     const table = useMaterialReactTable({
@@ -161,7 +191,9 @@ const MRT_Players_v2 = () => {
                   children: "Ошибка загрузки данных!",
               }
             : undefined,
-
+        onEditingRowCancel(props) {
+            setErrors({});
+        },
         renderTopToolbarCustomActions(props) {
             const { table } = props;
             return (
@@ -173,7 +205,7 @@ const MRT_Players_v2 = () => {
                             <Icon path={mdiAccountPlusOutline} size={1} />
                         }
                     >
-                        Добавить игрока
+                        Создать
                     </Button>
                     <Button
                         variant="contained"
@@ -190,7 +222,7 @@ const MRT_Players_v2 = () => {
         },
     });
     useEffect(() => {
-        if (isError) setErrors({ message: error.message });
+        if (isError) setErrors({ query: error.message });
         return () => setErrors({});
     }, [error, isError]);
     return <MaterialReactTable table={table} />;
