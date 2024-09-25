@@ -38,6 +38,7 @@ export async function GET(
             name: true,
             events: { select: { id: true, date_formated: true } },
             ticket: true,
+            pair: true,
         },
         orderBy: { id: id_order },
         take: taken,
@@ -74,7 +75,7 @@ export async function GET(
     });
 
     const tsx_pairs = prisma.pair.findMany({
-        select: { eventId: true, playerId: true, masterId: true },
+        select: { eventId: true, playerId: true, masterId: true, id: true },
         take: taken,
         orderBy: { id: id_order },
     });
