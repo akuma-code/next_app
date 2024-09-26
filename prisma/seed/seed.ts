@@ -2,23 +2,10 @@ import { PrismaClient } from "@prisma/client";
 import { backup_players_last, masters_to_seed } from "./players";
 import { EventsMapObject } from "./seedFn";
 import { members_seed } from "./users";
-import { pairs } from "./pairs";
 
 
 // import prisma from "@/client/client";
 const prisma = new PrismaClient();
-type SeedEvent = {
-  id: number;
-  date_formated: string;
-  title: string;
-  isDraft?: boolean;
-  players: {
-    id: number;
-    name: string;
-    // createdAt: string;
-    // updatedAt: string;
-  }[];
-};
 export type SeedOptions = {
   force?: boolean
   clear?: boolean
@@ -51,14 +38,6 @@ export async function seedPlayers(seed_names: string[], options?: SeedOptions) {
 async function getMasters() {
   const masters = await prisma.master.findMany()
   return masters
-}
-async function checkName(name: string) {
-  const m = await prisma.master.findFirst({ where: { name } })
-  if (m) {
-    console.log(`Master ${name} already exist`)
-    return false
-  } else return true
-
 }
 async function removeMaster(master_id?: number) {
   if (master_id) {
@@ -118,23 +97,6 @@ export async function seedObjectPlayers(
   } catch (error) {
     console.log("___\n", error);
     throw new Error("SEED PLAYERS ERROR");
-  }
-}
-async function syncPairs() {
-  try {
-    const pairs = await prisma.pair.findMany()
-    const tsx_pairs = pairs.map(p => prisma.pair.update({
-      where: { id: p.id },
-      data: {
-        player: { connect: { id: p.secondPlayerId } },
-        master: { connect: { id: p.firstPlayerId } }
-      }
-    }))
-    const tsx = await prisma.$transaction(tsx_pairs)
-    // console.log({ tsx })
-    return tsx
-  } catch (error) {
-    console.log(error)
   }
 }
 export async function seedEventsMap(eventsMap: EventsMapObject[], options = { abortSygnal: false, clear: false }) {
@@ -207,7 +169,7 @@ export async function seedEventsMap(eventsMap: EventsMapObject[], options = { ab
 
 
 
-export async function seedMasters(masters: { name: string }[], options?: SeedOptions) {
+export async function seedMasters(masters: { name: string }[]) {
   try {
     const seed = masters.map((m) => prisma.master.create({ data: m }));
 
@@ -239,4 +201,4 @@ export async function seedUsers(options?: SeedOptions) {
 }
 
 
-// : console.log("Seed is turned off", { enable: seed_enabled })
+

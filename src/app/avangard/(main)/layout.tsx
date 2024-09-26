@@ -21,7 +21,6 @@ const links = [
 export const metadata: Metadata = {
     title: "Тренировки",
     description: "Расписание тренировок",
-    icons: "public/icon_admin.ico",
 };
 
 const AvangardLayout: React.FC<{
@@ -67,7 +66,15 @@ const AvangardLayout: React.FC<{
 async function tollbarLayout({ children }: { children?: React.ReactNode }) {
     return (
         <Box maxWidth={{ md: 900, xs: 350 }}>
-            <PageContainer maxWidth={"md"}>{children}</PageContainer>
+            <PageContainer
+                // maxWidth={"lg"}
+                breadCrumbs={[
+                    { path: "events", title: "Тренировки" },
+                    { path: "players", title: "Игорьки" },
+                ]}
+            >
+                {children}
+            </PageContainer>
         </Box>
     );
 }

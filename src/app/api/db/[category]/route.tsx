@@ -55,7 +55,12 @@ export async function GET(
             cost: true,
             date_formated: true,
             pairs: {
-                select: { eventId: true, playerId: true, masterId: true },
+                select: {
+                    eventId: true,
+                    playerId: true,
+                    masterId: true,
+                    id: true,
+                },
             },
             players: {
                 select: {
@@ -91,7 +96,7 @@ export async function GET(
     };
 
     const result = data[category as Categorie];
-    console.log({ taken, order });
+    // console.log({ taken, order });
     console.log(db_data.map((d, idx) => ({ [cats[idx]]: d.length })));
     return NextResponse.json(result, {
         status: 200,

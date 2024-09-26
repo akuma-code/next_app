@@ -5,38 +5,35 @@ import { getPlayers } from "@/Services/playerService";
 import { Alert, Box, Fade, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 interface BoardProps {
     lastId?: number;
 }
 async function getData() {
-    return await getPlayers().then(
-        (res) => res.filter((p) => p._count.events > 0) || []
-    );
+    return await getPlayers();
 }
 export const Board: React.FC<BoardProps> = ({ lastId }) => {
+    const [config, setConfig] = useState({ rpp: 15, pageIndex: 0 });
     const q = useQuery({
-        queryKey: ["players_aggregate"],
+        queryKey: ["players", config.rpp],
         queryFn: getData,
-        select: (data) => data.filter((d) => d._count.events >= 3),
+        select: (data) => data.slice(0, config.rpp),
         placeholderData: keepPreviousData,
     });
 
     const dataset = useMemo(() => {
-        if (!q.isSuccess) {
-            return [];
-        }
-        const _ds = q.data.map((p) => ({
+        const _ds = q.data?.map((p) => ({
             events: p._count.events,
             name: p.name,
+            pairs: p.pair.length,
         }));
 
         return _ds;
-    }, [q.data, q.isSuccess]);
+    }, [q.data]);
 
     return (
         // <Fade in={q.isFetching}>
-        <Box>
+        <>
             {/* <Typography>Last Id: {lastId} </Typography> */}
             {q.error && <Alert>{q.error.message}</Alert>}
             {dataset && (
@@ -44,7 +41,10 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
                     dataset={dataset}
                     width={400}
                     height={700}
-                    series={[{ dataKey: "events", label: "Кол-во тренировок" }]}
+                    series={[
+                        { dataKey: "events", label: "Кол-во тренировок" },
+                        { dataKey: "pairs", label: "С тренером" },
+                    ]}
                     yAxis={[
                         {
                             tickPlacement: "end",
@@ -59,7 +59,7 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
                     barLabel={"value"}
                 />
             )}
-        </Box>
+        </>
         // </Fade>
     );
 };

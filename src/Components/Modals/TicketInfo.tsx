@@ -23,9 +23,10 @@ export const TicketInfo = ({
     const { original } = row;
     const { hasTicket, id, name } = original;
     const q = useQuery({
-        enabled: hasTicket,
+        enabled: open,
         queryKey: ["ticket", "player", id],
         queryFn: () => getOneTicket({ where: { playerId: id } }),
+        staleTime: 60 * 1000,
     });
 
     return (

@@ -1,17 +1,6 @@
-import { DashboardLayout } from "@toolpad/core/DashboardLayout";
+import { PageContainer } from "@toolpad/core";
 
 function Layout({ children }: { children: React.ReactNode }) {
-    return (
-        // <DashboardLayout
-        // slotProps={{
-        //     toolbarAccount: {
-        //         localeText: { signInLabel: "In", signOutLabel: "Out" },
-        //     },
-        // }}
-        // >
-        // <Providers>
-        <DashboardLayout>{children}</DashboardLayout>
-        // </Providers>
-    );
+    return <PageContainer>{children}</PageContainer>;
 }
 export default Layout;

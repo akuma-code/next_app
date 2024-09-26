@@ -1,5 +1,5 @@
 "use client";
-import useMediaDetect from "@/Hooks/useMediaDetect";
+import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ruRU } from "@mui/material/locale";
@@ -7,33 +7,21 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { QueryFunction } from "@tanstack/react-query";
+import { NavigationItem, NavigationPageItem, Router } from "@toolpad/core";
+import { AppProvider } from "@toolpad/core/nextjs";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import weekday from "dayjs/plugin/weekday";
-import React, { useMemo, useState } from "react";
-import { getDesignTokens } from "../theme";
-import { AppProvider } from "@toolpad/core/nextjs";
-import {
-    Account,
-    AuthenticationContext,
-    SessionContext,
-    Session,
-    Router,
-    Navigation,
-    NavigationItem,
-    NavigationPageItem,
-} from "@toolpad/core";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Icon from "@mdi/react";
-import { mdiSetAll } from "@mdi/js";
+import React, { useMemo, useState } from "react";
+import { getDesignTokens } from "../theme";
 dayjs.extend(weekday);
-import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 
 //*!________________________
 
 type ExtendedNavigatePage = { visible?: boolean } & NavigationPageItem;
-type ExtendedNavigate = (NavigationItem | ExtendedNavigatePage)[];
+export type ExtendedNavigate = (NavigationItem | ExtendedNavigatePage)[];
 const ROUTES: ExtendedNavigate = [
     // { kind: "header", title: "Stats" },
     {
@@ -93,7 +81,7 @@ export const queryFetch: QueryFunction = async ({ queryKey }) => {
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {},
 });
-
+const T = createTheme({ ...getDesignTokens("light") }, ruRU);
 export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
     // const { device, isMobile, isDesktop } = useMediaDetect();
@@ -115,17 +103,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const r = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    // const authentication = React.useMemo(() => {
-    //     return {
-    //         signIn: () => {
-    //             return data;
-    //         },
-    //         signOut: () => {
-    //             return null;
-    //         },
-    //     };
-    // }, [data]);
-    // const [pathname, setPathname] = React.useState("/");
 
     const router = useMemo<Router>(() => {
         // const sp = new URLSearchParams();
@@ -143,37 +120,30 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         [mode]
     );
     return (
-        <AppProvider
-            session={session.data}
-            router={router}
-            theme={THEME}
-            authentication={{ signIn, signOut }}
-            navigation={ROUTES}
-            branding={{
-                title: "Авангард",
-                logo: <SportsKabaddiIcon />,
-                //  <Icon path={mdiSetAll} size={1.4} color={"#21ccd8"} />,
-            }}
-        >
-            <ColorModeContext.Provider value={colorMode}>
-                <AppRouterCacheProvider>
+        <AppRouterCacheProvider>
+            <AppProvider
+                session={session.data}
+                router={router}
+                theme={T}
+                authentication={{ signIn, signOut }}
+                navigation={ROUTES}
+                branding={{
+                    title: "Авангард",
+                    logo: <SportsKabaddiIcon />,
+                }}
+            >
+                {/* <ThemeProvider theme={THEME}> */}
+                <ColorModeContext.Provider value={colorMode}>
                     <CssBaseline enableColorScheme />
                     <LocalizationProvider
                         dateAdapter={AdapterDayjs}
                         adapterLocale="ru"
                     >
-                        {/* <AppProvider router={router} theme={THEME}>
-                            <SessionContext.Provider value={data}>
-                                <Account />
-                            </SessionContext.Provider>
-                        </AppProvider> */}
-
-                        {/* <ThemeProvider theme={THEME}>
-                            </ThemeProvider> */}
                         {children}
                     </LocalizationProvider>
-                </AppRouterCacheProvider>
-            </ColorModeContext.Provider>
-        </AppProvider>
+                </ColorModeContext.Provider>
+                {/* </ThemeProvider> */}
+            </AppProvider>
+        </AppRouterCacheProvider>
     );
 }

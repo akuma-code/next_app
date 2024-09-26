@@ -2,15 +2,11 @@
 
 import prisma from "@/client/client"
 import { _log } from "@/Helpers/helpersFns"
-import { seedFromJson } from "@/seed/json/seedJson"
-import { masters_to_seed, players_to_seed2 } from "@/seed/players"
-import { seedMasters, seedObjectPlayers } from "@/seed/seed"
+import { masters_to_seed } from "@/seed/players"
+import { seedMasters } from "@/seed/seed"
 import { members_seed } from "@/seed/users"
 import { getMasters, removeMaster } from "@/Services/masterService"
-import { DB_JSON_DATA } from "@/Types"
 import dayjs from "dayjs"
-import { revalidatePath } from "next/cache"
-import backup from './../../../public/json/data.json'
 export async function reseedMasters() {
 
     const existedmasters = await getMasters()
@@ -37,16 +33,6 @@ async function seedUsers() {
         throw new Error("Seed admin error");
     }
 }
-export async function reseedPlayers(force = false) {
-    // const force = JSON.parse(process.env.DB_SEED_FORCE ?? "false") as boolean;
-    await seedUsers()
-    await seedObjectPlayers(players_to_seed2, { force });
-}
-
-// export async function reseedEvents() {
-//     return await seedEventsMap(events_last, { clear: true, abortSygnal: false })
-// }
-
 export async function backupEvents() {
     const data = await getBackupEvents()
     const today = dayjs().format("DD.MM.YYYY").toString()
@@ -81,27 +67,9 @@ export async function getBackupEvents() {
 export async function getBackup() {
     const events = await prisma.event.findMany({ include: { players: true, pairs: true } })
 
-    const pairs = await prisma.pair.findMany({ include: { event: true, master: true, player: true } })
+    const pairs = await prisma.pair.findMany({ include: { event: true, master: true, player: true, } })
 
     return { events, pairs }
 
 }
 
-export async function reseedEventsFromJson(data_json: DB_JSON_DATA = backup) {
-    let data: DB_JSON_DATA = data_json
-
-
-    try {
-        await prisma.event.deleteMany()
-        const { events, pairs } = data;
-
-        await seedFromJson({ events, pairs })
-        console.log("events restored ", events.length)
-    } catch (error) {
-        console.error("Events restore failed!")
-
-        throw error
-    } finally { revalidatePath("/") }
-
-
-}
