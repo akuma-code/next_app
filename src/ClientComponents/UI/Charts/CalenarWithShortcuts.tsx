@@ -4,7 +4,6 @@ import { PickersShortcutsItem } from "@mui/x-date-pickers/PickersShortcuts";
 import { useQuery } from "@tanstack/react-query";
 import { getPlayerEvents } from "@/Services/playerService";
 import {
-    DateCalendar,
     PickersDay,
     PickersDayProps,
     StaticDatePicker,
@@ -12,12 +11,14 @@ import {
 import { Badge } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
-import { _date, _formated_date } from "@/Helpers/dateFuncs";
+import { _date, _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 
 export const CalendarEventsShorts = (props: { playerId: number }) => {
     const { playerId } = props;
     const [dates, setDates] = useState<number[]>([]);
-    const [string_dates, setStringDates] = useState<string[]>([]);
+    const [string_dates, setStringDates] = useState<
+        PickersShortcutsItem<dayjs.Dayjs | null>[]
+    >([]);
     const q = useQuery({
         queryKey: ["player_events", playerId],
         queryFn: () => getPlayerEvents(playerId),
@@ -25,23 +26,21 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
 
     useEffect(() => {
         if (q.isSuccess) {
-            const dates = get_event_days(q.data).eventDays;
-            setDates(dates);
+            const dates = get_event_days(q.data);
+            setStringDates(dates);
             // setStringDates(q.data.events.map((e) => e.date_formated));
         }
     }, [q.data, q.isSuccess]);
 
     return (
         <StaticDatePicker
-            slots={
-                {
-                    // day: EventDay,
-                }
-            }
+            slots={{
+                day: EventDay,
+            }}
             slotProps={{
-                // day: dates as any,
+                // day: { event_days: dates } as any,
                 shortcuts: {
-                    items: shortcutsItems,
+                    items: string_dates,
                 },
             }}
         />
@@ -49,32 +48,69 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
 };
 
 function EventDay(props: PickersDayProps<Dayjs> & { event_days?: number[] }) {
-    const { event_days = [], day, outsideCurrentMonth, ...other } = props;
+    const {
+        event_days,
+        day,
+        outsideCurrentMonth,
+        isFirstVisibleCell,
+        isLastVisibleCell,
+        onDaySelect,
+        ...other
+    } = props;
 
-    const isSelected = event_days.includes(props.day.date());
-    //  !props.outsideCurrentMonth &&
+    const isSelected =
+        !props.outsideCurrentMonth &&
+        event_days &&
+        // event_days.some((d) => day.isSame(d, "day"));
+        event_days.includes(props.day.date());
+    //
     // console.log("day: ", props.day.date());
     return (
         <Badge
             key={props.day.toString()}
             overlap="circular"
-            badgeContent={isSelected ? "🌚" : undefined}
+            // badgeContent={isSelected ? "🌚" : ""}
+            color={isSelected ? "primary" : undefined}
         >
-            <PickersDay {...other} outsideCurrentMonth={false} day={day} />
+            <PickersDay
+                // selected={isSelected}
+                {...props}
+                isFirstVisibleCell={isFirstVisibleCell}
+                outsideCurrentMonth={outsideCurrentMonth}
+                isLastVisibleCell={isLastVisibleCell}
+                onDaySelect={onDaySelect}
+                day={day}
+            />
         </Badge>
     );
 }
 
 const get_event_days = (p: Awaited<ReturnType<typeof getPlayerEvents>>) => {
     const { events, name, ticket, _count, id } = p;
-    const M = dayjs().month() + 1;
+    const M = dayjs().month();
+    const today = (e: { date_formated: string }) =>
+        dayjs(e.date_formated, "YYYY-MM-DD");
 
-    const ed = events.map((e) =>
-        M === _date(e.date_formated).encoded.m
-            ? dayjs(e.date_formated, "YYYY-MM-DD", "ru").date()
-            : 0
-    );
-    return { eventDays: ed };
+    const shorts: PickersShortcutsItem<Dayjs | null>[] = events.map((e) => ({
+        label: _dbDateParser(e.date_formated).dd_mm_yyyy,
+        getValue: () => today(e),
+    }));
+    const ed = events;
+    // .filter((e) => dayjs(e.date_formated, "YYYY-MM-DD", "ru").month() === M)
+    // .map((e) =>
+    //     // (e) => dayjs(e.date_formated, "YYYY-MM-DD", "ru").date()
+    //     today.isSame(e.date_formated)
+    //         ? {
+    //               ...e,
+    //               eventDays: dayjs(
+    //                   e.date_formated,
+    //                   "YYYY-MM-DD",
+    //                   "ru"
+    //               ).date(),
+    //           }
+    //         : e
+    // );
+    return shorts;
 };
 
 const getMonthWeekday = (
