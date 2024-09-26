@@ -37,7 +37,7 @@ async function MainPage({
             </Grid2>
 
             <Grid2 width={"auto"}>
-                {/* <CalendarEventsShorts playerId={11} /> */}
+                <CalendarEventsShorts playerId={11} />
             </Grid2>
         </Grid2>
     );
