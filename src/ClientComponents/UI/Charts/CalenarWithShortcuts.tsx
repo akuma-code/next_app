@@ -53,26 +53,37 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
             <StaticDatePicker
+                autoFocus
+                disableHighlightToday
+                shouldDisableDate={(d) => !dates.includes(d.date())}
                 slots={{
                     day: EventDay,
                     toolbar: CustomToolbar,
+
                     // actionBar: (props) => <Box {...props}>AAAAA</Box>,
                 }}
                 slotProps={{
                     day: { event_days: dates } as any,
                     shortcuts: {
                         items: shorts,
-                        sx: { height: "fit-content" },
+                        sx: {
+                            height: "fit-content",
+                            bgcolor: "beige",
+                            border: "1px solid",
+                        },
                     },
                     toolbar: {
                         toolbarFormat: "D MMMM",
-
+                        toolbarPlaceholder: "___",
                         sx: { textAlign: "right" },
                     },
                     layout: {
+                        onSelectShortcut(newValue, changeImportance, shortcut) {
+                            console.log(shortcut);
+                        },
                         sx: {
-                            height: "max-content",
-                            width: { sm: 300, md: "fit-content" },
+                            height: "fit-content",
+                            maxWidth: { sm: 350, md: "fit-content" },
                         },
                     },
                     actionBar: {
@@ -119,7 +130,8 @@ function EventDay(
             // badgeContent={isSelected ? <BookmarkAddedRoundedIcon /> : undefined}
             sx={{
                 borderRadius: "50%",
-                border: isSelected ? "1px solid red" : "",
+                // border: isSelected ? "1px solid red" : "",
+                bgcolor: isSelected ? "lightblue" : "inherit",
             }}
             // color={isSelected ? "red" : undefined}
         >
@@ -166,6 +178,7 @@ const getMonthWeekday = (
 };
 
 function CustomToolbar(props: DatePickerToolbarProps<Dayjs>) {
+    const [day, setDay] = useState<Dayjs | null>(dayjs());
     return (
         <Box
             // Pass the className to the root element to get correct layout
@@ -176,8 +189,12 @@ function CustomToolbar(props: DatePickerToolbarProps<Dayjs>) {
                 justifyContent: "space-between",
             }}
         >
-            <DatePickerToolbar {...props} />
-            <RocketLaunchIcon fontSize="large" sx={{ m: 5 }} />
+            <DatePickerToolbar
+                {...props}
+                value={day}
+                onChange={(v) => setDay(v)}
+            />
+            <RocketLaunchIcon fontSize="large" sx={{ m: 4 }} />
         </Box>
     );
 }
