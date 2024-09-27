@@ -53,12 +53,11 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
             <StaticDatePicker
-                autoFocus
                 disableHighlightToday
                 shouldDisableDate={(d) => !dates.includes(d.date())}
                 slots={{
                     day: EventDay,
-                    toolbar: CustomToolbar,
+                    toolbar: undefined,
 
                     // actionBar: (props) => <Box {...props}>AAAAA</Box>,
                 }}
@@ -67,9 +66,9 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                     shortcuts: {
                         items: shorts,
                         sx: {
-                            height: "fit-content",
+                            height: "100%",
                             bgcolor: "beige",
-                            border: "1px solid",
+                            // border: "1px solid",
                         },
                     },
                     toolbar: {
@@ -78,16 +77,17 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                         sx: { textAlign: "right" },
                     },
                     layout: {
-                        onSelectShortcut(newValue, changeImportance, shortcut) {
-                            console.log(shortcut);
-                        },
+                        // onSelectShortcut(newValue, changeImportance, shortcut) {
+                        //     console.log(shortcut);
+                        //     return newValue;
+                        // },
                         sx: {
                             height: "fit-content",
                             maxWidth: { sm: 350, md: "fit-content" },
                         },
                     },
                     actionBar: {
-                        actions: ["clear", "today"],
+                        actions: ["clear"],
                     },
                 }}
                 loading={q.isLoading}
@@ -190,9 +190,9 @@ function CustomToolbar(props: DatePickerToolbarProps<Dayjs>) {
             }}
         >
             <DatePickerToolbar
+                // value={day}
+                // onChange={(v) => setDay(v)}
                 {...props}
-                value={day}
-                onChange={(v) => setDay(v)}
             />
             <RocketLaunchIcon fontSize="large" sx={{ m: 4 }} />
         </Box>
