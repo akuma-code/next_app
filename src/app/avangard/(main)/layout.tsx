@@ -1,6 +1,6 @@
 import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { Box, Stack, Typography } from "@mui/material";
-import { DashboardLayout, PageContainer } from "@toolpad/core";
+import { PageContainer } from "@toolpad/core";
 import { Metadata } from "next";
 
 const links = [
@@ -63,18 +63,14 @@ const AvangardLayout: React.FC<{
     );
 };
 
-async function tollbarLayout({ children }: { children?: React.ReactNode }) {
+export async function tollbarLayout({
+    children,
+}: {
+    children?: React.ReactNode;
+}) {
     return (
         <Box maxWidth={{ md: 900, xs: 350 }}>
-            <PageContainer
-                // maxWidth={"lg"}
-                breadCrumbs={[
-                    { path: "events", title: "Тренировки" },
-                    { path: "players", title: "Игорьки" },
-                ]}
-            >
-                {children}
-            </PageContainer>
+            <PageContainer>{children}</PageContainer>
         </Box>
     );
 }

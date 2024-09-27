@@ -83,7 +83,7 @@ export function PlayersListView({
                 borderColor: "primary.dark",
                 boxShadow: "0 2px 6px 0 rgba(0,0,0,0.08)",
                 bgcolor: "background.paper",
-                // maxHeight: 600,
+                maxHeight: "60vh",
                 maxWidth: 370,
             }}
         >
@@ -98,11 +98,13 @@ export function PlayersListView({
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        InputProps={{
-                            ...params.InputProps,
-                            sx: {
-                                borderTopLeftRadius: 8,
-                                borderTopRightRadius: 8,
+                        slotProps={{
+                            input: {
+                                ...params.InputProps,
+                                sx: {
+                                    borderTopLeftRadius: 8,
+                                    borderTopRightRadius: 8,
+                                },
                             },
                         }}
                         variant="filled"
@@ -121,7 +123,7 @@ export function PlayersListView({
                 loadingText={"Нет совпадений"}
                 // renderOption={(props, o) => o.name}
             />
-            <Box minWidth={250}>
+            <Box minWidth={250} maxHeight={"40vh"} overflow={"auto"}>
                 <ListSubheader
                     // component={Typography}
                     sx={{
@@ -130,7 +132,7 @@ export function PlayersListView({
                         fontSize: "1.2rem",
                         zIndex: 1,
                         // w: "100%",
-                        bgcolor: "inherit",
+                        bgcolor: "beige",
                         // my: 1.5,
                     }}
                 >
@@ -141,9 +143,9 @@ export function PlayersListView({
                     sx={{
                         mx: 1,
                         pr: 2,
-                        maxHeight: "70vh",
+                        // maxHeight: "40vh",
                         // maxHeight: 'inherit',
-                        overflowY: "auto",
+                        // overflowY: "auto",
                         [`& .MuiListItemButton-root.Mui-selected`]: {
                             border: "2px solid #00b0ea9d",
                             borderRadius: 2,
@@ -160,58 +162,44 @@ export function PlayersListView({
                             href={getHref(p.id)}
                             LinkComponent={Link}
                             sx={{
-                                bgcolor: p.ticket ? "#2db8e2d5" : "inherit",
+                                gap: 1,
+                                // bgcolor: p.ticket ? "#2db8e2d5" : "inherit",
                                 borderRadius: 2,
                             }}
                             selected={p.id === Number(selected)}
                         >
                             <ListItemText
                                 color="primary.dark"
-                                primaryTypographyProps={{ variant: "body2" }}
+                                primaryTypographyProps={{
+                                    variant: "body1",
+                                    textAlign: "right",
+                                }}
                                 primary={
-                                    <span>
-                                        {idx + 1}. {p.name}
-                                    </span>
+                                    p.name
+                                    // <span>
+                                    //     {idx + 1}. {p.name}
+                                    // </span>
                                 }
-                                secondary={p.ticket && `абонемент активен`}
+                                secondary={
+                                    p.ticket &&
+                                    `абонемент: ${p.ticket.amount}/${p.ticket.limit}`
+                                }
                                 secondaryTypographyProps={{
                                     fontWeight: "bold",
                                     marginInlineStart: 2,
                                     color: "#000407",
                                     fontSize: 14,
+                                    textAlign: "left",
                                 }}
                                 // sx={{ flexGrow: 1 }}
                             />
                             <Stack
                                 direction={"row"}
                                 justifyContent={"end"}
-                                flexGrow={0}
+                                flexGrow={1}
                                 gap={1}
                                 // width={"fit-content"}
                             >
-                                {p.ticket && (
-                                    // <ListItemAvatar >
-                                    <Tooltip title={"Остаток на абонементе"}>
-                                        <Avatar
-                                            variant="rounded"
-                                            sizes="small"
-                                            sx={{
-                                                p: 0.5,
-                                                maxHeight: 28,
-                                                maxWidth: 28,
-                                                border: "2px solid",
-                                                borderColor: "primary.dark",
-                                                color: "primary.dark",
-                                                bgcolor: "warning.light",
-                                                boxShadow:
-                                                    "0 2px 6px 0 rgba(0,0,0,0.08)",
-                                            }}
-                                        >
-                                            {p.ticket.amount}
-                                        </Avatar>
-                                    </Tooltip>
-                                    /* </ListItemAvatar> */
-                                )}
                                 {p._count.events > 0 && (
                                     <Tooltip title="Кол-во тренировок">
                                         <Avatar
@@ -232,6 +220,31 @@ export function PlayersListView({
                                         </Avatar>
                                     </Tooltip>
                                 )}
+                                {
+                                    // p.ticket && (
+                                    // <ListItemAvatar >
+                                    //     <Tooltip title={"Остаток на абонементе"}>
+                                    //         <Avatar
+                                    //             variant="rounded"
+                                    //             sizes="small"
+                                    //             sx={{
+                                    //                 p: 0.5,
+                                    //                 maxHeight: 28,
+                                    //                 maxWidth: 28,
+                                    //                 border: "2px solid",
+                                    //                 borderColor: "primary.dark",
+                                    //                 color: "primary.dark",
+                                    //                 bgcolor: "warning.light",
+                                    //                 boxShadow:
+                                    //                     "0 2px 6px 0 rgba(0,0,0,0.08)",
+                                    //             }}
+                                    //         >
+                                    //             {p.ticket.amount}
+                                    //         </Avatar>
+                                    //     </Tooltip>
+                                    //     /* </ListItemAvatar> */
+                                    // )
+                                }
                             </Stack>
                         </ListItemButton>
                     ))}

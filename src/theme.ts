@@ -2,6 +2,7 @@
 import { PaletteMode } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { ruRU } from '@mui/material/locale';
+import { ruRU as PickersRuru } from '@mui/x-date-pickers/locales';
 import { createTheme } from '@mui/material/styles';
 import { Roboto } from 'next/font/google';
 import palette from './themeOptions';
@@ -20,6 +21,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
         },
         // mode,
         ruRU,
+        PickersRuru,
         ...(mode === 'light'
             ? palette.light
             : palette.dark

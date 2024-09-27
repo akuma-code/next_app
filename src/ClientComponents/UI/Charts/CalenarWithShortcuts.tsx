@@ -1,60 +1,107 @@
 "use client";
-
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import { PickersShortcutsItem } from "@mui/x-date-pickers/PickersShortcuts";
 import { useQuery } from "@tanstack/react-query";
 import { getPlayerEvents } from "@/Services/playerService";
 import {
+    DateCalendar,
+    DatePicker,
+    DatePickerToolbar,
+    DatePickerToolbarProps,
+    LocalizationProvider,
     PickersDay,
     PickersDayProps,
     StaticDatePicker,
 } from "@mui/x-date-pickers";
-import { Badge } from "@mui/material";
+import { Badge, Box } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { _date, _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
+import Icon from "@mdi/react";
+import { mdiBaseball, mdiMedalOutline } from "@mdi/js";
+import { tollbarLayout } from "@/app/avangard/(main)/layout";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export const CalendarEventsShorts = (props: { playerId: number }) => {
     const { playerId } = props;
+    const [day, setDay] = useState<Dayjs | null>(dayjs());
     const [dates, setDates] = useState<number[]>([]);
-    const [string_dates, setStringDates] = useState<
-        PickersShortcutsItem<dayjs.Dayjs | null>[]
-    >([]);
+    // const [string_dates, setStringDates] = useState<
+    //     PickersShortcutsItem<dayjs.Dayjs | null>[]
+    // >([]);
+
     const q = useQuery({
         queryKey: ["player_events", playerId],
         queryFn: () => getPlayerEvents(playerId),
     });
+    const shorts = useMemo(() => {
+        if (!q.isSuccess) return [];
+        const shorts_event = get_event_shorts(q.data.events);
+        const selected = shorts_event
+            .filter((e) => e.djs.month() === day?.month())
+            .reverse();
+
+        if (!day) return shorts_event.reverse().slice(0, 6);
+        return selected satisfies PickersShortcutsItem<Dayjs | null>[];
+    }, [day, q.data, q.isSuccess]);
 
     useEffect(() => {
-        if (q.isSuccess) {
-            const dates = get_event_days(q.data);
-            setStringDates(dates);
-            // setStringDates(q.data.events.map((e) => e.date_formated));
-        }
-    }, [q.data, q.isSuccess]);
+        const en = shorts.map((s) => s.djs.date());
+        setDates(en);
+    }, [shorts]);
 
     return (
-        <StaticDatePicker
-            slots={{
-                day: EventDay,
-            }}
-            slotProps={{
-                // day: { event_days: dates } as any,
-                shortcuts: {
-                    items: string_dates,
-                },
-            }}
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
+            <StaticDatePicker
+                slots={{
+                    day: EventDay,
+                    toolbar: CustomToolbar,
+                    // actionBar: (props) => <Box {...props}>AAAAA</Box>,
+                }}
+                slotProps={{
+                    day: { event_days: dates } as any,
+                    shortcuts: {
+                        items: shorts,
+                        sx: { height: "fit-content" },
+                    },
+                    toolbar: {
+                        toolbarFormat: "D MMMM",
+
+                        sx: { textAlign: "right" },
+                    },
+                    layout: {
+                        sx: {
+                            height: "max-content",
+                            width: { sm: 300, md: "fit-content" },
+                        },
+                    },
+                    actionBar: {
+                        actions: ["clear", "today"],
+                    },
+                }}
+                loading={q.isLoading}
+                renderLoading={() => (
+                    <Icon path={mdiBaseball} size={4} spin={4} />
+                )}
+                value={day}
+                onChange={(v) => setDay(v)}
+                onMonthChange={(month: dayjs.Dayjs) => setDay(month)}
+                views={["month", "day"]}
+            />
+        </LocalizationProvider>
     );
 };
 
-function EventDay(props: PickersDayProps<Dayjs> & { event_days?: number[] }) {
+function EventDay(
+    props: PickersDayProps<Dayjs> & {
+        event_days?: number[];
+    }
+) {
     const {
         event_days,
         day,
         outsideCurrentMonth,
-        isFirstVisibleCell,
-        isLastVisibleCell,
-        onDaySelect,
+
         ...other
     } = props;
 
@@ -62,54 +109,40 @@ function EventDay(props: PickersDayProps<Dayjs> & { event_days?: number[] }) {
         !props.outsideCurrentMonth &&
         event_days &&
         // event_days.some((d) => day.isSame(d, "day"));
-        event_days.includes(props.day.date());
+        event_days.includes(day.date());
     //
     // console.log("day: ", props.day.date());
     return (
         <Badge
             key={props.day.toString()}
             overlap="circular"
-            // badgeContent={isSelected ? "🌚" : ""}
-            color={isSelected ? "primary" : undefined}
+            // badgeContent={isSelected ? <BookmarkAddedRoundedIcon /> : undefined}
+            sx={{
+                borderRadius: "50%",
+                border: isSelected ? "1px solid red" : "",
+            }}
+            // color={isSelected ? "red" : undefined}
         >
             <PickersDay
-                // selected={isSelected}
-                {...props}
-                isFirstVisibleCell={isFirstVisibleCell}
                 outsideCurrentMonth={outsideCurrentMonth}
-                isLastVisibleCell={isLastVisibleCell}
-                onDaySelect={onDaySelect}
                 day={day}
+                {...other}
             />
         </Badge>
     );
 }
 
-const get_event_days = (p: Awaited<ReturnType<typeof getPlayerEvents>>) => {
-    const { events, name, ticket, _count, id } = p;
-    const M = dayjs().month();
-    const today = (e: { date_formated: string }) =>
-        dayjs(e.date_formated, "YYYY-MM-DD");
+const get_event_shorts = (
+    events: Awaited<ReturnType<typeof getPlayerEvents>>["events"]
+) => {
+    // const { events } = p;
 
-    const shorts: PickersShortcutsItem<Dayjs | null>[] = events.map((e) => ({
-        label: _dbDateParser(e.date_formated).dd_mm_yyyy,
-        getValue: () => today(e),
-    }));
-    const ed = events;
-    // .filter((e) => dayjs(e.date_formated, "YYYY-MM-DD", "ru").month() === M)
-    // .map((e) =>
-    //     // (e) => dayjs(e.date_formated, "YYYY-MM-DD", "ru").date()
-    //     today.isSame(e.date_formated)
-    //         ? {
-    //               ...e,
-    //               eventDays: dayjs(
-    //                   e.date_formated,
-    //                   "YYYY-MM-DD",
-    //                   "ru"
-    //               ).date(),
-    //           }
-    //         : e
-    // );
+    const shorts = events.map((e) => ({
+        label: _dbDateParser(e.date_formated).dd_mmmm,
+        getValue: () => _dbDateParser(e.date_formated)._dayjs,
+        djs: _dbDateParser(e.date_formated)._dayjs,
+    })) satisfies PickersShortcutsItem<Dayjs | null>[];
+
     return shorts;
 };
 
@@ -131,6 +164,23 @@ const getMonthWeekday = (
         "day"
     );
 };
+
+function CustomToolbar(props: DatePickerToolbarProps<Dayjs>) {
+    return (
+        <Box
+            // Pass the className to the root element to get correct layout
+            className={props.className}
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+            }}
+        >
+            <DatePickerToolbar {...props} />
+            <RocketLaunchIcon fontSize="large" sx={{ m: 5 }} />
+        </Box>
+    );
+}
 
 const shortcutsItems: PickersShortcutsItem<Dayjs | null>[] = [
     {

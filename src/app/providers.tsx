@@ -1,7 +1,7 @@
 "use client";
 import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ruRU } from "@mui/material/locale";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -133,15 +133,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 }}
             >
                 {/* <ThemeProvider theme={THEME}> */}
-                <ColorModeContext.Provider value={colorMode}>
-                    <CssBaseline enableColorScheme />
-                    <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        adapterLocale="ru"
-                    >
+                <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="ru"
+                >
+                    <ColorModeContext.Provider value={colorMode}>
+                        <CssBaseline enableColorScheme />
                         {children}
-                    </LocalizationProvider>
-                </ColorModeContext.Provider>
+                    </ColorModeContext.Provider>
+                </LocalizationProvider>
                 {/* </ThemeProvider> */}
             </AppProvider>
         </AppRouterCacheProvider>
