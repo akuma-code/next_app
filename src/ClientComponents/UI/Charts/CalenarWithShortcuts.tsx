@@ -57,7 +57,7 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                 shouldDisableDate={(d) => !dates.includes(d.date())}
                 slots={{
                     day: EventDay,
-                    toolbar: undefined,
+                    toolbar: CustomToolbar,
 
                     // actionBar: (props) => <Box {...props}>AAAAA</Box>,
                 }}
@@ -72,8 +72,8 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                         },
                     },
                     toolbar: {
-                        toolbarFormat: "D MMMM",
-                        toolbarPlaceholder: "___",
+                        toolbarFormat: "MMMM",
+                        toolbarPlaceholder: "",
                         sx: { textAlign: "right" },
                     },
                     layout: {
@@ -126,7 +126,7 @@ function EventDay(
     return (
         <Badge
             key={props.day.toString()}
-            overlap="circular"
+            overlap="rectangular"
             // badgeContent={isSelected ? <BookmarkAddedRoundedIcon /> : undefined}
             sx={{
                 borderRadius: "50%",
@@ -139,6 +139,10 @@ function EventDay(
                 outsideCurrentMonth={outsideCurrentMonth}
                 day={day}
                 {...other}
+                sx={{
+                    // bgcolor: "red",
+                    [`.Mui-selected`]: { bgcolor: "red" },
+                }}
             />
         </Badge>
     );
