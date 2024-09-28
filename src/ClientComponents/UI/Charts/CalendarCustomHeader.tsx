@@ -31,7 +31,7 @@ export function CalendarCustomHeader(props: PickersCalendarHeaderProps<Dayjs>) {
     //     onMonthChange(currentMonth.add(1, "year"), "left");
     // const selectPreviousYear = () =>
     //     onMonthChange(currentMonth.subtract(1, "year"), "right");
-    const localeMonth = Month[currentMonth.month()];
+    const localeMonth = Month[currentMonth?.month()] ?? "";
     return (
         <Box bgcolor={"inherit"}>
             <CustomCalendarHeaderRoot>

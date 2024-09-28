@@ -130,7 +130,7 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                         },
                     },
                     actionBar: {
-                        actions: ["clear", "today"],
+                        actions: ["today"],
                     },
                 }}
                 loading={q.isLoading}
@@ -150,10 +150,10 @@ function CustomToolbar(
 ) {
     const { value } = props;
     const [day, setDay] = useState<Dayjs | null>(dayjs());
-    const currentMonth = useMemo(
-        () => (value ? Month[value.month()] : ""),
-        [value]
-    );
+    const currentMonth = useMemo(() => {
+        if (!value) return "";
+        return value ? Month[value?.month()] : "";
+    }, [value]);
     return (
         <Box
             // Pass the className to the root element to get correct layout
