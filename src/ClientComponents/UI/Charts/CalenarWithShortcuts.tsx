@@ -13,17 +13,41 @@ import {
     PickersDayProps,
     StaticDatePicker,
 } from "@mui/x-date-pickers";
-import { Badge, Box } from "@mui/material";
+import { Avatar, Badge, Box, Typography } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useMemo, useState } from "react";
-import { _date, _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
+import {
+    _date,
+    _dbDateParser,
+    _formated_date,
+    Month,
+} from "@/Helpers/dateFuncs";
 import Icon from "@mdi/react";
 import { mdiBaseball, mdiMedalOutline } from "@mdi/js";
 import { tollbarLayout } from "@/app/avangard/(main)/layout";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import useMediaDetect from "@/Hooks/useMediaDetect";
+import { CalendarCustomHeader } from "./CalendarCustomHeader";
 
+import { ruRU } from "@mui/x-date-pickers/locales";
+const get_event_shorts = (
+    events: Awaited<ReturnType<typeof getPlayerEvents>>["events"]
+) => {
+    // const { events } = p;
+
+    const shorts = events.map((e) => ({
+        label: _dbDateParser(e.date_formated).dd_mmmm,
+        getValue: () => _dbDateParser(e.date_formated)._dayjs,
+        djs: _dbDateParser(e.date_formated)._dayjs,
+    })) satisfies PickersShortcutsItem<Dayjs | null>[];
+
+    return shorts;
+};
+
+const LOCALE = ruRU.components.MuiLocalizationProvider.defaultProps.localeText;
 export const CalendarEventsShorts = (props: { playerId: number }) => {
     const { playerId } = props;
+    const { isMobile } = useMediaDetect();
     const [day, setDay] = useState<Dayjs | null>(dayjs());
     const [dates, setDates] = useState<number[]>([]);
     // const [string_dates, setStringDates] = useState<
@@ -51,15 +75,18 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
     }, [shorts]);
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
+        <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            adapterLocale="ru"
+            localeText={LOCALE}
+        >
             <StaticDatePicker
                 disableHighlightToday
                 shouldDisableDate={(d) => !dates.includes(d.date())}
                 slots={{
                     day: EventDay,
                     toolbar: CustomToolbar,
-
-                    // actionBar: (props) => <Box {...props}>AAAAA</Box>,
+                    calendarHeader: (p) => <CalendarCustomHeader {...p} />,
                 }}
                 slotProps={{
                     day: { event_days: dates } as any,
@@ -67,15 +94,25 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                         items: shorts,
                         sx: {
                             height: "100%",
-                            bgcolor: "beige",
+                            // bgcolor: "#31a2e4",
+                            minWidth: 100,
                             // border: "1px solid",
                         },
                     },
-                    toolbar: {
-                        toolbarFormat: "MMMM",
-                        toolbarPlaceholder: "",
-                        sx: { textAlign: "right" },
+                    calendarHeader: {
+                        currentMonth: day ? day : undefined,
                     },
+
+                    toolbar: {
+                        toolbarFormat: "YYYY",
+                        // toolbarPlaceholder: "",
+                        sx: {
+                            fontSize: 10,
+
+                            fontWeight: "thin",
+                        },
+                        counter: shorts.length,
+                    } as any,
                     layout: {
                         // onSelectShortcut(newValue, changeImportance, shortcut) {
                         //     console.log(shortcut);
@@ -84,10 +121,16 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                         sx: {
                             height: "fit-content",
                             maxWidth: { sm: 350, md: "fit-content" },
+                            borderRadius: 5,
+                            border: "2px solid black",
+                            bgcolor: "#31a2e493",
+                        },
+                        slotProps: {
+                            toolbar: { sx: { fontSize: 10, bgcolor: "red" } },
                         },
                     },
                     actionBar: {
-                        actions: ["clear"],
+                        actions: ["clear", "today"],
                     },
                 }}
                 loading={q.isLoading}
@@ -96,13 +139,64 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                 )}
                 value={day}
                 onChange={(v) => setDay(v)}
-                onMonthChange={(month: dayjs.Dayjs) => setDay(month)}
+                onMonthChange={(v) => setDay(v)}
                 views={["month", "day"]}
             />
         </LocalizationProvider>
     );
 };
+function CustomToolbar(
+    props: DatePickerToolbarProps<Dayjs> & { counter?: number }
+) {
+    const { value } = props;
+    const [day, setDay] = useState<Dayjs | null>(dayjs());
+    const currentMonth = useMemo(
+        () => (value ? Month[value.month()] : ""),
+        [value]
+    );
+    return (
+        <Box
+            // Pass the className to the root element to get correct layout
+            className={props.className}
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+            }}
+        >
+            {props.counter && day ? (
+                <Box
+                    px={1}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <Typography
+                        textTransform={"uppercase"}
+                        fontWeight={"bold"}
+                        fontFamily={"Fira Code"}
+                        textAlign={"end"}
+                    >
+                        {currentMonth}
+                    </Typography>
 
+                    <Typography fontSize={20}>
+                        тренировок: <b>{props.counter}</b>
+                    </Typography>
+                </Box>
+            ) : null}
+            <DatePickerToolbar
+                // className={props.className}
+                {...props}
+                value={day}
+                onChange={(v) => setDay(v)}
+            />
+        </Box>
+    );
+}
 function EventDay(
     props: PickersDayProps<Dayjs> & {
         event_days?: number[];
@@ -129,38 +223,27 @@ function EventDay(
             overlap="rectangular"
             // badgeContent={isSelected ? <BookmarkAddedRoundedIcon /> : undefined}
             sx={{
-                borderRadius: "50%",
+                borderRadius: "40%",
                 // border: isSelected ? "1px solid red" : "",
                 bgcolor: isSelected ? "lightblue" : "inherit",
+                [`& .Mui-selected`]: {
+                    bgcolor: "inherit",
+                    fontWeight: "bold",
+                    color: "primary.contrastText",
+                },
             }}
             // color={isSelected ? "red" : undefined}
         >
             <PickersDay
+                {...other}
                 outsideCurrentMonth={outsideCurrentMonth}
                 day={day}
-                {...other}
-                sx={{
-                    // bgcolor: "red",
-                    [`.Mui-selected`]: { bgcolor: "red" },
-                }}
+                disableRipple
+                disableTouchRipple
             />
         </Badge>
     );
 }
-
-const get_event_shorts = (
-    events: Awaited<ReturnType<typeof getPlayerEvents>>["events"]
-) => {
-    // const { events } = p;
-
-    const shorts = events.map((e) => ({
-        label: _dbDateParser(e.date_formated).dd_mmmm,
-        getValue: () => _dbDateParser(e.date_formated)._dayjs,
-        djs: _dbDateParser(e.date_formated)._dayjs,
-    })) satisfies PickersShortcutsItem<Dayjs | null>[];
-
-    return shorts;
-};
 
 const getMonthWeekday = (
     monthIndex: number,
@@ -180,28 +263,6 @@ const getMonthWeekday = (
         "day"
     );
 };
-
-function CustomToolbar(props: DatePickerToolbarProps<Dayjs>) {
-    const [day, setDay] = useState<Dayjs | null>(dayjs());
-    return (
-        <Box
-            // Pass the className to the root element to get correct layout
-            className={props.className}
-            sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-            }}
-        >
-            <DatePickerToolbar
-                // value={day}
-                // onChange={(v) => setDay(v)}
-                {...props}
-            />
-            <RocketLaunchIcon fontSize="large" sx={{ m: 4 }} />
-        </Box>
-    );
-}
 
 const shortcutsItems: PickersShortcutsItem<Dayjs | null>[] = [
     {

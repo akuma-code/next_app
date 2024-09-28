@@ -2,7 +2,7 @@
 import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { ruRU } from "@mui/material/locale";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -16,6 +16,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
+import { ruRU } from "@mui/x-date-pickers/locales";
 dayjs.extend(weekday);
 
 //*!________________________
@@ -121,29 +122,33 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     );
     return (
         <AppRouterCacheProvider>
-            <AppProvider
-                session={session.data}
-                router={router}
-                theme={T}
-                authentication={{ signIn, signOut }}
-                navigation={ROUTES}
-                branding={{
-                    title: "Авангард",
-                    logo: <SportsKabaddiIcon />,
-                }}
+            <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="ru"
+                localeText={
+                    ruRU.components.MuiLocalizationProvider.defaultProps
+                        .localeText
+                }
             >
-                {/* <ThemeProvider theme={THEME}> */}
-                <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                    adapterLocale="ru"
-                >
-                    <ColorModeContext.Provider value={colorMode}>
-                        <CssBaseline enableColorScheme />
+                <ColorModeContext.Provider value={colorMode}>
+                    <CssBaseline enableColorScheme />
+                    <AppProvider
+                        session={session.data}
+                        router={router}
+                        theme={T}
+                        authentication={{ signIn, signOut }}
+                        navigation={ROUTES}
+                        branding={{
+                            title: "Авангард",
+                            logo: <SportsKabaddiIcon />,
+                        }}
+                    >
+                        {/* <ThemeProvider theme={THEME}> */}
                         {children}
-                    </ColorModeContext.Provider>
-                </LocalizationProvider>
-                {/* </ThemeProvider> */}
-            </AppProvider>
+                    </AppProvider>
+                </ColorModeContext.Provider>
+            </LocalizationProvider>
+            {/* </ThemeProvider> */}
         </AppRouterCacheProvider>
     );
 }

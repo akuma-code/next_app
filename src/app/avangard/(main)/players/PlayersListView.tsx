@@ -123,7 +123,7 @@ export function PlayersListView({
                 loadingText={"Нет совпадений"}
                 // renderOption={(props, o) => o.name}
             />
-            <Box minWidth={250} maxHeight={"40vh"} overflow={"auto"}>
+            <Box minWidth={300} maxHeight={"40vh"} overflow={"auto"}>
                 <ListSubheader
                     // component={Typography}
                     sx={{
