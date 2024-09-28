@@ -20,6 +20,7 @@ import { EventCreateCard } from "@/Components/EventView/EventCreateCard";
 import { memo, useMemo, useState } from "react";
 import DoubleChip from "./DoubleChip";
 import { Prisma } from "@prisma/client";
+import { updateEventTitle } from "@/Services/events/utils";
 
 export interface EventDto_ {
     id: number;
@@ -164,7 +165,7 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
     // const Pairs = eventsCache().then((res) => res.pairs);
 
     // console.log("🚀 ~ MRTEvent ~ Pairs:", Pairs);
-
+    const rename = updateEventTitle.bind(null);
     const table = useMaterialReactTable({
         ...mrt_event_options,
         columns: cols,
@@ -210,14 +211,24 @@ export function MRTEvent({ events }: { events: EventDto2[] }) {
         },
         renderTopToolbarCustomActions({ table }) {
             return (
-                <Button
-                    color="info"
-                    variant="contained"
-                    size="small"
-                    onClick={() => table.setCreatingRow(true)}
-                >
-                    Новая тренировка
-                </Button>
+                <>
+                    <Button
+                        color="info"
+                        variant="contained"
+                        size="small"
+                        onClick={() => table.setCreatingRow(true)}
+                    >
+                        Новая тренировка
+                    </Button>
+                    <Button
+                        color="info"
+                        variant="contained"
+                        size="small"
+                        onClick={async () => rename()}
+                    >
+                        Переименовать
+                    </Button>
+                </>
             );
         },
         renderRowActionMenuItems: ({ closeMenu, row }) => [

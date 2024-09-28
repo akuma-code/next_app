@@ -7,16 +7,31 @@ import { Info, InfoSubtitle, InfoTitle } from "@/mui-treasury/info-basic";
 import { avatarColor } from "@/ClientComponents/EventsList";
 import { SettingsTwoTone } from "@mui/icons-material";
 import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
-import { Avatar, AvatarGroup, Box, Button, ButtonGroup } from "@mui/material";
+import {
+    Avatar,
+    AvatarGroup,
+    Box,
+    Button,
+    ButtonGroup,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    List,
+    ListItemText,
+    ListSubheader,
+} from "@mui/material";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import mock_events from "./mock_events";
 
 import { _log } from "@/Helpers/helpersFns";
 import { useSession } from "next-auth/react";
+import { useDialogs } from "@toolpad/core";
+import { Pair } from "@prisma/client";
+import Icon from "@mdi/react";
+import { mdiKabaddi } from "@mdi/js";
 const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard;
 
-const event_data = mock_events;
 interface EventData {
     id: number;
     date_formated: string;
@@ -24,6 +39,7 @@ interface EventData {
         id: number;
         name: string;
     }[];
+    pairs?: Pair[];
     title?: string | null;
     _count?: {
         players: number;
@@ -44,7 +60,7 @@ export const EventViewCard = ({
     thumbnail,
     event,
 }: EventCardProps) => {
-    const d = event.date_formated.replaceAll("_", ".");
+    const d = useDialogs();
     const router = useRouter();
     const pathname = usePathname();
     const name_letters = (name: string) =>
@@ -55,7 +71,7 @@ export const EventViewCard = ({
     const _c = event._count?.players || 0;
 
     const { status, data } = useSession();
-
+    const show = () => d.open(EventViewDialog, event);
     return (
         <DivRoot>
             <ColumnCard>
@@ -126,13 +142,22 @@ export const EventViewCard = ({
                     </Box>
                     {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */}
 
-                    {data?.user && (
-                        <ButtonGroup
-                            size="small"
-                            orientation="vertical"
-                            variant={"contained"}
+                    <ButtonGroup
+                        size="small"
+                        orientation="vertical"
+                        variant={"contained"}
+                        sx={{ borderRadius: 30 }}
+                    >
+                        <Button
+                            startIcon={<Icon path={mdiKabaddi} size={1} />}
+                            color="primary"
+                            variant="outlined"
+                            onClick={show}
                             sx={{ borderRadius: 30 }}
                         >
+                            Состав
+                        </Button>
+                        {data?.user && (
                             <Button
                                 color="primary"
                                 LinkComponent={Link}
@@ -144,14 +169,8 @@ export const EventViewCard = ({
                             >
                                 Открыть
                             </Button>
-                            <Button
-                                startIcon={<SettingsTwoTone />}
-                                color="secondary"
-                            >
-                                развернуть
-                            </Button>
-                        </ButtonGroup>
-                    )}
+                        )}
+                    </ButtonGroup>
 
                     {/* </Stack> */}
                 </Box>
@@ -159,3 +178,32 @@ export const EventViewCard = ({
         </DivRoot>
     );
 };
+
+function EventViewDialog({
+    open,
+    onClose,
+    payload,
+}: {
+    open: boolean;
+    onClose: (result: unknown) => void;
+    payload?: EventData;
+}) {
+    if (!payload) return null;
+    const { title = "", pairs = [], players = [] } = payload;
+
+    return (
+        <Dialog open={open} onClose={onClose} scroll="paper">
+            <DialogTitle>{title}</DialogTitle>
+            <DialogContent>
+                <ListSubheader sx={{ fontSize: 18, fontWeight: "bold" }}>
+                    Всего: {players.length}
+                </ListSubheader>
+                <List>
+                    {players.map((p) => (
+                        <ListItemText key={p.id} primary={p.name} />
+                    ))}
+                </List>
+            </DialogContent>
+        </Dialog>
+    );
+}

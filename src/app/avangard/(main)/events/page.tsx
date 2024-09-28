@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import { Suspense } from "react";
 import { ViewSwitch } from "./viewSwitch";
+import { DialogsProvider } from "@toolpad/core";
+import EventsProvider from "./providers";
 
 export type OrderType = "asc" | "desc";
 async function EventsPage({
@@ -27,22 +29,27 @@ async function EventsPage({
                     <CircularProgress variant="indeterminate" color="error" />
                 }
             >
-                <AppBar
-                    position="relative"
-                    enableColorOnDark
-                    sx={{
-                        borderTopLeftRadius: "1rem",
-                        borderTopRightRadius: "1rem",
-                    }}
-                >
-                    <Toolbar
-                        variant="dense"
-                        sx={{ display: "flex", justifyContent: "center" }}
+                <EventsProvider>
+                    <AppBar
+                        position="relative"
+                        enableColorOnDark
+                        sx={{
+                            borderTopLeftRadius: "1rem",
+                            borderTopRightRadius: "1rem",
+                        }}
                     >
-                        <OrderFilterControls />
-                    </Toolbar>
-                </AppBar>
-                <ViewSwitch view={{ type: view }} options={{ month, order }} />
+                        <Toolbar
+                            variant="dense"
+                            sx={{ display: "flex", justifyContent: "center" }}
+                        >
+                            <OrderFilterControls />
+                        </Toolbar>
+                    </AppBar>
+                    <ViewSwitch
+                        view={{ type: view }}
+                        options={{ month, order }}
+                    />
+                </EventsProvider>
             </Suspense>
         </Container>
         // </MrtBoundary>
