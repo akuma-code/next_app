@@ -85,6 +85,7 @@ export function PlayersListView({
                 bgcolor: "background.paper",
                 maxHeight: "60vh",
                 maxWidth: 370,
+                p: 1,
             }}
         >
             <Autocomplete
@@ -123,8 +124,8 @@ export function PlayersListView({
                 loadingText={"Нет совпадений"}
                 // renderOption={(props, o) => o.name}
             />
-            <Box minWidth={300} maxHeight={"40vh"} overflow={"auto"}>
-                <ListSubheader
+            <Box minWidth={330} maxHeight={"46vh"} overflow={"auto"}>
+                {/* <ListSubheader
                     // component={Typography}
                     sx={{
                         position: "sticky",
@@ -136,16 +137,14 @@ export function PlayersListView({
                         // my: 1.5,
                     }}
                 >
-                    Список игроков
-                </ListSubheader>
+                    {selected_player?.name || ""}
+                </ListSubheader> */}
+
                 <List
                     dense
                     sx={{
                         mx: 1,
                         pr: 2,
-                        // maxHeight: "40vh",
-                        // maxHeight: 'inherit',
-                        // overflowY: "auto",
                         [`& .MuiListItemButton-root.Mui-selected`]: {
                             border: "2px solid #00b0ea9d",
                             borderRadius: 2,
@@ -163,7 +162,6 @@ export function PlayersListView({
                             LinkComponent={Link}
                             sx={{
                                 gap: 1,
-                                // bgcolor: p.ticket ? "#2db8e2d5" : "inherit",
                                 borderRadius: 2,
                             }}
                             selected={p.id === Number(selected)}
@@ -172,21 +170,17 @@ export function PlayersListView({
                                 color="primary.dark"
                                 primaryTypographyProps={{
                                     variant: "body1",
-                                    textAlign: "right",
+                                    textAlign: "left",
                                 }}
-                                primary={
-                                    p.name
-                                    // <span>
-                                    //     {idx + 1}. {p.name}
-                                    // </span>
-                                }
+                                primary={p.name}
                                 secondary={
-                                    p.ticket &&
-                                    `абонемент: ${p.ticket.amount}/${p.ticket.limit}`
+                                    p.ticket
+                                        ? `абонемент: ${p.ticket.amount}/${p.ticket.limit}`
+                                        : "оплата по факту"
                                 }
                                 secondaryTypographyProps={{
                                     fontWeight: "bold",
-                                    marginInlineStart: 2,
+                                    // marginInlineStart: 2,
                                     color: "#000407",
                                     fontSize: 14,
                                     textAlign: "left",
@@ -220,31 +214,6 @@ export function PlayersListView({
                                         </Avatar>
                                     </Tooltip>
                                 )}
-                                {
-                                    // p.ticket && (
-                                    // <ListItemAvatar >
-                                    //     <Tooltip title={"Остаток на абонементе"}>
-                                    //         <Avatar
-                                    //             variant="rounded"
-                                    //             sizes="small"
-                                    //             sx={{
-                                    //                 p: 0.5,
-                                    //                 maxHeight: 28,
-                                    //                 maxWidth: 28,
-                                    //                 border: "2px solid",
-                                    //                 borderColor: "primary.dark",
-                                    //                 color: "primary.dark",
-                                    //                 bgcolor: "warning.light",
-                                    //                 boxShadow:
-                                    //                     "0 2px 6px 0 rgba(0,0,0,0.08)",
-                                    //             }}
-                                    //         >
-                                    //             {p.ticket.amount}
-                                    //         </Avatar>
-                                    //     </Tooltip>
-                                    //     /* </ListItemAvatar> */
-                                    // )
-                                }
                             </Stack>
                         </ListItemButton>
                     ))}

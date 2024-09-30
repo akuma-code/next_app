@@ -17,10 +17,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { PickersShortcutsItem } from "@mui/x-date-pickers/PickersShortcuts";
 import { useQuery } from "@tanstack/react-query";
 import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CalendarCustomHeader } from "./CalendarCustomHeader";
 
 import { ruRU } from "@mui/x-date-pickers/locales";
+import { useRouter } from "next/navigation";
+import { useDialogs } from "@toolpad/core";
+import { CalendarEventInfo } from "./CalendarEventInfo";
 const get_event_shorts = (
     events: Awaited<ReturnType<typeof getPlayerEvents>>["events"]
 ) => {
@@ -30,9 +33,15 @@ const get_event_shorts = (
         label: _dbDateParser(e.date_formated).dd_mmmm,
         getValue: () => _dbDateParser(e.date_formated)._dayjs,
         djs: _dbDateParser(e.date_formated)._dayjs,
-    })) satisfies PickersShortcutsItem<Dayjs | null>[];
+        eventId: e.id,
+    })) satisfies ExtendedShortCut[];
 
     return shorts;
+};
+
+type ExtendedShortCut = PickersShortcutsItem<Dayjs | null> & {
+    eventId?: number;
+    djs: dayjs.Dayjs;
 };
 
 const LOCALE = ruRU.components.MuiLocalizationProvider.defaultProps.localeText;
@@ -41,6 +50,8 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
     const { isMobile } = useMediaDetect();
     const [day, setDay] = useState<Dayjs | null>(dayjs());
     const [dates, setDates] = useState<number[]>([]);
+    const r = useRouter();
+    const d = useDialogs();
     // const [string_dates, setStringDates] = useState<
     //     PickersShortcutsItem<dayjs.Dayjs | null>[]
     // >([]);
@@ -49,7 +60,7 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
         queryKey: ["player_events", playerId],
         queryFn: () => getPlayerEvents(playerId),
     });
-    const shorts = useMemo(() => {
+    const shorts: ExtendedShortCut[] = useMemo(() => {
         if (!q.isSuccess) return [];
         const shorts_event = get_event_shorts(q.data.events);
         const selected = shorts_event
@@ -57,14 +68,20 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
             .reverse();
 
         if (!day) return shorts_event.reverse().slice(0, 6);
-        return selected satisfies PickersShortcutsItem<Dayjs | null>[];
+        return selected satisfies ExtendedShortCut[];
     }, [day, q.data, q.isSuccess]);
 
     useEffect(() => {
         const en = shorts.map((s) => s.djs.date());
         setDates(en);
     }, [shorts]);
-
+    const openDialog = useCallback(
+        (eventId?: number) => {
+            if (!eventId) return;
+            d.open<number, void>(CalendarEventInfo, eventId);
+        },
+        [d]
+    );
     return (
         <LocalizationProvider
             dateAdapter={AdapterDayjs}
@@ -82,7 +99,7 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                 slotProps={{
                     day: { event_days: dates } as any,
                     shortcuts: {
-                        items: shorts,
+                        items: shorts as any,
                         sx: {
                             height: "100%",
                             // bgcolor: "#31a2e4",
@@ -105,10 +122,11 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                         counter: shorts.length,
                     } as any,
                     layout: {
-                        // onSelectShortcut(newValue, changeImportance, shortcut) {
-                        //     console.log(shortcut);
-                        //     return newValue;
-                        // },
+                        onSelectShortcut(newValue, changeImportance, shortcut) {
+                            console.log(shortcut);
+                            const es = { ...shortcut } as ExtendedShortCut;
+                            openDialog(es.eventId);
+                        },
                         sx: {
                             height: "fit-content",
                             maxWidth: { sm: 350, md: "fit-content" },
