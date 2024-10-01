@@ -6,6 +6,8 @@ import {
     createUserWithProfile,
     deleteUser,
     editUser,
+    getAllUsers,
+    getUsers,
 } from "@/Services/userService";
 import {
     AccountCircleTwoTone,
@@ -21,12 +23,12 @@ import {
     DialogContent,
     DialogTitle,
     TextField,
-    Grid,
+    Grid2,
     DialogActions,
     IconButton,
     MenuItem,
 } from "@mui/material";
-import { User, UserRole } from "@prisma/client";
+import { Prisma, User, UserRole } from "@prisma/client";
 import {
     MRT_ActionMenuItem,
     MRT_EditActionButtons,
@@ -40,13 +42,29 @@ import {
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const roles = {
     ADMIN: "Админ",
     MEMBER: "Пользователь",
     GUEST: "Гость",
 };
-const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
+type PrismaUser = Prisma.UserGetPayload<{
+    select: { id: true; name: true; email: true; password: true; role: true };
+}>;
+
+async function getUsersFn() {
+    const users = (await getUsers()) as PrismaUser[];
+    return users;
+}
+
+const UsersMRT: React.FC<{ users: PrismaUser[] }> = ({ users }) => {
+    const q = useQuery({
+        queryKey: ["users"],
+        queryFn: () => getUsersFn(),
+        placeholderData: users,
+    });
+
     const [validationErrors, setValidationErrors] = useState<
         Record<string, string | undefined>
     >({});
@@ -141,11 +159,11 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     },
                     Cell: ({ cell }) => `${cell.getValue()}`,
                 },
-            ] as MRT_ColumnDef<DTO_User>[],
+            ] as MRT_ColumnDef<PrismaUser>[],
         [validationErrors]
     );
 
-    const handleCreateUser: MRT_TableOptions<DTO_User>["onCreatingRowSave"] =
+    const handleCreateUser: MRT_TableOptions<PrismaUser>["onCreatingRowSave"] =
         async ({ values, table, row, exitCreatingMode }) => {
             const errors = validateUserCreate(values);
             if (Object.values(errors).some((error) => error)) {
@@ -159,7 +177,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             table.setCreatingRow(null);
             // exitCreatingMode()
         };
-    const handleUpdateUser: MRT_TableOptions<DTO_User>["onEditingRowSave"] =
+    const handleUpdateUser: MRT_TableOptions<PrismaUser>["onEditingRowSave"] =
         async ({ exitEditingMode, values, table, row }) => {
             const errors = validateUserUpdate(values);
             if (Object.values(errors).some((error) => error)) {
@@ -180,9 +198,9 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
     const handleDeleteUser = async (id: number) => {
         confirm("Delete user? ") && (await deleteUser(id));
     };
-    const table = useMaterialReactTable<DTO_User>({
+    const table = useMaterialReactTable<PrismaUser>({
         columns: mrt_columns,
-        data: users,
+        data: q.data ?? [],
         layoutMode: "grid",
         localization: MRT_Localization_RU,
         enableEditing: true,
@@ -194,7 +212,7 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
         },
 
         enableHiding: true,
-        positionActionsColumn: "last",
+        positionActionsColumn: "first",
         renderTopToolbarCustomActions: ({ table }) => (
             <Button
                 variant="contained"
@@ -223,38 +241,30 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             internalEditComponents,
         }) => {
             return (
-                <Box>
+                <>
                     <DialogTitle>Создать нового пользователя</DialogTitle>
-                    <Grid container spacing={2} p={2}>
-                        <Grid item md={12}>
-                            {/* <TextField name='name'
-                                value={ profile_.name }
-                                onChange={ (e) => setProfile(prev => ({ ...prev, name: e.target.value })) }
-                                label="Name"
-                                variant='outlined'
-                                fullWidth>
-                                Добавить нового пользователя
-                            </TextField> */}
-                        </Grid>
-                        <Grid container spacing={2} p={2}>
-                            {internalEditComponents.map((c, idx) => (
-                                <Grid item key={idx / 3} md={12}>
-                                    {c}
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Grid>
-                    <DialogActions
-                        sx={{ display: "flex", justifyContent: "start" }}
-                    >
-                        <MRT_EditActionButtons
-                            variant="text"
-                            color={"warning"}
-                            table={table}
-                            row={row}
-                        />
-                    </DialogActions>
-                </Box>
+                    <DialogContent>
+                        <Grid2 container spacing={2}>
+                            <Grid2 container spacing={2}>
+                                {internalEditComponents.map((c, idx) => (
+                                    <Grid2 key={idx / 3} size={12}>
+                                        {c}
+                                    </Grid2>
+                                ))}
+                            </Grid2>
+                        </Grid2>
+                        <DialogActions
+                            sx={{ display: "flex", justifyContent: "start" }}
+                        >
+                            <MRT_EditActionButtons
+                                variant="text"
+                                color={"warning"}
+                                table={table}
+                                row={row}
+                            />
+                        </DialogActions>
+                    </DialogContent>
+                </>
             );
         },
 
@@ -266,13 +276,13 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             return (
                 <>
                     <DialogTitle>Изменить данные</DialogTitle>
-                    <Grid container spacing={2} p={2}>
+                    <Grid2 container spacing={2} p={2}>
                         {internalEditComponents.map((c, idx) => (
-                            <Grid item key={idx / 3} md={12}>
+                            <Grid2 key={idx / 3} size={12}>
                                 {c}
-                            </Grid>
+                            </Grid2>
                         ))}
-                    </Grid>
+                    </Grid2>
                     <DialogActions
                         sx={{
                             display: "flex",
@@ -288,32 +298,32 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                 </>
             );
         },
-        renderDetailPanel(props) {
-            const { row, table } = props;
+        // renderDetailPanel(props) {
+        //     const { row, table } = props;
 
-            return (
-                <Grid
-                    gridTemplateRows={"1fr 1fr"}
-                    container
-                    spacing={2}
-                    direction={"column"}
-                >
-                    <Grid item>
-                        <Typography variant="body2" fontWeight={"bold"}>
-                            name: {row.original.profile?.name}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant="body2">
-                            Дополнительная информация:
-                        </Typography>
-                        <Typography variant="subtitle1">
-                            {row.original.password}
-                        </Typography>
-                    </Grid>
-                </Grid>
-            );
-        },
+        //     return (
+        //         <Grid2
+        //             gridTemplateRows={"1fr 1fr"}
+        //             container
+        //             spacing={2}
+        //             direction={"column"}
+        //         >
+        //             <Grid2>
+        //                 <Typography variant="body2" fontWeight={"bold"}>
+        //                     name: {row.original.name}
+        //                 </Typography>
+        //             </Grid2>
+        //             <Grid2>
+        //                 <Typography variant="body2">
+        //                     Дополнительная информация:
+        //                 </Typography>
+        //                 <Typography variant="subtitle1">
+        //                     {row.original.password}
+        //                 </Typography>
+        //             </Grid2>
+        //         </Grid2>
+        //     );
+        // },
 
         displayColumnDefOptions: {
             "mrt-row-actions": {
@@ -337,20 +347,20 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
                     <Box flexGrow={1}> Удалить</Box>
                 </Stack>
             </MenuItem>,
+            // <MenuItem
+            //     key={2}
+            //     onClick={() => {
+            //         router.push(pathname + `/profile/${row.original.id}`);
+            //         closeMenu();
+            //     }}
+            // >
+            //     <Stack direction={"row"} width={"100%"} gap={2}>
+            //         <AccountCircleTwoTone />{" "}
+            //         <span className="mp-1"> Профиль</span>
+            //     </Stack>
+            // </MenuItem>,
             <MenuItem
-                key={2}
-                onClick={() => {
-                    router.push(pathname + `/profile/${row.original.id}`);
-                    closeMenu();
-                }}
-            >
-                <Stack direction={"row"} width={"100%"} gap={2}>
-                    <AccountCircleTwoTone />{" "}
-                    <span className="mp-1"> Профиль</span>
-                </Stack>
-            </MenuItem>,
-            <MenuItem
-                key={3}
+                key={"edit"}
                 onClick={() => {
                     console.info("user: ", row.original);
                     closeMenu();
@@ -416,12 +426,13 @@ const UsersMRT: React.FC<{ users: DTO_User[] }> = ({ users }) => {
             columnOrder: [
                 "mrt-row-numbers",
                 "mrt-row-expand",
+                "mrt-row-actions",
                 "email",
                 "name",
                 "role",
                 "password",
-                "mrt-row-actions",
             ],
+            isLoading: q.isLoading,
         },
         initialState: {},
         muiTableContainerProps: {

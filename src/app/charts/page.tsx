@@ -1,5 +1,5 @@
 import { Grid2, Paper } from "@mui/material";
-import { Board } from "../avangard/(main)/_components/Board";
+import { Board } from "@/app/(avangard)/_components/Board";
 
 const validateNumber = (n: number, x?: number) => (!isNaN(n) ? n : x ? x : 0);
 async function MainPage({

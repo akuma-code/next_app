@@ -5,7 +5,6 @@ import { getInfoApexStyles } from "@/mui-treasury/info-apex";
 import { Info, InfoSubtitle, InfoTitle } from "@/mui-treasury/info-basic";
 
 import { avatarColor } from "@/ClientComponents/EventsList";
-import { SettingsTwoTone } from "@mui/icons-material";
 import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
 import {
     Avatar,
@@ -22,14 +21,12 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import mock_events from "./mock_events";
 
-import { _log } from "@/Helpers/helpersFns";
-import { useSession } from "next-auth/react";
-import { useDialogs } from "@toolpad/core";
-import { Pair } from "@prisma/client";
-import Icon from "@mdi/react";
 import { mdiKabaddi } from "@mdi/js";
+import Icon from "@mdi/react";
+import { Pair } from "@prisma/client";
+import { useDialogs } from "@toolpad/core";
+import { useSession } from "next-auth/react";
 const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard;
 
 interface EventData {

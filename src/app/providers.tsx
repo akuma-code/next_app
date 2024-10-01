@@ -26,15 +26,11 @@ export type ExtendedNavigate = (NavigationItem | ExtendedNavigatePage)[];
 const ROUTES: ExtendedNavigate = [
     // { kind: "header", title: "Stats" },
     {
-        segment: "avangard",
         title: "Тренировки",
-        kind: "page",
-        visible: true,
-        children: [
-            { title: "Расписание", segment: "events", kind: "page" },
-            { title: "Игроки", segment: "players", kind: "page" },
-        ],
+        kind: "header",
     },
+    { title: "Расписание", segment: "events", kind: "page" },
+    { title: "Игроки", segment: "players", kind: "page" },
     { kind: "divider" },
     { segment: "charts", title: "Статистика", kind: "page" },
     { kind: "divider" },

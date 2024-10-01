@@ -1,6 +1,6 @@
 "use client";
 
-import { QuickEventCreate } from "@/app/avangard/(main)/_components/QuickEventCreate";
+import { QuickEventCreate } from "@/app/(avangard)/_components/QuickEventCreate";
 
 import { EventViewCard } from "@/Components/EventView/EventViewCard";
 import { DayOfWeek } from "@/Helpers/dateFuncs";

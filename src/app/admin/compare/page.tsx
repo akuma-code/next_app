@@ -1,5 +1,5 @@
-import { DB_CardLocal } from "@/app/avangard/(main)/_components/LocalDBCard";
-import { Server_DB_Card } from "@/app/avangard/(main)/_components/ServerDBCard";
+import { DB_CardLocal } from "@/app/(avangard)/_components/LocalDBCard";
+import { Server_DB_Card } from "@/app/(avangard)/_components/ServerDBCard";
 import { Box, Button, ButtonGroup, Grid2 } from "@mui/material";
 import Link from "next/link";
 

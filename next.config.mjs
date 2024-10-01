@@ -15,7 +15,7 @@ const nextConfig = {
         return [
             {
                 source: '/',
-                destination: '/avangard/events',
+                destination: '/events',
                 permanent: true
             }
         ]

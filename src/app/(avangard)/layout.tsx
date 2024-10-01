@@ -1,26 +1,26 @@
 import { NavLink } from "@/ClientComponents/UI/NavLink";
 import { Box, Stack, Typography } from "@mui/material";
+import { PageContainer } from "@toolpad/core";
 import { Metadata } from "next";
 
 const links = [
     {
-        href: "/avangard/events",
-        label: "Тренировки",
+        href: "/events",
+        label: "Расписание",
     },
     {
-        href: "/avangard/players",
+        href: "/players",
         label: "Игроки",
     },
-    {
-        href: "/avangard/board/add",
-        label: "Запись на тренировку",
-    },
+    // {
+    //     href: "/avangard/board/add",
+    //     label: "Запись на тренировку",
+    // },
 ];
 
 export const metadata: Metadata = {
     title: "Тренировки",
     description: "Расписание тренировок",
-    icons: "/icon.ico",
 };
 
 const AvangardLayout: React.FC<{
@@ -33,8 +33,6 @@ const AvangardLayout: React.FC<{
                     sm: "column",
                     md: "row",
                 }}
-                // spacing={ 1 }
-                // bgcolor={ 'background' }
             >
                 <Box
                     flexGrow={1}
@@ -52,17 +50,29 @@ const AvangardLayout: React.FC<{
                 >
                     {links.map((item) => (
                         <NavLink key={item.href} href={item.href}>
-                            <Typography variant="body1" component={"div"}>
+                            <Typography variant="subtitle1" component={"div"}>
                                 {item.label}
                             </Typography>
                         </NavLink>
                     ))}
                 </Box>
-                <Box flexGrow={1}>{children}</Box>
+                <Box flexGrow={2}>{children}</Box>
             </Stack>
             <div id="modal-root" />
         </aside>
     );
 };
 
-export default AvangardLayout;
+export async function tollbarLayout({
+    children,
+}: {
+    children?: React.ReactNode;
+}) {
+    return (
+        <Box maxWidth={{ md: 900, xs: 350 }}>
+            <PageContainer>{children}</PageContainer>
+        </Box>
+    );
+}
+
+export default tollbarLayout;

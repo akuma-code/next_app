@@ -1,27 +1,23 @@
 "use client";
 
-import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
 import { _date, _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 import useMediaDetect from "@/Hooks/useMediaDetect";
 import { useToggle } from "@/Hooks/useToggle";
 import { makeNewEvent } from "@/Services/eventService";
 import {
     mdiArrowDownBoldHexagonOutline,
-    mdiArrowRightBoldHexagonOutline,
     mdiNewBox,
-    mdiNewspaperPlus,
-    mdiSphereOff,
-    mdiStickerEmoji,
+    mdiNewspaperPlus
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import { SettingsTwoTone } from "@mui/icons-material";
-import { alpha, SpeedDialAction, Zoom } from "@mui/material";
+import { alpha, SpeedDialAction } from "@mui/material";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import React, { Suspense, useTransition } from "react";
+import React from "react";
 
 type Props = {
     children?: React.ReactNode;
@@ -33,7 +29,7 @@ export function QuickEventCreate({ children }: Props) {
     const router = useRouter();
     const handleCreate = async () => {
         const e = await quickCreate();
-        router.push("/avangard/events/" + e.id);
+        router.push("/events/" + e.id);
     };
     return (
         <Box
@@ -86,7 +82,7 @@ export function QuickEventCreate({ children }: Props) {
                     tooltipPlacement="right"
                     icon={<Icon path={mdiNewspaperPlus} size={1} />}
                     tooltipTitle={"Создать тренировку"}
-                    onClick={() => router.push("/avangard/events/create")}
+                    onClick={() => router.push("/events/create")}
                 />
 
                 {children}
@@ -100,8 +96,7 @@ async function quickCreate() {
     const date = today.split("-")[2];
     const day = _date(today).day_name;
     const { dd_mmmm } = _dbDateParser(today);
-    const title = `${day},
-     ${dd_mmmm}`;
+    const title = `${day},     ${dd_mmmm}`;
     const e = await makeNewEvent(
         { date_formated: today, title: title, players: [], isDraft: false },
         { cost: 1 }

@@ -3,7 +3,6 @@ import { GET_PLAYERS, getPlayers } from "@/Services/playerService";
 import { Box, Stack } from "@mui/material";
 import AdminPlayerList from "./AdminPlayerList";
 
-import { MRTPlayers } from "@/ClientComponents/MRT/Avangard/MRTPlayers";
 import MRT_Players_v2 from "@/ClientComponents/MRT/Avangard/MRT_Players_v2";
 import { PrismaPlayer_ } from "@/Types";
 

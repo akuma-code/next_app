@@ -1,24 +1,18 @@
-import { getAllUsers } from "@/Services/userService";
+import UsersMRT from "@/ClientComponents/UserTable/UsersMRT";
+import { getUsers } from "@/Services/userService";
 import { Box, Paper, Stack } from "@mui/material";
-import { UserList } from "../../../ClientComponents/userList";
-
 
 async function UsersPage() {
-    const allUsers = await getAllUsers({ select: ['id', 'email', "role", 'password'] }
-        // { select: ['email', 'role', 'password', "id"] }
-
-    )
+    const allUsers = await getUsers();
 
     return (
-        <Box component={ Paper }>
-            <Stack direction={ 'column' } gap={ 2 }>
-                <UserList users={ allUsers } />
+        <Box component={Paper}>
+            <Stack direction={"column"} gap={2}>
+                {/* <UserList users={ allUsers } /> */}
+                <UsersMRT users={allUsers} />
             </Stack>
         </Box>
-    )
+    );
 }
 
-
-
-
-export default UsersPage
+export default UsersPage;

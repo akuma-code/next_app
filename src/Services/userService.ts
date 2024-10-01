@@ -14,6 +14,11 @@ import { linkUserToPlayer } from "./profileService";
 type GetOnePayload = { id: string, } | { email: string }
 
 export type RSelectFields<T, P> = T extends keyof P & string ? T[] : never
+
+export async function getUsers(payload?: Prisma.UserFindManyArgs) {
+    return await prisma.user.findMany(payload)
+
+}
 export async function getUser(payload: Prisma.UserWhereUniqueInput, options?: { withPass?: boolean }) {
     const u = prisma.user
     try {

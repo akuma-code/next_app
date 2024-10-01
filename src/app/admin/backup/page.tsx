@@ -1,14 +1,7 @@
 import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
-import {
-    DescriptionButton,
-    DescriptionButtonQuery,
-} from "@/ClientComponents/UI/DescButton";
+import { DescriptionButtonQuery } from "@/ClientComponents/UI/DescButton";
 import { ClientBackup } from "@/Components/Backup/ClientSideBackup";
-import { fetcher } from "@/Helpers/fetcher";
-import {
-    fetchAndCreatePlayers,
-    sync_events_pairs,
-} from "@/Services/events/db_event";
+import { sync_events_pairs } from "@/Services/events/db_event";
 import { readFileFn } from "@/Services/fs/data_service";
 import { getImportantData } from "@/app/api/backup/events/actions";
 import { Box } from "@mui/material";

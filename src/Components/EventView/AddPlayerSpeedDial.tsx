@@ -1,25 +1,17 @@
 "use client";
 
-import LoadSpinner from "@/app/avangard/loading";
 import { _log } from "@/Helpers/helpersFns";
 import { useToggle } from "@/Hooks/useToggle";
 import { connectOnePlayer } from "@/Services/eventService";
 import { getPlayers } from "@/Services/playerService";
-import {
-    mdiAccountMultiplePlus,
-    mdiAccountPlusOutline,
-    mdiDebian,
-} from "@mdi/js";
+import { mdiAccountPlusOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import { AddCard } from "@mui/icons-material";
 import {
     Box,
     Button,
     Dialog,
     DialogContent,
     DialogTitle,
-    Fade,
-    LinearProgress,
     SpeedDialAction,
     Stack,
 } from "@mui/material";

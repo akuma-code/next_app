@@ -1,4 +1,4 @@
-import LoadSpinner from "@/app/avangard/loading";
+import LoadSpinner from "@/app/loading";
 import { auth } from "@/auth/auth";
 import { ExitButton } from "@/ClientComponents/UI/ExitButton";
 import LinkMui from "@/ClientComponents/UI/LinkMui";
@@ -67,11 +67,7 @@ export const AppHeader: React.FC = async () => {
                         </Link>
                     )}
                 </Breadcrumbs>
-                <Suspense
-                    fallback={
-                        <LoadSpinner text="" iconColor="#be5b09" size={1} />
-                    }
-                >
+                <Suspense fallback={"...loading"}>
                     <Box
                         gap={1}
                         display={"flex"}

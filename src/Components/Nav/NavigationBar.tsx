@@ -32,7 +32,7 @@ import { Suspense, useMemo, useState } from "react";
 
 const routes = [
     {
-        to: "/avangard/events",
+        to: "/events",
         text: "Авангард",
         path: mdiTableTennis,
     },

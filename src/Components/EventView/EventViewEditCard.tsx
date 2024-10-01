@@ -102,7 +102,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
         on();
         if (confirm("Delete event?")) {
             await deleteEvent(id).finally(() => off());
-            r.push("/avangard/events");
+            r.push("/events");
         }
     };
     return (
