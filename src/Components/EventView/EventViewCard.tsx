@@ -1,22 +1,34 @@
-'use client'
+"use client";
 
-import CMCard from "@/mui-treasury/card-team/CardTeam"
+import CMCard from "@/mui-treasury/card-team/CardTeam";
 import { getInfoApexStyles } from "@/mui-treasury/info-apex";
-import { InfoTitle, InfoSubtitle, Info } from "@/mui-treasury/info-basic";
+import { Info, InfoSubtitle, InfoTitle } from "@/mui-treasury/info-basic";
 
-import { Box, AvatarGroup, Avatar, IconButton, Stack } from "@mui/material";
-import mock_events from "./mock_events";
-import AdeptusMechanicus from "@/Components/Icons/AdeptusMechanicus";
 import { avatarColor } from "@/ClientComponents/EventsList";
+import OpenWithOutlinedIcon from "@mui/icons-material/OpenWithOutlined";
+import {
+    Avatar,
+    AvatarGroup,
+    Box,
+    Button,
+    ButtonGroup,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    List,
+    ListItemText,
+    ListSubheader,
+} from "@mui/material";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import dayjs from "dayjs";
-import LinkMui from "@/ClientComponents/UI/LinkMui";
-import { EventViewEditDialog } from "./EventViewEditDialog";
-import { SettingsTwoTone } from "@mui/icons-material";
-const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard
+import { usePathname, useRouter } from "next/navigation";
 
-const event_data = mock_events
+import { mdiKabaddi } from "@mdi/js";
+import Icon from "@mdi/react";
+import { Pair } from "@prisma/client";
+import { useDialogs } from "@toolpad/core";
+import { useSession } from "next-auth/react";
+const { DivRoot, ColumnCard, ButtonJoin, AvatarLogo } = CMCard;
+
 interface EventData {
     id: number;
     date_formated: string;
@@ -24,11 +36,11 @@ interface EventData {
         id: number;
         name: string;
     }[];
-    title?: string | null
+    pairs?: Pair[];
+    title?: string | null;
     _count?: {
         players: number;
     };
-
 }
 interface EventCardProps {
     title: string;
@@ -38,89 +50,157 @@ interface EventCardProps {
     event: EventData;
 }
 
-export const EventViewCard = ({ title, subtitle, description, thumbnail, event }: EventCardProps) => {
-    const d = event.date_formated.replaceAll("_", ".")
+export const EventViewCard = ({
+    title,
+    subtitle,
+    description,
+    thumbnail,
+    event,
+}: EventCardProps) => {
+    const d = useDialogs();
+    const router = useRouter();
+    const pathname = usePathname();
+    const name_letters = (name: string) =>
+        name
+            .split(" ")
+            .map((n) => n[0])
+            .join("");
+    const _c = event._count?.players || 0;
 
-    const pathname = usePathname()
-    const name_letters = (name: string) => name.split(" ").map(n => n[0]).join("")
-    const _c = event._count?.players || 0
+    const { status, data } = useSession();
+    const show = () => d.open(EventViewDialog, event);
     return (
         <DivRoot>
             <ColumnCard>
-                <Box display="flex" p={ 2 } gap={ 2 } flexWrap="nowrap">
-                    <AvatarLogo variant={ "rounded" } color={ avatarColor(_c) }>
-                        { _c }
+                <Box display="flex" p={2} gap={2} flexWrap="nowrap">
+                    <AvatarLogo
+                        variant={"rounded"}
+                        sx={{ bgcolor: avatarColor(_c), color: "primary.dark" }}
+                    >
+                        {_c}
                     </AvatarLogo>
-                    <Info useStyles={ getInfoApexStyles } sx={ { alignSelf: "center" } }>
-                        <InfoTitle>{ title }</InfoTitle>
-                        <InfoSubtitle sx={ { textAlign: 'end', fontWeight: 'bold' } }>{ subtitle }</InfoSubtitle>
+                    <Info
+                        useStyles={getInfoApexStyles}
+                        sx={{ alignSelf: "center" }}
+                    >
+                        <InfoTitle>{title}</InfoTitle>
+                        <InfoSubtitle
+                            sx={{ textAlign: "end", fontWeight: "bold" }}
+                        >
+                            {subtitle}
+                        </InfoSubtitle>
                     </Info>
                 </Box>
                 <Box
-                    pb={ 0.5 }
-                    px={ 1 }
-                    color={ "grey.600" }
-                    fontSize={ "1rem" }
-                    fontFamily={ "Ubuntu" }
-                    flexGrow={ 1 }
-                    textAlign={ 'center' }
+                    pb={0.5}
+                    px={1}
+                    color={"primary.dark"}
+                    fontSize={"1rem"}
+                    fontFamily={"Ubuntu"}
+                    flexGrow={1}
+                    textAlign={"center"}
                 >
-                    { description }
+                    {description}
                 </Box>
                 <Box
                     display="flex"
-                    p={ 2 }
-                    gap={ 2 }
-                    sx={ {
+                    p={2}
+                    gap={2}
+                    sx={{
                         flexWrap: "wrap",
                         justifyContent: "space-between",
                         "&& > *": {
                             minWidth: `clamp(0px, (248px + 1px - 100%) * 999, 100%)`,
                         },
-                    } }
+                    }}
                 >
                     <Box>
                         <AvatarGroup
-                            max={ 4 }
-                            sx={ {
+                            max={4}
+                            sx={{
                                 "& .MuiAvatar-root": {
                                     fontFamily: "Ubuntu",
                                     fontSize: "0.875rem",
-                                    backgroundColor: avatarColor(_c), //"#6d7efc"
+                                    backgroundColor: "#3d54fc",
                                     width: 32,
                                     height: 32,
                                     "&:first-of-type": {
                                         marginRight: "auto",
                                     },
                                 },
-                            } }
+                            }}
                         >
-                            { event.players.map(p =>
-                                <Avatar key={ p.name } >
-                                    { name_letters(p.name) }
+                            {event.players.map((p) => (
+                                <Avatar key={p.name}>
+                                    {name_letters(p.name)}
                                 </Avatar>
-
-                            ) }
+                            ))}
                         </AvatarGroup>
                     </Box>
-                    <Stack direction={ 'row' } justifyContent={ 'space-between' }>
+                    {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */}
 
-                        <Link href={ {
-                            pathname: pathname + `/${event.id}`
-                        } }>
-                            <ButtonJoin variant={ "contained" } color={ "primary" } disableRipple>
+                    <ButtonGroup
+                        size="small"
+                        orientation="vertical"
+                        variant={"contained"}
+                        sx={{ borderRadius: 30 }}
+                    >
+                        <Button
+                            startIcon={<Icon path={mdiKabaddi} size={1} />}
+                            color="primary"
+                            variant="outlined"
+                            onClick={show}
+                            sx={{ borderRadius: 30 }}
+                        >
+                            Состав
+                        </Button>
+                        {data?.user && (
+                            <Button
+                                color="primary"
+                                LinkComponent={Link}
+                                // href={pathname + `/${event.id}`}
+                                onClick={() =>
+                                    router.push(`${pathname}/${event.id}`)
+                                }
+                                startIcon={<OpenWithOutlinedIcon />}
+                            >
                                 Открыть
-                            </ButtonJoin>
-                        </Link>
-                        <Link href={ pathname + `/${event.id}/edit` }>
-                            <IconButton >
-                                <SettingsTwoTone />
-                            </IconButton>
-                        </Link>
-                    </Stack>
+                            </Button>
+                        )}
+                    </ButtonGroup>
 
+                    {/* </Stack> */}
                 </Box>
             </ColumnCard>
         </DivRoot>
-    )
+    );
 };
+
+function EventViewDialog({
+    open,
+    onClose,
+    payload,
+}: {
+    open: boolean;
+    onClose: (result: unknown) => void;
+    payload?: EventData;
+}) {
+    if (!payload) return null;
+    const { title = "", pairs = [], players = [] } = payload;
+
+    return (
+        <Dialog open={open} onClose={onClose} scroll="paper">
+            <DialogTitle>{title}</DialogTitle>
+            <DialogContent>
+                <ListSubheader sx={{ fontSize: 18, fontWeight: "bold" }}>
+                    Всего: {players.length}
+                </ListSubheader>
+                <List>
+                    {players.map((p) => (
+                        <ListItemText key={p.id} primary={p.name} />
+                    ))}
+                </List>
+            </DialogContent>
+        </Dialog>
+    );
+}

@@ -1,6 +1,3 @@
 {
-    "svg.preview.background": "transparent",
-    "eslint.enable": false,
-    "eslint.format.enable": false,
-    "eslint.run": "onSave"
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

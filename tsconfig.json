@@ -5,6 +5,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "target": "ESNext",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -25,7 +26,16 @@
       "@/*": [
         "./src/*",
         "./prisma/*"
-      ]
+      ],
+      "@/Service/*": [
+        "./src/Services/*"
+      ],
+      "#/app/*": [
+        "./app/*"
+      ],
+      "#/prisma/*": [
+        "./prisma/*"
+      ],
     }
   },
   "include": [
@@ -35,7 +45,7 @@
     ".next/types/**/*.ts",
     "prisma/*",
     "enviroments.d.ts",
-    "output/types/**/*.ts"
+    "output/types/**/*.ts",
   ],
   "exclude": [
     "node_modules",

@@ -1,64 +1,93 @@
-import { paths } from '@/paths';
-import { AppBar, Breadcrumbs, Toolbar, Typography } from '@mui/material';
-import Link from 'next/link';
-import React from 'react';
+import LoadSpinner from "@/app/loading";
+import { auth } from "@/auth/auth";
+import { ExitButton } from "@/ClientComponents/UI/ExitButton";
+import LinkMui from "@/ClientComponents/UI/LinkMui";
+import { NavMenu } from "@/ClientComponents/UI/NavMenu";
+import { paths } from "@/paths";
+import {
+    AppBar,
+    Box,
+    Breadcrumbs,
+    CircularProgress,
+    Toolbar,
+    Typography,
+} from "@mui/material";
+import Link from "next/link";
+import React, { Suspense } from "react";
 
-
-interface AppHeaderProps {
-
-}
+interface AppHeaderProps {}
 const { apiUrl, pageUrl } = paths;
-
+const isProduction = process.env.NODE_ENV === "production";
 const routes = [
     {
-        to: pageUrl.root,
-        text: 'Home'
+        to: "/avangard",
+        text: "Авангард",
     },
-    // {
-    //     to: pageUrl.stps,
-    //     text: 'Data list'
-    // },
-    // {
-    //     to: pageUrl.users,
-    //     text: 'Users'
-    // },
     {
-        to: '/avangard/events',
-        text: 'Авангард'
+        to: "/avangard/events",
+        text: "Тренировки",
     },
-    // {
-    //     to: '/avangard/players',
-    //     text: 'Игроки'
-    // }
-]
+    {
+        to: pageUrl.admin,
+        text: "Админка",
+    },
+];
 
-export const AppHeader: React.FC<AppHeaderProps> = async () => {
-
-
-
+export const AppHeader: React.FC = async () => {
+    const session = await auth();
 
     return (
-        <AppBar position='static' color='primary' elevation={ 4 } >
-            <Toolbar variant='dense' >
-                <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 1 } } >
-
-                    {
-                        routes.map(r =>
-                            <Typography variant='body1' color={ 'whitesmoke' } key={ r.to }>
-                                <Link href={ r.to }>{ r.text }</Link>
+        <AppBar
+            position="static"
+            color={"primary"}
+            elevation={4}
+            sx={{ mb: 1 }}
+        >
+            <Toolbar variant="regular" sx={{ display: "flex" }}>
+                <Breadcrumbs
+                    separator={"/"}
+                    sx={{ color: "white", flexGrow: 2 }}
+                >
+                    {routes.map((r) => (
+                        <Link href={r.to} key={r.to}>
+                            <Typography
+                                variant="body2"
+                                color={"whitesmoke"}
+                                key={r.to}
+                            >
+                                {r.text}
                             </Typography>
-                        )
-                    }
+                        </Link>
+                    ))}
+                    {isProduction ? null : (
+                        <Link href="/test">
+                            <Typography variant="body2" color={"whitesmoke"}>
+                                Testing
+                            </Typography>
+                        </Link>
+                    )}
                 </Breadcrumbs>
-
-                <Breadcrumbs separator={ '/' } sx={ { color: 'white', flexGrow: 0 } }>
-                    <Typography variant='body1' color={ 'whitesmoke' } alignSelf={ 'center' } textAlign={ 'right' }>
-                        <Link href={ pageUrl.admin }> Админка </Link>
-                    </Typography>
-
-                </Breadcrumbs>
+                <Suspense fallback={"...loading"}>
+                    <Box
+                        gap={1}
+                        display={"flex"}
+                        flexGrow={1}
+                        justifyContent={"end"}
+                    >
+                        <NavMenu />
+                        {session ? (
+                            <ExitButton />
+                        ) : (
+                            <LinkMui href="/api/auth/login" color="#00ffaa">
+                                Войти
+                            </LinkMui>
+                        )}
+                    </Box>
+                </Suspense>
             </Toolbar>
+            {/* <Toolbar /> */}
         </AppBar>
     );
-}
+};
 
+AppHeader.displayName = "_________HEADER";

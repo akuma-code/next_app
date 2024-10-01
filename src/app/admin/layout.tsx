@@ -1,51 +1,75 @@
-import { Box, List, ListItem, ListItemButton, Paper, Stack } from "@mui/material";
+import { verifySession } from "@/auth/verifySession";
+import AccessDenied from "@/ClientComponents/auth/AccessDenied";
+import LinkMui from "@/ClientComponents/UI/LinkMui";
+import { mdiMathNorm } from "@mdi/js";
+import Icon from "@mdi/react";
+
+import { Box, Breadcrumbs, Button, Paper, Stack } from "@mui/material";
+import { DashboardLayout, PageContainer } from "@toolpad/core";
+import { AppProvider } from "@toolpad/core/nextjs";
+import { Metadata } from "next";
 
 interface ContainerLayoutProps {
-    children: React.ReactNode
+    children: React.ReactNode;
+    view: React.ReactNode;
 }
 
 const links = [
     {
+        href: "/admin",
+        label: "Админка",
+    },
+    {
+        href: "/admin/users",
+        label: "Пользователи",
+    },
+
+    {
+        href: "/admin/backup",
+        label: "DB",
+    },
+    {
+        href: "/admin/compare",
+        label: "Сервак",
+    },
+    {
         href: "/admin/players",
         label: "Игроки",
     },
-    {
-        href: "/admin/coaches",
-        label: "Тренера",
-    },
-    {
-        href: "/admin/backup",
-        label: "Backup",
-    },
+];
+export const metadata: Metadata = {
+    title: "Админка",
+    description: "Панель администратора",
+    icons: "public/icon_admin.ico",
+};
 
-]
+const AdminLayout: React.FC<ContainerLayoutProps> = async ({
+    children,
+    view,
+}) => {
+    const { isAuth } = await verifySession();
 
-
-const AdminLayout: React.FC<ContainerLayoutProps> = ({ children }) => {
     return (
-        <Stack direction={ 'row' } gap={ 2 }>
+        <>
+            {isAuth ? (
+                // <Stack direction={{ sm: "column" }} m={1} gap={1}>
+                <Box
+                //  maxWidth={{ md: 980, xs: 350 }}
+                >
+                    <PageContainer maxWidth={"lg"}>{children}</PageContainer>
+                    {view}
+                </Box>
+            ) : (
+                // <Box maxWidth={{ md: "90vw", xs: 350 }}>
+                //     <PageContainer>
+                //         {children}
 
-            <List>
-                <Paper>
-                    { links.map(link =>
-
-                        <ListItem key={ link.href }>
-                            <ListItemButton
-                                href={ link.href }
-                            >
-                                { link.label }
-                            </ListItemButton>
-                        </ListItem>
-                    ) }
-                </Paper>
-            </List>
-            <Box>
-
-                { children }
-            </Box>
-        </Stack>
+                //     </PageContainer>
+                // </Box>
+                <AccessDenied />
+            )}
+        </>
     );
-}
+};
 
 export default AdminLayout;
-

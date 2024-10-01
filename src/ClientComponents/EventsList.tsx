@@ -1,125 +1,100 @@
-'use client'
+"use client";
 
-import { _log } from "@/Helpers/helpersFns";
-import { stringToColor } from "@/Helpers/stringToColor";
-import { OpenInFullTwoTone, OpenWithTwoTone } from "@mui/icons-material";
-import { Avatar, Box, Card, CardActions, CardContent, CardHeader, Grid, IconButton, Stack, Typography } from "@mui/material";
-import dayjs from "dayjs";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import 'dayjs/locale/ru'
-import { DayOfWeek } from "@/Helpers/dateFuncs";
+import { QuickEventCreate } from "@/app/(avangard)/_components/QuickEventCreate";
+
 import { EventViewCard } from "@/Components/EventView/EventViewCard";
-export interface IEvent_Front {
-    id: number;
-    date_formated: string;
-    title?: string | null
-    players: {
-        id: number;
-        name: string;
-    }[];
-    _count?: { players: number }
+import { DayOfWeek } from "@/Helpers/dateFuncs";
+import { Box, Grid, Grid2 } from "@mui/material";
+import { Prisma } from "@prisma/client";
+import dayjs from "dayjs";
+import "dayjs/locale/ru";
+import { useSession } from "next-auth/react";
 
-}
-
+export type IEvent_Front = Prisma.EventGetPayload<{
+    select: {
+        id: true;
+        date_formated: true;
+        players: { select: { id: true; name: true; ticket: true } };
+        pairs: true;
+        cost: true;
+        title: true;
+        _count: { select: { players: true } };
+    };
+}>;
 export const avatarColor = (numb: number) => {
     const colors = {
-        xs: 'grey',
-        sm: 'darkgreen',
-        md: 'orange',
-        lg: 'darkorange',
-        xl: 'red'
+        xs: "#dcf1e0",
+        sm: "#c5eb66",
+        md: "#588891",
+        lg: "#ffa600",
+        xl: "#ff0000",
+    };
+    if (numb >= 16) return colors.xl;
+    if (numb >= 12) return colors.lg;
+    if (numb >= 9) return colors.md;
+    if (numb >= 6) return colors.sm;
+    if (numb >= 0) return colors.xs;
+    return colors.md;
+};
 
-    }
-    if (numb >= 10) return colors.xl
-    if (numb >= 9) return colors.lg
-    if (numb >= 7) return colors.md
-    if (numb > 3) return colors.sm
-    if (numb >= 0) return colors.xs
-    return colors.md
-}
+export const EventsList: React.FC<{
+    events: Prisma.EventGetPayload<{
+        select: {
+            id: true;
+            date_formated: true;
+            players: { select: { id: true; name: true; ticket: true } };
+            pairs: true;
+            cost: true;
+            title: true;
+            _count: { select: { players: true } };
+        };
+    }>[];
+}> = ({ events }) => {
+    const { data, status } = useSession();
+    const canSee = status === "authenticated";
+    const dm = (date: string) =>
+        dayjs(date, "YYYY-MM-DD", "ru").format("DD MMMM");
 
-export const EventsList: React.FC<{ events: IEvent_Front[] }> = ({ events }) => {
-
-    const d = (date: string) => date.replaceAll("_", ".")
-    const dm = (date: string) => dayjs(date, 'DD_MM_YYYY', 'ru').format("DD MMMM")
-
-
-    const dayWeek = (d: string) => DayOfWeek[dayjs(d, 'DD.MM.YYYY', 'ru').weekday()]
+    const dayWeek = (d: string) =>
+        DayOfWeek[dayjs(d, "YYYY-MM-DD", "ru").weekday()];
 
     return (
         <Box
-            bgcolor={ 'inherit' }
-            p={ 1 }
+            maxWidth={{ sm: 450, md: "100vw" }}
+            bgcolor={"background.paper"}
+            m={0}
+            sx={{
+                borderBottomLeftRadius: 6,
+                borderBottomRightRadius: 6,
+                border: "2px solid black",
+                borderTop: 0,
+                textAlign: "center",
+            }}
+            position={"relative"}
+        >
+            {canSee && <QuickEventCreate />}
 
-            sx={ { borderBottomLeftRadius: 6, borderBottomRightRadius: 6, border: '2px solid black', borderTop: 0 } }>
-
-            <Grid container spacing={ 2 } maxWidth={ 500 }>
-                { events.map(e =>
-
-                    <Grid key={ e.id } item xs={ 6 } sm={ 4 } >
-
+            <Grid2
+                container
+                gap={1}
+                // maxWidth={ { xs: 300, md: 450, lg: 600 } }
+                maxHeight={{ sm: "60vh", md: "70vh" }}
+                sx={{ pt: 1, pr: 1, overflowY: "scroll" }}
+                offset={{ md: 2, xs: 2 }}
+                size={"auto"}
+                columns={12}
+            >
+                {events.map((e) => (
+                    <Grid2 key={e.id} size={{ xs: 9, md: 3 }}>
                         <EventViewCard
-
-                            event={ e }
-                            title={ dm(e.date_formated) }
-                            subtitle={ dayjs().year().toString() }
-                            description={ dayWeek(e.date_formated) }
+                            event={e}
+                            title={dm(e.date_formated)}
+                            subtitle={dayjs().year().toString()}
+                            description={dayWeek(e.date_formated)}
                         />
-                    </Grid>
-                ) }
-
-            </Grid>
+                    </Grid2>
+                ))}
+            </Grid2>
         </Box>
-    )
-}
-
-export const EventCard: React.FC<{ event: IEvent_Front }> = ({ event }) => {
-
-    const { id, date_formated, title = 'Avangard', players } = event
-    const pathname = usePathname()
-
-    const d = date_formated.replaceAll("_", ".")
-
-
-    const dayWeek = dayjs(d, 'DD.MM.YYYY', 'ru').weekday()
-
-
-    // _log(stringToColor('8'))
-    return (
-        <Card sx={ { maxWidth: 150, m: .4 } } square={ false } >
-            <CardHeader
-                title={ d }
-                subheader={ DayOfWeek[dayWeek] }
-                subheaderTypographyProps={ { textAlign: 'right' } }
-                titleTypographyProps={ { fontSize: 20, textAlign: 'center' } }
-                sx={ { pb: 0, my: 0 } }
-            />
-            <CardContent component={ Stack } rowGap={ .5 } sx={ { px: 1, my: 0, py: 0.4 } } alignItems={ 'center' }>
-
-
-
-                <Stack direction={ 'row' } spacing={ 1 }>
-                    <Typography variant="body1">Игроков: </Typography>
-                    <Avatar variant="circular" alt={ title || "" } sizes="small"
-                        sx={ { width: 28, height: 28, bgcolor: avatarColor(players.length), fontSize: 16 } }
-                    >
-                        { players.length }
-                    </Avatar>
-
-
-                </Stack>
-            </CardContent>
-            <CardActions disableSpacing sx={ { py: 0, my: 0, justifyContent: 'end' } } >
-                <Link href={ {
-                    pathname: pathname + '/' + id.toString(),
-                } }>
-                    <span className="hover:underline">Перейти</span>
-                    <IconButton size="small" title="Open">
-                        <OpenWithTwoTone />
-                    </IconButton>
-                </Link>
-            </CardActions>
-        </Card>
-    )
-}
+    );
+};

@@ -1,31 +1,58 @@
-'use client'
+"use client";
 
-import { _promptVar } from "@/Helpers/helpersFns"
-import { useToggle } from "@/Hooks/useToggle"
-import { seedEvents } from "@/Services/eventService"
-import { seedPlayers } from "@/Services/playerService"
-import { ButtonGroup, Button } from "@mui/material"
+import { useQuerySearch } from "@/Hooks/useQuerySearch";
+import { useToggle } from "@/Hooks/useToggle";
+import { Button, ButtonGroup } from "@mui/material";
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
-export const RestoreButtons: React.FC = () => {
-    const [load, { on, off }] = useToggle(false)
-    const restorePlayers = async () => {
-        on()
-        _promptVar("Восстановить игроков из базы?") && await seedPlayers().finally(off)
-    }
-    const restoreEvents = async () => {
-        on()
-        _promptVar("Восстановить игроков из базы?") && await seedEvents().finally(off)
-    }
+export const RestoreButtons: React.FC<{ restore?: string }> = () => {
+    const path = usePathname();
+    const s = useSearchParams();
+    const q = useQuerySearch();
+    const [load, { on, off, toggle }] = useToggle(s.has("log"));
+    const router = useRouter();
+    const isLog = useMemo(
+        () => (load === true ? ("on" as const) : ("off" as const)),
+        [load]
+    );
+    // _log(Object.entries(s.))
     return (
-        <ButtonGroup>
-            <Button onClick={ restorePlayers } disabled={ load }>
-                Restore players
+        <ButtonGroup
+            variant="contained"
+            fullWidth
+            size="small"
+            sx={{ width: 500 }}
+        >
+            <Button
+                onClick={() =>
+                    router.replace(path + "?" + q("data", "players"))
+                }
+            >
+                Игроки
             </Button>
-            <Button onClick={ restoreEvents } disabled={ load }>
-                Restore events
+            <Button
+                onClick={() => router.replace(path + "?" + q("data", "events"))}
+            >
+                Тренировки
+            </Button>
+            <Button
+                onClick={() => router.replace(path + "?" + q("data", "users"))}
+            >
+                Пользователи
+            </Button>
+
+            <Button
+                color={load ? "error" : "success"}
+                variant="contained"
+                onClick={() => {
+                    load ? off() : on();
+                    router.push(path + "?" + q("log", isLog));
+                }}
+            >
+                Log {load ? "off" : "on"}
             </Button>
         </ButtonGroup>
-    )
-}
-
+    );
+};

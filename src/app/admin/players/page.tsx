@@ -1,106 +1,67 @@
-'use server'
 import CreatePlayerForm from "@/ClientComponents/CreatePlayerForm";
-import EditPlayerForm from "@/ClientComponents/EditPlayerForm";
-import DeleteButton from "@/ClientComponents/UI/DeleteButton";
-import { getPlayers } from "@/Services/playerService";
-import { DeleteTwoTone, EditTwoTone } from "@mui/icons-material";
-import { Box, Button, List, ListItem, ListItemButton, ListItemText, Stack } from "@mui/material";
-import Link from "next/link";
+import { GET_PLAYERS, getPlayers } from "@/Services/playerService";
+import { Box, Stack } from "@mui/material";
+import AdminPlayerList from "./AdminPlayerList";
+
+import MRT_Players_v2 from "@/ClientComponents/MRT/Avangard/MRT_Players_v2";
+import { PrismaPlayer_ } from "@/Types";
+
+// const clone_action = fetchAndCreatePlayers.bind(null);
 
 async function AvPlayers(query: { searchParams: { action: string } }) {
+    const players = await getPlayers();
 
-    const players = await getPlayers()
+    const showCreate = query?.searchParams?.action === "create";
+    const showDel = query?.searchParams?.action === "delete";
 
-    const show = query?.searchParams?.action ? true : false
-    const showEdit = query?.searchParams?.action === 'edit'
-    const showCreate = query?.searchParams?.action === 'create'
     // if (players.length === 0) return <div>No players</div>
     return (
-        <Stack direction={ 'row' } columnGap={ 2 }>
-            <Stack >
-                <Box ml={ 2 }>
-
-                    {
-                        show ?
-
-                            <CloseFormButton />
-                            :
-                            <ShowCreateFormButton />
-                    }
+        <Stack
+            direction={"row"}
+            justifyContent={"space-between"}
+            maxWidth={800}
+            gap={2}
+        >
+            <Stack direction={"row"} flexGrow={2}>
+                <Box ml={2} pr={4} flexGrow={1}>
+                    <AdminPlayerList players={players}></AdminPlayerList>
                 </Box>
-                { players.length > 0 ?
-                    <List dense disablePadding>
-                        { players.map((p, idx) =>
+                {/* <Stack gap={1} flexGrow={1} useFlexGap m={3} minWidth={170}>
+                    <ShowCreateFormButton />
+                    <Link href={{ query: showDel ? {} : { action: "delete" } }}>
+                        <Button variant="contained" fullWidth>
+                            Delete mode: {showDel ? "on" : "off"}
+                        </Button>
+                    </Link>
+                    <CloseFormButton />
 
-                            <ListItem key={ p.id }>
-                                <ListItemText
-                                    secondaryTypographyProps={ { ml: 2 } }
-                                    primary={
-                                        <Link href={ {
-                                            pathname: 'players/' + p.id.toString(),
-                                        } }
-                                            className="hover:underline"
-                                        >
-                                            { idx + 1 }. { p.name }
-                                        </Link>
-                                    }
-                                    secondary={
-                                        p.info?.rttf_score &&
-                                        <span> рейтинг: { p.info?.rttf_score }</span>
-                                    }
-                                />
-                                <ListItemButton LinkComponent={ Link } href={ `players/${p.id}?action=edit&id=${p.id}` }>
-                                    <EditTwoTone />
-                                </ListItemButton>
-                                <ListItemButton color="red">
-                                    <DeleteButton deleteId={ +p.id }>
-                                        <DeleteTwoTone />
-                                    </DeleteButton>
-                                </ListItemButton>
-                            </ListItem>
-                        ) }
-                    </List>
-                    : <div>
-                        No players found
-                    </div>
-                }
-
+                    <DescriptionButtonQuery
+                        action={clone_action}
+                        title="Sync players"
+                        description="Синхронизация игроков с сервером"
+                    />
+                </Stack> */}
             </Stack>
-
-            {
-                showCreate &&
-                <CreatePlayerForm />
-            }
-            {
-                showEdit &&
-                <EditPlayerForm />
-            }
+            <Box flexGrow={1} mt={1}>
+                {showCreate && <CreatePlayerForm />}
+            </Box>
         </Stack>
     );
 }
 
-
-function CloseFormButton() {
-
-    return <Link href='/admin/players'>
-        <Button variant="contained" color="secondary">
-            Close
-        </Button>
-    </Link>;
-}
-
-function ShowCreateFormButton() {
+async function AdminPlayersPage() {
+    const p = (await GET_PLAYERS({})) as PrismaPlayer_[];
 
     return (
-        <Link href={ '/admin/players?action=create' } >
-            <Button variant="contained" color="primary" >
-
-                Добавить игрока
-            </Button>
-        </Link>
-    )
+        <Box
+            maxWidth={{ lg: "fit-content", xs: "90vw" }}
+            minWidth={{ lg: 700, xs: 300 }}
+            border="1px solid orange"
+            // p={1}
+        >
+            <MRT_Players_v2 preload={p} />
+        </Box>
+    );
 }
 
-
-
-export default AvPlayers;
+export default AdminPlayersPage;

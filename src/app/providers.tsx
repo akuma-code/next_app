@@ -1,76 +1,150 @@
-'use client'
+"use client";
+import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
+import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { QueryClient, QueryClientProvider, QueryFunction } from "@tanstack/react-query";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { QueryFunction } from "@tanstack/react-query";
+import { NavigationItem, NavigationPageItem, Router } from "@toolpad/core";
+import { AppProvider } from "@toolpad/core/nextjs";
 import dayjs from "dayjs";
-import 'dayjs/locale/ru';
-import weekday from 'dayjs/plugin/weekday';
-import theme from '../theme';
-import { CssBaseline, useMediaQuery } from '@mui/material';
-import { useMemo } from 'react';
-dayjs.extend(weekday)
-export const queryFetch: QueryFunction = async ({ queryKey }) => {
-    const fetch_url = queryKey[0]
-    if (typeof fetch_url !== 'string') return console.log("Fetch url error: ", fetch_url)
-    const data = await fetch(fetch_url)
-    return data
-}
+import "dayjs/locale/ru";
+import weekday from "dayjs/plugin/weekday";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useMemo, useState } from "react";
+import { getDesignTokens } from "../theme";
+import { ruRU } from "@mui/x-date-pickers/locales";
+dayjs.extend(weekday);
 
-function makeQueryClient() {
-    return new QueryClient({
-        defaultOptions: {
-            queries: {
-                queryFn: queryFetch,
-                // With SSR, we usually want to set some default staleTime
-                // above 0 to avoid refetching immediately on the client
-                staleTime: 60 * 1000,
+//*!________________________
+
+type ExtendedNavigatePage = { visible?: boolean } & NavigationPageItem;
+export type ExtendedNavigate = (NavigationItem | ExtendedNavigatePage)[];
+const ROUTES: ExtendedNavigate = [
+    // { kind: "header", title: "Stats" },
+    {
+        title: "Тренировки",
+        kind: "header",
+    },
+    { title: "Расписание", segment: "events", kind: "page" },
+    { title: "Игроки", segment: "players", kind: "page" },
+    { kind: "divider" },
+    { segment: "charts", title: "Статистика", kind: "page" },
+    { kind: "divider" },
+
+    {
+        segment: "admin",
+        title: "Админка",
+        kind: "page",
+        children: [
+            {
+                segment: "players",
+                kind: "page",
+                title: "Игроки",
             },
+            {
+                segment: "backup",
+                kind: "page",
+                title: "Бэкап",
+            },
+            {
+                segment: "users",
+                kind: "page",
+                title: "Пользователи",
+            },
+            {
+                segment: "compare",
+                kind: "page",
+                title: "БД на сервере",
+            },
+        ],
+    },
+];
+export const queryFetch: QueryFunction = async ({ queryKey }) => {
+    const fetch_url = queryKey[0];
+    if (typeof fetch_url !== "string")
+        return console.log("Fetch url error: ", fetch_url);
+    const data = await fetch(fetch_url, {
+        headers: {
+            "Content-Type": "application/json",
         },
-    })
-}
+    });
+    return data.json();
+};
 
-let browserQueryClient: QueryClient | undefined = undefined
-
-export function getQueryClient() {
-    if (typeof window === 'undefined') {
-        // Server: always make a new query client
-        return makeQueryClient()
-    } else {
-        // Browser: make a new query client if we don't already have one
-        // This is very important so we don't re-make a new client if React
-        // suspends during the initial render. This may not be needed if we
-        // have a suspense boundary BELOW the creation of the query client
-        if (!browserQueryClient) browserQueryClient = makeQueryClient()
-        return browserQueryClient
-    }
-}
-
+export const ColorModeContext = React.createContext({
+    toggleColorMode: () => {},
+});
+const T = createTheme({ ...getDesignTokens("light") }, ruRU);
 export default function Providers({ children }: { children: React.ReactNode }) {
-    // NOTE: Avoid useState when initializing the query client if you don't
-    //       have a suspense boundary between this and the code that may
-    //       suspend because React will throw away the client on the initial
-    //       render if it suspends and there is no boundary
-    const queryClient = getQueryClient()
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const THEME = useMemo(() => createTheme({
-        palette: {
-            ...theme,
-            mode: prefersDarkMode ? 'dark' : 'light'
-        }
-    }), [prefersDarkMode])
+    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
+    // const { device, isMobile, isDesktop } = useMediaDetect();
+    const savedmode: PaletteMode = prefersDarkMode ? "dark" : "light";
+    const session = useSession();
+    const [mode, setMode] = useState<PaletteMode>(savedmode);
+    const colorMode = React.useMemo(
+        () => ({
+            // The dark mode switch would invoke this method
+            toggleColorMode: () => {
+                setMode((prevMode: PaletteMode) => {
+                    const new_color = prevMode === "light" ? "dark" : "light";
+                    return new_color;
+                });
+            },
+        }),
+        []
+    );
+    const r = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const router = useMemo<Router>(() => {
+        // const sp = new URLSearchParams();
+        return {
+            pathname,
+            searchParams,
+            navigate: (path) => {
+                return r.push(path.toString());
+            },
+        };
+    }, [pathname, r, searchParams]);
+    // (isMobile || isDesktop) && console.log({ device })
+    const THEME = useMemo(
+        () => createTheme({ ...getDesignTokens(mode) }, ruRU),
+        [mode]
+    );
     return (
-        <ThemeProvider theme={ theme }>
-            <CssBaseline enableColorScheme />
-            <AppRouterCacheProvider>
-                <QueryClientProvider client={ queryClient }>
-                    <LocalizationProvider dateAdapter={ AdapterDayjs } adapterLocale="ru">
-                        { children }
-                    </LocalizationProvider>
-                </QueryClientProvider>
-            </AppRouterCacheProvider>
-        </ThemeProvider>
-    )
+        <AppRouterCacheProvider>
+            <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="ru"
+                localeText={
+                    ruRU.components.MuiLocalizationProvider.defaultProps
+                        .localeText
+                }
+            >
+                <ColorModeContext.Provider value={colorMode}>
+                    <CssBaseline enableColorScheme />
+                    <AppProvider
+                        session={session.data}
+                        router={router}
+                        theme={T}
+                        authentication={{ signIn, signOut }}
+                        navigation={ROUTES}
+                        branding={{
+                            title: "Авангард",
+                            logo: <SportsKabaddiIcon />,
+                        }}
+                    >
+                        {/* <ThemeProvider theme={THEME}> */}
+                        {children}
+                    </AppProvider>
+                </ColorModeContext.Provider>
+            </LocalizationProvider>
+            {/* </ThemeProvider> */}
+        </AppRouterCacheProvider>
+    );
 }

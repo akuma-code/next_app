@@ -1,16 +1,11 @@
+import LoadSpinner from "@/ClientComponents/UI/Loader/LoadSpinner";
 import { Box, LinearProgress } from "@mui/material";
 import React from "react";
 
-interface LoadingStpProps {
+interface LoadingStpProps {}
 
-}
+const Loading: React.FC<LoadingStpProps> = () => {
+    return <LoadSpinner text="APP LOADING..." />;
+};
 
-const LoadingStp: React.FC<LoadingStpProps> = () => {
-    return (
-        <Box sx={ { w: '100%', h: '100%', p: 3 } }>
-            <LinearProgress variant="indeterminate" color="info" />
-        </Box>
-    );
-}
-
-export default LoadingStp;
+export default Loading;

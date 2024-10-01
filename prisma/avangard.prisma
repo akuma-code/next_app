@@ -1,0 +1,64 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+    // directUrl = env("DATABASE_URL")
+}
+
+model Player {
+    id   Int    @id @default(autoincrement())
+    name String
+
+    events    Event[]  @relation("EventToPlayer")
+    profile   Profile?
+    profileId Int?     @unique
+    pairs     Pair[]   @relation("PairToPlayer")
+
+    @@map("players")
+}
+
+model Event {
+    id            Int      @id @default(autoincrement())
+    date_formated String   @unique @map("date")
+    title         String?  @default("Тренировка")
+    isDraft       Boolean? @default(false)
+    pairs         Pair[]
+    players       Player[] @relation("EventToPlayer")
+
+    @@map("events")
+}
+
+model Pair {
+    id Int @id @default(autoincrement())
+
+    players Player[] @relation("PairToPlayer")
+
+    eventId Int
+    event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+    @@map("pairs")
+}
+
+model Profile {
+    id       Int               @id @default(autoincrement())
+    name     String?
+    playerId Int?              @unique
+    player   Player?           @relation(fields: [playerId], references: [id])
+    settings ProfileSettings[]
+
+    @@map("profiles")
+}
+
+model ProfileSettings {
+    id        Int     @id @default(autoincrement())
+    profileId Int
+    profile   Profile @relation(fields: [profileId], references: [id])
+    theme     String  @default("light")
+    view      String  @default("card")
+
+    @@map("settings")
+}
