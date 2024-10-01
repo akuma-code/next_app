@@ -7,7 +7,6 @@ import { JWTOptions, type JWT } from 'next-auth/jwt'
 
 import prisma from "@/client/client"
 import { AdapterUser } from "@auth/core/adapters"
-import { Provider } from "@auth/core/providers"
 import authConfig from './auth.config'
 
 
@@ -179,16 +178,16 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
 
     })
 
-const providers: Provider[] = authConfig.providers
+// const providers: Provider[] = authConfig.providers
 
-export const providerMap = providers.map((provider) => {
-    if (typeof provider === "function") {
-        const providerData = provider()
-        return { id: providerData.id, name: providerData.name }
-    } else {
-        return { id: provider.id, name: provider.name }
-    }
-})
+// export const providerMap = providers.map((provider) => {
+//     if (typeof provider === "function") {
+//         const providerData = provider()
+//         return { id: providerData.id, name: providerData.name }
+//     } else {
+//         return { id: provider.id, name: provider.name }
+//     }
+// })
 declare module "next-auth/jwt" {
     interface JWT {
         access_token: string

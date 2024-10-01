@@ -8,58 +8,14 @@ import { Inter } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import Providers, { ExtendedNavigate } from "./providers";
+import { ProviderToolbar } from "./toolbar-provider";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
     title: "Авангард",
     description: "Avangard project",
-    icons: "favicon.ico",
+    icons: ["favicon.ico"],
 };
-
-const ROUTES: ExtendedNavigate = [
-    // { kind: "header", title: "Stats" },
-    {
-        segment: "avangard",
-        title: "Тренировки",
-        kind: "page",
-        visible: true,
-        children: [
-            { title: "Расписание", segment: "events", kind: "page" },
-            { title: "Игроки", segment: "players", kind: "page" },
-        ],
-    },
-    { kind: "divider" },
-    { segment: "charts", title: "Статистика", kind: "page" },
-    { kind: "divider" },
-
-    {
-        segment: "admin",
-        title: "Админка",
-        kind: "page",
-        children: [
-            {
-                segment: "players",
-                kind: "page",
-                title: "Игроки",
-            },
-            {
-                segment: "backup",
-                kind: "page",
-                title: "Бэкап",
-            },
-            {
-                segment: "users",
-                kind: "page",
-                title: "Пользователи",
-            },
-            {
-                segment: "compare",
-                kind: "page",
-                title: "БД на сервере",
-            },
-        ],
-    },
-];
 
 const RootLayout: React.FC<{
     children: React.ReactNode;
@@ -71,7 +27,7 @@ const RootLayout: React.FC<{
     const cls = [inter.className, "bg-[#7ad5f3c9]"].join(" ");
     // console.clear();
     return (
-        <html lang="ru">
+        <html lang="ru" data-toolpad-color-scheme="light">
             <body className={cls}>
                 <SessionProvider
                     session={session}
@@ -80,7 +36,9 @@ const RootLayout: React.FC<{
                 >
                     <MrtBoundary>
                         <Providers>
-                            <DashboardLayout>{children}</DashboardLayout>
+                            {/* <ProviderToolbar> */}
+                            {children}
+                            {/* </ProviderToolbar> */}
                         </Providers>
                         <SpeedInsights />
                     </MrtBoundary>

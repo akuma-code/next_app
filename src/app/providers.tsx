@@ -7,7 +7,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { QueryFunction } from "@tanstack/react-query";
-import { NavigationItem, NavigationPageItem, Router } from "@toolpad/core";
+import {
+    DashboardLayout,
+    NavigationItem,
+    NavigationPageItem,
+    Router,
+} from "@toolpad/core";
 import { AppProvider } from "@toolpad/core/nextjs";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
@@ -17,6 +22,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
 import { ruRU } from "@mui/x-date-pickers/locales";
+import { ProviderToolbar } from "./toolbar-provider";
 dayjs.extend(weekday);
 
 //*!________________________
@@ -113,38 +119,37 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     }, [pathname, r, searchParams]);
     // (isMobile || isDesktop) && console.log({ device })
     const THEME = useMemo(
-        () => createTheme({ ...getDesignTokens(mode) }, ruRU),
+        () =>
+            createTheme(
+                {
+                    ...getDesignTokens(mode),
+                    // cssVariables: {
+                    //     colorSchemeSelector: "data-toolpad-color-scheme",
+                    // },
+                },
+                ruRU
+            ),
         [mode]
     );
     return (
-        <AppRouterCacheProvider>
-            <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale="ru"
-                localeText={
-                    ruRU.components.MuiLocalizationProvider.defaultProps
-                        .localeText
-                }
-            >
+        <ThemeProvider theme={THEME}>
+            <AppRouterCacheProvider options={{ enableCssLayer: false }}>
+                <CssBaseline enableColorScheme />
                 <ColorModeContext.Provider value={colorMode}>
-                    <CssBaseline enableColorScheme />
-                    <AppProvider
-                        session={session.data}
-                        router={router}
-                        theme={T}
-                        authentication={{ signIn, signOut }}
-                        navigation={ROUTES}
-                        branding={{
-                            title: "Авангард",
-                            logo: <SportsKabaddiIcon />,
-                        }}
+                    <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        adapterLocale="ru"
+                        localeText={
+                            ruRU.components.MuiLocalizationProvider.defaultProps
+                                .localeText
+                        }
                     >
-                        {/* <ThemeProvider theme={THEME}> */}
-                        {children}
-                    </AppProvider>
+                        <ProviderToolbar theme={THEME}>
+                            <DashboardLayout>{children}</DashboardLayout>
+                        </ProviderToolbar>
+                    </LocalizationProvider>
                 </ColorModeContext.Provider>
-            </LocalizationProvider>
-            {/* </ThemeProvider> */}
-        </AppRouterCacheProvider>
+            </AppRouterCacheProvider>
+        </ThemeProvider>
     );
 }

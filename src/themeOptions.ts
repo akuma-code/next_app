@@ -53,6 +53,7 @@ const light: PaletteOptions = {
 
 const dark: PaletteOptions = {
     // palette values for dark mode
+
     mode: 'dark' as const,
     primary: {
         main: '#414344',
@@ -98,6 +99,7 @@ const dark: PaletteOptions = {
         dark: '#1b5e20',
     },
     divider: '#00a6a6',
+
 }
 
 const yoma_light = {

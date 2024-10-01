@@ -3,9 +3,6 @@ import { getUserByEmail } from "@/Services/userService"
 // import { User } from "@prisma/client"
 import { AuthError, NextAuthConfig, type User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
-import CustomError from "./customError"
 
 const config = {
     providers: [
@@ -30,7 +27,7 @@ const config = {
                 const isPassCorrect = db_pass === credentials.password as string
                 if (!isPassCorrect) {
                     console.log({ db_pass }, "not equal!")
-                    throw new AuthError("\n\nPassword wrong!!!\n\n")
+                    throw new AuthError("\n\nНеверный пароль!!\n\n")
                 }
 
 
