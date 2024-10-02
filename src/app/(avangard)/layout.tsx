@@ -24,7 +24,10 @@ export async function tollbarLayout({
     children?: React.ReactNode;
 }) {
     return (
-        <PageContainer slots={{ toolbar: EventsPagePageToolbar }}>
+        <PageContainer
+            slots={{ toolbar: EventsPagePageToolbar }}
+            maxWidth={"lg"}
+        >
             {children}
             {/* <Box maxWidth={{ md: "lg", xs: 350 }}></Box> */}
         </PageContainer>
