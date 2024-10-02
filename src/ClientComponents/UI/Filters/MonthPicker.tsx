@@ -31,7 +31,8 @@ function MonthPicker() {
             onMonthChange={handleChangeDate}
             name="month"
             openTo="month"
-            label="Укажите месяц" // open={ open }
+            closeOnSelect
+            label="Выбрать месяц" // open={ open }
             // onClose={ () => setOpen(false) }
             // onOpen={ () => setOpen(true) }
             slots={
@@ -52,10 +53,8 @@ function MonthPicker() {
                     },
                 },
                 textField: {
-                    variant: "filled",
-                    sx: {
-                        // cursor: "pointer",
-                    },
+                    variant: "outlined",
+                    size: "small",
                 },
                 monthButton: {
                     sx: {
@@ -64,7 +63,7 @@ function MonthPicker() {
                 },
                 field: {
                     sx: {
-                        bgcolor: "error",
+                        backgroundColor: "error",
                         cursor: "pointer",
                     },
                     clearable: true,

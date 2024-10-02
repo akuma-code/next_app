@@ -11,5 +11,4 @@ export async function generateStaticParams() {
 export const metadata: Metadata = {
     title: "Тренировки",
     description: "Расписание тренировок",
-    icons: "public/icon.ico",
 };

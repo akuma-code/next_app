@@ -44,7 +44,7 @@ const ColumnCard = styled("div")(() => ({
     position: "relative",
     borderRadius: "1rem",
     boxShadow: "0 4px 20px 0 #8e8e94",
-    backgroundColor: "background",
+    backgroundColor: "background.paper",
     transition: "0.4s",
     height: "100%",
     border: "2px solid grey",

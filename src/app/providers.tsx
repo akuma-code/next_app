@@ -23,6 +23,7 @@ import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
 import { ruRU } from "@mui/x-date-pickers/locales";
 import { ProviderToolbar } from "./toolbar-provider";
+import { akuTheme } from "@/Models/Theme/akuma.theme";
 dayjs.extend(weekday);
 
 //*!________________________
@@ -103,53 +104,67 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         }),
         []
     );
-    const r = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
+    // const r = useRouter();
+    // const pathname = usePathname();
+    // const searchParams = useSearchParams();
 
-    const router = useMemo<Router>(() => {
-        // const sp = new URLSearchParams();
-        return {
-            pathname,
-            searchParams,
-            navigate: (path) => {
-                return r.push(path.toString());
-            },
-        };
-    }, [pathname, r, searchParams]);
+    // const router = useMemo<Router>(() => {
+    //     // const sp = new URLSearchParams();
+    //     return {
+    //         pathname,
+    //         searchParams,
+    //         navigate: (path) => {
+    //             return r.push(path.toString());
+    //         },
+    //     };
+    // }, [pathname, r, searchParams]);
     // (isMobile || isDesktop) && console.log({ device })
     const THEME = useMemo(
         () =>
             createTheme(
                 {
                     ...getDesignTokens(mode),
-                    // cssVariables: {
-                    //     colorSchemeSelector: "data-toolpad-color-scheme",
-                    // },
+                    cssVariables: {
+                        colorSchemeSelector: "data-toolpad-color-scheme",
+                    },
                 },
-                ruRU
+                {
+                    overrides: {
+                        MuiToolbar: {
+                            colorInherit: {
+                                backgroundColor: "#ffffff",
+                                color: "#000000",
+                            },
+                        },
+                    },
+                    props: {
+                        MuiAppBar: {
+                            color: "inherit",
+                        },
+                    },
+                    ...ruRU,
+                }
             ),
         [mode]
     );
     return (
-        <ThemeProvider theme={THEME}>
-            <AppRouterCacheProvider options={{ enableCssLayer: false }}>
-                <CssBaseline enableColorScheme />
+        <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            adapterLocale="ru"
+            localeText={
+                ruRU.components.MuiLocalizationProvider.defaultProps.localeText
+            }
+        >
+            <AppRouterCacheProvider>
                 <ColorModeContext.Provider value={colorMode}>
-                    <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        adapterLocale="ru"
-                        localeText={
-                            ruRU.components.MuiLocalizationProvider.defaultProps
-                                .localeText
-                        }
-                    >
-                        <ProviderToolbar theme={THEME}>
-                            <DashboardLayout>{children}</DashboardLayout>
-                        </ProviderToolbar>
-                    </LocalizationProvider>
+                    <ThemeProvider theme={THEME}>
+                        {/* <ProviderToolbar> */}
+                        <CssBaseline enableColorScheme />
+                        <DashboardLayout>{children}</DashboardLayout>
+                        {/* </ProviderToolbar> */}
+                    </ThemeProvider>
                 </ColorModeContext.Provider>
             </AppRouterCacheProvider>
-        </ThemeProvider>
+        </LocalizationProvider>
     );
 }

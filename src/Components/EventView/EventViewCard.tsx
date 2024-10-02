@@ -114,29 +114,30 @@ export const EventViewCard = ({
                         },
                     }}
                 >
-                    <Box>
-                        <AvatarGroup
-                            max={4}
-                            sx={{
-                                "& .MuiAvatar-root": {
-                                    fontFamily: "Ubuntu",
-                                    fontSize: "0.875rem",
-                                    backgroundColor: "#3d54fc",
-                                    width: 32,
-                                    height: 32,
-                                    "&:first-of-type": {
-                                        marginRight: "auto",
-                                    },
+                    <AvatarGroup
+                        max={4}
+                        sx={{
+                            "& .MuiAvatar-root": {
+                                fontFamily: "Ubuntu",
+                                fontSize: "0.875rem",
+                                backgroundColor: "#3d54fc",
+                                width: 32,
+                                height: 32,
+                                "&:first-of-type": {
+                                    marginRight: "auto",
                                 },
-                            }}
-                        >
-                            {event.players.map((p) => (
-                                <Avatar key={p.name}>
-                                    {name_letters(p.name)}
-                                </Avatar>
-                            ))}
-                        </AvatarGroup>
-                    </Box>
+                            },
+                        }}
+                    >
+                        {event.players.map((p) => (
+                            <Avatar
+                                key={p.name}
+                                sx={{ color: "primary.contrastText" }}
+                            >
+                                {name_letters(p.name)}
+                            </Avatar>
+                        ))}
+                    </AvatarGroup>
                     {/* <Stack direction={ 'row' } justifyContent={ 'space-between' }> */}
 
                     <ButtonGroup
@@ -150,7 +151,7 @@ export const EventViewCard = ({
                             color="primary"
                             variant="outlined"
                             onClick={show}
-                            sx={{ borderRadius: 30 }}
+                            // sx={{ borderRadius: 25 }}
                         >
                             Состав
                         </Button>
@@ -162,7 +163,8 @@ export const EventViewCard = ({
                                 onClick={() =>
                                     router.push(`${pathname}/${event.id}`)
                                 }
-                                startIcon={<OpenWithOutlinedIcon />}
+                                // sx={{ borderRadius: 30 }}
+                                endIcon={<OpenWithOutlinedIcon />}
                             >
                                 Открыть
                             </Button>

@@ -30,7 +30,7 @@ async function EventsPage({
                 }
             >
                 <EventsProvider>
-                    <AppBar
+                    {/* <AppBar
                         position="relative"
                         enableColorOnDark
                         sx={{
@@ -44,7 +44,7 @@ async function EventsPage({
                         >
                             <OrderFilterControls />
                         </Toolbar>
-                    </AppBar>
+                    </AppBar> */}
                     <ViewSwitch
                         view={{ type: view }}
                         options={{ month, order }}

@@ -9,6 +9,9 @@ import React from "react";
 import "./globals.css";
 import Providers, { ExtendedNavigate } from "./providers";
 import { ProviderToolbar } from "./toolbar-provider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { ruRU } from "@mui/x-date-pickers/locales";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
@@ -24,7 +27,7 @@ const RootLayout: React.FC<{
     // slot: React.ReactNode;
 }> = async ({ children }) => {
     const session = await auth();
-    const cls = [inter.className, "bg-[#7ad5f3c9]"].join(" ");
+    const cls = [inter.className].join(" ");
     // console.clear();
     return (
         <html lang="ru" data-toolpad-color-scheme="light">
@@ -35,12 +38,13 @@ const RootLayout: React.FC<{
                     refetchWhenOffline={false}
                 >
                     <MrtBoundary>
-                        <Providers>
-                            {/* <ProviderToolbar> */}
-                            {children}
-                            {/* </ProviderToolbar> */}
-                        </Providers>
-                        <SpeedInsights />
+                        <ProviderToolbar>
+                            <Providers>
+                                {children}
+
+                                <SpeedInsights />
+                            </Providers>
+                        </ProviderToolbar>
                     </MrtBoundary>
                 </SessionProvider>
             </body>

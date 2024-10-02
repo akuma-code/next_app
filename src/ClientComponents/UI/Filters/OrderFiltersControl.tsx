@@ -5,14 +5,15 @@ import {
     mdiCard,
     mdiChartTimeline,
     mdiSortBoolAscending,
-    mdiSortBoolDescending
+    mdiSortBoolDescending,
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
     Paper,
     Stack,
     ToggleButton,
-    ToggleButtonGroup
+    ToggleButtonGroup,
+    Box,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -29,94 +30,88 @@ export interface FilterState {
     view: "card" | "table" | null;
 }
 export type UrlQueryVariant = {
-    queryKey: 'order' | 'view'
-    value: "asc" | "desc" | "card" | "table"
-}
+    queryKey: "order" | "view";
+    value: "asc" | "desc" | "card" | "table";
+};
 export function OrderFilterControls() {
     const [filters, setFilters] = useState<FilterState>({
         order: "desc",
         month: dayjs().month(),
-        view: null
+        view: null,
     });
     const router = useRouter();
     const pathname = usePathname();
     const qcreate = useQuerySearch();
 
+    const handler =
+        (key: "order" | "view") => (e: any, value: string | null) => {
+            setFilters((prev) => ({ ...prev, [key]: value }));
 
+            const search = qcreate(key, value);
+            const path = value ? `${pathname}?${search}` : pathname;
 
-    const handler = (key: 'order' | 'view') => (e: any, value: string | null) => {
-        setFilters((prev) => ({ ...prev, [key]: value }));
-
-        const search = qcreate(key, value)
-        const path = value ? `${pathname}?${search}` : pathname;
-
-        router.replace(path);
-
-    }
-    const handlerMemo = useCallback(handler, [pathname, qcreate, router])
+            router.replace(path);
+        };
+    const handlerMemo = useCallback(handler, [pathname, qcreate, router]);
     return (
-        <Paper
-            variant="outlined"
-            sx={ { justifyContent: "center", display: "flex", direction: "row" } }
-        >
-            <Stack
-                alignItems={ "center" }
-                spacing={ 1 }
-                direction={ "row" }
-                p={ 1 }
-                justifySelf={ "center" }
-                flexGrow={ 1 }
-                sx={ {
-                    [`& .Mui-selected`]: {
-                        bgcolor: "primary.light",
-                        color: "primary.contrastText",
-                    },
-                } }
+        // <Stack
+        //     alignItems={"center"}
+        //     spacing={1}
+        //     direction={"row"}
+        //     p={1}
+        //     justifySelf={"center"}
+        //     flexGrow={1}
+        //     sx={{
+        //         [`& .Mui-selected`]: {
+        //             bgcolor: "primary.light",
+        //             color: "primary.contrastText",
+        //         },
+        //     }}
+        // >
+        //     <Paper
+        //         // variant="outlined"
+        //         sx={{
+        //             justifyContent: "center",
+        //             display: "flex",
+        //             direction: "row",
+        //         }}
+        //     >
+        <Box>
+            <ToggleButtonGroup
+                orientation={"horizontal"}
+                exclusive
+                value={filters.order}
+                onChange={handlerMemo("order")}
+                size="small"
             >
-                <ToggleButtonGroup
-                    orientation={ "horizontal" }
-                    exclusive
-                    value={ filters.order }
-                    onChange={ handlerMemo('order') }
-                    size="small"
-
+                <ToggleButton
+                    title="По убыванию"
+                    value="asc"
+                    selected={filters.order === "asc"}
+                    sx={{
+                        p: 1,
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
+                    type="button"
                 >
-
-                    <ToggleButton
-                        title="По убыванию"
-                        value="asc"
-                        selected={ filters.order === "asc" }
-                        sx={ {
-                            p: 1,
-                            display: "flex",
-                            justifyContent: "space-between",
-                        } }
-                        type="button"
-                    >
-                        <Icon
-                            path={ mdiSortBoolAscending }
-                            size={ 1 }
-                        />
-                    </ToggleButton>
-                    <ToggleButton
-                        title="По возрастанию"
-                        value="desc"
-                        selected={ filters.order === "desc" }
-                        sx={ {
-                            p: 1,
-                            display: "flex",
-                            justifyContent: "space-between",
-                        } }
-                        type="button"
-                    >
-                        <Icon
-                            path={ mdiSortBoolDescending }
-                            size={ 1 }
-                        />
-
-                    </ToggleButton>
-                </ToggleButtonGroup>
-                <ToggleButtonGroup
+                    <Icon path={mdiSortBoolAscending} size={1} />
+                </ToggleButton>
+                <ToggleButton
+                    title="По возрастанию"
+                    value="desc"
+                    selected={filters.order === "desc"}
+                    sx={{
+                        p: 1,
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
+                    type="button"
+                >
+                    <Icon path={mdiSortBoolDescending} size={1} />
+                </ToggleButton>
+            </ToggleButtonGroup>
+            {/* /* <ToggleButtonGroup
                     orientation={ "horizontal" }
                     exclusive
                     value={ filters.view }
@@ -146,8 +141,9 @@ export function OrderFilterControls() {
                     >
                         <Icon path={ mdiChartTimeline } size={ 1 } />
                     </ToggleButton>
-                </ToggleButtonGroup>
-            </Stack>
-        </Paper>
+                </ToggleButtonGroup> 
+        //     </Paper>
+        // </Stack>}} */}
+        </Box>
     );
 }

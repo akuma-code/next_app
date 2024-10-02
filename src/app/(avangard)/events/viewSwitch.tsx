@@ -33,7 +33,7 @@ type ViewSwitchProps = {
 const CardView = ({ events }: { events: EventDto[] }) => {
     return (
         <>
-            <MonthTabs />
+            {/* <MonthTabs /> */}
             <EventsList events={events} />
         </>
     );

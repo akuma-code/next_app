@@ -5,6 +5,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { ExtendedNavigate } from "./providers";
+import { akuTheme } from "@/Models/Theme/akuma.theme";
 
 const ROUTES: ExtendedNavigate = [
     // { kind: "header", title: "Stats" },
@@ -56,23 +57,22 @@ export function ProviderToolbar({
     const session = useSession();
     const r = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     const router = useMemo<Router>(() => {
         // const sp = new URLSearchParams();
         return {
             pathname,
-            searchParams,
+            searchParams: new URLSearchParams(),
             navigate: (path) => {
                 return r.push(path.toString());
             },
         };
-    }, [pathname, r, searchParams]);
+    }, [pathname, r]);
     return (
         <AppProvider
             session={session.data}
             router={router}
-            theme={theme}
+            theme={akuTheme}
             authentication={{ signIn, signOut }}
             navigation={ROUTES}
             branding={{
