@@ -7,13 +7,8 @@ import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import React from "react";
 import "./globals.css";
-import Providers, { ExtendedNavigate } from "./providers";
+import Providers from "./providers";
 import { ProviderToolbar } from "./toolbar-provider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { ruRU } from "@mui/x-date-pickers/locales";
-import { createTheme } from "@mui/material";
-import { akuTheme } from "@/Models/Theme/akuma.theme";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {

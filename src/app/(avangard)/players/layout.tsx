@@ -3,6 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import Link from "next/link";
 import { EventHeader } from "@/Components/Nav/EventsHeader";
+import { DashboardLayout, PageContainer } from "@toolpad/core";
 
 function PlayersLayout({
     children,
@@ -12,11 +13,13 @@ function PlayersLayout({
     view: React.ReactNode;
 }) {
     return (
-        <Box p={2}>
+        // <DashboardLayout>
+        <PageContainer>
             {/* <EventHeader /> */}
             <Box>{children}</Box>
             <Box>{view}</Box>
-        </Box>
+        </PageContainer>
+        // </DashboardLayout>
     );
 }
 

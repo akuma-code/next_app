@@ -23,7 +23,7 @@ import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
 import { ruRU } from "@mui/x-date-pickers/locales";
 import { ProviderToolbar } from "./toolbar-provider";
-import { akuTheme } from "@/Models/Theme/akuma.theme";
+import { akuTheme, theme_with_overrides } from "@/Models/Theme/akuma.theme";
 dayjs.extend(weekday);
 
 //*!________________________
@@ -85,7 +85,9 @@ export const queryFetch: QueryFunction = async ({ queryKey }) => {
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {},
 });
-const T = createTheme({ ...getDesignTokens("light") }, ruRU);
+// const T = createTheme({ ...getDesignTokens("light") }, ruRU);
+
+const locale = ruRU.components.MuiLocalizationProvider.defaultProps.localeText;
 export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
     // const { device, isMobile, isDesktop } = useMediaDetect();
@@ -151,9 +153,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <LocalizationProvider
             dateAdapter={AdapterDayjs}
             adapterLocale="ru"
-            localeText={
-                ruRU.components.MuiLocalizationProvider.defaultProps.localeText
-            }
+            localeText={locale}
         >
             <AppRouterCacheProvider>
                 <ColorModeContext.Provider value={colorMode}>

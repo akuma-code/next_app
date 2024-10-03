@@ -4,68 +4,8 @@ import { createTheme, ThemeOptions } from '@mui/material/styles';
 import { light, dark } from '@mui/material/styles/createPalette';
 import { info, error } from 'console';
 import { text } from 'stream/consumers';
-export const themeOptions: ThemeOptions = {
-    palette: {
-        mode: 'light',
-        primary: {
-            main: '#0c2659',
-            light: '#262d31',
-            dark: '#010626',
-            contrastText: '#fff',
-        },
-        secondary: {
-            main: '#b74343',
-            light: '#ffebee',
-            dark: '#6f0404',
-            contrastText: '#ffebee',
-        },
-        background: {
-            default: '#7986cb',
-            paper: '#cfd8dc',
-        },
-        text: {
-            disabled: '#010626',
-
-            primary: '#1a237e',
-            secondary: '#010314',
-        },
-        info: {
-            main: '#fdd835',
-            dark: '#f9a825',
-            light: '#fffde7',
-        },
-        divider: '#183f8c',
-        warning: {
-            main: '#e07138',
-            dark: '#b74c1a',
-            light: '#f38758',
-        },
-        error: {
-            main: '#bb0a0a',
-            light: '#f86464',
-            dark: '#660303',
-        },
-        success: {
-            main: '#779f3c',
-            light: '#c7dc5d',
-            dark: '#3e6404',
-        },
-    },
-    //   overrides: {
-    //     MuiAppBar: {
-    //       colorInherit: {
-    //         backgroundColor: '#689f38',
-    //         color: '#fff',
-    //       },
-    //     },
-    //   },
-    //   props: {
-    //     MuiAppBar: {
-    //       color: 'inherit',
-    //     },
-    //   },
-};
-
+import { ruRU } from '@mui/material/locale';
+import { ruRU as PickersRuru } from '@mui/x-date-pickers/locales';
 
 export const akuTheme = createTheme({
     cssVariables: {
@@ -171,23 +111,52 @@ export const akuTheme = createTheme({
             },
         },
     },
-
     components: {
-        MuiToolbar: { defaultProps: { color: "inherit" } }
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: 'red'
+                }
+            }
+        },
+        MuiDrawer: {
+            styleOverrides: {
+                modal: {},
+                paper: {
+                    backgroundColor: "info",
+                }
+            },
+            defaultProps: { variant: 'permanent' }
+        },
+
+
+
     }
 },
-    {
-        overrides: {
-            MuiToolbar: {
-                colorInherit: {
-                    backgroundColor: '#ff0000',
-                    color: '#000000',
-                },
-            },
+    ruRU, PickersRuru
+
+)
+
+
+export const theme_with_overrides = createTheme({
+
+    components: {
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: 'red'
+                }
+            }
         },
-        props: {
-            MuiAppBar: {
-                color: 'inherit',
+        MuiDrawer: {
+            styleOverrides: {
+                modal: {},
+                paper: {
+                    backgroundColor: akuTheme.palette.info.main,
+                }
             },
+            defaultProps: { variant: 'permanent' }
         },
-    })
+
+    }
+})

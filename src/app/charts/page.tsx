@@ -1,4 +1,4 @@
-import { Grid2, Paper } from "@mui/material";
+import { Button, ButtonGroup, Grid2, Paper } from "@mui/material";
 import { Board } from "@/app/(avangard)/_components/Board";
 
 const validateNumber = (n: number, x?: number) => (!isNaN(n) ? n : x ? x : 0);
@@ -24,7 +24,7 @@ async function MainPage({
                 </Paper>
             </Grid2>
 
-            <Grid2 width={"auto"}></Grid2>
+            {/* <Grid2 width={"auto"}></Grid2> */}
         </Grid2>
     );
 }

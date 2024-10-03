@@ -24,13 +24,14 @@ export async function tollbarLayout({
     children?: React.ReactNode;
 }) {
     return (
-        <PageContainer
-            slots={{ toolbar: EventsPagePageToolbar }}
-            maxWidth={"md"}
-        >
-            {children}
-            {/* <Box maxWidth={{ md: "lg", xs: 350 }}></Box> */}
-        </PageContainer>
+        <>{children}</>
+        // <PageContainer
+        //     slots={{ toolbar: EventsPagePageToolbar }}
+        //     maxWidth={"md"}
+        //     suppressHydrationWarning
+        // >
+        //     {/* <Box maxWidth={{ md: "lg", xs: 350 }}></Box> */}
+        // </PageContainer>
     );
 }
 

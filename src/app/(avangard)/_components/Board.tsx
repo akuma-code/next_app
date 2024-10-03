@@ -1,11 +1,11 @@
 "use client";
 
-import { aggregatePlayers } from "@/Services/events/db_event";
+import { _date } from "@/Helpers/dateFuncs";
 import { getPlayers } from "@/Services/playerService";
-import { Alert, Box, Fade, Typography } from "@mui/material";
+import { Alert } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 interface BoardProps {
     lastId?: number;
 }
@@ -30,7 +30,6 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
 
         return _ds;
     }, [q.data]);
-
     return (
         // <Fade in={q.isFetching}>
         <>
@@ -39,8 +38,8 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
             {dataset && (
                 <BarChart
                     dataset={dataset}
-                    width={400}
-                    height={700}
+                    width={360}
+                    height={600}
                     series={[
                         { dataKey: "events", label: "Кол-во тренировок" },
                         { dataKey: "pairs", label: "С тренером" },
@@ -54,7 +53,7 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
                         },
                     ]}
                     layout="horizontal"
-                    loading={!q.data}
+                    loading={q.isLoading}
                     margin={{ left: 150 }}
                     barLabel={"value"}
                 />

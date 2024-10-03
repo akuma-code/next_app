@@ -12,6 +12,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { ExtendedNavigate } from "./providers";
+import { useTheme } from "@mui/material";
 
 const SegmentIcon = {
     events: <Icon size={1} path={mdiTrophyVariantOutline} />,
@@ -77,7 +78,7 @@ export function ProviderToolbar({ children }: { children: React.ReactNode }) {
     const session = useSession();
     const r = useRouter();
     const pathname = usePathname();
-
+    const t = useTheme();
     const router = useMemo<Router>(() => {
         // const sp = new URLSearchParams();
         return {
@@ -92,7 +93,7 @@ export function ProviderToolbar({ children }: { children: React.ReactNode }) {
         <AppProvider
             session={session.data}
             router={router}
-            theme={akuTheme}
+            theme={t}
             authentication={{ signIn, signOut }}
             navigation={ROUTES}
             branding={{
