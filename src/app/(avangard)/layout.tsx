@@ -18,13 +18,9 @@ const links = [
     //     label: "Запись на тренировку",
     // },
 ];
-export async function tollbarLayout({
-    children,
-}: {
-    children?: React.ReactNode;
-}) {
+async function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <>{children}</>
+        <div>{children}</div>
         // <PageContainer
         //     slots={{ toolbar: EventsPagePageToolbar }}
         //     maxWidth={"md"}
@@ -39,7 +35,7 @@ export const metadata: Metadata = {
     title: "Тренировки",
     description: "Расписание тренировок",
 };
-export default tollbarLayout;
+export default Layout;
 
 // const AvangardLayout: React.FC<{
 //     children?: React.ReactNode;
