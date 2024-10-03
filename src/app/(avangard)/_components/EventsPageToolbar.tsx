@@ -3,15 +3,18 @@
 import MonthPicker from "@/ClientComponents/UI/Filters/MonthPicker";
 import { OrderFilterControls } from "@/ClientComponents/UI/Filters/OrderFiltersControl";
 import useMediaDetect from "@/Hooks/useMediaDetect";
-import { Box, Button, Grid2, Paper, Stack } from "@mui/material";
+import { Box, Button, Grid2, Pagination, Paper, Stack } from "@mui/material";
 import { PageContainerToolbar } from "@toolpad/core";
 import dayjs from "dayjs";
 export function EventsPagePageToolbar() {
     const { isMobile } = useMediaDetect();
     return (
         <PageContainerToolbar>
-            <Stack alignItems={"center"} component={Paper}>
+            <Paper variant="outlined">
                 <Grid2 container spacing={2} alignContent={"center"} p={1}>
+                    <Grid2 size={"auto"}>
+                        <Pagination page={2} />
+                    </Grid2>
                     <Grid2 size={"grow"}>
                         <OrderFilterControls />
                     </Grid2>
@@ -21,7 +24,7 @@ export function EventsPagePageToolbar() {
                         </Grid2>
                     )}
                 </Grid2>
-            </Stack>
+            </Paper>
         </PageContainerToolbar>
     );
 }

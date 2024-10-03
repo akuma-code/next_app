@@ -12,6 +12,8 @@ import { ProviderToolbar } from "./toolbar-provider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { ruRU } from "@mui/x-date-pickers/locales";
+import { createTheme } from "@mui/material";
+import { akuTheme } from "@/Models/Theme/akuma.theme";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
@@ -27,24 +29,27 @@ const RootLayout: React.FC<{
     // slot: React.ReactNode;
 }> = async ({ children }) => {
     const session = await auth();
-    const cls = [inter.className].join(" ");
+
     // console.clear();
+
     return (
         <html lang="ru" data-toolpad-color-scheme="light">
-            <body className={cls}>
+            <body className={inter.className}>
                 <SessionProvider
                     session={session}
                     refetchOnWindowFocus
                     refetchWhenOffline={false}
                 >
                     <MrtBoundary>
-                        <ProviderToolbar>
-                            <Providers>
-                                {children}
+                        <Providers>
+                            <ProviderToolbar>
+                                <DashboardLayout>
+                                    {children}
 
-                                <SpeedInsights />
-                            </Providers>
-                        </ProviderToolbar>
+                                    <SpeedInsights />
+                                </DashboardLayout>
+                            </ProviderToolbar>
+                        </Providers>
                     </MrtBoundary>
                 </SessionProvider>
             </body>

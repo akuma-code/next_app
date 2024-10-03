@@ -79,12 +79,12 @@ export const EventsList: React.FC<{
                 // maxWidth={ { xs: 300, md: 450, lg: 600 } }
                 maxHeight={{ sm: "60vh", md: "70vh" }}
                 sx={{ pt: 1, pr: 1, overflowY: "scroll" }}
-                offset={{ md: 2, xs: 2 }}
+                offset={{ md: 1, xs: 1 }}
                 size={"auto"}
                 columns={12}
             >
                 {events.map((e) => (
-                    <Grid2 key={e.id} size={{ xs: 9, md: 3 }}>
+                    <Grid2 key={e.id} size={"auto"}>
                         <EventViewCard
                             event={e}
                             title={dm(e.date_formated)}

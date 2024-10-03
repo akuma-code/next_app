@@ -26,7 +26,7 @@ export async function tollbarLayout({
     return (
         <PageContainer
             slots={{ toolbar: EventsPagePageToolbar }}
-            maxWidth={"lg"}
+            maxWidth={"md"}
         >
             {children}
             {/* <Box maxWidth={{ md: "lg", xs: 350 }}></Box> */}
@@ -34,11 +34,11 @@ export async function tollbarLayout({
     );
 }
 
-export default tollbarLayout;
 export const metadata: Metadata = {
     title: "Тренировки",
     description: "Расписание тренировок",
 };
+export default tollbarLayout;
 
 // const AvangardLayout: React.FC<{
 //     children?: React.ReactNode;

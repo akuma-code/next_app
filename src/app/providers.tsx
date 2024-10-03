@@ -157,10 +157,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         >
             <AppRouterCacheProvider>
                 <ColorModeContext.Provider value={colorMode}>
-                    <ThemeProvider theme={THEME}>
+                    <ThemeProvider theme={akuTheme}>
                         {/* <ProviderToolbar> */}
                         <CssBaseline enableColorScheme />
-                        <DashboardLayout>{children}</DashboardLayout>
+                        {children}
                         {/* </ProviderToolbar> */}
                     </ThemeProvider>
                 </ColorModeContext.Provider>

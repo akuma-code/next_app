@@ -1,28 +1,54 @@
 "use client";
-import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
-import { AppProvider, AppTheme, Router } from "@toolpad/core";
+import { akuTheme } from "@/Models/Theme/akuma.theme";
+import {
+    mdiAccountGroupOutline,
+    mdiChartBarStacked,
+    mdiSecurity,
+    mdiTrophyVariantOutline,
+} from "@mdi/js";
+import Icon from "@mdi/react";
+import { AppProvider, Router } from "@toolpad/core";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { ExtendedNavigate } from "./providers";
-import { akuTheme } from "@/Models/Theme/akuma.theme";
+
+const SegmentIcon = {
+    events: <Icon size={1} path={mdiTrophyVariantOutline} />,
+    players: <Icon size={1} path={mdiAccountGroupOutline} />,
+    stats: <Icon size={1} path={mdiChartBarStacked} />,
+    admin: <Icon size={1} path={mdiSecurity} />,
+};
 
 const ROUTES: ExtendedNavigate = [
     // { kind: "header", title: "Stats" },
+
     {
-        title: "Тренировки",
-        kind: "header",
+        title: "Расписание",
+        segment: "events",
+        kind: "page",
+        icon: SegmentIcon.events,
     },
-    { title: "Расписание", segment: "events", kind: "page" },
-    { title: "Игроки", segment: "players", kind: "page" },
+    {
+        title: "Игроки",
+        segment: "players",
+        kind: "page",
+        icon: SegmentIcon.players,
+    },
     { kind: "divider" },
-    { segment: "charts", title: "Статистика", kind: "page" },
+    {
+        segment: "charts",
+        title: "Статистика",
+        kind: "page",
+        icon: SegmentIcon.stats,
+    },
     { kind: "divider" },
 
     {
         segment: "admin",
         title: "Админка",
         kind: "page",
+        icon: SegmentIcon.admin,
         children: [
             {
                 segment: "players",
@@ -47,13 +73,7 @@ const ROUTES: ExtendedNavigate = [
         ],
     },
 ];
-export function ProviderToolbar({
-    children,
-    theme,
-}: {
-    children: React.ReactNode;
-    theme?: AppTheme | undefined;
-}) {
+export function ProviderToolbar({ children }: { children: React.ReactNode }) {
     const session = useSession();
     const r = useRouter();
     const pathname = usePathname();
@@ -77,7 +97,7 @@ export function ProviderToolbar({
             navigation={ROUTES}
             branding={{
                 title: "Авангард",
-                logo: <SportsKabaddiIcon />,
+                logo: SegmentIcon.events,
             }}
         >
             {children}

@@ -10,6 +10,8 @@ import { Suspense } from "react";
 import { ViewSwitch } from "./viewSwitch";
 import { DialogsProvider } from "@toolpad/core";
 import EventsProvider from "./providers";
+import { EventsList } from "@/ClientComponents/EventsList";
+import { getEventsByMonth } from "@/Services/eventService";
 
 export type OrderType = "asc" | "desc";
 async function EventsPage({
@@ -18,40 +20,22 @@ async function EventsPage({
     searchParams: { date: string; month: string; order: string; view: string };
 }) {
     const month = searchParams.month;
-    const view = searchParams.view as "card" | "table";
-    let order = searchParams.order as OrderType;
-
+    // const view = searchParams.view as "card" | "table";
+    let order = (searchParams.order as OrderType) || "desc";
+    const events = await getEventsByMonth(month, order);
     return (
         // <MrtBoundary>
-        <Container maxWidth={"md"}>
-            <Suspense
-                fallback={
-                    <CircularProgress variant="indeterminate" color="error" />
-                }
-            >
-                <EventsProvider>
-                    {/* <AppBar
-                        position="relative"
-                        enableColorOnDark
-                        sx={{
-                            borderTopLeftRadius: "1rem",
-                            borderTopRightRadius: "1rem",
-                        }}
-                    >
-                        <Toolbar
-                            variant="dense"
-                            sx={{ display: "flex", justifyContent: "center" }}
-                        >
-                            <OrderFilterControls />
-                        </Toolbar>
-                    </AppBar> */}
-                    <ViewSwitch
-                        view={{ type: view }}
-                        options={{ month, order }}
-                    />
-                </EventsProvider>
-            </Suspense>
-        </Container>
+        // <Container maxWidth={"md"}>
+        //     <Suspense
+        //         fallback={
+        //             <CircularProgress variant="indeterminate" color="error" />
+        //         }
+        //     >
+        //     </Suspense>
+        // </Container>
+        <EventsProvider>
+            <EventsList events={events} />
+        </EventsProvider>
         // </MrtBoundary>
     );
 }

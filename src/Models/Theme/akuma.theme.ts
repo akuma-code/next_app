@@ -118,15 +118,18 @@ export const akuTheme = createTheme({
                 },
                 divider: '#183f8c',
 
+                AppBar: {
+                    defaultBg: "#ff0000"
+                }
             },
         },
         dark: {
             palette: {
                 primary: {
                     main: '#0c2659',
-                    light: '#cde20b',
+                    light: '#97bef0',
                     dark: '#0a0f03',
-                    contrastText: '#fff',
+                    contrastText: '#cecece',
                 },
                 secondary: {
                     main: '#5b9ea3',
@@ -170,21 +173,21 @@ export const akuTheme = createTheme({
     },
 
     components: {
-        MuiToolbar: { defaultProps: { color: "error" } }
+        MuiToolbar: { defaultProps: { color: "inherit" } }
     }
 },
     {
-        // overrides: {
-        //     MuiToolbar: {
-        //         colorInherit: {
-        //             backgroundColor: '#ffffff',
-        //             color: '#000000',
-        //         },
-        //     },
-        // },
-        // props: {
-        //     MuiAppBar: {
-        //         color: 'inherit',
-        //     },
-        // },
+        overrides: {
+            MuiToolbar: {
+                colorInherit: {
+                    backgroundColor: '#ff0000',
+                    color: '#000000',
+                },
+            },
+        },
+        props: {
+            MuiAppBar: {
+                color: 'inherit',
+            },
+        },
     })
