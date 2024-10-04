@@ -3,7 +3,7 @@
 import prisma from "@/client/client"
 import { readFileFn, writeFileFn } from "@/Services/fs/data_service"
 import { Prisma } from "@prisma/client"
-
+import players_file from "../../../../../public/json/saved_players.json"
 export async function getImportantData(options = { saveToDisk: false }) {
 
     const p = prisma.pair
@@ -68,7 +68,8 @@ type HDD_PLayer = Prisma.PlayerGetPayload<{ select: { id: true, name: true, tick
 export async function restorePlayers() {
     try {
         const p = await readFileFn<HDD_PLayer[]>("./public/json/saved_players.json") as HDD_PLayer[]
-        if (!p) return { message: "error while reading" }
+        const pls = JSON.parse(JSON.stringify(players_file)) as HDD_PLayer[]
+        // if (!p) return { message: "error while reading" }
         const validator = (p: HDD_PLayer) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()(
             {
                 id: p.id, name: p.name,
@@ -80,7 +81,7 @@ export async function restorePlayers() {
                     //  connectOrCreate: { where: { playerId: p.id }, create: { ...p.ticket } },
                 }
             })
-        const validPlayers = p.map(validator)
+        const validPlayers = pls.map(validator)
 
         const tsx = validPlayers.map(p => prisma.player.create({ data: p }))
         const res = await prisma.$transaction(tsx)
