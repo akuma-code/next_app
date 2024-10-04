@@ -1,41 +1,15 @@
-import { NavLink } from "@/ClientComponents/UI/NavLink";
-import { Box, Stack, Typography } from "@mui/material";
-import { PageContainer } from "@toolpad/core";
 import { Metadata } from "next";
-import { EventsPagePageToolbar } from "./_components/EventsPageToolbar";
-
-const links = [
-    {
-        href: "/events",
-        label: "Расписание",
-    },
-    {
-        href: "/players",
-        label: "Игроки",
-    },
-    // {
-    //     href: "/avangard/board/add",
-    //     label: "Запись на тренировку",
-    // },
-];
-async function Layout({ children }: { children: React.ReactNode }) {
-    return (
-        <div>{children}</div>
-        // <PageContainer
-        //     slots={{ toolbar: EventsPagePageToolbar }}
-        //     maxWidth={"md"}
-        //     suppressHydrationWarning
-        // >
-        //     {/* <Box maxWidth={{ md: "lg", xs: 350 }}></Box> */}
-        // </PageContainer>
-    );
+import MechanIcon from "../../public/icon.ico";
+export const metadata: Metadata = {
+    title: "Авангард",
+    description: "Расписание тренировок",
+    icons: ["/public/icon.ico"],
+};
+async function MainAvangardLayout({ children }: { children: React.ReactNode }) {
+    return <div>{children}</div>;
 }
 
-export const metadata: Metadata = {
-    title: "Тренировки",
-    description: "Расписание тренировок",
-};
-export default Layout;
+export default MainAvangardLayout;
 
 // const AvangardLayout: React.FC<{
 //     children?: React.ReactNode;

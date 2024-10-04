@@ -151,12 +151,7 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
     // },
 ];
 export function MRTPlayers() {
-    // const [open, c] = useToggle();
-    // const [selected_player, select] = useState<PrismaPlayer_ | null>(null);
-    // const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
-    // const [qplayers, p_loading] = useGetAllPlayers();
     const QP = useMRTPlayers();
-    // const _qp = useMemo(() => (QP.data ? QP.data : []), [QP.data]);
     const [isPending, s] = useTransition();
     const handleReSync = () =>
         s(async () => {
@@ -203,6 +198,14 @@ export function MRTPlayers() {
         ...mrt_players_options,
         columns: player_columns,
         data: QP.data || [],
+        mrtTheme(theme) {
+            return {
+                baseBackgroundColor: "white",
+                selectedRowBackgroundColor: theme.palette.primary.light,
+                menuBackgroundColor: "#569ef1",
+                matchHighlightColor: "red",
+            };
+        },
         state: {
             // rowSelection,
             isLoading: QP.isLoading,

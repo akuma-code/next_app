@@ -1,6 +1,6 @@
 import { PlayersEventList } from "@/Components/EventView/PlayersEventList";
 import { getPlayerEvents, getPlayers } from "@/Services/playerService";
-import { Stack } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import { PlayersListView } from "./PlayersListView";
 import { CalendarEventsShorts } from "@/ClientComponents/UI/Charts/CalenarWithShortcuts";
 import { Suspense } from "react";
@@ -36,7 +36,20 @@ async function AvPlayers(query: {
                             <Suspense fallback={"loading..."}>
                                 <CalendarEventsShorts playerId={+playerId} />
                             </Suspense>
-                        ) : null}
+                        ) : (
+                            <Paper>
+                                <Typography
+                                    variant="body1"
+                                    component={"div"}
+                                    p={2}
+                                >
+                                    <p>
+                                        Никто не выбран. Для просмотра календаря
+                                        посещений выберете игрока из списка
+                                    </p>
+                                </Typography>
+                            </Paper>
+                        )}
                     </>
                 )}
             </Stack>
