@@ -74,7 +74,7 @@ export async function restorePlayers() {
             {
                 id: p.id, name: p.name,
                 events: { connect: p.events.map(e => ({ id: e.id })) },
-                pair: { connect: p.pair.map(pp => ({ id: pp.id })) },
+                // pair: { connect: p.pair.map(pp => ({ id: pp.id })) },
                 // ticket:
                 // {
                 //     connect: { playerId: p.id }
