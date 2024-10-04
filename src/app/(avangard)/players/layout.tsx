@@ -1,10 +1,10 @@
-import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import BlurLinearIcon from "@mui/icons-material/BlurLinear";
-import Link from "next/link";
-import { EventHeader } from "@/Components/Nav/EventsHeader";
-import { DashboardLayout, PageContainer } from "@toolpad/core";
-
+import { Box } from "@mui/material";
+import { PageContainer } from "@toolpad/core";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+    title: "Игроки",
+    description: "Список игроков школы Авангард",
+};
 function PlayersLayout({
     children,
     view,
@@ -14,7 +14,7 @@ function PlayersLayout({
 }) {
     return (
         // <DashboardLayout>
-        <PageContainer>
+        <PageContainer breadCrumbs={[]}>
             {/* <EventHeader /> */}
             <Box>{children}</Box>
             <Box>{view}</Box>

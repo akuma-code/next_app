@@ -32,6 +32,7 @@ import {
 import Icon from "@mdi/react";
 import {
     mdiAccountPlusOutline,
+    mdiAppleKeyboardCommand,
     mdiDatabaseSyncOutline,
     mdiHumanEdit,
     mdiInformationVariantCircleOutline,
@@ -52,8 +53,10 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
     //!  _______________________________
     const [pagination, setPage] = useState<MRT_PaginationState>({
         pageIndex: 0,
-        pageSize: 30,
+        pageSize: 10,
     });
+
+    const { openTicket } = useTicket();
     const {
         data = [],
         isLoading,
@@ -176,7 +179,9 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         layoutMode: "grid",
         columns: COLS,
         data,
-        enableColumnResizing: true,
+        enableColumnFilters: false,
+        enableColumnActions: false,
+        // enableColumnResizing: true,
         enableStickyHeader: true,
         positionPagination: "top",
         positionToolbarAlertBanner: "head-overlay",
@@ -192,6 +197,15 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         initialState: {
             density: "compact",
             // pagination: { pageSize: 50, pageIndex: 0 },
+        },
+        mrtTheme(theme) {
+            return {
+                baseBackgroundColor: theme.palette.background.paper,
+                selectedRowBackgroundColor: theme.palette.primary.light,
+                menuBackgroundColor: theme.palette.info.light,
+                matchHighlightColor: theme.palette.error.main,
+                cellNavigationOutlineColor: theme.palette.warning.main,
+            };
         },
         onPaginationChange: setPage,
 
@@ -209,7 +223,6 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                 "mrt-row-actions",
                 "name",
                 "events_count",
-                "hasTicket",
             ],
         },
         muiToolbarAlertBannerProps: isError
@@ -257,6 +270,7 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         },
         renderRowActions(props) {
             const { row, table } = props;
+
             return [
                 // <MRT_EditActionButtons row={row} table={table} key={"edit"} />,
 
@@ -268,7 +282,11 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                 </IconButton>,
                 row.original.hasTicket ? (
                     <TicketInfo row={row} key="info" />
-                ) : null,
+                ) : (
+                    <IconButton key="create ticket" color="secondary">
+                        <Icon path={mdiAppleKeyboardCommand} size={1} />
+                    </IconButton>
+                ),
             ];
         },
     });

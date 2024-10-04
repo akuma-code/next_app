@@ -9,6 +9,6 @@ export async function generateStaticParams() {
     return events.map((e) => ({ eventId: e.id.toString() }));
 }
 export const metadata: Metadata = {
-    title: "Тренировки",
-    description: "Расписание тренировок",
+    title: "Участники",
+    description: "Состав тренировки с тренерами",
 };

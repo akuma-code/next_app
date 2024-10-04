@@ -5,22 +5,16 @@ import { Prisma } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { openTicket, updatePlayerTicket } from "./actions";
 import { ticketCountMinus } from "@/Services/tickets/ticketActions";
+type PrismaPlayer = Prisma.PlayerGetPayload<{
+    select: {
+        id: true;
+        name: true;
+        ticket: true;
+    };
+}>;
 
-export function useTicket() {
+export function useTicket(playerId?: number) {
 
-    type PrismaPlayer = Prisma.PlayerGetPayload<{
-        select: {
-            id: true;
-            name: true;
-            ticket: true;
-        };
-    }>;
-
-    // const { data, isLoading } = useQuery({
-    //     queryKey: ['ticket', player.id],
-    //     queryFn: () => getTicketData(player.id),
-    //     enabled: !!player.ticket
-    // })
 
     async function openTicket(player: PrismaPlayer, payload: { limit: number }) {
         if (player.ticket) {

@@ -3,6 +3,7 @@ import { akuTheme } from "@/Models/Theme/akuma.theme";
 import {
     mdiAccountGroupOutline,
     mdiChartBarStacked,
+    mdiMedal,
     mdiSecurity,
     mdiTrophyVariantOutline,
 } from "@mdi/js";
@@ -57,14 +58,14 @@ const ROUTES: ExtendedNavigate = [
                 title: "Игроки",
             },
             {
-                segment: "backup",
-                kind: "page",
-                title: "Бэкап",
-            },
-            {
                 segment: "users",
                 kind: "page",
                 title: "Пользователи",
+            },
+            {
+                segment: "backup",
+                kind: "page",
+                title: "Бэкап",
             },
             {
                 segment: "compare",
@@ -98,7 +99,7 @@ export function ProviderToolbar({ children }: { children: React.ReactNode }) {
             navigation={ROUTES}
             branding={{
                 title: "Авангард",
-                logo: SegmentIcon.events,
+                logo: <Icon path={mdiMedal} size={1.5} />,
             }}
         >
             {children}
