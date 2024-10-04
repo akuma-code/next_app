@@ -1,1 +1,4288 @@
-["Борис Палевич","Валера Русинович","Володя Юдаев","Дмитий Чуприков","Женя Мураткалиев","Инна Гулина","Лариса Басманова","Олег Котляров","Павел Аниловский","Павел Кот","Павел Роднянский","Рома Русаков","Рома Урусов","Сергей Кучигин","Сергей Коробов","Юра Малин","Ольга Сипина","Варя","Саша Федоренко","Надежда Отпетова","Влада Латыпова","Антон Киселев","Денис Калекин","Женя Зуев","Дима Селезнев","Сергей Юрцев","Володя Иванов","Максим Ушкарев","Олег Науменко","Лена Сластная","Сергей Ивашечкин","Егор Холодий","Сергей Олейников","Володя Зубков","Костя Лабутин","Николай Смоглей","Антон Жогин","Антон Орлов","Жижирий Сергей","Денис Попов","Андрей Руденко","Олег Мельников","Сергей Попов","Надя Бучина","Дима Кирсанов","Сергей Казарян","Ира Герасимова","Сергей Бажан","Роман Алиев","Артём Белишев","Женя Понуровский","Егор Лысенко","Егор Артемьев","Роман Переведенцев","Максим Грибков","Эдуард Емельянов","Антон Козлов","Лёша Язев","Фёдор Наумов","Коля Шантурин","Саша Власов","Леша Шипов","Андрей Ершов"]
+[
+    {
+        "id": 1,
+        "name": "Борис Палевич",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 2,
+        "name": "Валера Русинович",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 3,
+        "name": "Володя Юдаев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 4,
+        "name": "Дмитий Чуприков",
+        "ticket": null,
+        "events": [
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 5,
+        "name": "Женя Мураткалиев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 6,
+        "name": "Инна Гулина",
+        "ticket": {
+            "uuid": "ddf4e83d-be91-4c92-8799-f0a16a7b36d4",
+            "amount": 8,
+            "limit": 10,
+            "eAt": "2024-12-31",
+            "event_dates": [
+                "2024-09-11",
+                "2024-09-18"
+            ],
+            "playerId": 6
+        },
+        "events": [
+            {
+                "id": 80,
+                "date_formated": "2024-06-19",
+                "title": "19 June, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 7,
+        "name": "Лариса Басманова",
+        "ticket": null,
+        "events": [
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 84,
+                "date_formated": "2024-07-03",
+                "title": "03 July, 03",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 543,
+                "firstPlayerId": 1,
+                "secondPlayerId": 7,
+                "masterId": null,
+                "playerId": 7,
+                "eventId": 107
+            },
+            {
+                "id": 559,
+                "firstPlayerId": 1,
+                "secondPlayerId": 7,
+                "masterId": null,
+                "playerId": 7,
+                "eventId": 85
+            },
+            {
+                "id": 577,
+                "firstPlayerId": 1,
+                "secondPlayerId": 7,
+                "masterId": null,
+                "playerId": 7,
+                "eventId": 109
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Олег Котляров",
+        "ticket": null,
+        "events": [
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 536,
+                "firstPlayerId": 2,
+                "secondPlayerId": 8,
+                "masterId": null,
+                "playerId": 8,
+                "eventId": 103
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Павел Аниловский",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 10,
+        "name": "Павел Кот",
+        "ticket": null,
+        "events": [
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 11,
+        "name": "Павел Роднянский",
+        "ticket": {
+            "uuid": "a9c01bed-5037-4981-b117-eebbbf5e2f04",
+            "amount": 2,
+            "limit": 10,
+            "eAt": "2024-12-31",
+            "event_dates": [
+                "2024-09-06",
+                "2024-09-11",
+                "2024-09-13",
+                "2024-09-18",
+                "2024-09-20",
+                "2024-09-22",
+                "2024-09-25",
+                "2024-09-27"
+            ],
+            "playerId": 11
+        },
+        "events": [
+            {
+                "id": 80,
+                "date_formated": "2024-06-19",
+                "title": "19 June, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 84,
+                "date_formated": "2024-07-03",
+                "title": "03 July, 03",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 112,
+                "date_formated": "2024-09-22",
+                "title": "22 September, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 520,
+                "firstPlayerId": 1,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 114
+            },
+            {
+                "id": 525,
+                "firstPlayerId": 1,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 88
+            },
+            {
+                "id": 551,
+                "firstPlayerId": 1,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 94
+            },
+            {
+                "id": 564,
+                "firstPlayerId": 2,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 87
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "name": "Рома Русаков",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 84,
+                "date_formated": "2024-07-03",
+                "title": "03 July, 03",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 522,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 98
+            },
+            {
+                "id": 527,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 88
+            },
+            {
+                "id": 533,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 89
+            },
+            {
+                "id": 534,
+                "firstPlayerId": 1,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 96
+            },
+            {
+                "id": 537,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 101
+            },
+            {
+                "id": 562,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 86
+            },
+            {
+                "id": 569,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 93
+            },
+            {
+                "id": 574,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 97
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Рома Урусов",
+        "ticket": {
+            "uuid": "2b7b9ee4-2325-46c5-ac50-775016db94ca",
+            "amount": 3,
+            "limit": 10,
+            "eAt": "2024-12-31",
+            "event_dates": [
+                "2024-09-11",
+                "2024-09-13",
+                "2024-09-18",
+                "2024-09-20",
+                "2024-09-22",
+                "2024-09-25",
+                "2024-09-27"
+            ],
+            "playerId": 13
+        },
+        "events": [
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 112,
+                "date_formated": "2024-09-22",
+                "title": "22 September, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 14,
+        "name": "Сергей Кучигин",
+        "ticket": null,
+        "events": [
+            {
+                "id": 80,
+                "date_formated": "2024-06-19",
+                "title": "19 June, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 15,
+        "name": "Сергей Коробов",
+        "ticket": {
+            "uuid": "f28fcbb6-2dfd-4c31-8448-cf86575c8e46",
+            "amount": 5,
+            "limit": 10,
+            "eAt": "2024-12-31",
+            "event_dates": [
+                "2024-09-11",
+                "2024-09-13",
+                "2024-09-18",
+                "2024-09-20",
+                "2024-09-25"
+            ],
+            "playerId": 15
+        },
+        "events": [
+            {
+                "id": 80,
+                "date_formated": "2024-06-19",
+                "title": "19 June, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 16,
+        "name": "Юра Малин",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 17,
+        "name": "Ольга Сипина",
+        "ticket": null,
+        "events": [
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 538,
+                "firstPlayerId": 2,
+                "secondPlayerId": 17,
+                "masterId": null,
+                "playerId": 17,
+                "eventId": 101
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "name": "Варя",
+        "ticket": null,
+        "events": [
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 19,
+        "name": "Саша Федоренко",
+        "ticket": null,
+        "events": [
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 524,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 98
+            },
+            {
+                "id": 532,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 100
+            },
+            {
+                "id": 547,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 94
+            },
+            {
+                "id": 557,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 87
+            },
+            {
+                "id": 572,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 96
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Надежда Отпетова",
+        "ticket": {
+            "uuid": "95cc2eae-c864-48a5-a644-717efa081875",
+            "amount": 6,
+            "limit": 10,
+            "eAt": "2024-12-31",
+            "event_dates": [
+                "2024-09-11",
+                "2024-09-13",
+                "2024-09-18",
+                "2024-09-25"
+            ],
+            "playerId": 20
+        },
+        "events": [
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 528,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 88
+            },
+            {
+                "id": 535,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 96
+            },
+            {
+                "id": 544,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 107
+            },
+            {
+                "id": 565,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 110
+            }
+        ]
+    },
+    {
+        "id": 21,
+        "name": "Влада Латыпова",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 22,
+        "name": "Антон Киселев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 526,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 88
+            },
+            {
+                "id": 549,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 94
+            },
+            {
+                "id": 555,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 108
+            },
+            {
+                "id": 558,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 87
+            },
+            {
+                "id": 567,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 111
+            },
+            {
+                "id": 579,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 109
+            }
+        ]
+    },
+    {
+        "id": 23,
+        "name": "Денис Калекин",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 24,
+        "name": "Женя Зуев",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 26,
+        "name": "Дима Селезнев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 27,
+        "name": "Сергей Юрцев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 28,
+        "name": "Володя Иванов",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 30,
+        "name": "Максим Ушкарев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 31,
+        "name": "Олег Науменко",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 32,
+        "name": "Лена Сластная",
+        "ticket": null,
+        "events": [
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 542,
+                "firstPlayerId": 2,
+                "secondPlayerId": 32,
+                "masterId": null,
+                "playerId": 32,
+                "eventId": 107
+            },
+            {
+                "id": 578,
+                "firstPlayerId": 2,
+                "secondPlayerId": 32,
+                "masterId": null,
+                "playerId": 32,
+                "eventId": 109
+            }
+        ]
+    },
+    {
+        "id": 33,
+        "name": "Сергей Ивашечкин",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 34,
+        "name": "Егор Холодий",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 35,
+        "name": "Сергей Олейников",
+        "ticket": null,
+        "events": [
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 539,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 101
+            },
+            {
+                "id": 541,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 106
+            },
+            {
+                "id": 546,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 99
+            },
+            {
+                "id": 552,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 95
+            },
+            {
+                "id": 553,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 113
+            },
+            {
+                "id": 560,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 85
+            },
+            {
+                "id": 561,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 86
+            },
+            {
+                "id": 570,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 93
+            },
+            {
+                "id": 575,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 98
+            }
+        ]
+    },
+    {
+        "id": 36,
+        "name": "Володя Зубков",
+        "ticket": null,
+        "events": [
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 37,
+        "name": "Костя Лабутин",
+        "ticket": null,
+        "events": [
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 38,
+        "name": "Николай Смоглей",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 39,
+        "name": "Антон Жогин",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 40,
+        "name": "Антон Орлов",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 41,
+        "name": "Жижирий Сергей",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 42,
+        "name": "Денис Попов",
+        "ticket": null,
+        "events": [
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 43,
+        "name": "Андрей Руденко",
+        "ticket": null,
+        "events": [
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 531,
+                "firstPlayerId": 1,
+                "secondPlayerId": 43,
+                "masterId": null,
+                "playerId": 43,
+                "eventId": 100
+            },
+            {
+                "id": 554,
+                "firstPlayerId": 1,
+                "secondPlayerId": 43,
+                "masterId": null,
+                "playerId": 43,
+                "eventId": 108
+            }
+        ]
+    },
+    {
+        "id": 44,
+        "name": "Олег Мельников",
+        "ticket": {
+            "uuid": "055bff31-3b9c-4ff1-9c79-b4021e3e358a",
+            "amount": 7,
+            "limit": 10,
+            "eAt": "2024-12-31",
+            "event_dates": [
+                "2024-09-13",
+                "2024-09-25",
+                "2024-09-27"
+            ],
+            "playerId": 44
+        },
+        "events": [
+            {
+                "id": 80,
+                "date_formated": "2024-06-19",
+                "title": "19 June, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 81,
+                "date_formated": "2024-06-21",
+                "title": "21 June, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 83,
+                "date_formated": "2024-06-28",
+                "title": "28 June, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 84,
+                "date_formated": "2024-07-03",
+                "title": "03 July, 03",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 521,
+                "firstPlayerId": 1,
+                "secondPlayerId": 44,
+                "masterId": null,
+                "playerId": 44,
+                "eventId": 114
+            },
+            {
+                "id": 530,
+                "firstPlayerId": 1,
+                "secondPlayerId": 44,
+                "masterId": null,
+                "playerId": 44,
+                "eventId": 100
+            },
+            {
+                "id": 580,
+                "firstPlayerId": 1,
+                "secondPlayerId": 44,
+                "masterId": null,
+                "playerId": 44,
+                "eventId": 109
+            }
+        ]
+    },
+    {
+        "id": 45,
+        "name": "Сергей Попов",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 84,
+                "date_formated": "2024-07-03",
+                "title": "03 July, 03",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 88,
+                "date_formated": "2024-07-17",
+                "title": "17 July, 17",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 95,
+                "date_formated": "2024-07-31",
+                "title": "31 July, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 46,
+        "name": "Надя Бучина",
+        "ticket": null,
+        "events": [
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 89,
+                "date_formated": "2024-07-19",
+                "title": "19 July, 19",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 93,
+                "date_formated": "2024-07-24",
+                "title": "24 July, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 94,
+                "date_formated": "2024-07-26",
+                "title": "26 July, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 523,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 104
+            },
+            {
+                "id": 529,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 89
+            },
+            {
+                "id": 540,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 106
+            },
+            {
+                "id": 545,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 107
+            },
+            {
+                "id": 548,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 113
+            },
+            {
+                "id": 550,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 94
+            },
+            {
+                "id": 556,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 108
+            },
+            {
+                "id": 563,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 86
+            },
+            {
+                "id": 566,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 110
+            },
+            {
+                "id": 568,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 111
+            },
+            {
+                "id": 571,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 93
+            },
+            {
+                "id": 576,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 98
+            },
+            {
+                "id": 581,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": 2,
+                "playerId": 46,
+                "eventId": 72
+            },
+            {
+                "id": 582,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": 2,
+                "playerId": 46,
+                "eventId": 76
+            }
+        ]
+    },
+    {
+        "id": 48,
+        "name": "Дима Кирсанов",
+        "ticket": null,
+        "events": [
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": [
+            {
+                "id": 573,
+                "firstPlayerId": 2,
+                "secondPlayerId": 48,
+                "masterId": null,
+                "playerId": 48,
+                "eventId": 97
+            }
+        ]
+    },
+    {
+        "id": 50,
+        "name": "Сергей Казарян",
+        "ticket": null,
+        "events": [
+            {
+                "id": 82,
+                "date_formated": "2024-06-26",
+                "title": "26 June, 26",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 98,
+                "date_formated": "2024-08-09",
+                "title": "09 August, 09",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 53,
+        "name": "Ира Герасимова",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 54,
+        "name": "Сергей Бажан",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 55,
+        "name": "Роман Алиев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 84,
+                "date_formated": "2024-07-03",
+                "title": "03 July, 03",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 87,
+                "date_formated": "2024-07-12",
+                "title": "12 July, 12",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 72,
+                "date_formated": "2024-05-24",
+                "title": "24 May, 24",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 73,
+                "date_formated": "2024-05-22",
+                "title": "22 May, 22",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 74,
+                "date_formated": "2024-05-29",
+                "title": "29 May, 29",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 96,
+                "date_formated": "2024-08-02",
+                "title": "02 August, 02",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 97,
+                "date_formated": "2024-08-07",
+                "title": "07 August, 07",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 56,
+        "name": "Артём Белишев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 75,
+                "date_formated": "2024-05-31",
+                "title": "31 May, 31",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 58,
+        "name": "Женя Понуровский",
+        "ticket": null,
+        "events": [
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 79,
+                "date_formated": "2024-06-14",
+                "title": "14 June, 14",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 59,
+        "name": "Егор Лысенко",
+        "ticket": null,
+        "events": [
+            {
+                "id": 76,
+                "date_formated": "2024-06-05",
+                "title": "05 June, 05",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 60,
+        "name": "Егор Артемьев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 77,
+                "date_formated": "2024-06-07",
+                "title": "07 June, 07",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 112,
+                "date_formated": "2024-09-22",
+                "title": "22 September, 22",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 61,
+        "name": "Роман Переведенцев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 78,
+                "date_formated": "2024-06-12",
+                "title": "12 June, 12",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 201,
+        "name": "Максим Грибков",
+        "ticket": null,
+        "events": [
+            {
+                "id": 85,
+                "date_formated": "2024-07-05",
+                "title": "05 July, 05",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 112,
+                "date_formated": "2024-09-22",
+                "title": "22 September, 22",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 202,
+        "name": "Эдуард Емельянов",
+        "ticket": null,
+        "events": [
+            {
+                "id": 86,
+                "date_formated": "2024-07-10",
+                "title": "10 July, 10",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 204,
+        "name": "Антон Козлов",
+        "ticket": null,
+        "events": [],
+        "pair": []
+    },
+    {
+        "id": 205,
+        "name": "Лёша Язев",
+        "ticket": null,
+        "events": [
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 207,
+        "name": "Фёдор Наумов",
+        "ticket": {
+            "uuid": "6348f9ec-9ca0-4b8d-9b75-acfd62ffa01d",
+            "amount": 6,
+            "limit": 10,
+            "eAt": "2024-12-31",
+            "event_dates": [
+                "2024-09-13",
+                "2024-09-18",
+                "2024-09-25",
+                "2024-09-27"
+            ],
+            "playerId": 207
+        },
+        "events": [
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 100,
+                "date_formated": "2024-08-16",
+                "title": "16 August, 16",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 109,
+                "date_formated": "2024-09-13",
+                "title": "13 September, 13",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 110,
+                "date_formated": "2024-09-18",
+                "title": "18 September, 18",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 113,
+                "date_formated": "2024-09-25",
+                "title": "25 September, 25",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 114,
+                "date_formated": "2024-09-27",
+                "title": "27 September, 27",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 208,
+        "name": "Коля Шантурин",
+        "ticket": null,
+        "events": [
+            {
+                "id": 99,
+                "date_formated": "2024-08-14",
+                "title": "14 August, 14",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 101,
+                "date_formated": "2024-08-21",
+                "title": "21 August, 21",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 107,
+                "date_formated": "2024-09-06",
+                "title": "06 September, 06",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 209,
+        "name": "Саша Власов",
+        "ticket": null,
+        "events": [
+            {
+                "id": 102,
+                "date_formated": "2024-08-23",
+                "title": "23 August, 23",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 103,
+                "date_formated": "2024-08-28",
+                "title": "28 August, 28",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 210,
+        "name": "Леша Шипов",
+        "ticket": null,
+        "events": [
+            {
+                "id": 104,
+                "date_formated": "2024-08-30",
+                "title": "30 August, 30",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 211,
+        "name": "Андрей Ершов",
+        "ticket": {
+            "uuid": "b3656d3c-ba4f-4b56-8217-29733cf4fe32",
+            "amount": -1,
+            "limit": 10,
+            "eAt": "never",
+            "event_dates": [
+                "2024-09-11",
+                "2024-09-20"
+            ],
+            "playerId": 211
+        },
+        "events": [
+            {
+                "id": 106,
+                "date_formated": "2024-09-04",
+                "title": "04 September, 04",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 108,
+                "date_formated": "2024-09-11",
+                "title": "11 September, 11",
+                "isDraft": false,
+                "cost": 1
+            },
+            {
+                "id": 111,
+                "date_formated": "2024-09-20",
+                "title": "20 September, 20",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    },
+    {
+        "id": 212,
+        "name": "Лёша Ямпольский",
+        "ticket": null,
+        "events": [
+            {
+                "id": 112,
+                "date_formated": "2024-09-22",
+                "title": "22 September, 22",
+                "isDraft": false,
+                "cost": 1
+            }
+        ],
+        "pair": []
+    }
+]

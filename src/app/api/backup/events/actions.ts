@@ -1,7 +1,8 @@
 'use server'
 
 import prisma from "@/client/client"
-import { writeFileFn } from "@/Services/fs/data_service"
+import { readFileFn, writeFileFn } from "@/Services/fs/data_service"
+import { Prisma } from "@prisma/client"
 
 export async function getImportantData(options = { saveToDisk: false }) {
 
@@ -9,27 +10,35 @@ export async function getImportantData(options = { saveToDisk: false }) {
     const e = prisma.event
     const pp = prisma.player
     const pairs_db = await p.findMany({
-        select: {
-            event: { select: { date_formated: true } },
-            player: { select: { name: true } },
-            master: { select: { name: true } }
-        }
+        // select: {
+        //     event: { select: { date_formated: true } },
+        //     player: { select: { name: true } },
+        //     master: { select: { name: true } }
+        // }
     })
     const players_db = await pp.findMany({
-        select: { name: true }
+        select: { id: true, name: true, ticket: true, events: true, pair: true }
+        // select: { name: true }
     })
     const events_db = await e.findMany({
         where: { isDraft: false },
         select: {
             date_formated: true,
-            players: { select: { name: true } },
-            pairs: {
-                select: {
-                    event: { select: { date_formated: true } },
-                    player: { select: { name: true } },
-                    master: { select: { name: true } }
-                }
-            }
+            id: true,
+            players: { select: { id: true } },
+            pairs: true,
+            title: true,
+            cost: true
+
+            // date_formated: true,
+            // players: { select: { name: true } },
+            // pairs: {
+            //     select: {
+            //         event: { select: { date_formated: true } },
+            //         player: { select: { name: true } },
+            //         master: { select: { name: true } }
+            //     }
+            // }
         }
     })
     const pair_map = (pairs: {
@@ -43,18 +52,27 @@ export async function getImportantData(options = { saveToDisk: false }) {
             name: string;
         } | null;
     }[]) => pairs.map(p => ({ player: p.player.name, master: p.master?.name }))
-    const events = events_db.map(e => ({ date: e.date_formated, players: e.players.map(pp => pp.name), pairs: pair_map(e.pairs) }))
-    const pairs = pairs_db.map(pp => ([pp.event.date_formated, pp.player.name, pp.master?.name] as const))
-    const players = players_db.map(p => p.name)
+    // const events = events_db.map(e => ({ date: e.date_formated, players: e.players.map(pp => pp.name), pairs: pair_map(e.pairs) }))
+    // const pairs = pairs_db.map(pp => ([pp.event.date_formated, pp.player.name, pp.master?.name] as const))
+    // const players = players_db.map(p => p.name)
     if (options.saveToDisk === true) {
-        saveToHDD(players, 'saved_players')
-        saveToHDD(events, 'saved_events')
-        saveToHDD(pairs, 'saved_pairs')
+        saveToHDD(players_db, 'saved_players')
+        saveToHDD(events_db, 'saved_events')
+        saveToHDD(pairs_db, 'saved_pairs')
     } else {
-        console.log({ events, pairs, players })
+        // console.log({ events, pairs, players })
     }
-    return { events, pairs, players }
+    return { events_db, pairs_db, players_db }
 }
+type HDD_PLayer = Prisma.PlayerGetPayload<{ select: { id: true, name: true, ticket: true, events: true, pair: true } }>
+export async function restorePlayers() {
+    const validator = (p: HDD_PLayer) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()({ id: p.id, name: p.name, events: { connect: p.events }, pair: { connect: p.pair }, ticket: { connectOrCreate: { where: { playerId: p.id }, create: { ...p.ticket } }, } })
+    const p = await readFileFn<HDD_PLayer[]>("./public/json/saved_players.json")
+    const validPlayers = p.map(validator)
+
+}
+
+
 
 export async function updatePairs() {
     try {

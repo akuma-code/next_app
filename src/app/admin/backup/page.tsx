@@ -3,7 +3,10 @@ import { DescriptionButtonQuery } from "@/ClientComponents/UI/DescButton";
 import { ClientBackup } from "@/Components/Backup/ClientSideBackup";
 import { sync_events_pairs } from "@/Services/events/db_event";
 import { readFileFn } from "@/Services/fs/data_service";
-import { getImportantData } from "@/app/api/backup/events/actions";
+import {
+    getImportantData,
+    restorePlayers,
+} from "@/app/api/backup/events/actions";
 import { Box } from "@mui/material";
 const saveToDisk = process.env.DB_SAVE_TO_HDD === "1";
 export default async function BackupPage({
@@ -23,8 +26,8 @@ export default async function BackupPage({
             >
                 <ClientBackup />
                 <DescriptionButtonQuery
-                    action={getImportantData.bind(null, { saveToDisk })}
-                    title="Сохранить основные данные"
+                    action={restorePlayers}
+                    title="RestorePlayers"
                     description="Сохранение данных по игрокам, тренировкам и парам на диск [без айдишников, только строки]"
                 />
                 {/* <DescriptionButtonQuery
