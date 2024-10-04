@@ -67,7 +67,7 @@ export async function getImportantData(options = { saveToDisk: false }) {
 type HDD_PLayer = Prisma.PlayerGetPayload<{ select: { id: true, name: true, ticket: true, events: true, pair: true } }>
 export async function restorePlayers() {
     try {
-        const p = await readFileFn<HDD_PLayer[]>("./public/json/saved_players.json") as HDD_PLayer[]
+        // const p = await readFileFn<HDD_PLayer[]>("./public/json/saved_players.json") as HDD_PLayer[]
         const pls = JSON.parse(JSON.stringify(players_file)) as HDD_PLayer[]
         // if (!p) return { message: "error while reading" }
         const validator = (p: HDD_PLayer) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()(
