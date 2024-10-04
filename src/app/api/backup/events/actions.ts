@@ -74,12 +74,12 @@ export async function restorePlayers() {
             {
                 id: p.id, name: p.name,
                 events: { connect: p.events.map(e => ({ id: e.id })) },
-                pair: { connect: p.pair.map(p => ({ id: p.id })) },
-                ticket:
-                {
-                    connect: { playerId: p.id }
-                    //  connectOrCreate: { where: { playerId: p.id }, create: { ...p.ticket } },
-                }
+                pair: { connect: p.pair.map(pp => ({ id: pp.id })) },
+                // ticket:
+                // {
+                //     connect: { playerId: p.id }
+                //     //  connectOrCreate: { where: { playerId: p.id }, create: { ...p.ticket } },
+                // }
             })
         const validPlayers = pls.map(validator)
 
