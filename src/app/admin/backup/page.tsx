@@ -26,7 +26,7 @@ export default async function BackupPage({
             >
                 <ClientBackup />
                 <DescriptionButtonQuery
-                    action={restorePlayers}
+                    action={getImportantData.bind(null, { saveToDisk })}
                     title="RestorePlayers"
                     description="Сохранение данных по игрокам, тренировкам и парам на диск [без айдишников, только строки]"
                 />
@@ -45,7 +45,7 @@ export default async function BackupPage({
                     title="Вытянуть events и создать их"
                 />
                 <DescriptionButtonQuery
-                    action={fetchServer}
+                    action={fetchServer.bind(null)}
                     title="/api/db/events"
                 />
                 <DescriptionButtonQuery
@@ -113,4 +113,9 @@ async function fetchSS() {
         (e) => console.log({ e })
     );
     return data;
+}
+
+async function restoreDataFromFile() {
+    "use server";
+    return await restorePlayers();
 }

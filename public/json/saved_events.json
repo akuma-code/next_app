@@ -1,1 +1,2242 @@
-[{"date_formated":"2024-06-19","id":80,"players":[{"id":6},{"id":11},{"id":14},{"id":15},{"id":44}],"pairs":[],"title":"19 June, 19","cost":1},{"date_formated":"2024-06-21","id":81,"players":[{"id":3},{"id":4},{"id":6},{"id":7},{"id":10},{"id":11},{"id":13},{"id":14},{"id":15},{"id":20},{"id":22},{"id":44}],"pairs":[],"title":"21 June, 21","cost":1},{"date_formated":"2024-06-26","id":82,"players":[{"id":1},{"id":3},{"id":6},{"id":7},{"id":10},{"id":11},{"id":12},{"id":13},{"id":15},{"id":16},{"id":20},{"id":26},{"id":28},{"id":30},{"id":41},{"id":44},{"id":45},{"id":50}],"pairs":[],"title":"26 June, 26","cost":1},{"date_formated":"2024-06-28","id":83,"players":[{"id":1},{"id":8},{"id":11},{"id":12},{"id":15},{"id":19},{"id":20},{"id":22},{"id":44}],"pairs":[],"title":"28 June, 28","cost":1},{"date_formated":"2024-07-03","id":84,"players":[{"id":7},{"id":11},{"id":12},{"id":44},{"id":45},{"id":55}],"pairs":[],"title":"03 July, 03","cost":1},{"date_formated":"2024-07-05","id":85,"players":[{"id":3},{"id":7},{"id":8},{"id":11},{"id":12},{"id":13},{"id":14},{"id":15},{"id":35},{"id":43},{"id":44},{"id":201}],"pairs":[{"id":559,"firstPlayerId":1,"secondPlayerId":7,"masterId":null,"playerId":7,"eventId":85},{"id":560,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":85}],"title":"05 July, 05","cost":1},{"date_formated":"2024-07-10","id":86,"players":[{"id":3},{"id":6},{"id":7},{"id":11},{"id":12},{"id":15},{"id":20},{"id":28},{"id":35},{"id":41},{"id":43},{"id":46},{"id":202}],"pairs":[{"id":561,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":86},{"id":562,"firstPlayerId":2,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":86},{"id":563,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":86}],"title":"10 July, 10","cost":1},{"date_formated":"2024-07-12","id":87,"players":[{"id":3},{"id":8},{"id":11},{"id":14},{"id":15},{"id":19},{"id":20},{"id":22},{"id":55}],"pairs":[{"id":557,"firstPlayerId":1,"secondPlayerId":19,"masterId":null,"playerId":19,"eventId":87},{"id":558,"firstPlayerId":2,"secondPlayerId":22,"masterId":null,"playerId":22,"eventId":87},{"id":564,"firstPlayerId":2,"secondPlayerId":11,"masterId":null,"playerId":11,"eventId":87}],"title":"12 July, 12","cost":1},{"date_formated":"2024-07-17","id":88,"players":[{"id":6},{"id":11},{"id":12},{"id":13},{"id":14},{"id":15},{"id":20},{"id":22},{"id":28},{"id":45}],"pairs":[{"id":525,"firstPlayerId":1,"secondPlayerId":11,"masterId":null,"playerId":11,"eventId":88},{"id":526,"firstPlayerId":2,"secondPlayerId":22,"masterId":null,"playerId":22,"eventId":88},{"id":527,"firstPlayerId":2,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":88},{"id":528,"firstPlayerId":1,"secondPlayerId":20,"masterId":null,"playerId":20,"eventId":88}],"title":"17 July, 17","cost":1},{"date_formated":"2024-07-19","id":89,"players":[{"id":3},{"id":7},{"id":10},{"id":11},{"id":12},{"id":13},{"id":15},{"id":19},{"id":28},{"id":44},{"id":46}],"pairs":[{"id":529,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":89},{"id":533,"firstPlayerId":2,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":89}],"title":"19 July, 19","cost":1},{"date_formated":"2024-05-24","id":72,"players":[{"id":1},{"id":3},{"id":4},{"id":7},{"id":8},{"id":11},{"id":12},{"id":15},{"id":16},{"id":19},{"id":20},{"id":37},{"id":44},{"id":46},{"id":50},{"id":55}],"pairs":[{"id":581,"firstPlayerId":2,"secondPlayerId":46,"masterId":2,"playerId":46,"eventId":72}],"title":"24 May, 24","cost":1},{"date_formated":"2024-05-22","id":73,"players":[{"id":1},{"id":3},{"id":4},{"id":7},{"id":11},{"id":12},{"id":15},{"id":19},{"id":20},{"id":22},{"id":44},{"id":45},{"id":55}],"pairs":[],"title":"22 May, 22","cost":1},{"date_formated":"2024-05-29","id":74,"players":[{"id":1},{"id":3},{"id":5},{"id":7},{"id":8},{"id":11},{"id":15},{"id":16},{"id":19},{"id":20},{"id":35},{"id":37},{"id":42},{"id":45},{"id":50},{"id":55}],"pairs":[],"title":"29 May, 29","cost":1},{"date_formated":"2024-05-31","id":75,"players":[{"id":3},{"id":6},{"id":11},{"id":15},{"id":19},{"id":20},{"id":22},{"id":37},{"id":48},{"id":55},{"id":56}],"pairs":[],"title":"31 May, 31","cost":1},{"date_formated":"2024-06-05","id":76,"players":[{"id":1},{"id":3},{"id":5},{"id":6},{"id":7},{"id":11},{"id":14},{"id":15},{"id":20},{"id":44},{"id":45},{"id":46},{"id":58},{"id":59}],"pairs":[{"id":582,"firstPlayerId":2,"secondPlayerId":46,"masterId":2,"playerId":46,"eventId":76}],"title":"05 June, 05","cost":1},{"date_formated":"2024-06-07","id":77,"players":[{"id":1},{"id":3},{"id":4},{"id":6},{"id":11},{"id":12},{"id":14},{"id":15},{"id":19},{"id":22},{"id":44},{"id":45},{"id":60}],"pairs":[],"title":"07 June, 07","cost":1},{"date_formated":"2024-06-12","id":78,"players":[{"id":1},{"id":6},{"id":7},{"id":11},{"id":13},{"id":14},{"id":26},{"id":30},{"id":32},{"id":41},{"id":45},{"id":61}],"pairs":[],"title":"12 June, 12","cost":1},{"date_formated":"2024-06-14","id":79,"players":[{"id":3},{"id":4},{"id":6},{"id":11},{"id":14},{"id":15},{"id":17},{"id":19},{"id":22},{"id":30},{"id":41},{"id":45},{"id":58}],"pairs":[],"title":"14 June, 14","cost":1},{"date_formated":"2024-07-24","id":93,"players":[{"id":3},{"id":7},{"id":10},{"id":11},{"id":12},{"id":13},{"id":14},{"id":15},{"id":35},{"id":45},{"id":46}],"pairs":[{"id":569,"firstPlayerId":2,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":93},{"id":570,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":93},{"id":571,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":93}],"title":"24 July, 24","cost":1},{"date_formated":"2024-07-26","id":94,"players":[{"id":10},{"id":11},{"id":14},{"id":19},{"id":22},{"id":27},{"id":36},{"id":43},{"id":46}],"pairs":[{"id":547,"firstPlayerId":1,"secondPlayerId":19,"masterId":null,"playerId":19,"eventId":94},{"id":549,"firstPlayerId":2,"secondPlayerId":22,"masterId":null,"playerId":22,"eventId":94},{"id":550,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":94},{"id":551,"firstPlayerId":1,"secondPlayerId":11,"masterId":null,"playerId":11,"eventId":94}],"title":"26 July, 26","cost":1},{"date_formated":"2024-07-31","id":95,"players":[{"id":7},{"id":8},{"id":11},{"id":14},{"id":15},{"id":20},{"id":35},{"id":36},{"id":45}],"pairs":[{"id":552,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":95}],"title":"31 July, 31","cost":1},{"date_formated":"2024-08-02","id":96,"players":[{"id":7},{"id":8},{"id":10},{"id":11},{"id":12},{"id":13},{"id":15},{"id":19},{"id":20},{"id":22},{"id":35},{"id":43},{"id":55}],"pairs":[{"id":534,"firstPlayerId":1,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":96},{"id":535,"firstPlayerId":1,"secondPlayerId":20,"masterId":null,"playerId":20,"eventId":96},{"id":572,"firstPlayerId":1,"secondPlayerId":19,"masterId":null,"playerId":19,"eventId":96}],"title":"02 August, 02","cost":1},{"date_formated":"2024-08-07","id":97,"players":[{"id":3},{"id":11},{"id":12},{"id":14},{"id":20},{"id":45},{"id":48},{"id":55}],"pairs":[{"id":573,"firstPlayerId":2,"secondPlayerId":48,"masterId":null,"playerId":48,"eventId":97},{"id":574,"firstPlayerId":2,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":97}],"title":"07 August, 07","cost":1},{"date_formated":"2024-08-09","id":98,"players":[{"id":3},{"id":11},{"id":12},{"id":15},{"id":19},{"id":20},{"id":35},{"id":36},{"id":44},{"id":46},{"id":50}],"pairs":[{"id":522,"firstPlayerId":2,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":98},{"id":524,"firstPlayerId":1,"secondPlayerId":19,"masterId":null,"playerId":19,"eventId":98},{"id":575,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":98},{"id":576,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":98}],"title":"09 August, 09","cost":1},{"date_formated":"2024-08-14","id":99,"players":[{"id":3},{"id":6},{"id":8},{"id":11},{"id":12},{"id":14},{"id":15},{"id":16},{"id":20},{"id":27},{"id":35},{"id":36},{"id":43},{"id":44},{"id":48},{"id":205},{"id":207},{"id":208}],"pairs":[{"id":546,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":99}],"title":"14 August, 14","cost":1},{"date_formated":"2024-08-16","id":100,"players":[{"id":11},{"id":12},{"id":13},{"id":16},{"id":19},{"id":20},{"id":27},{"id":36},{"id":43},{"id":44},{"id":207}],"pairs":[{"id":530,"firstPlayerId":1,"secondPlayerId":44,"masterId":null,"playerId":44,"eventId":100},{"id":531,"firstPlayerId":1,"secondPlayerId":43,"masterId":null,"playerId":43,"eventId":100},{"id":532,"firstPlayerId":1,"secondPlayerId":19,"masterId":null,"playerId":19,"eventId":100}],"title":"16 August, 16","cost":1},{"date_formated":"2024-08-21","id":101,"players":[{"id":3},{"id":6},{"id":7},{"id":8},{"id":10},{"id":11},{"id":12},{"id":15},{"id":16},{"id":17},{"id":20},{"id":35},{"id":36},{"id":48},{"id":50},{"id":201},{"id":207},{"id":208}],"pairs":[{"id":537,"firstPlayerId":2,"secondPlayerId":12,"masterId":null,"playerId":12,"eventId":101},{"id":538,"firstPlayerId":2,"secondPlayerId":17,"masterId":null,"playerId":17,"eventId":101},{"id":539,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":101}],"title":"21 August, 21","cost":1},{"date_formated":"2024-08-23","id":102,"players":[{"id":3},{"id":7},{"id":11},{"id":13},{"id":15},{"id":16},{"id":20},{"id":36},{"id":44},{"id":207},{"id":209}],"pairs":[],"title":"23 August, 23","cost":1},{"date_formated":"2024-08-28","id":103,"players":[{"id":3},{"id":6},{"id":7},{"id":8},{"id":13},{"id":15},{"id":20},{"id":35},{"id":36},{"id":43},{"id":44},{"id":48},{"id":207},{"id":209}],"pairs":[{"id":536,"firstPlayerId":2,"secondPlayerId":8,"masterId":null,"playerId":8,"eventId":103}],"title":"28 August, 28","cost":1},{"date_formated":"2024-08-30","id":104,"players":[{"id":8},{"id":13},{"id":15},{"id":20},{"id":45},{"id":46},{"id":207},{"id":209},{"id":210}],"pairs":[{"id":523,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":104}],"title":"30 August, 30","cost":1},{"date_formated":"2024-09-04","id":106,"players":[{"id":7},{"id":8},{"id":11},{"id":15},{"id":18},{"id":20},{"id":35},{"id":44},{"id":46},{"id":208},{"id":211}],"pairs":[{"id":540,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":106},{"id":541,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":106}],"title":"04 September, 04","cost":1},{"date_formated":"2024-09-06","id":107,"players":[{"id":7},{"id":8},{"id":11},{"id":15},{"id":20},{"id":27},{"id":32},{"id":43},{"id":44},{"id":45},{"id":46},{"id":207},{"id":208}],"pairs":[{"id":542,"firstPlayerId":2,"secondPlayerId":32,"masterId":null,"playerId":32,"eventId":107},{"id":543,"firstPlayerId":1,"secondPlayerId":7,"masterId":null,"playerId":7,"eventId":107},{"id":544,"firstPlayerId":1,"secondPlayerId":20,"masterId":null,"playerId":20,"eventId":107},{"id":545,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":107}],"title":"06 September, 06","cost":1},{"date_formated":"2024-09-11","id":108,"players":[{"id":3},{"id":6},{"id":7},{"id":8},{"id":11},{"id":13},{"id":14},{"id":15},{"id":20},{"id":22},{"id":43},{"id":45},{"id":46},{"id":208},{"id":211}],"pairs":[{"id":554,"firstPlayerId":1,"secondPlayerId":43,"masterId":null,"playerId":43,"eventId":108},{"id":555,"firstPlayerId":2,"secondPlayerId":22,"masterId":null,"playerId":22,"eventId":108},{"id":556,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":108}],"title":"11 September, 11","cost":1},{"date_formated":"2024-09-13","id":109,"players":[{"id":3},{"id":7},{"id":11},{"id":13},{"id":15},{"id":20},{"id":22},{"id":32},{"id":44},{"id":45},{"id":207}],"pairs":[{"id":577,"firstPlayerId":1,"secondPlayerId":7,"masterId":null,"playerId":7,"eventId":109},{"id":578,"firstPlayerId":2,"secondPlayerId":32,"masterId":null,"playerId":32,"eventId":109},{"id":579,"firstPlayerId":2,"secondPlayerId":22,"masterId":null,"playerId":22,"eventId":109},{"id":580,"firstPlayerId":1,"secondPlayerId":44,"masterId":null,"playerId":44,"eventId":109}],"title":"13 September, 13","cost":1},{"date_formated":"2024-09-20","id":111,"players":[{"id":3},{"id":5},{"id":11},{"id":13},{"id":15},{"id":22},{"id":45},{"id":46},{"id":50},{"id":60},{"id":211}],"pairs":[{"id":567,"firstPlayerId":2,"secondPlayerId":22,"masterId":null,"playerId":22,"eventId":111},{"id":568,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":111}],"title":"20 September, 20","cost":1},{"date_formated":"2024-09-18","id":110,"players":[{"id":5},{"id":6},{"id":7},{"id":11},{"id":13},{"id":14},{"id":15},{"id":20},{"id":43},{"id":45},{"id":46},{"id":207}],"pairs":[{"id":565,"firstPlayerId":1,"secondPlayerId":20,"masterId":null,"playerId":20,"eventId":110},{"id":566,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":110}],"title":"18 September, 18","cost":1},{"date_formated":"2024-09-22","id":112,"players":[{"id":11},{"id":13},{"id":60},{"id":201},{"id":212}],"pairs":[],"title":"22 September, 22","cost":1},{"date_formated":"2024-09-25","id":113,"players":[{"id":3},{"id":11},{"id":13},{"id":14},{"id":15},{"id":20},{"id":35},{"id":43},{"id":44},{"id":45},{"id":46},{"id":207}],"pairs":[{"id":548,"firstPlayerId":2,"secondPlayerId":46,"masterId":null,"playerId":46,"eventId":113},{"id":553,"firstPlayerId":1,"secondPlayerId":35,"masterId":null,"playerId":35,"eventId":113}],"title":"25 September, 25","cost":1},{"date_formated":"2024-09-27","id":114,"players":[{"id":3},{"id":7},{"id":11},{"id":13},{"id":44},{"id":50},{"id":205},{"id":207}],"pairs":[{"id":520,"firstPlayerId":1,"secondPlayerId":11,"masterId":null,"playerId":11,"eventId":114},{"id":521,"firstPlayerId":1,"secondPlayerId":44,"masterId":null,"playerId":44,"eventId":114}],"title":"27 September, 27","cost":1}]
+[
+    {
+        "date_formated": "2024-06-19",
+        "id": 80,
+        "players": [
+            {
+                "id": 6
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 44
+            }
+        ],
+        "pairs": [],
+        "title": "19 June, 19",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-06-21",
+        "id": 81,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 4
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 10
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 44
+            }
+        ],
+        "pairs": [],
+        "title": "21 June, 21",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-06-26",
+        "id": 82,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 3
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 10
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 16
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 26
+            },
+            {
+                "id": 28
+            },
+            {
+                "id": 30
+            },
+            {
+                "id": 41
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 50
+            }
+        ],
+        "pairs": [],
+        "title": "26 June, 26",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-06-28",
+        "id": 83,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 44
+            }
+        ],
+        "pairs": [],
+        "title": "28 June, 28",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-03",
+        "id": 84,
+        "players": [
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 55
+            }
+        ],
+        "pairs": [],
+        "title": "03 July, 03",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-05",
+        "id": 85,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 201
+            }
+        ],
+        "pairs": [
+            {
+                "id": 559,
+                "firstPlayerId": 1,
+                "secondPlayerId": 7,
+                "masterId": null,
+                "playerId": 7,
+                "eventId": 85
+            },
+            {
+                "id": 560,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 85
+            }
+        ],
+        "title": "05 July, 05",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-10",
+        "id": 86,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 28
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 41
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 202
+            }
+        ],
+        "pairs": [
+            {
+                "id": 561,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 86
+            },
+            {
+                "id": 562,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 86
+            },
+            {
+                "id": 563,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 86
+            }
+        ],
+        "title": "10 July, 10",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-12",
+        "id": 87,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 55
+            }
+        ],
+        "pairs": [
+            {
+                "id": 557,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 87
+            },
+            {
+                "id": 558,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 87
+            },
+            {
+                "id": 564,
+                "firstPlayerId": 2,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 87
+            }
+        ],
+        "title": "12 July, 12",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-17",
+        "id": 88,
+        "players": [
+            {
+                "id": 6
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 28
+            },
+            {
+                "id": 45
+            }
+        ],
+        "pairs": [
+            {
+                "id": 525,
+                "firstPlayerId": 1,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 88
+            },
+            {
+                "id": 526,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 88
+            },
+            {
+                "id": 527,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 88
+            },
+            {
+                "id": 528,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 88
+            }
+        ],
+        "title": "17 July, 17",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-19",
+        "id": 89,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 10
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 28
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 46
+            }
+        ],
+        "pairs": [
+            {
+                "id": 529,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 89
+            },
+            {
+                "id": 533,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 89
+            }
+        ],
+        "title": "19 July, 19",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-05-24",
+        "id": 72,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 3
+            },
+            {
+                "id": 4
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 16
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 37
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 50
+            },
+            {
+                "id": 55
+            }
+        ],
+        "pairs": [
+            {
+                "id": 581,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": 2,
+                "playerId": 46,
+                "eventId": 72
+            }
+        ],
+        "title": "24 May, 24",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-05-22",
+        "id": 73,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 3
+            },
+            {
+                "id": 4
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 55
+            }
+        ],
+        "pairs": [],
+        "title": "22 May, 22",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-05-29",
+        "id": 74,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 3
+            },
+            {
+                "id": 5
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 16
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 37
+            },
+            {
+                "id": 42
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 50
+            },
+            {
+                "id": 55
+            }
+        ],
+        "pairs": [],
+        "title": "29 May, 29",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-05-31",
+        "id": 75,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 37
+            },
+            {
+                "id": 48
+            },
+            {
+                "id": 55
+            },
+            {
+                "id": 56
+            }
+        ],
+        "pairs": [],
+        "title": "31 May, 31",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-06-05",
+        "id": 76,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 3
+            },
+            {
+                "id": 5
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 58
+            },
+            {
+                "id": 59
+            }
+        ],
+        "pairs": [
+            {
+                "id": 582,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": 2,
+                "playerId": 46,
+                "eventId": 76
+            }
+        ],
+        "title": "05 June, 05",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-06-07",
+        "id": 77,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 3
+            },
+            {
+                "id": 4
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 60
+            }
+        ],
+        "pairs": [],
+        "title": "07 June, 07",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-06-12",
+        "id": 78,
+        "players": [
+            {
+                "id": 1
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 26
+            },
+            {
+                "id": 30
+            },
+            {
+                "id": 32
+            },
+            {
+                "id": 41
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 61
+            }
+        ],
+        "pairs": [],
+        "title": "12 June, 12",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-06-14",
+        "id": 79,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 4
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 17
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 30
+            },
+            {
+                "id": 41
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 58
+            }
+        ],
+        "pairs": [],
+        "title": "14 June, 14",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-24",
+        "id": 93,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 10
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            }
+        ],
+        "pairs": [
+            {
+                "id": 569,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 93
+            },
+            {
+                "id": 570,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 93
+            },
+            {
+                "id": 571,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 93
+            }
+        ],
+        "title": "24 July, 24",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-26",
+        "id": 94,
+        "players": [
+            {
+                "id": 10
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 27
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 46
+            }
+        ],
+        "pairs": [
+            {
+                "id": 547,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 94
+            },
+            {
+                "id": 549,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 94
+            },
+            {
+                "id": 550,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 94
+            },
+            {
+                "id": 551,
+                "firstPlayerId": 1,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 94
+            }
+        ],
+        "title": "26 July, 26",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-07-31",
+        "id": 95,
+        "players": [
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 45
+            }
+        ],
+        "pairs": [
+            {
+                "id": 552,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 95
+            }
+        ],
+        "title": "31 July, 31",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-02",
+        "id": 96,
+        "players": [
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 10
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 55
+            }
+        ],
+        "pairs": [
+            {
+                "id": 534,
+                "firstPlayerId": 1,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 96
+            },
+            {
+                "id": 535,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 96
+            },
+            {
+                "id": 572,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 96
+            }
+        ],
+        "title": "02 August, 02",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-07",
+        "id": 97,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 48
+            },
+            {
+                "id": 55
+            }
+        ],
+        "pairs": [
+            {
+                "id": 573,
+                "firstPlayerId": 2,
+                "secondPlayerId": 48,
+                "masterId": null,
+                "playerId": 48,
+                "eventId": 97
+            },
+            {
+                "id": 574,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 97
+            }
+        ],
+        "title": "07 August, 07",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-09",
+        "id": 98,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 50
+            }
+        ],
+        "pairs": [
+            {
+                "id": 522,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 98
+            },
+            {
+                "id": 524,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 98
+            },
+            {
+                "id": 575,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 98
+            },
+            {
+                "id": 576,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 98
+            }
+        ],
+        "title": "09 August, 09",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-14",
+        "id": 99,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 16
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 27
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 48
+            },
+            {
+                "id": 205
+            },
+            {
+                "id": 207
+            },
+            {
+                "id": 208
+            }
+        ],
+        "pairs": [
+            {
+                "id": 546,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 99
+            }
+        ],
+        "title": "14 August, 14",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-16",
+        "id": 100,
+        "players": [
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 16
+            },
+            {
+                "id": 19
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 27
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 207
+            }
+        ],
+        "pairs": [
+            {
+                "id": 530,
+                "firstPlayerId": 1,
+                "secondPlayerId": 44,
+                "masterId": null,
+                "playerId": 44,
+                "eventId": 100
+            },
+            {
+                "id": 531,
+                "firstPlayerId": 1,
+                "secondPlayerId": 43,
+                "masterId": null,
+                "playerId": 43,
+                "eventId": 100
+            },
+            {
+                "id": 532,
+                "firstPlayerId": 1,
+                "secondPlayerId": 19,
+                "masterId": null,
+                "playerId": 19,
+                "eventId": 100
+            }
+        ],
+        "title": "16 August, 16",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-21",
+        "id": 101,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 10
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 12
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 16
+            },
+            {
+                "id": 17
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 48
+            },
+            {
+                "id": 50
+            },
+            {
+                "id": 201
+            },
+            {
+                "id": 207
+            },
+            {
+                "id": 208
+            }
+        ],
+        "pairs": [
+            {
+                "id": 537,
+                "firstPlayerId": 2,
+                "secondPlayerId": 12,
+                "masterId": null,
+                "playerId": 12,
+                "eventId": 101
+            },
+            {
+                "id": 538,
+                "firstPlayerId": 2,
+                "secondPlayerId": 17,
+                "masterId": null,
+                "playerId": 17,
+                "eventId": 101
+            },
+            {
+                "id": 539,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 101
+            }
+        ],
+        "title": "21 August, 21",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-23",
+        "id": 102,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 16
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 207
+            },
+            {
+                "id": 209
+            }
+        ],
+        "pairs": [],
+        "title": "23 August, 23",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-28",
+        "id": 103,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 36
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 48
+            },
+            {
+                "id": 207
+            },
+            {
+                "id": 209
+            }
+        ],
+        "pairs": [
+            {
+                "id": 536,
+                "firstPlayerId": 2,
+                "secondPlayerId": 8,
+                "masterId": null,
+                "playerId": 8,
+                "eventId": 103
+            }
+        ],
+        "title": "28 August, 28",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-08-30",
+        "id": 104,
+        "players": [
+            {
+                "id": 8
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 207
+            },
+            {
+                "id": 209
+            },
+            {
+                "id": 210
+            }
+        ],
+        "pairs": [
+            {
+                "id": 523,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 104
+            }
+        ],
+        "title": "30 August, 30",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-04",
+        "id": 106,
+        "players": [
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 18
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 208
+            },
+            {
+                "id": 211
+            }
+        ],
+        "pairs": [
+            {
+                "id": 540,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 106
+            },
+            {
+                "id": 541,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 106
+            }
+        ],
+        "title": "04 September, 04",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-06",
+        "id": 107,
+        "players": [
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 27
+            },
+            {
+                "id": 32
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 207
+            },
+            {
+                "id": 208
+            }
+        ],
+        "pairs": [
+            {
+                "id": 542,
+                "firstPlayerId": 2,
+                "secondPlayerId": 32,
+                "masterId": null,
+                "playerId": 32,
+                "eventId": 107
+            },
+            {
+                "id": 543,
+                "firstPlayerId": 1,
+                "secondPlayerId": 7,
+                "masterId": null,
+                "playerId": 7,
+                "eventId": 107
+            },
+            {
+                "id": 544,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 107
+            },
+            {
+                "id": 545,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 107
+            }
+        ],
+        "title": "06 September, 06",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-11",
+        "id": 108,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 8
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 208
+            },
+            {
+                "id": 211
+            }
+        ],
+        "pairs": [
+            {
+                "id": 554,
+                "firstPlayerId": 1,
+                "secondPlayerId": 43,
+                "masterId": null,
+                "playerId": 43,
+                "eventId": 108
+            },
+            {
+                "id": 555,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 108
+            },
+            {
+                "id": 556,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 108
+            }
+        ],
+        "title": "11 September, 11",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-13",
+        "id": 109,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 32
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 207
+            }
+        ],
+        "pairs": [
+            {
+                "id": 577,
+                "firstPlayerId": 1,
+                "secondPlayerId": 7,
+                "masterId": null,
+                "playerId": 7,
+                "eventId": 109
+            },
+            {
+                "id": 578,
+                "firstPlayerId": 2,
+                "secondPlayerId": 32,
+                "masterId": null,
+                "playerId": 32,
+                "eventId": 109
+            },
+            {
+                "id": 579,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 109
+            },
+            {
+                "id": 580,
+                "firstPlayerId": 1,
+                "secondPlayerId": 44,
+                "masterId": null,
+                "playerId": 44,
+                "eventId": 109
+            }
+        ],
+        "title": "13 September, 13",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-20",
+        "id": 111,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 5
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 22
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 50
+            },
+            {
+                "id": 60
+            },
+            {
+                "id": 211
+            }
+        ],
+        "pairs": [
+            {
+                "id": 567,
+                "firstPlayerId": 2,
+                "secondPlayerId": 22,
+                "masterId": null,
+                "playerId": 22,
+                "eventId": 111
+            },
+            {
+                "id": 568,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 111
+            }
+        ],
+        "title": "20 September, 20",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-18",
+        "id": 110,
+        "players": [
+            {
+                "id": 5
+            },
+            {
+                "id": 6
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 207
+            }
+        ],
+        "pairs": [
+            {
+                "id": 565,
+                "firstPlayerId": 1,
+                "secondPlayerId": 20,
+                "masterId": null,
+                "playerId": 20,
+                "eventId": 110
+            },
+            {
+                "id": 566,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 110
+            }
+        ],
+        "title": "18 September, 18",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-22",
+        "id": 112,
+        "players": [
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 60
+            },
+            {
+                "id": 201
+            },
+            {
+                "id": 212
+            }
+        ],
+        "pairs": [],
+        "title": "22 September, 22",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-25",
+        "id": 113,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 14
+            },
+            {
+                "id": 15
+            },
+            {
+                "id": 20
+            },
+            {
+                "id": 35
+            },
+            {
+                "id": 43
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 45
+            },
+            {
+                "id": 46
+            },
+            {
+                "id": 207
+            }
+        ],
+        "pairs": [
+            {
+                "id": 548,
+                "firstPlayerId": 2,
+                "secondPlayerId": 46,
+                "masterId": null,
+                "playerId": 46,
+                "eventId": 113
+            },
+            {
+                "id": 553,
+                "firstPlayerId": 1,
+                "secondPlayerId": 35,
+                "masterId": null,
+                "playerId": 35,
+                "eventId": 113
+            }
+        ],
+        "title": "25 September, 25",
+        "cost": 1
+    },
+    {
+        "date_formated": "2024-09-27",
+        "id": 114,
+        "players": [
+            {
+                "id": 3
+            },
+            {
+                "id": 7
+            },
+            {
+                "id": 11
+            },
+            {
+                "id": 13
+            },
+            {
+                "id": 44
+            },
+            {
+                "id": 50
+            },
+            {
+                "id": 205
+            },
+            {
+                "id": 207
+            }
+        ],
+        "pairs": [
+            {
+                "id": 520,
+                "firstPlayerId": 1,
+                "secondPlayerId": 11,
+                "masterId": null,
+                "playerId": 11,
+                "eventId": 114
+            },
+            {
+                "id": 521,
+                "firstPlayerId": 1,
+                "secondPlayerId": 44,
+                "masterId": null,
+                "playerId": 44,
+                "eventId": 114
+            }
+        ],
+        "title": "27 September, 27",
+        "cost": 1
+    }
+]
