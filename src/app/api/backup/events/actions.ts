@@ -69,15 +69,26 @@ export async function restorePlayers() {
     try {
         const p = await readFileFn<HDD_PLayer[]>("./public/json/saved_players.json") as HDD_PLayer[]
         if (!p) return { message: "error while reading" }
-        const validator = (p: HDD_PLayer) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()({ id: p.id, name: p.name, events: { connect: p.events }, pair: { connect: p.pair }, ticket: { connectOrCreate: { where: { playerId: p.id }, create: { ...p.ticket } }, } })
+        const validator = (p: HDD_PLayer) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()(
+            {
+                id: p.id, name: p.name,
+                events: { connect: p.events.map(e => ({ id: e.id })) },
+                pair: { connect: p.pair.map(p => ({ id: p.id })) },
+                ticket:
+                {
+                    connect: { playerId: p.id }
+                    //  connectOrCreate: { where: { playerId: p.id }, create: { ...p.ticket } },
+                }
+            })
         const validPlayers = p.map(validator)
 
         const tsx = validPlayers.map(p => prisma.player.create({ data: p }))
         const res = await prisma.$transaction(tsx)
         console.table(res)
-        return res
+        return JSON.stringify(res)
     } catch (error) {
-        return error
+        console.log(error)
+        throw error
     }
 
 }

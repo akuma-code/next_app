@@ -117,5 +117,6 @@ async function fetchSS() {
 
 async function restoreDataFromFile() {
     "use server";
-    return await restorePlayers();
+    const p = await restorePlayers();
+    return p;
 }

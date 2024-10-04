@@ -44,9 +44,14 @@ import {
 import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import TicketInfo from "@/Components/Modals/TicketInfo";
+import { restorePlayers } from "@/app/api/backup/events/actions";
 
 async function update_database() {
     return await reSyncPlayers();
+}
+
+async function restore() {
+    return await restorePlayers();
 }
 //!           _______________________________
 const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
@@ -264,6 +269,16 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                         }
                     >
                         Sync
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color={"error"}
+                        onClick={restore}
+                        startIcon={
+                            <Icon path={mdiDatabaseSyncOutline} size={1} />
+                        }
+                    >
+                        Restore From File
                     </Button>
                 </ButtonGroup>
             );
