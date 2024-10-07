@@ -7,6 +7,7 @@ import { PrismaPlayer_ } from "@/Types"
 import { Event, Prisma } from "@prisma/client"
 import { DefaultArgs } from "@prisma/client/runtime/library"
 import { revalidatePath } from "next/cache"
+import { NotAllowedInProd } from "../NotAllowedInProd"
 
 const db = prisma.event
 const db_pairs = prisma.pair
@@ -430,8 +431,8 @@ export async function sync_events_pairs() {
 }
 
 export async function reSyncPlayers() {
-    await prisma.player.deleteMany().then(console.log)
-
+    // await prisma.player.deleteMany().then(console.log)
+    await NotAllowedInProd()
     await fetchAndCreatePlayers().then(async () => await sync_events_pairs(), console.error).finally(() => revalidatePath("/"))
     // await sync_events_pairs()
 }

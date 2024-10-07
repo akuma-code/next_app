@@ -137,7 +137,6 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                             path={mdiTicketPercentOutline}
                             size={1.2}
                             {...p}
-                            // className="m-1"
                         />
                     ),
                     accessorKey: "hasTicket",
@@ -274,9 +273,10 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                         Sync
                     </Button>
                     <Button
-                        variant="contained"
-                        color={"error"}
+                        variant="outlined"
+                        color={"secondary"}
                         onClick={restore}
+                        disabled
                         startIcon={
                             <Icon path={mdiDatabaseSyncOutline} size={1} />
                         }
@@ -284,9 +284,10 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                         Restore Players
                     </Button>
                     <Button
-                        variant="contained"
-                        color={"error"}
+                        variant="outlined"
+                        color={"secondary"}
                         onClick={restore_pairs}
+                        disabled
                         startIcon={
                             <Icon path={mdiDatabaseSyncOutline} size={1} />
                         }
@@ -323,6 +324,7 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         if (isUpdateError) setErrors({ update: updateError.message });
         return () => setErrors({});
     }, [error, isError, isUpdateError, updateError]);
+
     return <MaterialReactTable table={table} />;
 };
 

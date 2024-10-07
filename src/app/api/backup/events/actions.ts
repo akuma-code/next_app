@@ -5,18 +5,13 @@ import { readFileFn, writeFileFn } from "@/Services/fs/data_service"
 import { Prisma } from "@prisma/client"
 import players_file from "../../../../../public/json/saved_players.json"
 import pairs_file from "../../../../../public/json/saved_pairs.json"
+import { NotAllowedInProd } from "@/Services/NotAllowedInProd"
 export async function getImportantData(options = { saveToDisk: false }) {
 
     const p = prisma.pair
     const e = prisma.event
     const pp = prisma.player
-    const pairs_db = await p.findMany({
-        // select: {
-        //     event: { select: { date_formated: true } },
-        //     player: { select: { name: true } },
-        //     master: { select: { name: true } }
-        // }
-    })
+    const pairs_db = await p.findMany()
     const players_db = await pp.findMany({
         select: { id: true, name: true, ticket: true, events: true, pair: true }
         // select: { name: true }
@@ -30,16 +25,6 @@ export async function getImportantData(options = { saveToDisk: false }) {
             pairs: true,
             title: true,
             cost: true
-
-            // date_formated: true,
-            // players: { select: { name: true } },
-            // pairs: {
-            //     select: {
-            //         event: { select: { date_formated: true } },
-            //         player: { select: { name: true } },
-            //         master: { select: { name: true } }
-            //     }
-            // }
         }
     })
     const pair_map = (pairs: {
@@ -92,6 +77,7 @@ export async function restorePlayers() {
 }
 
 export async function restorePairs() {
+
     const saved = JSON.parse(JSON.stringify(pairs_file)) as HDD_Pair[]
     const validator = (pp: HDD_Pair) => Prisma.validator<Prisma.PairUncheckedCreateInput>()({
 
