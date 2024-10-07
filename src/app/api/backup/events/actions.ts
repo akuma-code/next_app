@@ -4,6 +4,7 @@ import prisma from "@/client/client"
 import { readFileFn, writeFileFn } from "@/Services/fs/data_service"
 import { Prisma } from "@prisma/client"
 import players_file from "../../../../../public/json/saved_players.json"
+import pairs_file from "../../../../../public/json/saved_pairs.json"
 export async function getImportantData(options = { saveToDisk: false }) {
 
     const p = prisma.pair
@@ -65,6 +66,7 @@ export async function getImportantData(options = { saveToDisk: false }) {
     return { events_db, pairs_db, players_db }
 }
 type HDD_PLayer = Prisma.PlayerGetPayload<{ select: { id: true, name: true, ticket: true, events: true, pair: true } }>
+type HDD_Pair = Prisma.PairGetPayload<true>
 export async function restorePlayers() {
     try {
         // const p = await readFileFn<HDD_PLayer[]>("./public/json/saved_players.json") as HDD_PLayer[]
@@ -74,12 +76,7 @@ export async function restorePlayers() {
             {
                 id: p.id, name: p.name,
                 events: { connect: p.events.map(e => ({ id: e.id })) },
-                // pair: { connect: p.pair.map(pp => ({ id: pp.id })) },
-                // ticket:
-                // {
-                //     connect: { playerId: p.id }
-                //     //  connectOrCreate: { where: { playerId: p.id }, create: { ...p.ticket } },
-                // }
+
             })
         const validPlayers = pls.map(validator)
 
@@ -94,7 +91,28 @@ export async function restorePlayers() {
 
 }
 
+export async function restorePairs() {
+    const saved = JSON.parse(JSON.stringify(pairs_file)) as HDD_Pair[]
+    const validator = (pp: HDD_Pair) => Prisma.validator<Prisma.PairUncheckedCreateInput>()({
 
+        id: pp.id,
+        firstPlayerId: pp.firstPlayerId,
+        masterId: pp.firstPlayerId,
+        secondPlayerId: pp.secondPlayerId,
+        playerId: pp.secondPlayerId,
+        eventId: pp.eventId
+
+
+    })
+
+    const valid_pairs = saved.map(validator)
+    const tsx = valid_pairs.map(p => prisma.pair.create({ data: p }))
+    const result = await prisma.$transaction(tsx)
+    console.table(result)
+    return result
+
+
+}
 
 export async function updatePairs() {
     try {
