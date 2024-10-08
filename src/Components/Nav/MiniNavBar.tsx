@@ -161,26 +161,24 @@ export default function MiniDrawer() {
                     flexDirection={"row"}
                     justifyContent={"space-between"}
                 >
-                    <>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            sx={[
-                                {
-                                    marginRight: 5,
-                                },
-                                open && { visibility: "hidden" },
-                            ]}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" noWrap component="div">
-                            Авангард
-                        </Typography>
-                        <SignInButton />
-                    </>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        sx={[
+                            {
+                                marginRight: 5,
+                            },
+                            open && { visibility: "hidden" },
+                        ]}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap component="div">
+                        Авангард
+                    </Typography>
+                    <SignInButton />
                 </Toolbar>
             </AppBar>
             <Toolbar />
@@ -191,7 +189,8 @@ export default function MiniDrawer() {
                         <Icon path={mdiArrowLeftCircle} size={1} />
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
+
+                {open && <Divider>Авангард</Divider>}
                 <List>
                     {routes.map((r, index) => (
                         <ListItem
@@ -249,7 +248,12 @@ export default function MiniDrawer() {
                         </ListItem>
                     ))}
                 </List>
-                {open && <Divider>Админка</Divider>}
+
+                {open && (
+                    <Divider sx={{ pt: 2, color: "secondary.main" }}>
+                        Админка
+                    </Divider>
+                )}
                 <List>
                     {admin_routes.map((r) => (
                         <ListItem
@@ -307,75 +311,7 @@ export default function MiniDrawer() {
                         </ListItem>
                     ))}
                 </List>
-                {/* <Divider />
-                    {["All mail", "Trash", "Spam"].map((text, index) => (
-                        <ListItem
-                            key={text}
-                            disablePadding
-                            sx={{ display: "block" }}
-                        >
-                            <ListItemButton
-                                sx={[
-                                    {
-                                        minHeight: 48,
-                                        px: 2.5,
-                                    },
-                                    open
-                                        ? {
-                                              justifyContent: "initial",
-                                          }
-                                        : {
-                                              justifyContent: "center",
-                                          },
-                                ]}
-                            >
-                                <ListItemIcon
-                                    sx={[
-                                        {
-                                            minWidth: 0,
-                                            justifyContent: "center",
-                                        },
-                                        open
-                                            ? {
-                                                  mr: 3,
-                                              }
-                                            : {
-                                                  mr: "auto",
-                                              },
-                                    ]}
-                                >
-                                    {index % 2 === 0 ? (
-                                        <InboxIcon />
-                                    ) : (
-                                        <MailIcon />
-                                    )}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={text}
-                                    sx={[
-                                        open
-                                            ? {
-                                                  opacity: 1,
-                                              }
-                                            : {
-                                                  opacity: 0,
-                                              },
-                                    ]}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List> */}
             </Drawer>
-            {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <DrawerHeader />
-                <Typography sx={{ marginBottom: 2 }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                </Typography>
-                <Typography sx={{ marginBottom: 2 }}>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla
-                </Typography>
-            </Box> */}
         </Box>
     );
 }
