@@ -9,6 +9,7 @@ import React from "react";
 import "./globals.css";
 import Providers from "./providers";
 import { ProviderToolbar } from "./toolbar-provider";
+import { NavbarProvider } from "./nav-provider";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
@@ -37,13 +38,13 @@ const RootLayout: React.FC<{
                 >
                     <MrtBoundary>
                         <Providers>
-                            <ProviderToolbar>
+                            <NavbarProvider>{children}</NavbarProvider>
+                            {/* <ProviderToolbar>
                                 <DashboardLayout>
-                                    {children}
 
                                     <SpeedInsights />
-                                </DashboardLayout>
-                            </ProviderToolbar>
+                                </DashboardLayout> */}
+                            {/* </ProviderToolbar> */}
                         </Providers>
                     </MrtBoundary>
                 </SessionProvider>

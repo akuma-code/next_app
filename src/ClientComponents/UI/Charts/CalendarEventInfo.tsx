@@ -16,12 +16,12 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { DialogProps } from "@toolpad/core";
 
 export function CalendarEventInfo(
-    props: DialogProps<number, void>
-    //  {
-    //     payload: number;
-    //     open: boolean;
-    //     onClose: (res: unknown) => Promise<void>;
-    // }
+    //  DialogProps<number>
+    props: {
+        payload: number;
+        open: boolean;
+        onClose: (res?: unknown) => Promise<void>;
+    }
 ) {
     const { payload: eventId } = props;
 

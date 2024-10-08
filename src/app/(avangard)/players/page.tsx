@@ -18,6 +18,7 @@ async function AvPlayers(query: {
         <Stack
             direction={"row"}
             columnGap={2}
+            p={2}
             // sx={ { maxHeight: playerId ? '30vh' : '70vh' } }
         >
             <Stack
@@ -25,32 +26,29 @@ async function AvPlayers(query: {
                 direction={{ sm: "column", md: "row" }}
                 gap={2}
             >
-                {(view === "list" || !view) && (
-                    <>
-                        <PlayersListView
-                            players={players}
-                            selected={playerId || null}
-                        />
-                        {/* {ep && <PlayersEventList event_info={ep} />} */}
-                        {playerId ? (
-                            <Suspense fallback={"loading..."}>
-                                <CalendarEventsShorts playerId={+playerId} />
-                            </Suspense>
-                        ) : (
-                            <Paper>
-                                <Typography
-                                    variant="body1"
-                                    component={"div"}
-                                    p={2}
-                                >
-                                    <p>
-                                        Никто не выбран. Для просмотра календаря
-                                        посещений выберете игрока из списка
-                                    </p>
-                                </Typography>
-                            </Paper>
-                        )}
-                    </>
+                <PlayersListView
+                    players={players}
+                    selected={playerId || null}
+                />
+
+                {playerId ? (
+                    <Suspense fallback={"loading..."}>
+                        <CalendarEventsShorts playerId={+playerId} />
+                    </Suspense>
+                ) : (
+                    <Paper>
+                        <Typography
+                            variant="body1"
+                            component={"div"}
+                            p={2}
+                            whiteSpace={"normal"}
+                        >
+                            <p>
+                                Никто не выбран. Для просмотра календаря
+                                посещений выберете игрока из списка
+                            </p>
+                        </Typography>
+                    </Paper>
                 )}
             </Stack>
         </Stack>

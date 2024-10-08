@@ -110,25 +110,25 @@ export const akuTheme = createTheme({
         // },
     },
     components: {
-        MuiAppBar: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: 'red'
-                }
-            }
-        },
-        MuiDrawer: {
-            styleOverrides: {
+        // MuiAppBar: {
+        //     styleOverrides: {
+        //         root: {
+        //             backgroundColor: 'red'
+        //         }
+        //     }
+        // },
+        // MuiDrawer: {
+        //     styleOverrides: {
 
-                paper: {
-                    backgroundColor: "whitesmoke",
-                    maxWidth: 200
-                },
+        //         paper: {
+        //             backgroundColor: "whitesmoke",
+        //             maxWidth: 200
+        //         },
 
 
-            },
-            defaultProps: { variant: 'temporary' }
-        },
+        //     },
+        //     defaultProps: { variant: 'temporary' }
+        // },
 
 
 

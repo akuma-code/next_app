@@ -24,6 +24,7 @@ import { ruRU } from "@mui/x-date-pickers/locales";
 import { useRouter } from "next/navigation";
 import { useDialogs } from "@toolpad/core";
 import { CalendarEventInfo } from "./CalendarEventInfo";
+import { useToggle } from "@/Hooks/useToggle";
 const get_event_shorts = (
     events: Awaited<ReturnType<typeof getPlayerEvents>>["events"]
 ) => {
@@ -48,10 +49,14 @@ const LOCALE = ruRU.components.MuiLocalizationProvider.defaultProps.localeText;
 export const CalendarEventsShorts = (props: { playerId: number }) => {
     const { playerId } = props;
     const { isMobile } = useMediaDetect();
+    const [selectedEventId, setSelectedEventId] = useState<undefined | number>(
+        undefined
+    );
     const [day, setDay] = useState<Dayjs | null>(dayjs());
     const [dates, setDates] = useState<number[]>([]);
     const r = useRouter();
-    const d = useDialogs();
+    // const d = useDialogs();
+    const [open, c] = useToggle();
     // const [string_dates, setStringDates] = useState<
     //     PickersShortcutsItem<dayjs.Dayjs | null>[]
     // >([]);
@@ -75,13 +80,17 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
         const en = shorts.map((s) => s.djs.date());
         setDates(en);
     }, [shorts]);
-    const openDialog = useCallback(
-        (eventId?: number) => {
-            if (!eventId) return;
-            d.open<number, void>(CalendarEventInfo, eventId);
-        },
-        [d]
-    );
+    // const openDialog = useCallback(
+    //     (eventId?: number) => {
+    //         if (!eventId) return;
+    //         d.open<number, void>(CalendarEventInfo, eventId);
+    //     },
+    //     [d]
+    // );
+    const handleClose = async () => {
+        c.off();
+        setSelectedEventId((p) => undefined);
+    };
     return (
         <LocalizationProvider
             dateAdapter={AdapterDayjs}
@@ -123,9 +132,11 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                     } as any,
                     layout: {
                         onSelectShortcut(newValue, changeImportance, shortcut) {
-                            console.log(shortcut);
+                            // console.log(shortcut);
                             const es = { ...shortcut } as ExtendedShortCut;
-                            openDialog(es.eventId);
+                            // openDialog(es.eventId);
+                            setSelectedEventId((prev) => es.eventId);
+                            // handleClose();
                         },
                         sx: {
                             height: "fit-content",
@@ -152,6 +163,13 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                 views={["month", "day"]}
                 disableFuture
             />
+            {selectedEventId && (
+                <CalendarEventInfo
+                    open={open}
+                    payload={selectedEventId}
+                    onClose={handleClose}
+                />
+            )}
         </LocalizationProvider>
     );
 };

@@ -7,7 +7,7 @@ import { makeNewEvent } from "@/Services/eventService";
 import {
     mdiArrowDownBoldHexagonOutline,
     mdiNewBox,
-    mdiNewspaperPlus
+    mdiNewspaperPlus,
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import { SettingsTwoTone } from "@mui/icons-material";

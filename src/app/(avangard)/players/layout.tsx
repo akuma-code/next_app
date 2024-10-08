@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { PageContainer } from "@toolpad/core";
 import { Metadata } from "next";
 export const metadata: Metadata = {
@@ -14,11 +14,11 @@ function PlayersLayout({
 }) {
     return (
         // <DashboardLayout>
-        <PageContainer breadCrumbs={[]}>
+        <Container maxWidth={"lg"}>
             {/* <EventHeader /> */}
             <Box>{children}</Box>
             <Box>{view}</Box>
-        </PageContainer>
+        </Container>
         // </DashboardLayout>
     );
 }
