@@ -1,3 +1,6 @@
+'use client'
+
+
 export * from "./SideNavUserInfo";
 export * from "./StatCard";
 export * from "./IconNav";

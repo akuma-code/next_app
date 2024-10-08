@@ -7,7 +7,7 @@ import { PrismaPlayer_ } from "@/Types"
 import { Event, Prisma } from "@prisma/client"
 import { DefaultArgs } from "@prisma/client/runtime/library"
 import { revalidatePath } from "next/cache"
-import { NotAllowedInProd } from "../NotAllowedInProd"
+import { NotAllowedInProd, NotAllowedInDevelopment } from "../NotAllowedInProd"
 
 const db = prisma.event
 const db_pairs = prisma.pair

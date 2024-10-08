@@ -1,50 +1,37 @@
 "use client";
+import TicketInfo from "@/Components/Modals/TicketInfo";
 import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
-import {
-    MRT_Player,
-    useMRTPlayers,
-    useMRTPlayersSelect,
-} from "@/Hooks/useGetEventPlayers";
+import { MRT_Player, useMRTPlayersSelect } from "@/Hooks/useGetEventPlayers";
 import { reSyncPlayers } from "@/Services/events/db_event";
-import {
-    CreateNewPlayer,
-    deletePlayer,
-    EditPlayer,
-} from "@/Services/playerService";
+import { EditPlayer } from "@/Services/playerService";
 import { PrismaPlayer_ } from "@/Types";
-import {
-    LiteralUnion,
-    MaterialReactTable,
-    MRT_EditActionButtons,
-    MRT_PaginationState,
-    MRT_Row,
-    MRT_TableInstance,
-    MRT_TableOptions,
-    useMaterialReactTable,
-    // createRow,
-    type MRT_ColumnDef,
-} from "material-react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-    mrt_players_options,
-    mrt_players_options_v2,
-} from "../mrt.config.players";
-import Icon from "@mdi/react";
+import { restorePairs, restorePlayers } from "@/app/api/backup/events/actions";
 import {
     mdiAccountPlusOutline,
     mdiAppleKeyboardCommand,
     mdiDatabaseSyncOutline,
     mdiHumanEdit,
-    mdiInformationVariantCircleOutline,
     mdiStickerCheck,
     mdiStickerRemove,
-    mdiStickerRemoveOutline,
     mdiTicketPercentOutline,
 } from "@mdi/js";
-import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
+import Icon from "@mdi/react";
+import { Button, ButtonGroup, IconButton } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import TicketInfo from "@/Components/Modals/TicketInfo";
-import { restorePairs, restorePlayers } from "@/app/api/backup/events/actions";
+import {
+    MaterialReactTable,
+    MRT_PaginationState,
+    useMaterialReactTable,
+    // createRow,
+    type MRT_ColumnDef,
+} from "material-react-table";
+import { useEffect, useMemo, useState } from "react";
+import { mrt_players_options_v2 } from "../mrt.config.players";
+import {
+    IconNavMockup,
+    SideNavUserInfoMockup,
+    StatCardMockup,
+} from "@/mui-treasury/mockup-dashboard";
 
 async function update_database() {
     return await reSyncPlayers();
@@ -249,6 +236,10 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         onEditingRowCancel(props) {
             setErrors({});
         },
+        // renderTopToolbarCustomActions(props) {
+        //     const { table } = props;
+        //     return <IconNavMockup />;
+        // },
         renderBottomToolbarCustomActions(props) {
             const { table } = props;
             return (

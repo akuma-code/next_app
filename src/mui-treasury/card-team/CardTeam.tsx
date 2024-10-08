@@ -32,7 +32,7 @@ const DivRoot = styled("div")(() => ({
             bottom: -6,
         },
         "& $card": {
-            boxShadow: "-12px 12px 64px 0 #bcc3d6",
+            boxShadow: "-12px 12px 64px 0 #030303",
         },
     },
 }));

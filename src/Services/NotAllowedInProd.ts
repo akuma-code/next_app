@@ -5,3 +5,9 @@ export async function NotAllowedInProd() {
     return true
 
 }
+export async function NotAllowedInDevelopment() {
+    const isDev = process.env.NODE_ENV === 'development'
+    if (isDev) throw new Error("This function not aloowed in production")
+    return true
+
+}

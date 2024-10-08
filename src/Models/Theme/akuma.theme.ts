@@ -1,10 +1,7 @@
 'use client'
 
-import { createTheme, ThemeOptions } from '@mui/material/styles';
-import { light, dark } from '@mui/material/styles/createPalette';
-import { info, error } from 'console';
-import { text } from 'stream/consumers';
 import { ruRU } from '@mui/material/locale';
+import { createTheme } from '@mui/material/styles';
 import { ruRU as PickersRuru } from '@mui/x-date-pickers/locales';
 
 export const akuTheme = createTheme({
@@ -63,53 +60,54 @@ export const akuTheme = createTheme({
                 }
             },
         },
-        dark: {
-            palette: {
-                primary: {
-                    main: '#0c2659',
-                    light: '#97bef0',
-                    dark: '#0a0f03',
-                    contrastText: '#cecece',
-                },
-                secondary: {
-                    main: '#5b9ea3',
-                    light: '#7adaf7',
-                    dark: '#074d49',
-                    contrastText: '#0c2659',
-                },
-                background: {
-                    default: '#c6deec',
-                    paper: '#ffffff',
-                },
-                text: {
-                    primary: '#010626',
-                    secondary: '#4959c2',
-                    disabled: '#010626',
+        dark: true,
+        // {
+        //     palette: {
+        //         primary: {
+        //             main: '#0c2659',
+        //             light: '#97bef0',
+        //             dark: '#0a0f03',
+        //             contrastText: '#cecece',
+        //         },
+        //         secondary: {
+        //             main: '#5b9ea3',
+        //             light: '#7adaf7',
+        //             dark: '#074d49',
+        //             contrastText: '#0c2659',
+        //         },
+        //         background: {
+        //             default: '#c6deec',
+        //             paper: '#ffffff',
+        //         },
+        //         text: {
+        //             primary: '#010626',
+        //             secondary: '#4959c2',
+        //             disabled: '#010626',
 
-                },
-                info: {
-                    main: '#ddf037',
-                    dark: '#76772f',
-                    light: '#f1f397',
-                },
-                divider: '#183f8c',
-                warning: {
-                    main: '#e07138',
-                    dark: '#b74c1a',
-                    light: '#f38758',
-                },
-                error: {
-                    main: '#bb0a0a',
-                    light: '#f86464',
-                    dark: '#660303',
-                },
-                success: {
-                    main: '#779f3c',
-                    light: '#c7dc5d',
-                    dark: '#3e6404',
-                },
-            },
-        },
+        //         },
+        //         info: {
+        //             main: '#ddf037',
+        //             dark: '#76772f',
+        //             light: '#f1f397',
+        //         },
+        //         divider: '#183f8c',
+        //         warning: {
+        //             main: '#e07138',
+        //             dark: '#b74c1a',
+        //             light: '#f38758',
+        //         },
+        //         error: {
+        //             main: '#bb0a0a',
+        //             light: '#f86464',
+        //             dark: '#660303',
+        //         },
+        //         success: {
+        //             main: '#779f3c',
+        //             light: '#c7dc5d',
+        //             dark: '#3e6404',
+        //         },
+        //     },
+        // },
     },
     components: {
         MuiAppBar: {
@@ -121,12 +119,15 @@ export const akuTheme = createTheme({
         },
         MuiDrawer: {
             styleOverrides: {
-                modal: {},
+
                 paper: {
-                    backgroundColor: "info",
-                }
+                    backgroundColor: "whitesmoke",
+                    maxWidth: 200
+                },
+
+
             },
-            defaultProps: { variant: 'permanent' }
+            defaultProps: { variant: 'temporary' }
         },
 
 
