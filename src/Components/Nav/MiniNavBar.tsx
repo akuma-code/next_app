@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -30,6 +30,7 @@ import {
     mdiDatabaseCogOutline,
     mdiDatabaseSyncOutline,
     mdiSecurity,
+    mdiThemeLightDark,
     mdiTrophyVariantOutline,
 } from "@mdi/js";
 import Link from "next/link";
@@ -40,6 +41,7 @@ import {
 import { ButtonGroup, Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { ColorModeContext } from "@/app/providers";
 
 const drawerWidth = 240;
 const SegmentIcon = {
@@ -165,7 +167,7 @@ export default function MiniDrawer() {
     const handleDrawerOpen = () => {
         setOpen(true);
     };
-
+    const { toggleColorMode } = useContext(ColorModeContext);
     const handleDrawerClose = () => {
         setOpen(false);
     };
@@ -197,6 +199,9 @@ export default function MiniDrawer() {
                         Авангард
                     </Typography>
                     <ButtonGroup sx={{ gap: 1 }}>
+                        <IconButton color="info" onClick={toggleColorMode}>
+                            <Icon path={mdiThemeLightDark} size={1} />
+                        </IconButton>
                         <SignInButton />
                         {session?.status === "authenticated" && (
                             <SignOutButton />

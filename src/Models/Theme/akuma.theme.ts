@@ -58,7 +58,7 @@ export const akuTheme = createTheme({
 
             },
         },
-        // dark: true,
+        dark: true,
         // {
         //     palette: {
         //         primary: {

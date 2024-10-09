@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
     title: "Авангард",
     description: "Спортивная школа Авангард, расписание тренировок",
-    icons: { icon: "public/favicon.ico" },
+    icons: { icon: "/favicon.ico" },
 };
 
 const RootLayout: React.FC<{

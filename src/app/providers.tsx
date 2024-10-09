@@ -1,29 +1,20 @@
 "use client";
-import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
+import { akuTheme } from "@/Models/Theme/akuma.theme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { ruRU } from "@mui/x-date-pickers/locales";
 import { QueryFunction } from "@tanstack/react-query";
-import {
-    DashboardLayout,
-    NavigationItem,
-    NavigationPageItem,
-    Router,
-} from "@toolpad/core";
-import { AppProvider } from "@toolpad/core/nextjs";
+import { NavigationItem, NavigationPageItem } from "@toolpad/core";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import weekday from "dayjs/plugin/weekday";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
-import { ruRU } from "@mui/x-date-pickers/locales";
-import { ProviderToolbar } from "./toolbar-provider";
-import { akuTheme, theme_with_overrides } from "@/Models/Theme/akuma.theme";
 dayjs.extend(weekday);
 
 //*!________________________
