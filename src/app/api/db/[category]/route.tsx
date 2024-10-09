@@ -80,8 +80,15 @@ export async function GET(
     });
 
     const tsx_pairs = prisma.pair.findMany({
-        // select: { eventId: true, playerId: true, masterId: true, id: true },
-        omit: { masterId: true, playerId: true },
+        select: {
+            eventId: true,
+            playerId: true,
+            masterId: true,
+            id: true,
+            firstPlayerId: true,
+            secondPlayerId: true,
+        },
+        // omit: { masterId: true, playerId: true },
         take: taken,
         orderBy: { id: id_order },
     });

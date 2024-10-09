@@ -13,18 +13,18 @@ export const akuTheme = createTheme({
             palette: {
                 primary: {
                     main: '#0c2659',
-                    light: '#262d31',
+                    light: '#1f3746',
                     dark: '#010626',
                     contrastText: '#fff',
                 },
                 secondary: {
-                    main: '#b74343',
-                    light: '#ffebee',
-                    dark: '#6f0404',
+                    main: '#066e8d',
+                    light: '#6dd5f5',
+                    dark: '#043646',
                     contrastText: '#ffebee',
                 },
                 background: {
-                    default: '#7986cb',
+                    default: '#c5cefc',
                     paper: '#cfd8dc',
                 },
                 text: {
@@ -34,9 +34,9 @@ export const akuTheme = createTheme({
                     secondary: '#010314',
                 },
                 info: {
-                    main: '#fdd835',
-                    dark: '#f9a825',
-                    light: '#fffde7',
+                    main: '#8a7206',
+                    dark: '#383002',
+                    light: '#fcd199',
                 },
                 warning: {
                     main: '#e07138',
@@ -55,9 +55,7 @@ export const akuTheme = createTheme({
                 },
                 divider: '#183f8c',
 
-                AppBar: {
-                    defaultBg: "#ff0000"
-                }
+
             },
         },
         dark: true,

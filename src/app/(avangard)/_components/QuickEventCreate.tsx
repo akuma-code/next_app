@@ -48,7 +48,7 @@ export function QuickEventCreate({ children }: Props) {
                 sx={{
                     position: "absolute",
                     top: 10,
-                    left: 10,
+                    right: 20,
                     bgcolor: (t) =>
                         drop ? alpha(t.palette.primary.main, 0.7) : "inherit",
                     transition: "all 0.3s ease-in",
@@ -72,14 +72,14 @@ export function QuickEventCreate({ children }: Props) {
             >
                 <SpeedDialAction
                     tooltipOpen={!isMobile}
-                    tooltipPlacement="right"
+                    tooltipPlacement="left"
                     icon={<Icon path={mdiNewBox} size={1} />}
                     tooltipTitle={"Быстрый старт"}
                     onClick={handleCreate}
                 />
                 <SpeedDialAction
                     tooltipOpen={!isMobile}
-                    tooltipPlacement="right"
+                    tooltipPlacement="left"
                     icon={<Icon path={mdiNewspaperPlus} size={1} />}
                     tooltipTitle={"Создать тренировку"}
                     onClick={() => router.push("/events/create")}

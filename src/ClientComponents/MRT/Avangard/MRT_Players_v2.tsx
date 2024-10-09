@@ -256,7 +256,7 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                     <Button
                         variant="contained"
                         color={"warning"}
-                        onClick={update_database}
+                        onClick={async () => await update_database()}
                         startIcon={
                             <Icon path={mdiDatabaseSyncOutline} size={1} />
                         }

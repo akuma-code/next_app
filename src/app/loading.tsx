@@ -5,7 +5,7 @@ import React from "react";
 interface LoadingStpProps {}
 
 const Loading: React.FC<LoadingStpProps> = () => {
-    return <LoadSpinner text="APP LOADING..." />;
+    return <LoadSpinner text="Загрузка..." />;
 };
 
 export default Loading;

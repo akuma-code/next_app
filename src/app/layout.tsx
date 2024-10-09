@@ -14,8 +14,8 @@ import { NavbarProvider } from "./nav-provider";
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
     title: "Авангард",
-    description: "Avangard project",
-    icons: ["favicon.ico"],
+    description: "Спортивная школа Авангард, расписание тренировок",
+    icons: { icon: "public/favicon.ico" },
 };
 
 const RootLayout: React.FC<{
@@ -31,20 +31,14 @@ const RootLayout: React.FC<{
     return (
         <html lang="ru" data-toolpad-color-scheme="light">
             <body className={inter.className}>
-                <SessionProvider
-                    session={session}
-                    refetchOnWindowFocus
-                    refetchWhenOffline={false}
-                >
+                <SessionProvider session={session} refetchOnWindowFocus>
                     <MrtBoundary>
                         <Providers>
-                            <NavbarProvider>{children}</NavbarProvider>
-                            {/* <ProviderToolbar>
-                                <DashboardLayout>
+                            <NavbarProvider>
+                                {children}
 
-                                    <SpeedInsights />
-                                </DashboardLayout> */}
-                            {/* </ProviderToolbar> */}
+                                <SpeedInsights />
+                            </NavbarProvider>
                         </Providers>
                     </MrtBoundary>
                 </SessionProvider>

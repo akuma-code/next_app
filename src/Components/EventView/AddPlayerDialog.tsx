@@ -14,18 +14,38 @@ import {
     DialogTitle,
     Stack,
 } from "@mui/material";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+    keepPreviousData,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
 
 interface AddPlayerProps {
     event_players: { id: number; name: string }[];
     event_id: number;
 }
-async function fetchPlayers() {
-    const players = await getPlayers();
-    console.table(players);
-    return players;
+
+function useConnectPlayer(eventId: number) {
+    console.log({ eventId });
+    return useMutation({
+        mutationFn: (playerId: number) =>
+            connectPlayerWithTicket(
+                { id: eventId },
+                { playerId: playerId, cost: 1 }
+            ),
+    });
 }
-export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
+async function fetchPlayers() {
+    const players = await fetch("/api/db/player");
+    console.table(players.json());
+    return players.json() as unknown as {
+        id: number;
+        name: string;
+        ticket?: any | null;
+    }[];
+}
+const AddPlayerDialog: React.FC<AddPlayerProps> = ({
     event_players,
     event_id,
 }) => {
@@ -38,6 +58,10 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
         placeholderData: keepPreviousData,
         select: (data) => data.filter((d) => !eventIds.includes(d.id)),
     });
+
+    const { mutateAsync: connectPlayer, isPending: isConnecting } =
+        useConnectPlayer(event_id);
+
     if (q.error) {
         _log(q.error);
         return <Box>Fetch players error</Box>;
@@ -81,8 +105,9 @@ export const AddPlayerDialog: React.FC<AddPlayerProps> = ({
                                 variant="outlined"
                                 size="small"
                                 key={p.id}
-                                onClick={() =>
-                                    handleConnectPlayer(event_id, p.id)
+                                onClick={
+                                    () => connectPlayer(p.id)
+                                    // handleConnectPlayer(event_id, p.id)
                                 }
                                 endIcon={
                                     p.ticket ? (

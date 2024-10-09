@@ -356,32 +356,55 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
     }
 
 }
-
+interface AllDataResponse {
+    events: Prisma.EventGetPayload<{
+        select: typeof defaultEventSelect
+    }>[]
+    pairs: Prisma.PairGetPayload<
+        {
+            select: {
+                master: true
+                player: true
+                event: true
+                id: true
+            }
+        }
+    >[]
+}
 export async function sync_events_pairs() {
     try {
-        // await fetchAndCreatePlayers()
-        // await prisma.event.deleteMany()
-        // await prisma.pair.deleteMany()
-        // await prisma.master.deleteMany()
+
         await reseedMasters()
-        const { events, pairs } = await fetchServer().then(r => r.alldata) as { events: Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>[], pairs: Prisma.PairGetPayload<{ select: { master: true, player: true, event: true, id: true } }>[] }
+
+
+        const { events, pairs } = await fetchServer()
+            .then(r => r.alldata) as AllDataResponse
 
 
         const existed_events_id_pool = await prisma.event.findMany({ select: { id: true, } }).then(r => r.map(e => e.id))
 
         console.log("🚀 ~ sync_events_pairs ~ existed_events_id_pool:", existed_events_id_pool)
-
-
-        const tsx_create_pairs = pairs.map(p => prisma.pair.create({
+        const valid_upset_pair_arg = (pp: typeof pairs[number]) => Prisma.validator<Prisma.PairCreateArgs>()({
             data: {
-                firstPlayerId: p.master?.id!,
-                secondPlayerId: p.player.id,
-                eventId: p.event.id,
-                playerId: p.player.id,
-                id: p.id
-            }
-        }))
-
+                id: pp.id,
+                firstPlayerId: pp.master?.id!,
+                secondPlayerId: pp.player.id,
+                eventId: pp.event.id,
+                playerId: pp.player.id,
+            },
+            // update: { event: { connect: { id: pp.eventId } }, master: { connect: { id: pp.firstPlayerId }, }, player: { connect: { id: pp.playerId } } }
+        })
+        const valid_pairs = pairs.map(valid_upset_pair_arg)
+        // const tsx_create_pairs = pairs.map(p => prisma.pair.create({
+        //     data: {
+        //         id: p.id,
+        //         firstPlayerId: p.master?.id!,
+        //         secondPlayerId: p.player.id,
+        //         eventId: p.event.id,
+        //         playerId: p.player.id,
+        //     }
+        // }))
+        const tsx_upsert_pairs = valid_pairs.map(p => prisma.pair.create(p))
         const validate_args = <T extends Prisma.EventGetPayload<{ select: typeof defaultEventSelect }>>(e: T) =>
             Prisma.validator<Prisma.EventUncheckedCreateInput>()({
                 id: e.id, date_formated: e.date_formated, title: e.title,
@@ -402,7 +425,8 @@ export async function sync_events_pairs() {
 
                 })
             )
-            const tsx = [tsx_create_new, tsx_create_pairs].flat()
+            const tsx = [tsx_create_new, tsx_upsert_pairs].flat()
+            console.log("transaction length: ", tsx.length)
             return await prisma.$transaction(tsx)
         }
 
@@ -417,7 +441,7 @@ export async function sync_events_pairs() {
 
         // const tsx_pairs_update = await sync_pairs(pairs)
 
-        return await prisma.$transaction([...tsx_create_new, ...tsx_create_pairs])
+        return await prisma.$transaction([...tsx_create_new, ...tsx_upsert_pairs])
         // .then(async (r) => await sync_pairs(pairs))
 
 
@@ -433,6 +457,8 @@ export async function sync_events_pairs() {
 export async function reSyncPlayers() {
     // await prisma.player.deleteMany().then(console.log)
     await NotAllowedInProd()
-    await fetchAndCreatePlayers().then(async () => await sync_events_pairs(), console.error).finally(() => revalidatePath("/"))
+    await fetchAndCreatePlayers()
+        .then(async () => await sync_events_pairs(), console.error)
+        .finally(() => revalidatePath("/"))
     // await sync_events_pairs()
 }

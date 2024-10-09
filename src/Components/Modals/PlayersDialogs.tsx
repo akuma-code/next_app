@@ -1,6 +1,7 @@
 "use client";
 
 import { _log } from "@/Helpers/helpersFns";
+import { useConnectPlayer } from "@/Hooks/MRT/Events/useConnectPlayer";
 import { connectOnePlayer, getEventById } from "@/Services/eventService";
 import { createPlayer, getPlayers } from "@/Services/playerService";
 import { ticketCountMinus } from "@/Services/tickets/ticketActions";
@@ -88,6 +89,8 @@ export const ConnectDialog = ({
         select: (data) => data.filter((d) => !eventIds.includes(d.id)),
         enabled: show,
     });
+
+    const { mutateAsync: add, isPending } = useConnectPlayer(event.id);
     const [isConnecting, start] = useTransition();
 
     if (q.error) {
@@ -127,7 +130,7 @@ export const ConnectDialog = ({
                 <Stack direction={"column"} spacing={1} justifyContent={"left"}>
                     {q.data?.map((p) => (
                         <Button
-                            disabled={isConnecting}
+                            disabled={isPending}
                             endIcon={
                                 p.ticket ? (
                                     <Icon path={mdiBitcoin} size={1} />
@@ -141,7 +144,7 @@ export const ConnectDialog = ({
                             variant="outlined"
                             size="small"
                             key={p.id}
-                            onClick={handleConnect(p, event.id)}
+                            onClick={() => add(p)}
                         >
                             {p.name} {p.ticket && `[${p.ticket.amount}]`}
                         </Button>
@@ -174,6 +177,7 @@ export const CreatePlayerDialog = ({
         start(async () => {
             await createPlayer(player.name);
         });
+        handleClose();
     };
 
     // function handleReset() {
@@ -182,7 +186,7 @@ export const CreatePlayerDialog = ({
     // const show = Boolean(anchorEl);
     return (
         <Dialog open={show} onClose={handleClose}>
-            <DialogTitle>Добавить на тренировку</DialogTitle>
+            <DialogTitle>Создать игрока</DialogTitle>
             <DialogContent>
                 <Box
                     m={1}
@@ -205,7 +209,11 @@ export const CreatePlayerDialog = ({
                         variant="outlined"
                         label={`Введите имя`}
                     />
-                    <ButtonGroup sx={{ pt: 0 }} size="small">
+                    <ButtonGroup
+                        sx={{ pt: 0 }}
+                        size="small"
+                        disabled={isCreating}
+                    >
                         <Button
                             color="warning"
                             sx={{ bgcolor: "success.main" }}

@@ -22,22 +22,35 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Icon from "@mdi/react";
 import {
+    mdiAccountCogOutline,
+    mdiAccountDetailsOutline,
     mdiAccountGroupOutline,
     mdiArrowLeftCircle,
     mdiChartBarStacked,
+    mdiDatabaseCogOutline,
+    mdiDatabaseSyncOutline,
     mdiSecurity,
     mdiTrophyVariantOutline,
 } from "@mdi/js";
 import Link from "next/link";
-import { SignInButton } from "@/ClientComponents/auth/SignInButton";
-import { Stack } from "@mui/material";
+import {
+    SignInButton,
+    SignOutButton,
+} from "@/ClientComponents/auth/SignInButton";
+import { ButtonGroup, Stack } from "@mui/material";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const drawerWidth = 240;
 const SegmentIcon = {
     events: <Icon size={1} path={mdiTrophyVariantOutline} />,
     players: <Icon size={1} path={mdiAccountGroupOutline} />,
+    players_config: <Icon size={1} path={mdiAccountDetailsOutline} />,
     stats: <Icon size={1} path={mdiChartBarStacked} />,
     admin: <Icon size={1} path={mdiSecurity} />,
+    users: <Icon size={1} path={mdiAccountCogOutline} />,
+    backup: <Icon size={1} path={mdiDatabaseCogOutline} />,
+    compare: <Icon size={1} path={mdiDatabaseSyncOutline} />,
 };
 
 type NavItem = {
@@ -52,10 +65,14 @@ const routes: NavItem[] = [
     { href: "/charts", label: "Сводка", icon: SegmentIcon.stats },
 ];
 const admin_routes: NavItem[] = [
-    { href: "/admin/players", label: "игроки", icon: SegmentIcon.events },
-    { href: "/admin/users", label: "юзеры", icon: SegmentIcon.players },
-    { href: "/admin/backup", label: "бэкап", icon: SegmentIcon.stats },
-    { href: "/admin/compare", label: "База данных", icon: SegmentIcon.admin },
+    {
+        href: "/admin/players",
+        label: "игроки",
+        icon: SegmentIcon.players_config,
+    },
+    { href: "/admin/users", label: "юзеры", icon: SegmentIcon.users },
+    { href: "/admin/backup", label: "бэкап", icon: SegmentIcon.backup },
+    { href: "/admin/compare", label: "База данных", icon: SegmentIcon.compare },
 ];
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -141,9 +158,10 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
+    const session = useSession();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-
+    const [open, setOpen] = React.useState(true);
+    const pathname = usePathname();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -151,7 +169,7 @@ export default function MiniDrawer() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
+    const isPath = (path: string) => path === pathname;
     return (
         <Box sx={{ display: "flex" }}>
             <CssBaseline />
@@ -178,7 +196,12 @@ export default function MiniDrawer() {
                     <Typography variant="h6" noWrap component="div">
                         Авангард
                     </Typography>
-                    <SignInButton />
+                    <ButtonGroup sx={{ gap: 1 }}>
+                        <SignInButton />
+                        {session?.status === "authenticated" && (
+                            <SignOutButton />
+                        )}
+                    </ButtonGroup>
                 </Toolbar>
             </AppBar>
             <Toolbar />
@@ -212,6 +235,14 @@ export default function MiniDrawer() {
                                           }
                                         : {
                                               justifyContent: "center",
+                                          },
+
+                                    isPath(r.href)
+                                        ? {
+                                              bgcolor: "warning.dark",
+                                          }
+                                        : {
+                                              bgcolor: "inherit",
                                           },
                                 ]}
                             >
@@ -275,6 +306,13 @@ export default function MiniDrawer() {
                                           }
                                         : {
                                               justifyContent: "center",
+                                          },
+                                    isPath(r.href)
+                                        ? {
+                                              bgcolor: "warning.dark",
+                                          }
+                                        : {
+                                              bgcolor: "inherit",
                                           },
                                 ]}
                             >
