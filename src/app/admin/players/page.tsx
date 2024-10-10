@@ -5,6 +5,8 @@ import AdminPlayerList from "./AdminPlayerList";
 
 import MRT_Players_v2 from "@/ClientComponents/MRT/Avangard/MRT_Players_v2";
 import { PrismaPlayer_ } from "@/Types";
+import { verifySession } from "@/auth/verifySession";
+import AccessDenied from "@/ClientComponents/auth/AccessDenied";
 
 // const clone_action = fetchAndCreatePlayers.bind(null);
 
@@ -51,7 +53,9 @@ async function AvPlayers(query: { searchParams: { action: string } }) {
 
 async function AdminPlayersPage() {
     const p = (await GET_PLAYERS({})) as PrismaPlayer_[];
+    const { isAuth } = await verifySession();
 
+    if (!isAuth) return <AccessDenied />;
     return (
         <Box
             maxWidth={{ lg: "fit-content", xs: "90vw" }}

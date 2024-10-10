@@ -42,6 +42,7 @@ import { ButtonGroup, Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { ColorModeContext } from "@/app/providers";
+import { User } from "@prisma/client";
 
 const drawerWidth = 240;
 const SegmentIcon = {
@@ -159,7 +160,7 @@ const Drawer = styled(MuiDrawer, {
     ],
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer({ user }: { user?: User }) {
     const session = useSession();
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);

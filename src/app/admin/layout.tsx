@@ -1,12 +1,8 @@
 import { verifySession } from "@/auth/verifySession";
 import AccessDenied from "@/ClientComponents/auth/AccessDenied";
-import LinkMui from "@/ClientComponents/UI/LinkMui";
-import { mdiMathNorm } from "@mdi/js";
-import Icon from "@mdi/react";
 
-import { Box, Breadcrumbs, Button, Paper, Stack } from "@mui/material";
-import { DashboardLayout, PageContainer } from "@toolpad/core";
-import { AppProvider } from "@toolpad/core/nextjs";
+import { Box, Container } from "@mui/material";
+import { PageContainer } from "@toolpad/core";
 import { Metadata } from "next";
 
 interface ContainerLayoutProps {
@@ -14,33 +10,10 @@ interface ContainerLayoutProps {
     view: React.ReactNode;
 }
 
-const links = [
-    {
-        href: "/admin",
-        label: "Админка",
-    },
-    {
-        href: "/admin/users",
-        label: "Пользователи",
-    },
-
-    {
-        href: "/admin/backup",
-        label: "DB",
-    },
-    {
-        href: "/admin/compare",
-        label: "Сервак",
-    },
-    {
-        href: "/admin/players",
-        label: "Игроки",
-    },
-];
 export const metadata: Metadata = {
     title: "Админка",
     description: "Панель администратора",
-    icons: "public/icon_admin.ico",
+    icons: { icon: "public/icon_admin.ico" },
 };
 
 const AdminLayout: React.FC<ContainerLayoutProps> = async ({
@@ -51,23 +24,24 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
 
     return (
         <>
-            {isAuth ? (
-                // <Stack direction={{ sm: "column" }} m={1} gap={1}>
-                <Box
-                //  maxWidth={{ md: 980, xs: 350 }}
-                >
-                    <PageContainer maxWidth={"lg"}>{children}</PageContainer>
-                    {view}
-                </Box>
-            ) : (
-                // <Box maxWidth={{ md: "90vw", xs: 350 }}>
-                //     <PageContainer>
-                //         {children}
-
-                //     </PageContainer>
-                // </Box>
-                <AccessDenied />
-            )}
+            <Container maxWidth={"lg"}>{children}</Container>
+            {
+                // isAuth ? (
+                //     // <Stack direction={{ sm: "column" }} m={1} gap={1}>
+                //     <Box
+                //     //  maxWidth={{ md: 980, xs: 350 }}
+                //     >
+                //         {view}
+                //     </Box>
+                // ) : (
+                //     // <Box maxWidth={{ md: "90vw", xs: 350 }}>
+                //     //     <PageContainer>
+                //     //         {children}
+                //     //     </PageContainer>
+                //     // </Box>
+                //     <AccessDenied />
+                // )
+            }
         </>
     );
 };

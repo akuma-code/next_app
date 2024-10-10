@@ -11,6 +11,7 @@
     "@mui/material-nextjs": "^6.1.1",
     "@mui/x-charts": "^7.18.0",
     "@mui/x-date-pickers": "^7.18.0",
+    "@next/bundle-analyzer": "^14.2.15",
     "@next/eslint-plugin-next": "^14.2.13",
     "@prisma/adapter-pg": "^5.20.0",
     "@prisma/client": "^5.20.0",

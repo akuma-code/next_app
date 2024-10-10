@@ -24,7 +24,7 @@ export const { handlers, signIn, signOut, auth, } = NextAuth(
         session: {
             strategy: "jwt",
             // Seconds - How long until an idle session expires and is no longer valid.
-            maxAge: 30 * 24 * 60 * 60, // 30 days
+            maxAge: 24 * 60 * 60, // 1 day
 
             // Seconds - Throttle how frequently to write to database to extend a session.
             // Use it to limit write operations. Set to 0 to always update the database.
@@ -211,11 +211,11 @@ declare module "next-auth" {
         name?: string | null
         password?: string
 
-        settings?: {
-            theme: string,
-            view: string
+        // settings?: {
+        //     theme: string,
+        //     view: string
 
-        }
+        // }
         // emailVerified?: number | null
 
     }

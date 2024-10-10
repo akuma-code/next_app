@@ -15,7 +15,12 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
     title: "Авангард",
     description: "Спортивная школа Авангард, расписание тренировок",
-    icons: { icon: "/favicon.ico" },
+    icons: {
+        icon:
+            process.env.NODE_ENV === "development"
+                ? "/public/favicon.ico"
+                : "/favicon.ico",
+    },
 };
 
 const RootLayout: React.FC<{
@@ -24,10 +29,8 @@ const RootLayout: React.FC<{
     // modalEvent: React.ReactNode;
     // slot: React.ReactNode;
 }> = async ({ children }) => {
-    const session = await auth();
-
     // console.clear();
-
+    const session = await auth();
     return (
         <html lang="ru" data-toolpad-color-scheme="light">
             <body className={inter.className}>

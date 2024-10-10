@@ -12,7 +12,7 @@ import { NavigationItem, NavigationPageItem } from "@toolpad/core";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import weekday from "dayjs/plugin/weekday";
-import { useSession } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
 dayjs.extend(weekday);
@@ -83,7 +83,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
     // const { device, isMobile, isDesktop } = useMediaDetect();
     const savedmode: PaletteMode = prefersDarkMode ? "dark" : "light";
-    const session = useSession();
+
     const [mode, setMode] = useState<PaletteMode>(savedmode);
     const colorMode = React.useMemo(
         () => ({
@@ -97,21 +97,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         }),
         []
     );
-    // const r = useRouter();
-    // const pathname = usePathname();
-    // const searchParams = useSearchParams();
 
-    // const router = useMemo<Router>(() => {
-    //     // const sp = new URLSearchParams();
-    //     return {
-    //         pathname,
-    //         searchParams,
-    //         navigate: (path) => {
-    //             return r.push(path.toString());
-    //         },
-    //     };
-    // }, [pathname, r, searchParams]);
-    // (isMobile || isDesktop) && console.log({ device })
     const THEME = useMemo(
         () =>
             createTheme(
@@ -121,26 +107,13 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                         colorSchemeSelector: "data-toolpad-color-scheme",
                     },
                 },
-                {
-                    overrides: {
-                        MuiToolbar: {
-                            colorInherit: {
-                                backgroundColor: "#ffffff",
-                                color: "#000000",
-                            },
-                        },
-                    },
-                    props: {
-                        MuiAppBar: {
-                            color: "inherit",
-                        },
-                    },
-                    ...ruRU,
-                }
+
+                ruRU
             ),
         [mode]
     );
     return (
+        // <SessionProvider session={session.data} refetchOnWindowFocus>
         <LocalizationProvider
             dateAdapter={AdapterDayjs}
             adapterLocale="ru"
@@ -157,5 +130,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 </ColorModeContext.Provider>
             </AppRouterCacheProvider>
         </LocalizationProvider>
+        // </SessionProvider>
     );
 }

@@ -3,8 +3,14 @@ import type { AuthProvider } from "@toolpad/core";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { AuthError } from "next-auth";
 import { signIn } from "./auth";
+import { revalidatePath } from "next/cache";
+import Link from "next/link";
 
 export default function SignInToolPage() {
+    // function SignUpLink() {
+    //     "use server";
+    //     return <Link href="/api/auth/register">Registration</Link>;
+    // }
     return (
         <SignInPage
             providers={[{ id: "credentials", name: "credentials" }]}
@@ -20,7 +26,7 @@ export default function SignInToolPage() {
                             email: formData.get("email"),
                             password: formData.get("password"),
                         }),
-                        redirectTo: callbackUrl ?? "/",
+                        redirectTo: callbackUrl,
                     });
                 } catch (error) {
                     // The desired flow for successful sign in in all cases

@@ -4,6 +4,7 @@ import { signIn } from "@/auth/auth";
 import SignInToolPage from "@/auth/signInPage";
 import { Button, Container, Stack } from "@mui/material";
 import { AuthError } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 async function SignInPage({
     searchParams,
@@ -59,6 +60,8 @@ async function SignInPage({
                                 error: "Неизвестно",
                                 type: "UnknownError",
                             };
+                        } finally {
+                            revalidatePath("/");
                         }
                     }}
                 >
