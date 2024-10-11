@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import MechanIcon from "../../public/icon.ico";
+// import MechanIcon from "../../public/icon.ico";
 export const metadata: Metadata = {
     title: "Авангард",
     description: "Расписание тренировок",
-    icons: ["/public/icon.ico"],
+    icons: ["/favicon.ico"],
 };
 async function MainAvangardLayout({ children }: { children: React.ReactNode }) {
     return <div>{children}</div>;

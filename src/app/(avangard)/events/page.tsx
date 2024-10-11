@@ -1,17 +1,8 @@
-import { OrderFilterControls } from "@/ClientComponents/UI/Filters/OrderFiltersControl";
-import {
-    AppBar,
-    Box,
-    CircularProgress,
-    Container,
-    Toolbar,
-} from "@mui/material";
-import { Suspense } from "react";
-import { ViewSwitch } from "./viewSwitch";
-import { DialogsProvider } from "@toolpad/core";
-import EventsProvider from "./providers";
 import { EventsList } from "@/ClientComponents/EventsList";
 import { getEventsByMonth } from "@/Services/eventService";
+import EventsProvider from "./providers";
+import { Pagination } from "@mui/material";
+import { EventsToolbar } from "../_components/EventsToolbar";
 
 export type OrderType = "asc" | "desc";
 async function EventsPage({
@@ -24,19 +15,10 @@ async function EventsPage({
     let order = (searchParams.order as OrderType) || "desc";
     const events = await getEventsByMonth(month, order);
     return (
-        // <MrtBoundary>
-        // <Container maxWidth={"md"}>
-        //     <Suspense
-        //         fallback={
-        //             <CircularProgress variant="indeterminate" color="error" />
-        //         }
-        //     >
-        //     </Suspense>
-        // </Container>
         <EventsProvider>
+            <EventsToolbar total={events.length} />
             <EventsList events={events} />
         </EventsProvider>
-        // </MrtBoundary>
     );
 }
 

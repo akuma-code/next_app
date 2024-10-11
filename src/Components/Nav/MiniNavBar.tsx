@@ -43,6 +43,8 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { ColorModeContext } from "@/app/providers";
 import { User } from "@prisma/client";
+import { NavMenu } from "@/ClientComponents/UI/NavMenu";
+import useMediaDetect from "@/Hooks/useMediaDetect";
 
 const drawerWidth = 240;
 const SegmentIcon = {
@@ -163,7 +165,8 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer({ user }: { user?: User }) {
     const session = useSession();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
+    const { isDesktop, isMobile } = useMediaDetect();
+    const [open, setOpen] = React.useState(!isMobile);
     const pathname = usePathname();
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -199,15 +202,7 @@ export default function MiniDrawer({ user }: { user?: User }) {
                     <Typography variant="h6" noWrap component="div">
                         Авангард
                     </Typography>
-                    <ButtonGroup sx={{ gap: 1 }}>
-                        <IconButton color="info" onClick={toggleColorMode}>
-                            <Icon path={mdiThemeLightDark} size={1} />
-                        </IconButton>
-                        <SignInButton />
-                        {session?.status === "authenticated" && (
-                            <SignOutButton />
-                        )}
-                    </ButtonGroup>
+                    <NavMenu user_id={session.data?.user_id} />
                 </Toolbar>
             </AppBar>
             <Toolbar />
@@ -219,7 +214,7 @@ export default function MiniDrawer({ user }: { user?: User }) {
                     </IconButton>
                 </DrawerHeader>
 
-                {open && <Divider>Авангард</Divider>}
+                <Divider> {open && "Авангард"}</Divider>
                 <List>
                     {routes.map((r, index) => (
                         <ListItem
@@ -286,11 +281,9 @@ export default function MiniDrawer({ user }: { user?: User }) {
                     ))}
                 </List>
 
-                {open && (
-                    <Divider sx={{ pt: 2, color: "secondary.main" }}>
-                        Админка
-                    </Divider>
-                )}
+                <Divider sx={{ pt: 2, color: "secondary.main" }}>
+                    {open && "Админка"}
+                </Divider>
                 <List>
                     {admin_routes.map((r) => (
                         <ListItem

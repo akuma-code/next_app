@@ -27,7 +27,10 @@ export default function Error({
             >
                 Попробовать снова
             </Button>
-            <p>Error: {error.message}</p>
+            <p>
+                Error: <br />
+                {error.message}
+            </p>
         </div>
     );
 }

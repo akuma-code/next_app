@@ -1,26 +1,18 @@
 import { auth } from "@/auth/auth";
 import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
-import { DashboardLayout } from "@toolpad/core";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import React from "react";
 import "./globals.css";
-import Providers from "./providers";
-import { ProviderToolbar } from "./toolbar-provider";
 import { NavbarProvider } from "./nav-provider";
+import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
     title: "Авангард",
     description: "Спортивная школа Авангард, расписание тренировок",
-    icons: {
-        icon:
-            process.env.NODE_ENV === "development"
-                ? "/public/favicon.ico"
-                : "/favicon.ico",
-    },
 };
 
 const RootLayout: React.FC<{

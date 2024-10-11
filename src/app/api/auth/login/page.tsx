@@ -101,4 +101,4 @@ const GitHubsLoginForm = ({
     );
 };
 
-export default SignInToolPage;
+export default SignInPage;

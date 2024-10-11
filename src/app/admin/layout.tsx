@@ -13,7 +13,7 @@ interface ContainerLayoutProps {
 export const metadata: Metadata = {
     title: "Админка",
     description: "Панель администратора",
-    icons: { icon: "public/icon_admin.ico" },
+    icons: { icon: "/icon_admin.ico" },
 };
 
 const AdminLayout: React.FC<ContainerLayoutProps> = async ({

@@ -1,12 +1,20 @@
 "use client";
 import React, { useState, useTransition } from "react";
 
-import { Box, Button, ListItemText, Menu, MenuItem } from "@mui/material";
-import { useSession } from "next-auth/react";
+import {
+    Box,
+    Button,
+    IconButton,
+    ListItemButton,
+    ListItemText,
+    Menu,
+    MenuItem,
+} from "@mui/material";
+import { signOut, useSession } from "next-auth/react";
 
 import { ColorModeContext } from "@/app/providers";
 import { useToggle } from "@/Hooks/useToggle";
-import { mdiCog, mdiCookieCogOutline } from "@mdi/js";
+import { mdiAccountCogOutline, mdiCog, mdiCookieCogOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useContext } from "react";
 import LinkMui from "./LinkMui";
@@ -36,51 +44,52 @@ export const NavMenu = ({
     const isAuth = status === "authenticated";
     return (
         <Box>
-            <Button
+            <IconButton
                 onClick={handleOpen}
                 // endIcon={ <Icon path={ mdiCog } size={ 1 } /> }
-                color={isAuth ? "warning" : "error"}
+                color={isAuth ? "info" : "error"}
                 size="small"
-                variant="contained"
-                sx={{ bgcolor: "primary.dark", color: "primary.contrastText" }}
+                title="Меню"
+                // variant="contained"
+                sx={{ border: "1px solid", p: 1 }}
             >
-                <Icon path={mdiCog} size={1} />
-            </Button>
+                <Icon path={mdiAccountCogOutline} size={1} />
+            </IconButton>
 
             <Menu
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                anchorOrigin={{ horizontal: "left", vertical: "top" }}
+                sx={{
+                    ["& .MuiMenuItem-root"]: {
+                        display: "block",
+                    },
+                }}
             >
-                <MenuItem
-                    onClick={toggleColorMode}
-                    sx={{ display: "flex", gap: 2 }}
-                    divider
-                >
-                    <ListItemText primary={"Тема"} />
-                    <Icon path={mdiCookieCogOutline} size={1} />
+                <MenuItem divider>
+                    <ListItemButton
+                        LinkComponent={LinkMui}
+                        href={"/api/auth/login"}
+                    >
+                        Авторизация
+                    </ListItemButton>
+                </MenuItem>
+                {/* <MenuItem divider>
+                    <ListItemButton
+                        LinkComponent={LinkMui}
+                        href={"/api/auth/register"}
+                    >
+                        Регистрация
+                    </ListItemButton>
+                </MenuItem> */}
+                <MenuItem divider>
+                    <ListItemButton onClick={() => signOut()}>
+                        Выход
+                    </ListItemButton>
                 </MenuItem>
 
-                {user_id ? (
-                    <MenuItem divider>
-                        <LinkMui color="primary" href={`/profile/${user_id}`}>
-                            Профиль
-                        </LinkMui>
-                    </MenuItem>
-                ) : (
-                    <MenuItem divider>
-                        <LinkMui href={"/api/auth/login"}>Авторизация</LinkMui>
-                    </MenuItem>
-                )}
-                {!user_id && (
-                    <MenuItem divider>
-                        <LinkMui color="secondary" href={"/api/auth/register"}>
-                            Регистрация
-                        </LinkMui>
-                    </MenuItem>
-                )}
                 {children}
             </Menu>
         </Box>

@@ -62,7 +62,7 @@ export const EventsList: React.FC<{
         <Box
             maxWidth={{ sm: 450, md: "100vw" }}
             bgcolor={"background"}
-            m={0}
+            ml={"2rem"}
             sx={{
                 borderRadius: 6,
 
@@ -84,7 +84,7 @@ export const EventsList: React.FC<{
                 columns={12}
             >
                 {events.map((e) => (
-                    <Grid2 key={e.id} size={"auto"}>
+                    <Grid2 key={e.id} size={{ xs: 8, md: 3 }}>
                         <EventViewCard
                             event={e}
                             title={dm(e.date_formated)}
