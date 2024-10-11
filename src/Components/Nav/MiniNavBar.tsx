@@ -165,8 +165,8 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer({ user }: { user?: User }) {
     const session = useSession();
     const theme = useTheme();
-    const { isDesktop, isMobile } = useMediaDetect();
-    const [open, setOpen] = React.useState(!isMobile);
+    const { isDesktop, isMobile, device } = useMediaDetect();
+    const [open, setOpen] = React.useState(() => device === "desktop");
     const pathname = usePathname();
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -206,7 +206,8 @@ export default function MiniDrawer({ user }: { user?: User }) {
                 </Toolbar>
             </AppBar>
             <Toolbar />
-            <Drawer variant="permanent" open={open}>
+
+            <Drawer variant="permanent" open={open} onClose={handleDrawerClose}>
                 <DrawerHeader>
                     Закрыть
                     <IconButton onClick={handleDrawerClose}>

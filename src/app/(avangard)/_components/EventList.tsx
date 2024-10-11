@@ -1,22 +1,19 @@
 "use client";
 
 import { _dbDateParser } from "@/Helpers/dateFuncs";
-import { useSetPathQuery } from "@/Hooks/useSetPathQuery";
 import { mdiArrowLeftBoldBox, mdiArrowRightBoldBox } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
     Box,
     Button,
     ButtonGroup,
-    CircularProgress,
     List,
     ListItem,
-    ListItemButton,
     ListItemText,
 } from "@mui/material";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 
 type ItemListProps = {
     items: {
