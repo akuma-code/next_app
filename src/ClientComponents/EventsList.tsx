@@ -63,7 +63,7 @@ export const EventsList: React.FC<{
     const search = useSearchParams();
 
     const [filters, setFilters] = useState<FiltersInterface>({
-        page: initPage,
+        page: initPage || 1,
         perPage: initPerPage || "all",
         order: "desc",
     });
