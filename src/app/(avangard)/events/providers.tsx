@@ -1,5 +1,6 @@
 "use client";
 
+import { CircularProgress } from "@mui/material";
 import { DialogsProvider } from "@toolpad/core";
 import React, { Suspense } from "react";
 
@@ -10,7 +11,9 @@ export default function EventsProvider({
 }) {
     return (
         <DialogsProvider>
-            <Suspense fallback={"..."}>{children}</Suspense>
+            <Suspense fallback={<CircularProgress color="info" />}>
+                {children}
+            </Suspense>
         </DialogsProvider>
     );
 }

@@ -39,8 +39,8 @@ export const avatarColor = (numb: number) => {
     return colors.md;
 };
 interface FiltersInterface {
-    page: number;
-    perPage: number | "all";
+    page?: number;
+    perPage?: number | "all";
     order: "asc" | "desc";
 }
 export const EventsList: React.FC<{
@@ -55,28 +55,30 @@ export const EventsList: React.FC<{
             _count: { select: { players: true } };
         };
     }>[];
-}> = ({ events }) => {
+    initPage?: number;
+    initPerPage?: number;
+}> = ({ events, initPage, initPerPage }) => {
     const { data, status } = useSession();
 
     const search = useSearchParams();
 
     const [filters, setFilters] = useState<FiltersInterface>({
-        page: 1,
-        perPage: 10,
+        page: initPage,
+        perPage: initPerPage || "all",
         order: "desc",
     });
 
     const filtered = useMemo(() => {
-        const total = events.length;
-        if (filters.perPage === "all") {
-            return events;
+        if (!search.has("perPage")) return events;
+        if (!filters.perPage || filters.perPage === "all" || !filters.page) {
+            return [...events];
         } else {
             const start = (filters.page - 1) * filters.perPage;
             const end = filters.perPage + start;
-            const part = events.slice(start, end);
+            const part = [...events].slice(start, end);
             return part;
         }
-    }, [events, filters.page, filters.perPage]);
+    }, [events, filters.page, filters.perPage, search]);
     const canSee = status === "authenticated";
     const dm = (date: string) =>
         dayjs(date, "YYYY-MM-DD", "ru").format("DD MMMM");
@@ -85,11 +87,14 @@ export const EventsList: React.FC<{
         DayOfWeek[dayjs(d, "YYYY-MM-DD", "ru").weekday()];
 
     useEffect(() => {
-        const page = search.get("page") || 1;
-        const perPage = search.get("perPage") || 10;
-        const order = search.get("order") || "desc";
+        const page = search.get("page");
+        const perPage = search.get("perPage");
+        const order = search.get("order") as "asc" | "desc";
+        page && setFilters((prev) => ({ ...prev, page: +page }));
 
-        setFilters((prev) => ({ order, page, perPage }) as FiltersInterface);
+        perPage && setFilters((prev) => ({ ...prev, perPage: +perPage }));
+
+        order && setFilters((prev) => ({ ...prev, order }));
     }, [search]);
 
     return (
