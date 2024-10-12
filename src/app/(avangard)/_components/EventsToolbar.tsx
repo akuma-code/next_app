@@ -16,15 +16,22 @@ interface ToolbarProps {
     perPage?: string;
     page?: string;
 }
+
 export const EventsToolbar = (props: ToolbarProps) => {
     const [page, setPage] = useState(props?.page || 1);
     const [perPage, setPerPage] = useState<number | "all">(
         Number(props?.perPage) || "all"
     );
+    const PP_VARIANT = useMemo(() => {
+        const numbers = [1, 5, 10, 15, 25, 50];
+        const cond = (a: number) => a >= 10;
+        const res = numbers.filter(cond);
+        return res;
+    }, []);
     const totalPages = useMemo(
         () =>
             typeof perPage === "number"
-                ? Math.round(props.total / Number(perPage)) + 1
+                ? Math.round(props.total / Number(perPage))
                 : perPage === "all" || !perPage
                   ? 1
                   : props.total,
@@ -51,7 +58,7 @@ export const EventsToolbar = (props: ToolbarProps) => {
         setPerPage(v);
         const pp = query("perPage", v.toString());
         const path = typeof v === "number" ? `${p}?${pp}` : p;
-        console.log(path);
+        // console.log(path);
 
         setPath((prev) => path);
     };
@@ -60,22 +67,32 @@ export const EventsToolbar = (props: ToolbarProps) => {
         return () => setPath("");
     }, [Path, r]);
     return (
-        <Stack spacing={2} alignItems={"baseline"} maxWidth={"100%"}>
+        <Stack
+            spacing={2}
+            alignItems={"center"}
+            maxWidth={"100%"}
+            justifyContent={"center"}
+            p={1}
+        >
             <ButtonGroup size="small" variant="contained" fullWidth>
-                {[1, 5, 10, 15, 20, 25, "all"].map((pp) => (
-                    // <Link key={pp} href={{ query: { perPage: pp } }}>
+                {[...PP_VARIANT, "all"].map((pp) => (
                     <Button
                         key={pp}
                         color={pp === perPage ? "info" : "inherit"}
                         onClick={() => handleChangeRpp(pp as number | "all")}
-                    >{`${pp}`}</Button>
-                    // </Link>
+                    >
+                        {pp === "all" ? "показать все" : pp}
+                    </Button>
                 ))}
             </ButtonGroup>
             <Pagination
                 page={+page}
                 onChange={handleChangePage}
                 count={totalPages}
+                showFirstButton
+                showLastButton
+                shape="circular"
+                color="primary"
             />
         </Stack>
     );

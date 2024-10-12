@@ -21,6 +21,7 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
     view,
 }) => {
     const { isAuth } = await verifySession();
+    if (!isAuth) return <AccessDenied />;
 
     return (
         <>

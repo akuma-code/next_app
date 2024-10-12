@@ -38,7 +38,7 @@ import {
     SignInButton,
     SignOutButton,
 } from "@/ClientComponents/auth/SignInButton";
-import { ButtonGroup, Stack } from "@mui/material";
+import { Button, ButtonGroup, Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { ColorModeContext } from "@/app/providers";
@@ -207,16 +207,23 @@ export default function MiniDrawer({ user }: { user?: User }) {
             </AppBar>
             <Toolbar />
 
-            <Drawer variant="permanent" open={open} onClose={handleDrawerClose}>
+            <Drawer
+                variant="permanent"
+                open={open}
+                onClose={handleDrawerClose}
+                sx={{ visibility: !open && isMobile ? "hidden" : "visible" }}
+            >
                 <DrawerHeader>
-                    Закрыть
-                    <IconButton onClick={handleDrawerClose}>
-                        <Icon path={mdiArrowLeftCircle} size={1} />
-                    </IconButton>
+                    <Button
+                        onClick={handleDrawerClose}
+                        endIcon={<Icon path={mdiArrowLeftCircle} size={1} />}
+                    >
+                        Закрыть
+                    </Button>
                 </DrawerHeader>
 
-                <Divider> {open && "Авангард"}</Divider>
                 <List>
+                    <Divider> {open && "Авангард"}</Divider>
                     {routes.map((r, index) => (
                         <ListItem
                             key={r.href}
@@ -293,6 +300,7 @@ export default function MiniDrawer({ user }: { user?: User }) {
                             sx={{ display: "block" }}
                         >
                             <ListItemButton
+                                disabled={session.data?.user.role !== "ADMIN"}
                                 LinkComponent={Link}
                                 href={r.href}
                                 sx={[
