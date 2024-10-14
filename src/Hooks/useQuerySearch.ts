@@ -18,3 +18,13 @@ export function useQuerySearch() {
 
     return createQueryString
 }
+
+function toStr<T extends [string, string | number]>(item: T) {
+    const [k, v] = item
+    return `${k}=${v}`
+}
+
+export function toQuery(obj: object) {
+    const res = Object.entries(obj).map(toStr).join("&")
+    return '?' + res
+}

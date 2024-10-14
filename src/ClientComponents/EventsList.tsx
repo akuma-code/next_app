@@ -4,6 +4,7 @@ import { QuickEventCreate } from "@/app/(avangard)/_components/QuickEventCreate"
 
 import { EventViewCard } from "@/Components/EventView/EventViewCard";
 import { DayOfWeek } from "@/Helpers/dateFuncs";
+import { toQuery } from "@/Hooks/useQuerySearch";
 import { Box, Grid, Grid2, Grow } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
@@ -58,7 +59,7 @@ export const EventsList: React.FC<{
     initPage?: number;
     initPerPage?: number;
 }> = ({ events, initPage, initPerPage }) => {
-    const { data, status } = useSession();
+    const { status } = useSession();
 
     const search = useSearchParams();
 
@@ -90,6 +91,7 @@ export const EventsList: React.FC<{
         const page = search.get("page");
         const perPage = search.get("perPage");
         const order = search.get("order") as "asc" | "desc";
+
         page && setFilters((prev) => ({ ...prev, page: +page }));
 
         perPage && setFilters((prev) => ({ ...prev, perPage: +perPage }));

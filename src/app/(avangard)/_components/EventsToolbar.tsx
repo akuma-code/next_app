@@ -1,5 +1,6 @@
 "use client";
 
+import useMediaDetect from "@/Hooks/useMediaDetect";
 import { useQuerySearch } from "@/Hooks/useQuerySearch";
 import {
     Button,
@@ -22,12 +23,13 @@ export const EventsToolbar = (props: ToolbarProps) => {
     const [perPage, setPerPage] = useState<number | "all">(
         Number(props?.perPage) || "all"
     );
+    const { isMobile } = useMediaDetect();
     const PP_VARIANT = useMemo(() => {
         const numbers = [1, 5, 10, 15, 25, 50];
-        const cond = (a: number) => a >= 10;
+        const cond = (a: number) => (isMobile ? a >= 10 : a >= 0);
         const res = numbers.filter(cond);
         return res;
-    }, []);
+    }, [isMobile]);
     const totalPages = useMemo(
         () =>
             typeof perPage === "number"
@@ -80,6 +82,7 @@ export const EventsToolbar = (props: ToolbarProps) => {
                         key={pp}
                         color={pp === perPage ? "info" : "inherit"}
                         onClick={() => handleChangeRpp(pp as number | "all")}
+                        sx={{ fontSize: 12 }}
                     >
                         {pp === "all" ? "показать все" : pp}
                     </Button>
