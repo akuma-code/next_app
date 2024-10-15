@@ -235,7 +235,7 @@ async function fetchServer() {
 
     try {
         const data = fetch(
-            "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup"
+            "https://avangard.vercel.app/api/backup"
         ).then(
             (r) => r.json(),
             (e) => console.error(e)
@@ -254,10 +254,11 @@ async function fetchData() {
 async function fetchPlayers() {
     try {
         const data = await fetch(
-            "https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/db/player"
+            "https://avangard.vercel.app/api/db/player"
         )
         return data.json();
     } catch (error) {
+        console.error(error)
         throw error
     }
 }
