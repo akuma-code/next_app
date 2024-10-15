@@ -83,7 +83,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
     // const { device, isMobile, isDesktop } = useMediaDetect();
     const savedmode: PaletteMode = prefersDarkMode ? "dark" : "light";
-
     const [mode, setMode] = useState<PaletteMode>(savedmode);
     const colorMode = React.useMemo(
         () => ({

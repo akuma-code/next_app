@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
+import "dayjs/locale/ru";
 dayjs.extend(weekday)
-
 
 export const _formated_date = (date?: string | dayjs.Dayjs | null) =>
   dayjs(date, "YYYY-MM-DD", 'ru').format("YYYY-MM-DD");
@@ -32,6 +32,7 @@ export enum Month {
 }
 
 export const _dbDateParser = (date: string) => {
+  dayjs.locale('ru')
   const obj = dayjs(date, "YYYY-MM-DD", "ru");
   const dd_mm_yyyy = obj.format("DD.MM.YYYY");
   const dd_mmmm = dayjs(date, "YYYY-MM-DD", "ru").format("DD MMMM");

@@ -22,21 +22,21 @@ const RootLayout: React.FC<{
     // slot: React.ReactNode;
 }> = async ({ children }) => {
     // console.clear();
-    const session = await auth();
+    // const session = await auth();
     return (
         <html lang="ru" data-toolpad-color-scheme="light">
             <body className={inter.className}>
-                <SessionProvider session={session} refetchOnWindowFocus>
-                    <MrtBoundary>
-                        <Providers>
-                            <NavbarProvider>
-                                {children}
+                {/* <SessionProvider session={session} refetchOnWindowFocus={true}> */}
+                <MrtBoundary>
+                    <Providers>
+                        <NavbarProvider>
+                            {children}
 
-                                <SpeedInsights />
-                            </NavbarProvider>
-                        </Providers>
-                    </MrtBoundary>
-                </SessionProvider>
+                            <SpeedInsights />
+                        </NavbarProvider>
+                    </Providers>
+                </MrtBoundary>
+                {/* </SessionProvider> */}
             </body>
         </html>
     );

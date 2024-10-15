@@ -101,30 +101,33 @@ export const EventsList: React.FC<{
 
     return (
         <Box
-            maxWidth={{ sm: 450, md: "100vw" }}
-            bgcolor={"background"}
-            // ml={"2rem"}
+            maxWidth={{ sm: 450, md: 1 }}
+            bgcolor={"background.paper"}
             sx={{
                 borderRadius: 6,
                 border: "2px solid black",
                 textAlign: "center",
             }}
             position={"relative"}
+            p={2}
         >
             {canSee && <QuickEventCreate />}
 
             <Grid2
                 container
-                gap={1}
-                // maxWidth={ { xs: 300, md: 450, lg: 600 } }
+                spacing={1}
                 maxHeight={{ sm: "60vh", md: "70vh" }}
-                sx={{ pt: 1, pr: 1, overflowY: "auto" }}
-                offset={{ md: 1, xs: 1 }}
+                sx={{
+                    //      pt: 1,
+                    // pr: 1,
+                    overflowY: "auto",
+                }}
+                // offset={{ md: 1, xs: 1 }}
                 size={"auto"}
                 columns={12}
             >
                 {filtered.map((e) => (
-                    <Grid2 key={e.id} size={{ xs: 8, md: 3 }}>
+                    <Grid2 key={e.id} size={{ xs: 8, md: 3 }} spacing={1}>
                         <EventViewCard
                             event={e}
                             title={dm(e.date_formated)}

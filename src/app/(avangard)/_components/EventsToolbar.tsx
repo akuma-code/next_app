@@ -23,6 +23,7 @@ export const EventsToolbar = (props: ToolbarProps) => {
     const [perPage, setPerPage] = useState<number | "all">(
         Number(props?.perPage) || "all"
     );
+    const [Path, setPath] = useState("");
     const { isMobile } = useMediaDetect();
     const PP_VARIANT = useMemo(() => {
         const numbers = [1, 5, 10, 15, 25, 50];
@@ -41,7 +42,7 @@ export const EventsToolbar = (props: ToolbarProps) => {
     );
     const r = useRouter();
     const p = usePathname();
-    const [Path, setPath] = useState("");
+
     const query = useQuerySearch();
     const handleChangePage = (
         event: React.ChangeEvent<unknown>,
@@ -77,16 +78,22 @@ export const EventsToolbar = (props: ToolbarProps) => {
             p={1}
         >
             <ButtonGroup size="small" variant="contained" fullWidth>
-                {[...PP_VARIANT, "all"].map((pp) => (
+                {PP_VARIANT.map((pp) => (
                     <Button
                         key={pp}
                         color={pp === perPage ? "info" : "inherit"}
                         onClick={() => handleChangeRpp(pp as number | "all")}
                         sx={{ fontSize: 12 }}
                     >
-                        {pp === "all" ? "показать все" : pp}
+                        {pp}
                     </Button>
                 ))}
+                <Button
+                    color={"all" === perPage ? "info" : "inherit"}
+                    onClick={() => handleChangeRpp("all")}
+                >
+                    Все
+                </Button>
             </ButtonGroup>
             <Pagination
                 page={+page}
@@ -96,6 +103,7 @@ export const EventsToolbar = (props: ToolbarProps) => {
                 showLastButton
                 shape="circular"
                 color="primary"
+                size="large"
             />
         </Stack>
     );
