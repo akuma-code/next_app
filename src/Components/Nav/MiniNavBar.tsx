@@ -231,6 +231,7 @@ export default function MiniDrawer({ user }: { user?: User }) {
                             sx={{ display: "block" }}
                         >
                             <ListItemButton
+                                onClick={handleDrawerClose}
                                 LinkComponent={Link}
                                 href={r.href}
                                 sx={[
@@ -300,6 +301,7 @@ export default function MiniDrawer({ user }: { user?: User }) {
                             sx={{ display: "block" }}
                         >
                             <ListItemButton
+                                onClick={handleDrawerClose}
                                 disabled={session.data?.user.role !== "ADMIN"}
                                 LinkComponent={Link}
                                 href={r.href}
