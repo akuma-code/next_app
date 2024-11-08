@@ -25,7 +25,7 @@ const AdminLayout: React.FC<ContainerLayoutProps> = async ({
 
     return (
         <>
-            <Container maxWidth={"lg"}>{children}</Container>
+            <Container maxWidth={"xl"}>{children}</Container>
             {
                 // isAuth ? (
                 //     // <Stack direction={{ sm: "column" }} m={1} gap={1}>

@@ -3,13 +3,14 @@ import TicketInfo from "@/Components/Modals/TicketInfo";
 import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
 import { MRT_Player, useMRTPlayersSelect } from "@/Hooks/useGetEventPlayers";
 import { reSyncPlayers } from "@/Services/events/db_event";
-import { EditPlayer } from "@/Services/playerService";
+import { deletePlayer, EditPlayer } from "@/Services/playerService";
 import { PrismaPlayer_ } from "@/Types";
 import { restorePairs, restorePlayers } from "@/app/api/backup/events/actions";
 import {
     mdiAccountPlusOutline,
     mdiAppleKeyboardCommand,
     mdiDatabaseSyncOutline,
+    mdiDeleteAlertOutline,
     mdiHumanEdit,
     mdiStickerCheck,
     mdiStickerRemove,
@@ -21,6 +22,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
     MaterialReactTable,
     MRT_PaginationState,
+    MRT_Row,
     useMaterialReactTable,
     // createRow,
     type MRT_ColumnDef,
@@ -66,10 +68,22 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         isError: isUpdateError,
         error: updateError,
         isPending,
+        status,
     } = useUpdatePlayerMrt();
     const [errors, setErrors] = useState<Record<string, string | undefined>>(
         {}
     );
+    const {
+        mutate: resync,
+        isError: isResyncError,
+        error: resyncError,
+        isPending: resync_pending,
+    } = useResyncPlayes();
+    const openDeleteConfirmModal = async (row: MRT_Row<MRT_Player>) => {
+        if (window.confirm(`Уверены что хотите удалить ${row.original.name}`)) {
+            await deletePlayer({ id: row.original.id });
+        }
+    };
     const COLS: MRT_ColumnDef<MRT_Player>[] = useMemo(
         () =>
             [
@@ -77,12 +91,18 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                     header: "Имя игрока",
                     accessorKey: "name",
                     grow: 1,
-                    minSize: 250,
+                    maxSize: 300,
                     muiTableHeadCellProps: {
-                        align: "center",
+                        align: "left",
                     },
                     muiTableBodyCellProps: {
-                        align: "right",
+                        align: "left",
+
+                        sx: {
+                            borderLeft: "2px solid black",
+                            borderRight: "2px solid black",
+                            borderCollapse: "separate",
+                        },
                     },
                     muiEditTextFieldProps: {
                         error: errors.name !== undefined,
@@ -110,60 +130,60 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                     Edit: () => null,
 
                     // minSize: 150,
-                    grow: 1,
-                    muiTableHeadCellProps: {
-                        align: "center",
-                    },
-                    muiTableBodyCellProps: {
-                        align: "center",
-                    },
-                },
-                {
-                    Header: (p) => (
-                        <Icon
-                            path={mdiTicketPercentOutline}
-                            size={1.2}
-                            {...p}
-                        />
-                    ),
-                    accessorKey: "hasTicket",
-                    columnDefType: "display",
-                    maxSize: 100,
                     grow: 0,
                     muiTableHeadCellProps: {
                         align: "center",
-
-                        // diplay: "flex",
-                        sx: {
-                            justifyItems: "center",
-                            // border: "1px solid",
-                            alignItems: "end",
-                            alignSelf: "center",
-                        },
                     },
                     muiTableBodyCellProps: {
                         align: "center",
                     },
-                    Cell(props) {
-                        // return props.row.original.hasTicket ? (
-                        return (
-                            <Icon
-                                path={
-                                    props.row.original.hasTicket
-                                        ? mdiStickerCheck
-                                        : mdiStickerRemove
-                                }
-                                size={0.9}
-                                color={
-                                    props.row.original.hasTicket
-                                        ? "#0b4210"
-                                        : "#f7910d"
-                                }
-                            />
-                        );
-                    },
-                    Edit: () => null,
                 },
+                // {
+                //     Header: (p) => (
+                //         <Icon
+                //             path={mdiTicketPercentOutline}
+                //             size={1.2}
+                //             {...p}
+                //         />
+                //     ),
+                //     accessorKey: "hasTicket",
+                //     columnDefType: "display",
+                //     maxSize: 100,
+                //     grow: 0,
+                //     muiTableHeadCellProps: {
+                //         align: "center",
+
+                //         // diplay: "flex",
+                //         sx: {
+                //             justifyItems: "center",
+                //             // border: "1px solid",
+                //             alignItems: "end",
+                //             alignSelf: "center",
+                //         },
+                //     },
+                //     muiTableBodyCellProps: {
+                //         align: "center",
+                //     },
+                //     Cell(props) {
+                //         // return props.row.original.hasTicket ? (
+                //         return (
+                //             <Icon
+                //                 path={
+                //                     props.row.original.hasTicket
+                //                         ? mdiStickerCheck
+                //                         : mdiStickerRemove
+                //                 }
+                //                 size={0.9}
+                //                 color={
+                //                     props.row.original.hasTicket
+                //                         ? "#0b4210"
+                //                         : "#f7910d"
+                //                 }
+                //             />
+                //         );
+                //     },
+                //     Edit: () => null,
+                // },
             ] as MRT_ColumnDef<MRT_Player>[],
         [errors]
     );
@@ -182,7 +202,7 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         muiTableContainerProps: {
             sx: {
                 maxHeight: "60vh",
-                // maxWidth: 700,
+                maxWidth: "90vw",
             },
         },
         muiTopToolbarProps: {
@@ -208,8 +228,8 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
             pagination,
             isLoading: isLoading,
             isSaving: isPending,
-            showAlertBanner: isError || isUpdateError,
-            showSkeletons: isLoading,
+            showAlertBanner: isError || isUpdateError || isResyncError,
+            showSkeletons: isLoading || resync_pending,
             columnOrder: [
                 "mrt-row-select",
                 "mrt-row-expand",
@@ -219,12 +239,19 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                 "events_count",
             ],
         },
-        muiToolbarAlertBannerProps: isError
-            ? {
-                  color: "error",
-                  children: errors.query,
-              }
-            : undefined,
+        muiToolbarAlertBannerProps:
+            isError || isUpdateError || isResyncError
+                ? {
+                      color: "error",
+                      children: [
+                          errors.sync,
+                          errors.query,
+                          errors.update,
+                          errors.name,
+                      ],
+                      onClick: () => setErrors({}),
+                  }
+                : undefined,
 
         // manualPagination: true,
         onEditingRowSave: (props) => {
@@ -236,10 +263,7 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         onEditingRowCancel(props) {
             setErrors({});
         },
-        // renderTopToolbarCustomActions(props) {
-        //     const { table } = props;
-        //     return <IconNavMockup />;
-        // },
+
         renderBottomToolbarCustomActions(props) {
             const { table } = props;
             return (
@@ -256,12 +280,13 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                     <Button
                         variant="contained"
                         color={"warning"}
-                        onClick={async () => await update_database()}
+                        onClick={() => resync()}
                         startIcon={
                             <Icon path={mdiDatabaseSyncOutline} size={1} />
                         }
+                        disabled={resync_pending}
                     >
-                        Sync
+                        {resync_pending ? "Syncing..." : "Sync"}
                     </Button>
                     <Button
                         variant="outlined"
@@ -300,21 +325,37 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                 >
                     <Icon path={mdiHumanEdit} size={1} />
                 </IconButton>,
-                row.original.hasTicket ? (
-                    <TicketInfo row={row} key="info" />
-                ) : (
-                    <IconButton key="create ticket" color="secondary">
-                        <Icon path={mdiAppleKeyboardCommand} size={1} />
-                    </IconButton>
-                ),
+                <IconButton
+                    key={"delete_" + row.id}
+                    color={"error"}
+                    onClick={async () => await openDeleteConfirmModal(row)}
+                >
+                    <Icon path={mdiDeleteAlertOutline} size={1} />
+                </IconButton>,
+
+                // row.original.hasTicket ? (
+                //     <TicketInfo row={row} key="info" />
+                // ) : (
+                //     <IconButton key="create ticket" color="secondary">
+                //         <Icon path={mdiAppleKeyboardCommand} size={1} />
+                //     </IconButton>
+                // ),
             ];
         },
     });
     useEffect(() => {
         if (isError) setErrors({ query: error.message });
         if (isUpdateError) setErrors({ update: updateError.message });
-        return () => setErrors({});
-    }, [error, isError, isUpdateError, updateError]);
+        if (isResyncError) setErrors({ sync: resyncError.message });
+        // return () => setErrors({});
+    }, [
+        error,
+        isError,
+        isResyncError,
+        isUpdateError,
+        resyncError,
+        updateError,
+    ]);
 
     return <MaterialReactTable table={table} />;
 };
@@ -328,6 +369,13 @@ export function useUpdatePlayerMrt() {
                 data: { name: payload.name },
                 select: { id: true, name: true },
             }),
+        gcTime: 60 * 1000,
+    });
+}
+export function useResyncPlayes() {
+    return useMutation({
+        mutationKey: ["player", "sync"],
+        mutationFn: () => update_database(),
         gcTime: 60 * 1000,
     });
 }

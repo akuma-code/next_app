@@ -3,10 +3,10 @@ import { GET_PLAYERS, getPlayers } from "@/Services/playerService";
 import { Box, Stack } from "@mui/material";
 import AdminPlayerList from "./AdminPlayerList";
 
-import MRT_Players_v2 from "@/ClientComponents/MRT/Avangard/MRT_Players_v2";
-import { PrismaPlayer_ } from "@/Types";
 import { verifySession } from "@/auth/verifySession";
 import AccessDenied from "@/ClientComponents/auth/AccessDenied";
+import MRT_Players_v2 from "@/ClientComponents/MRT/Avangard/MRT_Players_v2";
+import { PrismaPlayer_ } from "@/Types";
 
 // const clone_action = fetchAndCreatePlayers.bind(null);
 
@@ -58,9 +58,9 @@ async function AdminPlayersPage() {
     if (!isAuth) return <AccessDenied />;
     return (
         <Box
-            maxWidth={{ lg: "fit-content", xs: "90vw" }}
-            minWidth={{ lg: 700, xs: 300 }}
-            border="1px solid orange"
+            maxWidth={{ lg: "max-content", xs: "90vw" }}
+            minWidth={{ lg: 800, xs: 300 }}
+            border="2px solid orange"
             // p={1}
         >
             <MRT_Players_v2 preload={p} />

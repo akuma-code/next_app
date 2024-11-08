@@ -16,12 +16,14 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
     defaultColumn: {
         muiTableBodyCellProps: {
             align: "left",
+            sx: { borderRight: "1px solid", borderLeft: "1px solid" },
         },
     },
     defaultDisplayColumn: {
         muiTableBodyCellProps: {
             align: "left",
         },
+        grow: 0,
     },
     displayColumnDefOptions: {
         "mrt-row-actions": {
@@ -32,7 +34,7 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
                 align: "left",
             },
             minSize: 100,
-            grow: 1,
+            grow: 0,
         },
         "mrt-row-numbers": {
             muiTableHeadCellProps: {
@@ -44,6 +46,7 @@ export const mrt_players_options: Partial<MRT_TableOptions<PrismaPlayer_>> = {
                 sx: { borderRight: "1px solid", borderLeft: "1px solid" },
             },
             size: 10,
+            grow: 0,
         },
         "mrt-row-expand": {
             grow: 0,
@@ -94,10 +97,9 @@ export const mrt_players_options_v2: Partial<MRT_TableOptions<MRT_Player>> = {
                 align: "center",
             },
             muiTableBodyCellProps: {
-                align: "left",
+                align: "center",
             },
             minSize: 100,
-            // maxSize: 300,
             grow: 1,
         },
         "mrt-row-numbers": {

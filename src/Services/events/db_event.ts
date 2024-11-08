@@ -301,7 +301,7 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
         // const connect_events = events ? events.map(e => ({ date_formated: e.date_formated })) : []
         // const connect_ticket = ticket ? { playerId: ticket.playerId } : undefined
         const validate_events_CoC = (e: typeof events[number]) => Prisma.validator<Prisma.EventCreateOrConnectWithoutPairsInput>()({
-            where: { date_formated: e.date_formated }, create: e
+            where: { date_formated: e.date_formated }, create: { date_formated: e.date_formated, title: e.title }
         })
         const validatePair = (pp: typeof pair[number]) => Prisma.validator<Prisma.PairCreateOrConnectWithoutMasterInput>()({
             where: { id: pp.id },
