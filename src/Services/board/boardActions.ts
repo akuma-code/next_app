@@ -74,10 +74,16 @@ function groupByDate<T extends {
 
     const res = arr.reduce((sum, c) => {
         const [y, m, d] = c.date_formated.split("-")
-        sum[y].push({ month: m, total: c._count.players })
+        const data = { month: m, total: c._count.players }
+        if (sum[y]) sum[y].push(data)
+        else sum[y] = []
         return sum
 
 
     }, {} as { [year: string]: { month: string, total: number }[] })
+
+    for (let key in res) {
+        res[key].reduce((s, c) => ({ ...s, total: ++c.total, m: c.month }))
+    }
     return res
 }

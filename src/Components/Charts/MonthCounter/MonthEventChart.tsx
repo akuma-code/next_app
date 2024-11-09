@@ -64,23 +64,26 @@ async function getChartData() {
     // console.log(groupByDate(data));
     return data;
 }
-function groupByDate_<
-    T extends {
-        id: number;
-        date: string;
-        total: number;
-    },
->(arr: T[]) {
-    const res = arr.reduce((sum, c) => {
-        const [d, m] = c.date.split(" ");
-        // if (!(m in sum)) sum[m] = [];
-        Array.isArray(sum) && sum.push({ month: m, total: c.total });
+// function groupByDate_<
+//     T extends {
+//         id: number;
+//         date: string;
+//         total: number;
+//     },
+// >(arr: T[]) {
+//     const res = arr.reduce(
+//         (sum, c) => {
+//             const [d, m] = c.date.split(" ");
+//             // if (!(m in sum)) sum[m] = [];
+//             Array.isArray(sum) && sum.push({ month: m, total: c.total });
 
-        return sum;
-    }, {} as any);
+//             return sum;
+//         },
+//         {} as Record<string, { month: string; total: number }[]>
+//     );
 
-    return res;
-}
+//     return res;
+// }
 
 function groupByDate<
     T extends {
@@ -94,11 +97,13 @@ function groupByDate<
     const res = arr.reduce(
         (sum, c) => {
             const [y, m, d] = c.date_formated.split("-");
-            sum[y].push({ month: m, total: c._count.players });
+            if (sum[y]) sum[y].push({ month: m, total: c._count.players });
+            else sum[y] = [];
             return sum;
         },
-        {} as { [year: string]: { month: string; total: number }[] }
+        {} as Record<string, { month: string; total: number }[]>
     );
+
     return res;
 }
 // function groupByMonth(
