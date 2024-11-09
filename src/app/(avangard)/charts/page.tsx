@@ -1,5 +1,6 @@
 import { Button, ButtonGroup, Grid2, Paper } from "@mui/material";
 import { Board } from "@/app/(avangard)/_components/Board";
+import { MonthChart } from "@/Components/Charts/MonthCounter/MonthEventChart";
 
 const validateNumber = (n: number, x?: number) => (!isNaN(n) ? n : x ? x : 0);
 async function MainPage({
@@ -17,6 +18,7 @@ async function MainPage({
             container
             columns={12}
             gap={1}
+            direction={"row"}
         >
             <Grid2 size={"auto"}>
                 <Paper elevation={2}>
@@ -24,7 +26,9 @@ async function MainPage({
                 </Paper>
             </Grid2>
 
-            {/* <Grid2 width={"auto"}></Grid2> */}
+            <Grid2 size={5} flexGrow={1}>
+                <MonthChart />
+            </Grid2>
         </Grid2>
     );
 }

@@ -62,3 +62,22 @@ export async function getSelected(id: number) {
     const p = await prisma.event.findUnique({ where: { id } }).players();
     return p;
 }
+
+
+function groupByDate<T extends {
+    id: number
+    date_formated: string;
+    _count: {
+        players: number;
+    }
+}>(arr: T[]) {
+
+    const res = arr.reduce((sum, c) => {
+        const [y, m, d] = c.date_formated.split("-")
+        sum[y].push({ month: m, total: c._count.players })
+        return sum
+
+
+    }, {} as { [year: string]: { month: string, total: number }[] })
+    return res
+}
