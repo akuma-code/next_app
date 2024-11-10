@@ -16,17 +16,18 @@ async function MainPage({
         <Grid2
             // border={"1px solid"}
             container
-            columns={12}
-            gap={1}
-            direction={"row"}
+            columns={ 12 }
+            // gap={ 1 }
+            direction={ "row" }
+            spacing={ 2 }
         >
-            <Grid2 size={"auto"}>
-                <Paper elevation={2}>
+            <Grid2 size={ 'auto' } >
+                <Paper elevation={ 2 }>
                     <Board />
                 </Paper>
             </Grid2>
 
-            <Grid2 size={5} flexGrow={1}>
+            <Grid2 size={ 'grow' } flexGrow={ 1 }>
                 <MonthChart />
             </Grid2>
         </Grid2>

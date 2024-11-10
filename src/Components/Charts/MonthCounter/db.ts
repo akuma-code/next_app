@@ -2,6 +2,7 @@
 
 import prisma from "@/client/client"
 import { _dbDateParser } from "@/Helpers/dateFuncs"
+import { groupByMonth } from "@/Helpers/groups"
 
 export async function getMonthEventPlayers() {
     const e = await prisma.event.findMany({
@@ -10,16 +11,16 @@ export async function getMonthEventPlayers() {
             date_formated: true,
             _count: { select: { players: true } }
         },
-        orderBy: { date_formated: 'desc' },
-        take: 20
+        orderBy: { date_formated: 'asc' },
+        // take: 20
     })
 
-    const formatter = (date: string) => date.split("-").map(Number)
-    const toDayjs = (date: string) => _dbDateParser(date).dd_mmmm
-    const gr = groupByDate1(e, () => true)
-    console.log(gr)
-    const formatted = e.map(ee => ({ date: toDayjs(ee.date_formated), total: ee._count.players, id: ee.id }))
-    return formatted
+    // const formatter = (date: string) => date.split("-").map(Number)
+    // const toDayjs = (date: string) => _dbDateParser(date).dd_mmmm
+    // // console.log(gr)
+    // const formatted = e.map(ee => ({ date: toDayjs(ee.date_formated), total: ee._count.players, id: ee.id }))
+    const gr = groupByDate1(e)
+    return gr
 }
 
 function groupByDate1<T extends {
@@ -28,17 +29,21 @@ function groupByDate1<T extends {
     _count: {
         players: number;
     }
-}>(arr: T[], fn: ((args?: any) => boolean)) {
+}>(arr: T[]) {
 
     const res__ = arr.reduce((sum, c) => {
         const [y, m, d] = c.date_formated.split("-")
         if (!sum) sum = []
-        else sum.push({ month: m, total: c._count.players })
+        else sum.push({ month: m, total: c._count.players, year: y })
         return sum
-    }, [] as { month: string; total: number }[])
+    }, [] as { month: string; total: number, year: string }[])
 
-
-
+    const _format = (e: T) => {
+        const [year, month] = e.date_formated.split("-")
+        return { month, total: e._count.players, year }
+    }
+    const res1 = groupByMonth(arr)
+    // console.table(res1)
     // const res_ = arr.reduce((sum, c) => {
     //     const [y, m, d] = c.date_formated.split("-")
     //     if (!sum[y]) sum[y] = []
@@ -84,5 +89,6 @@ function groupByDate1<T extends {
     //     return sum
     // }, {})
 
-    return res__
+    return res1
 }
+
