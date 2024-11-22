@@ -2,7 +2,7 @@
 
 import { _date } from "@/Helpers/dateFuncs";
 import { getPlayers } from "@/Services/playerService";
-import { Alert } from "@mui/material";
+import { Alert, Paper } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -22,9 +22,9 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
     });
 
     const dataset = useMemo(() => {
-        const _ds = q.data?.map((p) => ({
+        const _ds = q.data?.map((p, idx) => ({
             events: p._count.events,
-            name: p.name,
+            name: `${p.name} [${idx + 1}]`,
             pairs: p.pair.length,
         }));
 
@@ -32,33 +32,34 @@ export const Board: React.FC<BoardProps> = ({ lastId }) => {
     }, [q.data]);
     return (
         // <Fade in={q.isFetching}>
-        <>
-            {/* <Typography>Last Id: {lastId} </Typography> */}
-            {q.error && <Alert>{q.error.message}</Alert>}
-            {dataset && (
+        <Paper elevation={ 4 }>
+            {/* <Typography>Last Id: {lastId} </Typography> */ }
+            { q.error && <Alert>{ q.error.message }</Alert> }
+            { dataset && (
                 <BarChart
-                    dataset={dataset}
-                    width={360}
-                    height={600}
-                    series={[
+                    dataset={ dataset }
+                    width={ 500 }
+                    height={ 600 }
+                    series={ [
                         { dataKey: "events", label: "Кол-во тренировок" },
                         { dataKey: "pairs", label: "С тренером" },
-                    ]}
-                    yAxis={[
+                    ] }
+                    yAxis={ [
                         {
                             tickPlacement: "end",
                             tickSize: 10,
                             dataKey: "name",
                             scaleType: "band",
                         },
-                    ]}
+                    ] }
+
                     layout="horizontal"
-                    loading={q.isLoading}
-                    margin={{ left: 150 }}
-                    barLabel={"value"}
+                    loading={ q.isLoading }
+                    margin={ { left: 150 } }
+                    barLabel={ "value" }
                 />
-            )}
-        </>
+            ) }
+        </Paper>
         // </Fade>
     );
 };

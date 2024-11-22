@@ -1,10 +1,9 @@
 "use client";
 
-import { BarChart } from "@mui/x-charts";
-import { getMonthEventPlayers } from "./db";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Paper } from "@mui/material";
-import { group } from "@/Helpers/groups";
+import { BarChart } from "@mui/x-charts";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { getMonthEventPlayers } from "./db";
 
 export const MonthChart = () => {
     const {
@@ -17,47 +16,48 @@ export const MonthChart = () => {
         placeholderData: keepPreviousData,
 
     });
-    console.log(data);
+    // console.log(data);
 
     return (
-        <Paper>
+        <Paper elevation={ 4 }>
             <BarChart
                 loading={ isLoading }
-                height={ 500 }
-                width={ 550 }
+                height={ 550 }
+                width={ 500 }
                 dataset={ data }
+                margin={ { bottom: 80 } }
                 series={ [
                     {
                         dataKey: "total",
-                        // label: "2024 год",
                         id: "p_ids",
-                        // color: "#4a7bd6",
                     },
                 ] }
                 xAxis={ [
                     {
                         dataKey: "month",
                         scaleType: "band",
-
-                        // id: "p_id",
                     },
                 ] }
                 yAxis={ [
                     {
                         colorMap: {
                             type: "continuous",
-                            color: ["#6289a3", "#0e085f"],
+                            color: ["#62a37b", "#f33a3a"],
                             min: 30,
                             max: 150,
                         },
                     },
                 ] }
+                bottomAxis={ {
+                    tickLabelStyle: {
+                        angle: 45,
+                        textAnchor: 'start',
+                        // fontSize: 12,
+                    },
+                } }
                 layout="vertical"
-                // topAxis={ { label: 'value' } }
-                // margin={  }
-                // barLabel={ ((item, context) => `всего: ${item.value} `) }
+
                 barLabel={ 'value' }
-            // slotProps={ { barLabel: { color: 'red' }, axisLabel: { color: 'red' } } }
             />
         </Paper>
     );

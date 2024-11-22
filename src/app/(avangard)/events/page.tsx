@@ -1,8 +1,7 @@
 import { EventsList } from "@/ClientComponents/EventsList";
 import { getEventsByMonth } from "@/Services/eventService";
-import EventsProvider from "./providers";
-import { Pagination } from "@mui/material";
 import { EventsToolbar } from "../_components/EventsToolbar";
+import EventsProvider from "./providers";
 
 export type OrderType = "asc" | "desc";
 async function EventsPage({
@@ -29,11 +28,11 @@ async function EventsPage({
     return (
         <EventsProvider>
             <EventsToolbar
-                total={events.length}
-                page={searchParams.page}
-                perPage={searchParams.perPage}
+                total={ events.length }
+                page={ searchParams.page }
+                perPage={ searchParams.perPage }
             />
-            <EventsList events={events} {...init} />
+            <EventsList events={ events } { ...init } />
         </EventsProvider>
     );
 }
