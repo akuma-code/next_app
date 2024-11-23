@@ -4,9 +4,13 @@ export const metadata: Metadata = {
     title: "Авангард",
     description: "Расписание тренировок",
     icons: ["/favicon.ico"],
+    openGraph: {
+        title: "Авангард",
+        images: [`/api/og?title=AvangardTitle`]
+    }
 };
 async function MainAvangardLayout({ children }: { children: React.ReactNode }) {
-    return <div>{children}</div>;
+    return <div>{ children }</div>;
 }
 
 export default MainAvangardLayout;
