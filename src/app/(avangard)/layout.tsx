@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     icons: ["/favicon.ico"],
     openGraph: {
         title: "Авангард",
-        images: [`/api/og?title=AvangardTitle`]
+        images: [`/api/og?title=Авангард`]
     }
 };
 async function MainAvangardLayout({ children }: { children: React.ReactNode }) {
