@@ -17,14 +17,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { PickersShortcutsItem } from "@mui/x-date-pickers/PickersShortcuts";
 import { useQuery } from "@tanstack/react-query";
 import dayjs, { Dayjs } from "dayjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CalendarCustomHeader } from "./CalendarCustomHeader";
 
+import { useToggle } from "@/Hooks/useToggle";
 import { ruRU } from "@mui/x-date-pickers/locales";
 import { useRouter } from "next/navigation";
-import { useDialogs } from "@toolpad/core";
 import { CalendarEventInfo } from "./CalendarEventInfo";
-import { useToggle } from "@/Hooks/useToggle";
 const get_event_shorts = (
     events: Awaited<ReturnType<typeof getPlayerEvents>>["events"]
 ) => {
@@ -93,19 +92,19 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
     };
     return (
         <LocalizationProvider
-            dateAdapter={AdapterDayjs}
+            dateAdapter={ AdapterDayjs }
             adapterLocale="ru"
-            localeText={LOCALE}
+            localeText={ LOCALE }
         >
             <StaticDatePicker
                 disableHighlightToday
-                shouldDisableDate={(d) => !dates.includes(d.date())}
-                slots={{
+                shouldDisableDate={ (d) => !dates.includes(d.date()) }
+                slots={ {
                     day: EventDay,
                     toolbar: CustomToolbar,
                     calendarHeader: CalendarCustomHeader,
-                }}
-                slotProps={{
+                } }
+                slotProps={ {
                     day: { event_days: dates } as any,
                     shortcuts: {
                         items: shorts as any,
@@ -152,24 +151,24 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
                     actionBar: {
                         actions: ["today"],
                     },
-                }}
-                loading={q.isLoading}
-                renderLoading={() => (
-                    <Icon path={mdiBaseball} size={4} spin={4} />
-                )}
-                value={day}
+                } }
+                loading={ q.isLoading }
+                renderLoading={ () => (
+                    <Icon path={ mdiBaseball } size={ 4 } spin={ 4 } />
+                ) }
+                value={ day }
                 // onChange={(v) => setDay(v)}
-                onMonthChange={(v) => setDay(v)}
-                views={["month", "day"]}
+                onMonthChange={ (v) => setDay(v) }
+                views={ ["month", "day"] }
                 disableFuture
             />
-            {selectedEventId && (
+            { selectedEventId && (
                 <CalendarEventInfo
-                    open={open}
-                    payload={selectedEventId}
-                    onClose={handleClose}
+                    open={ open }
+                    payload={ selectedEventId }
+                    onClose={ handleClose }
                 />
-            )}
+            ) }
         </LocalizationProvider>
     );
 };
@@ -185,21 +184,21 @@ function CustomToolbar(
     return (
         <Box
             // Pass the className to the root element to get correct layout
-            className={props.className}
-            sx={{
+            className={ props.className }
+            sx={ {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-            }}
+            } }
         >
-            {props.counter ? (
-                <ToolbarView month={currentMonth} counter={props.counter} />
-            ) : null}
+            { props.counter ? (
+                <ToolbarView month={ currentMonth } counter={ props.counter } />
+            ) : null }
             <DatePickerToolbar
                 // className={props.className}
-                {...props}
-                value={day}
-                onChange={(v) => setDay(v)}
+                { ...props }
+                value={ day }
+                onChange={ (v) => setDay(v) }
             />
         </Box>
     );
@@ -207,31 +206,31 @@ function CustomToolbar(
 function ToolbarView(props: { month: string; counter?: number }) {
     return (
         <Box
-            px={1}
-            sx={{
+            px={ 1 }
+            sx={ {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
                 justifyContent: "space-between",
-            }}
+            } }
         >
             <Typography
-                textTransform={"uppercase"}
-                fontWeight={"bold"}
-                textAlign={"end"}
-                component={"div"}
+                textTransform={ "uppercase" }
+                fontWeight={ "bold" }
+                textAlign={ "end" }
+                component={ "div" }
             >
-                {props.month}
+                { props.month }
             </Typography>
 
             <Typography
-                fontSize={20}
-                textTransform={"capitalize"}
-                flexGrow={1}
-                textAlign={"right"}
-                component={"div"}
+                fontSize={ 20 }
+                textTransform={ "capitalize" }
+                flexGrow={ 1 }
+                textAlign={ "right" }
+                component={ "div" }
             >
-                всего: {props.counter}
+                всего: { props.counter }
             </Typography>
         </Box>
     );
@@ -256,10 +255,10 @@ function EventDay(
     // console.log("day: ", props.day.date());
     return (
         <Badge
-            key={props.day.toString()}
+            key={ props.day.toString() }
             overlap="rectangular"
             // badgeContent={isSelected ? <BookmarkAddedRoundedIcon /> : undefined}
-            sx={{
+            sx={ {
                 borderRadius: "50%",
                 // border: isSelected ? "1px solid red" : "",
                 bgcolor: isSelected ? "lightblue" : "inherit",
@@ -268,13 +267,13 @@ function EventDay(
                     fontWeight: "bold",
                     color: "#a00b0b",
                 },
-            }}
-            // color={isSelected ? "red" : undefined}
+            } }
+        // color={isSelected ? "red" : undefined}
         >
             <PickersDay
-                {...other}
-                outsideCurrentMonth={outsideCurrentMonth}
-                day={day}
+                { ...other }
+                outsideCurrentMonth={ outsideCurrentMonth }
+                day={ day }
                 disableRipple
             />
         </Badge>
