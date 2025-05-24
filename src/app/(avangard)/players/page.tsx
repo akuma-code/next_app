@@ -1,9 +1,8 @@
-import { PlayersEventList } from "@/Components/EventView/PlayersEventList";
-import { getPlayerEvents, getPlayers } from "@/Services/playerService";
-import { Box, Paper, Stack, Typography } from "@mui/material";
-import { PlayersListView } from "./PlayersListView";
 import { CalendarEventsShorts } from "@/ClientComponents/UI/Charts/CalenarWithShortcuts";
+import { getPlayers } from "@/Services/playerService";
+import { Paper, Stack, Typography } from "@mui/material";
 import { Suspense } from "react";
+import { PlayersListView } from "./PlayersListView";
 
 async function AvPlayers(query: {
     searchParams: { action: string; player_id?: string; view: string };
@@ -16,32 +15,32 @@ async function AvPlayers(query: {
 
     return (
         <Stack
-            direction={"row"}
-            columnGap={2}
-            p={2}
-            // sx={ { maxHeight: playerId ? '30vh' : '70vh' } }
+            direction={ "row" }
+            columnGap={ 2 }
+            p={ 2 }
+        // sx={ { maxHeight: playerId ? '30vh' : '70vh' } }
         >
             <Stack
-                justifyContent={"center"}
-                direction={{ sm: "column", md: "row" }}
-                gap={2}
+                justifyContent={ "center" }
+                direction={ { sm: "column", md: "row" } }
+                gap={ 2 }
             >
                 <PlayersListView
-                    players={players}
-                    selected={playerId || null}
+                    players={ players }
+                    selected={ playerId || null }
                 />
 
-                {playerId ? (
-                    <Suspense fallback={"loading..."}>
-                        <CalendarEventsShorts playerId={+playerId} />
+                { playerId ? (
+                    <Suspense fallback={ "loading..." }>
+                        <CalendarEventsShorts playerId={ +playerId } />
                     </Suspense>
                 ) : (
                     <Paper>
                         <Typography
                             variant="body1"
-                            component={"div"}
-                            p={2}
-                            whiteSpace={"normal"}
+                            component={ "div" }
+                            p={ 2 }
+                            whiteSpace={ "normal" }
                         >
                             <p>
                                 Никто не выбран. Для просмотра календаря
@@ -49,7 +48,7 @@ async function AvPlayers(query: {
                             </p>
                         </Typography>
                     </Paper>
-                )}
+                ) }
             </Stack>
         </Stack>
     );

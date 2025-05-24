@@ -213,13 +213,14 @@ export async function getPlayerEvents(id: number, config = { take: 100 }) {
             id: true,
 
           },
-          ...config,
+          // ...config,
           // take: -config.take,
 
         },
         _count: { select: { events: true } }
       },
     });
+
     return p;
   } catch (error) {
     console.error(error)

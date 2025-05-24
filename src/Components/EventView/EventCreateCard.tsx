@@ -1,7 +1,7 @@
 "use client";
 
 import { avatarColor } from "@/ClientComponents/EventsList";
-import { _formated_date } from "@/Helpers/dateFuncs";
+import { _date, _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
 import { _log } from "@/Helpers/helpersFns";
 import { name_letters } from "@/Helpers/stringFns";
 import { useGetAllPlayers } from "@/Hooks/useGetEventPlayers";
@@ -52,10 +52,14 @@ type AcValueChangeHandler = (
 ) => void | undefined;
 
 export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
+    const today = _formated_date(dayjs());
+    const day = _date(today).day_name;
+    const { dd_mmmm } = _dbDateParser(today);
+    const title = `${day},     ${dd_mmmm}`;
     const initEvent = {
         date_formated: _formated_date(dayjs()),
         players: [],
-        title: "Тренировка",
+        title: title,
         isDraft: false,
         cost: 1,
     };
