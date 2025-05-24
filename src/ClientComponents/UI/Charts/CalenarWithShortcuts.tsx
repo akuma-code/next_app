@@ -35,7 +35,7 @@ const get_event_shorts = (
         djs: _dbDateParser(e.date_formated)._dayjs,
         eventId: e.id,
     })) satisfies ExtendedShortCut[];
-
+    // console.log(shorts)
     return shorts;
 };
 
@@ -68,7 +68,7 @@ export const CalendarEventsShorts = (props: { playerId: number }) => {
         if (!q.isSuccess) return [];
         const shorts_event = get_event_shorts(q.data.events);
         const selected = shorts_event
-            .filter((e) => e.djs.month() === day?.month())
+            .filter((e) => e.djs.month() === day?.month() && e.djs.year() === day?.year())
             .reverse();
 
         if (!day) return shorts_event.reverse().slice(0, 6);

@@ -220,6 +220,7 @@ export async function getPlayerEvents(id: number, config = { take: 100 }) {
         _count: { select: { events: true } }
       },
     });
+
     return p;
   } catch (error) {
     console.error(error)
