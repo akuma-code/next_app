@@ -44,10 +44,10 @@ type AcValueChangeHandler = (
     reason: AutocompleteChangeReason,
     details?:
         | AutocompleteChangeDetails<{
-              id: number;
-              name: string;
-              ticket?: any | null;
-          }>
+            id: number;
+            name: string;
+            ticket?: any | null;
+        }>
         | undefined
 ) => void | undefined;
 
@@ -104,7 +104,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
         _log(event_data);
         await makeNewEvent(event_data);
         // await updateEvent({ id: event_data.id, _new_data: event_data }).finally(() => off())
-        r.push("/avangard/events/");
+        r.push("/events/");
     };
 
     const handleDelete = async (id: number) => {
@@ -112,61 +112,61 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
         if (confirm("Delete event?")) {
             await deleteEvent(id);
             // .finally(() => off())
-            r.push("/avangard/events");
+            r.push("/events");
         }
     };
     return (
         <>
             <Card>
-                <CardHeader title={ev.title} subheader={`Новый ивент`} />
+                <CardHeader title={ ev.title } subheader={ `Новый ивент` } />
                 <CardActions>
                     <ButtonGroup
                         variant="contained"
                         size="small"
-                        component={Stack}
-                        direction={"row"}
+                        component={ Stack }
+                        direction={ "row" }
                         fullWidth
                     >
-                        <Button onClick={handleSubmitEvent} color="primary">
+                        <Button onClick={ handleSubmitEvent } color="primary">
                             Сохранить
                         </Button>
-                        {/* <Button onClick={ () => handleDelete(event.id) } disabled={ isChanging }>Удалить</Button> */}
-                        <Button color="info" href={"/avangard/events/"}>
+                        {/* <Button onClick={ () => handleDelete(event.id) } disabled={ isChanging }>Удалить</Button> */ }
+                        <Button color="info" href={ "/events/" }>
                             Назад
                         </Button>
                     </ButtonGroup>
                 </CardActions>
 
                 <CardContent>
-                    <Stack rowGap={1} maxWidth={300}>
+                    <Stack rowGap={ 1 } maxWidth={ 300 }>
                         <TextField
                             name="title"
-                            value={ev.title}
+                            value={ ev.title }
                             size="small"
-                            onChange={changeTitleHandler}
-                            helperText={"Изменить название"}
+                            onChange={ changeTitleHandler }
+                            helperText={ "Изменить название" }
                         />
                         <DatePicker
                             name="date"
-                            value={eventDate}
-                            onChange={setEventDate}
-                            slotProps={{
+                            value={ eventDate }
+                            onChange={ setEventDate }
+                            slotProps={ {
                                 textField: {
                                     size: "small",
                                     helperText: "изменить дату",
                                 },
-                            }}
+                            } }
                         />
 
                         <Stack
-                            direction={"row"}
-                            alignItems={"start"}
-                            spacing={2}
+                            direction={ "row" }
+                            alignItems={ "start" }
+                            spacing={ 2 }
                         >
                             <FormControl color="info">
-                                <FormLabel sx={{ gap: 1 }} component={Stack}>
+                                <FormLabel sx={ { gap: 1 } } component={ Stack }>
                                     <TextField
-                                        InputProps={{
+                                        InputProps={ {
                                             type: "number",
                                             margin: "dense",
                                             sx: {
@@ -175,17 +175,17 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                                             },
                                             startAdornment: (
                                                 <Icon
-                                                    path={mdiAccountCashOutline}
-                                                    size={1.5}
-                                                    color={"darkblue"}
+                                                    path={ mdiAccountCashOutline }
+                                                    size={ 1.5 }
+                                                    color={ "darkblue" }
                                                     className="mr-2"
                                                 />
                                             ),
-                                        }}
+                                        } }
                                         size="small"
                                         name="cost"
-                                        value={ev.cost}
-                                        onChange={(e) =>
+                                        value={ ev.cost }
+                                        onChange={ (e) =>
                                             setEvent((prev) => ({
                                                 ...prev,
                                                 cost: Number(e.target.value),
@@ -197,25 +197,25 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                             </FormControl>
 
                             <FormControl>
-                                <FormLabel sx={{ gap: 1 }} component={Stack}>
+                                <FormLabel sx={ { gap: 1 } } component={ Stack }>
                                     <ToggleButton
                                         fullWidth
-                                        selected={ev.isDraft}
-                                        value={ev.isDraft}
-                                        onChange={() =>
+                                        selected={ ev.isDraft }
+                                        value={ ev.isDraft }
+                                        onChange={ () =>
                                             setEvent((p) => ({
                                                 ...p,
                                                 isDraft: !p.isDraft,
                                             }))
                                         }
-                                        color={ev.isDraft ? "error" : "warning"}
-                                        sx={{
+                                        color={ ev.isDraft ? "error" : "warning" }
+                                        sx={ {
                                             bgcolor: ev.isDraft
                                                 ? "error.main"
                                                 : "info.light",
-                                        }}
+                                        } }
                                     >
-                                        Черновик: {ev.isDraft ? "on " : "off"}
+                                        Черновик: { ev.isDraft ? "on " : "off" }
                                     </ToggleButton>
                                 </FormLabel>
                             </FormControl>
@@ -228,43 +228,43 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                             filterSelectedOptions
                             size="small"
                             autoHighlight
-                            loading={isLoading}
-                            value={ac_select}
-                            onChange={handleAcValueChange}
-                            inputValue={ac_value}
-                            onInputChange={handleInputChange}
-                            renderInput={(params) => (
+                            loading={ isLoading }
+                            value={ ac_select }
+                            onChange={ handleAcValueChange }
+                            inputValue={ ac_value }
+                            onInputChange={ handleInputChange }
+                            renderInput={ (params) => (
                                 <TextField
-                                    {...params}
-                                    helperText={"Изменить состав"}
+                                    { ...params }
+                                    helperText={ "Изменить состав" }
                                 />
-                            )}
-                            options={ac_options}
-                            getOptionLabel={(option) => option.name}
-                            isOptionEqualToValue={(option, value) =>
+                            ) }
+                            options={ ac_options }
+                            getOptionLabel={ (option) => option.name }
+                            isOptionEqualToValue={ (option, value) =>
                                 option.id === value.id
                             }
                             noOptionsText="......"
-                            limitTags={3}
-                            ListboxProps={{
+                            limitTags={ 3 }
+                            ListboxProps={ {
                                 sx: {
                                     ["& .MuiListItem-root"]: { bgcolor: "red" },
                                 },
-                            }}
-                            getLimitTagsText={(more) => (
+                            } }
+                            getLimitTagsText={ (more) => (
                                 <Avatar
                                     sizes="small"
-                                    sx={{
+                                    sx={ {
                                         height: 25,
                                         width: 25,
                                         fontSize: 14,
                                         bgcolor: avatarColor(more),
-                                    }}
+                                    } }
                                 >
-                                    +{more}
+                                    +{ more }
                                 </Avatar>
-                            )}
-                            renderTags={(selected, getTagProps) => {
+                            ) }
+                            renderTags={ (selected, getTagProps) => {
                                 return selected.map((p, index) => {
                                     const { key, ...rest } = getTagProps({
                                         index,
@@ -274,13 +274,13 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                                     return (
                                         <Chip
                                             variant="filled"
-                                            label={label}
-                                            {...rest}
-                                            key={index}
+                                            label={ label }
+                                            { ...rest }
+                                            key={ index }
                                         />
                                     );
                                 });
-                            }}
+                            } }
                         />
                     </Stack>
                 </CardContent>
