@@ -11,7 +11,7 @@ async function AvPlayers(query: {
     const view = query.searchParams.view;
     const playerId = query.searchParams.player_id;
 
-    // const ep = playerId ? await getPlayerEvents(+playerId) : undefined;
+
 
     return (
         <Stack
