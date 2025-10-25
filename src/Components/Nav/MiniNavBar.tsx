@@ -45,17 +45,18 @@ import { ColorModeContext } from "@/app/providers";
 import { User } from "@prisma/client";
 import { NavMenu } from "@/ClientComponents/UI/NavMenu";
 import useMediaDetect from "@/Hooks/useMediaDetect";
+import LinkMui from "@/ClientComponents/UI/LinkMui";
 
 const drawerWidth = 240;
 const SegmentIcon = {
-    events: <Icon size={1} path={mdiTrophyVariantOutline} />,
-    players: <Icon size={1} path={mdiAccountGroupOutline} />,
-    players_config: <Icon size={1} path={mdiAccountDetailsOutline} />,
-    stats: <Icon size={1} path={mdiChartBarStacked} />,
-    admin: <Icon size={1} path={mdiSecurity} />,
-    users: <Icon size={1} path={mdiAccountCogOutline} />,
-    backup: <Icon size={1} path={mdiDatabaseCogOutline} />,
-    compare: <Icon size={1} path={mdiDatabaseSyncOutline} />,
+    events: <Icon size={ 1 } path={ mdiTrophyVariantOutline } />,
+    players: <Icon size={ 1 } path={ mdiAccountGroupOutline } />,
+    players_config: <Icon size={ 1 } path={ mdiAccountDetailsOutline } />,
+    stats: <Icon size={ 1 } path={ mdiChartBarStacked } />,
+    admin: <Icon size={ 1 } path={ mdiSecurity } />,
+    users: <Icon size={ 1 } path={ mdiAccountCogOutline } />,
+    backup: <Icon size={ 1 } path={ mdiDatabaseCogOutline } />,
+    compare: <Icon size={ 1 } path={ mdiDatabaseSyncOutline } />,
 };
 
 type NavItem = {
@@ -177,187 +178,189 @@ export default function MiniDrawer({ user }: { user?: User }) {
     };
     const isPath = (path: string) => path === pathname;
     return (
-        <Box sx={{ display: "flex" }}>
+        <Box sx={ { display: "flex" } }>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={ open }>
                 <Toolbar
-                    component={Stack}
-                    flexDirection={"row"}
-                    justifyContent={"space-between"}
+                    component={ Stack }
+                    flexDirection={ "row" }
+                    justifyContent={ "space-between" }
                 >
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={handleDrawerOpen}
+                        onClick={ handleDrawerOpen }
                         edge="start"
-                        sx={[
+                        sx={ [
                             {
                                 marginRight: 5,
                             },
                             open && { visibility: "hidden" },
-                        ]}
+                        ] }
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Авангард
+                    <Typography variant="h6" noWrap component="div" color="white">
+                        <Link href="/events" >
+                            Авангард
+                        </Link>
                     </Typography>
-                    <NavMenu user_id={session.data?.user_id} />
+                    <NavMenu user_id={ session.data?.user_id } />
                 </Toolbar>
             </AppBar>
             <Toolbar />
 
             <Drawer
                 variant="permanent"
-                open={open}
-                onClose={handleDrawerClose}
-                sx={{ visibility: !open && isMobile ? "hidden" : "visible" }}
+                open={ open }
+                onClose={ handleDrawerClose }
+                sx={ { visibility: !open && isMobile ? "hidden" : "visible" } }
             >
                 <DrawerHeader>
                     <Button
-                        onClick={handleDrawerClose}
-                        endIcon={<Icon path={mdiArrowLeftCircle} size={1} />}
+                        onClick={ handleDrawerClose }
+                        endIcon={ <Icon path={ mdiArrowLeftCircle } size={ 1 } /> }
                     >
                         Закрыть
                     </Button>
                 </DrawerHeader>
 
                 <List>
-                    <Divider> {open && "Авангард"}</Divider>
-                    {routes.map((r, index) => (
+                    <Divider> { open && "Авангард" }</Divider>
+                    { routes.map((r, index) => (
                         <ListItem
-                            key={r.href}
+                            key={ r.href }
                             disablePadding
-                            sx={{ display: "block" }}
+                            sx={ { display: "block" } }
                         >
                             <ListItemButton
-                                onClick={handleDrawerClose}
-                                LinkComponent={Link}
-                                href={r.href}
-                                sx={[
+                                onClick={ handleDrawerClose }
+                                LinkComponent={ Link }
+                                href={ r.href }
+                                sx={ [
                                     {
                                         minHeight: 48,
                                         px: 2.5,
                                     },
                                     open
                                         ? {
-                                              justifyContent: "initial",
-                                          }
+                                            justifyContent: "initial",
+                                        }
                                         : {
-                                              justifyContent: "center",
-                                          },
+                                            justifyContent: "center",
+                                        },
 
                                     isPath(r.href)
                                         ? {
-                                              bgcolor: "warning.dark",
-                                          }
+                                            bgcolor: "warning.dark",
+                                        }
                                         : {
-                                              bgcolor: "inherit",
-                                          },
-                                ]}
+                                            bgcolor: "inherit",
+                                        },
+                                ] }
                             >
                                 <ListItemIcon
-                                    sx={[
+                                    sx={ [
                                         {
                                             minWidth: 0,
                                             justifyContent: "center",
                                         },
                                         open
                                             ? {
-                                                  mr: 3,
-                                              }
+                                                mr: 3,
+                                            }
                                             : {
-                                                  mr: "auto",
-                                              },
-                                    ]}
+                                                mr: "auto",
+                                            },
+                                    ] }
                                 >
-                                    {r.icon}
+                                    { r.icon }
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary={r.label}
-                                    sx={[
+                                    primary={ r.label }
+                                    sx={ [
                                         open
                                             ? {
-                                                  opacity: 1,
-                                              }
+                                                opacity: 1,
+                                            }
                                             : {
-                                                  opacity: 0,
-                                              },
-                                    ]}
+                                                opacity: 0,
+                                            },
+                                    ] }
                                 />
                             </ListItemButton>
                         </ListItem>
-                    ))}
+                    )) }
                 </List>
 
-                <Divider sx={{ pt: 2, color: "secondary.main" }}>
-                    {open && "Админка"}
+                <Divider sx={ { pt: 2, color: "secondary.main" } }>
+                    { open && "Админка" }
                 </Divider>
                 <List>
-                    {admin_routes.map((r) => (
+                    { admin_routes.map((r) => (
                         <ListItem
-                            key={r.label}
+                            key={ r.label }
                             disablePadding
-                            sx={{ display: "block" }}
+                            sx={ { display: "block" } }
                         >
                             <ListItemButton
-                                onClick={handleDrawerClose}
-                                disabled={session.data?.user.role !== "ADMIN"}
-                                LinkComponent={Link}
-                                href={r.href}
-                                sx={[
+                                onClick={ handleDrawerClose }
+                                disabled={ session.data?.user.role !== "ADMIN" }
+                                LinkComponent={ Link }
+                                href={ r.href }
+                                sx={ [
                                     {
                                         minHeight: 48,
                                         px: 2.5,
                                     },
                                     open
                                         ? {
-                                              justifyContent: "initial",
-                                          }
+                                            justifyContent: "initial",
+                                        }
                                         : {
-                                              justifyContent: "center",
-                                          },
+                                            justifyContent: "center",
+                                        },
                                     isPath(r.href)
                                         ? {
-                                              bgcolor: "warning.dark",
-                                          }
+                                            bgcolor: "warning.dark",
+                                        }
                                         : {
-                                              bgcolor: "inherit",
-                                          },
-                                ]}
+                                            bgcolor: "inherit",
+                                        },
+                                ] }
                             >
                                 <ListItemIcon
-                                    sx={[
+                                    sx={ [
                                         {
                                             minWidth: 0,
                                             justifyContent: "center",
                                         },
                                         open
                                             ? {
-                                                  mr: 3,
-                                              }
+                                                mr: 3,
+                                            }
                                             : {
-                                                  mr: "auto",
-                                              },
-                                    ]}
+                                                mr: "auto",
+                                            },
+                                    ] }
                                 >
-                                    {r.icon}
+                                    { r.icon }
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary={r.label}
-                                    sx={[
+                                    primary={ r.label }
+                                    sx={ [
                                         open
                                             ? {
-                                                  opacity: 1,
-                                              }
+                                                opacity: 1,
+                                            }
                                             : {
-                                                  opacity: 0,
-                                              },
-                                    ]}
+                                                opacity: 0,
+                                            },
+                                    ] }
                                 />
                             </ListItemButton>
                         </ListItem>
-                    ))}
+                    )) }
                 </List>
             </Drawer>
         </Box>

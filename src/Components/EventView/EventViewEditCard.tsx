@@ -95,7 +95,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
             id: event_data.id,
             _new_data: event_data,
         }).finally(() => off());
-        r.push("/avangard/events/" + id);
+        r.push("/events/" + id);
     };
 
     const handleDelete = async (id: number) => {
