@@ -1,6 +1,6 @@
 "use client";
-import TicketInfo from "@/Components/Modals/TicketInfo";
-import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
+// import TicketInfo from "@/Components/Modals/TicketInfo";
+// import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
 import { MRT_Player, useMRTPlayersSelect } from "@/Hooks/useGetEventPlayers";
 import { reSyncPlayers } from "@/Services/events/db_event";
 import { deletePlayer, EditPlayer } from "@/Services/playerService";
@@ -53,7 +53,7 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         pageSize: 10,
     });
 
-    const { openTicket } = useTicket();
+    // const { openTicket } = useTicket();
     const {
         data = [],
         isLoading,
@@ -242,15 +242,15 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         muiToolbarAlertBannerProps:
             isError || isUpdateError || isResyncError
                 ? {
-                      color: "error",
-                      children: [
-                          errors.sync,
-                          errors.query,
-                          errors.update,
-                          errors.name,
-                      ],
-                      onClick: () => setErrors({}),
-                  }
+                    color: "error",
+                    children: [
+                        errors.sync,
+                        errors.query,
+                        errors.update,
+                        errors.name,
+                    ],
+                    onClick: () => setErrors({}),
+                }
                 : undefined,
 
         // manualPagination: true,
@@ -267,45 +267,45 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         renderBottomToolbarCustomActions(props) {
             const { table } = props;
             return (
-                <ButtonGroup color="secondary" sx={{ m: 2 }} size="small">
+                <ButtonGroup color="secondary" sx={ { m: 2 } } size="small">
                     <Button
                         variant="contained"
-                        onClick={() => table.setCreatingRow(true)}
+                        onClick={ () => table.setCreatingRow(true) }
                         startIcon={
-                            <Icon path={mdiAccountPlusOutline} size={1} />
+                            <Icon path={ mdiAccountPlusOutline } size={ 1 } />
                         }
                     >
                         Создать
                     </Button>
                     <Button
                         variant="contained"
-                        color={"warning"}
-                        onClick={() => resync()}
+                        color={ "warning" }
+                        onClick={ () => resync() }
                         startIcon={
-                            <Icon path={mdiDatabaseSyncOutline} size={1} />
+                            <Icon path={ mdiDatabaseSyncOutline } size={ 1 } />
                         }
-                        disabled={resync_pending}
+                        disabled={ resync_pending }
                     >
-                        {resync_pending ? "Syncing..." : "Sync"}
+                        { resync_pending ? "Syncing..." : "Sync" }
                     </Button>
                     <Button
                         variant="outlined"
-                        color={"secondary"}
-                        onClick={restore}
+                        color={ "secondary" }
+                        onClick={ restore }
                         disabled
                         startIcon={
-                            <Icon path={mdiDatabaseSyncOutline} size={1} />
+                            <Icon path={ mdiDatabaseSyncOutline } size={ 1 } />
                         }
                     >
                         Restore Players
                     </Button>
                     <Button
                         variant="outlined"
-                        color={"secondary"}
-                        onClick={restore_pairs}
+                        color={ "secondary" }
+                        onClick={ restore_pairs }
                         disabled
                         startIcon={
-                            <Icon path={mdiDatabaseSyncOutline} size={1} />
+                            <Icon path={ mdiDatabaseSyncOutline } size={ 1 } />
                         }
                     >
                         Restore Pairs
@@ -320,17 +320,17 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                 // <MRT_EditActionButtons row={row} table={table} key={"edit"} />,
 
                 <IconButton
-                    key={"edit_" + row.id}
-                    onClick={() => table.setEditingRow(row)}
+                    key={ "edit_" + row.id }
+                    onClick={ () => table.setEditingRow(row) }
                 >
-                    <Icon path={mdiHumanEdit} size={1} />
+                    <Icon path={ mdiHumanEdit } size={ 1 } />
                 </IconButton>,
                 <IconButton
-                    key={"delete_" + row.id}
-                    color={"error"}
-                    onClick={async () => await openDeleteConfirmModal(row)}
+                    key={ "delete_" + row.id }
+                    color={ "error" }
+                    onClick={ async () => await openDeleteConfirmModal(row) }
                 >
-                    <Icon path={mdiDeleteAlertOutline} size={1} />
+                    <Icon path={ mdiDeleteAlertOutline } size={ 1 } />
                 </IconButton>,
 
                 // row.original.hasTicket ? (
@@ -357,7 +357,7 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         updateError,
     ]);
 
-    return <MaterialReactTable table={table} />;
+    return <MaterialReactTable table={ table } />;
 };
 
 export function useUpdatePlayerMrt() {

@@ -71,7 +71,7 @@ export type PrismaPlayer_ = Prisma.PlayerGetPayload<{
         id: true,
         name: true,
         pair: true,
-        ticket: true,
+        // ticket: true,
         profile: true,
         events: true,
         createdAt: true,
@@ -84,7 +84,7 @@ export const default_event_select = {
     date_formated: true,
     pairs: true,
     pairs2: false,
-    players: { select: { id: true, name: true, ticket: true, events: true } },
+    players: { select: { id: true, name: true, events: true } },
     title: true,
     cost: true,
 } satisfies Prisma.EventSelect

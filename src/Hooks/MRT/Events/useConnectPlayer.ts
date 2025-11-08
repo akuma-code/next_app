@@ -1,7 +1,6 @@
 'use client'
 
-import { connectOnePlayer, getEventById } from "@/Services/eventService";
-import { ticketCountMinus } from "@/Services/tickets/ticketActions";
+import { connectOnePlayer } from "@/Services/eventService";
 import { useMutation } from "@tanstack/react-query";
 
 export function useConnectPlayer(eventId: number) {
@@ -16,31 +15,31 @@ export function useConnectPlayer(eventId: number) {
 interface Player {
     name: string;
     id: number;
-    ticket: {
-        uuid: string;
-        amount: number;
-        eAt: string;
-        event_dates: string[];
-        playerId: number;
-    } | null;
+    // ticket: {
+    //     uuid: string;
+    //     amount: number;
+    //     eAt: string;
+    //     event_dates: string[];
+    //     playerId: number;
+    // } | null;
 }
 
 async function connectPlayerHandler(
     player: Player,
     eventId: number
 ) {
-    if (player.ticket) {
-        const e = await getEventById(eventId.toString());
-        if (!e) return;
-        const { cost } = e;
-        if (cost) {
-            await connectOnePlayer(eventId, player.id);
-            await ticketCountMinus(
-                { uuid: player.ticket.uuid },
-                { amount: cost, event_date: e.date_formated }
-            );
-        }
-    } else {
-        await connectOnePlayer(eventId, player.id);
-    }
+    // if (player.ticket) {
+    //     const e = await getEventById(eventId.toString());
+    //     if (!e) return;
+    //     const { cost } = e;
+    //     if (cost) {
+    //         await connectOnePlayer(eventId, player.id);
+    //         await ticketCountMinus(
+    //             { uuid: player.ticket.uuid },
+    //             { amount: cost, event_date: e.date_formated }
+    //         );
+    //     }
+    // } else {
+    // }
+    await connectOnePlayer(eventId, player.id);
 }

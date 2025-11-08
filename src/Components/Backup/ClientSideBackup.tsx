@@ -87,60 +87,60 @@ export const ClientBackup = (props: { filename?: string }) => {
 
     // q.isSuccess && console.log(q.data);
     return (
-        <Box p={1} gap={2} border={"1px solid"} borderRadius={"1rem"}>
+        <Box p={ 1 } gap={ 2 } border={ "1px solid" } borderRadius={ "1rem" }>
             {/* <Typography variant="h4" component={"div"} minWidth={290}>
                 Cписок ивентов
             </Typography> */}
-            {q.isLoading ? (
+            { q.isLoading ? (
                 <LoadSpinner text="Загружаются данные для бекапа..." />
             ) : (
                 <Box
-                    maxWidth={300}
-                    gap={1}
-                    display={"flex"}
-                    flexDirection={"column"}
+                    maxWidth={ 300 }
+                    gap={ 1 }
+                    display={ "flex" }
+                    flexDirection={ "column" }
                 >
                     <Chip
-                        label={"Всего ивентов: " + q.data?.events.length}
+                        label={ "Всего ивентов: " + q.data?.events.length }
                         size="medium"
                         variant="outlined"
                         color="warning"
-                        sx={{
+                        sx={ {
                             color: "black",
                             fontWeight: "bold",
                             fontSize: 20,
-                        }}
+                        } }
                         icon={
-                            <Icon path={mdiArchiveArrowUpOutline} size={0.9} />
+                            <Icon path={ mdiArchiveArrowUpOutline } size={ 0.9 } />
                         }
                     />
                     <Box>
                         <Button
                             fullWidth
-                            onClick={exportData}
+                            onClick={ exportData }
                             variant="contained"
-                            color={"info"}
-                            sx={{
+                            color={ "info" }
+                            sx={ {
                                 bgcolor: (theme) =>
                                     alpha(theme.palette.info.dark, 0.7),
-                            }}
+                            } }
                         >
                             скачать data.json
                         </Button>
-                        <em>file: {dayjs().format("YYYY-MM-DD")}.json</em>
+                        <em>file: { dayjs().format("YYYY-MM-DD") }.json</em>
                     </Box>
-                    {q.isSuccess && (
+                    { q.isSuccess && (
                         <Box
-                            color={"success"}
-                            maxHeight={500}
-                            maxWidth={300}
-                            flexWrap={"wrap"}
+                            color={ "success" }
+                            maxHeight={ 500 }
+                            maxWidth={ 300 }
+                            flexWrap={ "wrap" }
                             // width={ '30vw' }
-                            bgcolor={"inherit"}
-                            display={"flex"}
-                            flexDirection={"column"}
+                            bgcolor={ "inherit" }
+                            display={ "flex" }
+                            flexDirection={ "column" }
                         >
-                            {q.data.events.map((e) => (
+                            {/* {q.data.events.map((e) => (
                                 <Link
                                     href={"/avangard/events/" + e.id}
                                     key={e.id}
@@ -150,13 +150,13 @@ export const ClientBackup = (props: { filename?: string }) => {
                                         {_dbDateParser(e.date_formated).dd_mmmm}
                                     </Typography>
                                 </Link>
-                            ))}
+                            ))} */}
                         </Box>
-                    )}
+                    ) }
                 </Box>
-            )}
+            ) }
 
-            {q.error && <Box>q error: {q.error.message}</Box>}
+            { q.error && <Box>q error: { q.error.message }</Box> }
         </Box>
     );
 };

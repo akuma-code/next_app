@@ -6,6 +6,9 @@ import { Prisma } from "@prisma/client"
 import players_file from "../../../../../public/json/saved_players.json"
 import pairs_file from "../../../../../public/json/saved_pairs.json"
 import { NotAllowedInProd } from "@/Services/NotAllowedInProd"
+import restore_events from "../../../../../public/json/db_events.json"
+import restore_players from "../../../../../public/json/db_players.json"
+import restore_users from "../../../../../public/json/db_users.json"
 export async function getImportantData(options = { saveToDisk: false }) {
 
     const p = prisma.pair
@@ -54,9 +57,7 @@ type HDD_PLayer = Prisma.PlayerGetPayload<{ select: { id: true, name: true, tick
 type HDD_Pair = Prisma.PairGetPayload<true>
 export async function restorePlayers() {
     try {
-        // const p = await readFileFn<HDD_PLayer[]>("./public/json/saved_players.json") as HDD_PLayer[]
         const pls = JSON.parse(JSON.stringify(players_file)) as HDD_PLayer[]
-        // if (!p) return { message: "error while reading" }
         const validator = (p: HDD_PLayer) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()(
             {
                 id: p.id, name: p.name,
@@ -133,6 +134,78 @@ async function saveToHDD<T>(data: T, file_name?: string) {
         console.log({ file })
         return file
     } catch (error) {
+        throw error
+    }
+}
+
+export async function saveEventsAndPlayers() {
+
+
+    const p = prisma.player
+    const e = prisma.event
+    const u = prisma.user
+
+    const db_players = await p.findMany({
+        select: {
+            id: true, name: true, events: true
+        }
+    })
+
+    const db_events = await e.findMany({
+        select: {
+            id: true,
+            date_formated: true,
+            players: true,
+            title: true
+        }
+    })
+
+    const db_users = await u.findMany()
+
+
+    saveToHDD(db_players, "db_players")
+    saveToHDD(db_events, "db_events")
+    saveToHDD(db_users, "db_users")
+
+    console.log("Today: 06/11/25")
+    console.log("saved players: ", db_players.length)
+    console.log("saved events: ", db_events.length)
+    console.log("saved users: ", db_users.length)
+
+    return { db_events, db_players, db_users }
+}
+type DB_PLayers = Prisma.PlayerGetPayload<{ select: { id: true, name: true, events: true } }>
+type DB_Events = Prisma.EventGetPayload<{ select: { id: true, date_formated: true, players: true, title: true } }>
+
+export async function restoreEventsAndPlayers() {
+    try {
+        const pls = JSON.parse(JSON.stringify(restore_players)) as DB_PLayers[]
+        const evs = JSON.parse(JSON.stringify(restore_events)) as DB_Events[]
+        const validatorEvents = (e: DB_Events) => Prisma.validator<Prisma.EventUncheckedCreateInput>()(
+            {
+                id: e.id,
+                date_formated: e.date_formated,
+                title: e.title
+            })
+        const validator = (p: DB_PLayers) => Prisma.validator<Prisma.PlayerUncheckedCreateInput>()(
+            {
+                id: p.id, name: p.name,
+                events: { connect: p.events.map(e => ({ id: e.id })) },
+            })
+
+        const validPlayers = pls.map(validator)
+        const validEvents = evs.map(validatorEvents)
+
+
+        const events_tsx = validEvents.map(e => prisma.event.create({ data: e }))
+        const players_tsx = validPlayers.map(p => prisma.player.create({ data: p }))
+        const user_tsx = prisma.user.create({ data: { email: 'nodachi@bk.ru', password: 'aa', role: 'ADMIN' } })
+        const res = await prisma.$transaction([...events_tsx, ...players_tsx, user_tsx])
+        console.log("events restore count: ", events_tsx.length)
+        console.log("players restore count: ", players_tsx.length)
+        return JSON.stringify(res)
+    } catch (error) {
+        console.log(error)
         throw error
     }
 }

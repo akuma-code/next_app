@@ -1,12 +1,7 @@
 import { EventView, TEvent } from "@/Components/EventView/EventView";
-import { reduceArrayToObject } from "@/Helpers/reduceToObject";
-import { getDBOneEventData, getEvent } from "@/Services/events/db_event";
-import { getEvents } from "@/Services/events/eventActions";
-import { getEventById } from "@/Services/eventService";
+import { getEvent } from "@/Services/events/db_event";
 import { getMasters } from "@/Services/masterService";
-import { createTicketForPlayer } from "@/Services/tickets/ticketActions";
-import { Alert, Box } from "@mui/material";
-import { Prisma } from "@prisma/client";
+import { Alert } from "@mui/material";
 import { Suspense } from "react";
 // type TEvent = Prisma.EventGetPayload<{
 //     select: {
@@ -58,8 +53,8 @@ const EventIdPage: React.FC<{ params: { eventId: string } }> = async ({
     //     })
     // );
     return (
-        <Suspense fallback={<Alert color="success">Wait...</Alert>}>
-            {eventId && <EventView event={event} masters={masters} />}
+        <Suspense fallback={ <Alert color="success">Wait...</Alert> }>
+            { eventId && <EventView event={ event } masters={ masters } /> }
         </Suspense>
     );
 };

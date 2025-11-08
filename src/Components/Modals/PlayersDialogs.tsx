@@ -2,14 +2,12 @@
 
 import { _log } from "@/Helpers/helpersFns";
 import { useConnectPlayer } from "@/Hooks/MRT/Events/useConnectPlayer";
-import { connectOnePlayer, getEventById } from "@/Services/eventService";
+import { connectOnePlayer } from "@/Services/eventService";
 import { createPlayer, getPlayers } from "@/Services/playerService";
-import { ticketCountMinus } from "@/Services/tickets/ticketActions";
 import {
-    mdiBitcoin,
     mdiCheck,
     mdiClose,
-    mdiRadioboxIndeterminateVariant,
+    mdiRadioboxIndeterminateVariant
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
@@ -34,30 +32,30 @@ async function connectPlayerHandler(
     player: {
         name: string;
         id: number;
-        ticket: {
-            uuid: string;
-            amount: number;
-            eAt: string;
-            event_dates: string[];
-            playerId: number;
-        } | null;
+        // ticket: {
+        //     uuid: string;
+        //     amount: number;
+        //     eAt: string;
+        //     event_dates: string[];
+        //     playerId: number;
+        // } | null;
     },
     eventId: number
 ) {
-    if (player.ticket) {
-        const e = await getEventById(eventId.toString());
-        if (!e) return;
-        const { cost } = e;
-        if (cost) {
-            await connectOnePlayer(eventId, player.id);
-            await ticketCountMinus(
-                { uuid: player.ticket.uuid },
-                { amount: cost, event_date: e.date_formated }
-            );
-        }
-    } else {
-        await connectOnePlayer(eventId, player.id);
-    }
+    // if (player.ticket) {
+    //     const e = await getEventById(eventId.toString());
+    //     if (!e) return;
+    //     const { cost } = e;
+    //     if (cost) {
+    //         await connectOnePlayer(eventId, player.id);
+    //         // await ticketCountMinus(
+    //         //     { uuid: player.ticket.uuid },
+    //         //     { amount: cost, event_date: e.date_formated }
+    //         // );
+    //     }
+    // } else {
+    // }
+    await connectOnePlayer(eventId, player.id);
 }
 
 export const ConnectDialog = ({
@@ -69,7 +67,7 @@ export const ConnectDialog = ({
         select: {
             id: true;
             date_formated: true;
-            players: { select: { id: true; name: true; ticket: true } };
+            players: { select: { id: true; name: true } };
             pairs: true;
             cost: true;
             title: true;
@@ -102,53 +100,55 @@ export const ConnectDialog = ({
             p: { name: string; id: number; ticket: any | null },
             eventId: number
         ) =>
-        () =>
-            start(async () => {
-                await connectPlayerHandler(p, eventId);
-            });
+            () =>
+                start(async () => {
+                    await connectPlayerHandler(p, eventId);
+                });
     // if (q.isLoading) return <LinearProgress />;
     return (
-        <Dialog open={show} onClose={onClose}>
-            <DialogTitle justifyContent={"center"} textAlign={"center"}>
+        <Dialog open={ show } onClose={ onClose }>
+            <DialogTitle justifyContent={ "center" } textAlign={ "center" }>
                 <Box
-                    component={Stack}
-                    alignContent={"center"}
-                    alignItems={"center"}
+                    component={ Stack }
+                    alignContent={ "center" }
+                    alignItems={ "center" }
                 >
-                    {isConnecting ? (
+                    { isConnecting ? (
                         <Icon
-                            path={mdiRadioboxIndeterminateVariant}
-                            size={1}
-                            spin={1}
+                            path={ mdiRadioboxIndeterminateVariant }
+                            size={ 1 }
+                            spin={ 1 }
                         />
                     ) : (
                         "Добавить"
-                    )}
+                    ) }
                 </Box>
             </DialogTitle>
             <DialogContent>
-                <Stack direction={"column"} spacing={1} justifyContent={"left"}>
-                    {q.data?.map((p) => (
+                <Stack direction={ "column" } spacing={ 1 } justifyContent={ "left" }>
+                    { q.data?.map((p) => (
                         <Button
-                            disabled={isPending}
-                            endIcon={
-                                p.ticket ? (
-                                    <Icon path={mdiBitcoin} size={1} />
-                                ) : null
-                            }
-                            sx={{
+                            disabled={ isPending }
+                            // endIcon={
+                            //     p.ticket ? (
+                            //         <Icon path={ mdiBitcoin } size={ 1 } />
+                            //     ) : null
+                            // }
+                            sx={ {
                                 textAlign: "left",
                                 justifyContent: "space-between",
-                                bgcolor: p.ticket ? "lightblue" : "inherit",
-                            }}
+                                bgcolor: "lightblue",
+                            } }
                             variant="outlined"
                             size="small"
-                            key={p.id}
-                            onClick={() => add(p)}
+                            key={ p.id }
+                            onClick={ () => add(p) }
                         >
-                            {p.name} {p.ticket && `[${p.ticket.amount}]`}
+                            { p.name }
+
+
                         </Button>
-                    ))}
+                    )) }
                 </Stack>
             </DialogContent>
         </Dialog>
@@ -185,51 +185,51 @@ export const CreatePlayerDialog = ({
     // }
     // const show = Boolean(anchorEl);
     return (
-        <Dialog open={show} onClose={handleClose}>
+        <Dialog open={ show } onClose={ handleClose }>
             <DialogTitle>Создать игрока</DialogTitle>
             <DialogContent>
                 <Box
-                    m={1}
-                    p={1}
-                    display={"flex"}
-                    alignItems={"center"}
-                    flexDirection={"row"}
-                    gap={1}
+                    m={ 1 }
+                    p={ 1 }
+                    display={ "flex" }
+                    alignItems={ "center" }
+                    flexDirection={ "row" }
+                    gap={ 1 }
                 >
                     <TextField
                         size="small"
-                        name={"name"}
-                        value={player.name}
-                        onChange={(e) =>
+                        name={ "name" }
+                        value={ player.name }
+                        onChange={ (e) =>
                             setPlayer((prev) => ({
                                 ...prev,
                                 name: e.target.value,
                             }))
                         }
                         variant="outlined"
-                        label={`Введите имя`}
+                        label={ `Введите имя` }
                     />
                     <ButtonGroup
-                        sx={{ pt: 0 }}
+                        sx={ { pt: 0 } }
                         size="small"
-                        disabled={isCreating}
+                        disabled={ isCreating }
                     >
                         <Button
                             color="warning"
-                            sx={{ bgcolor: "success.main" }}
+                            sx={ { bgcolor: "success.main" } }
                             type="submit"
                             title="Подтвердить"
-                            onClick={onCreate}
-                            disabled={isCreating}
+                            onClick={ onCreate }
+                            disabled={ isCreating }
                         >
-                            <Icon path={mdiCheck} size={1} color={"success"} />
+                            <Icon path={ mdiCheck } size={ 1 } color={ "success" } />
                         </Button>
                         <Button
-                            onClick={handleClose}
-                            sx={{ bgcolor: "error.main" }}
+                            onClick={ handleClose }
+                            sx={ { bgcolor: "error.main" } }
                             title="Вернуть начальное значение"
                         >
-                            <Icon path={mdiClose} size={1} color={"#000"} />
+                            <Icon path={ mdiClose } size={ 1 } color={ "#000" } />
                         </Button>
                     </ButtonGroup>
                 </Box>

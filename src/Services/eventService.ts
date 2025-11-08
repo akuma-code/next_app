@@ -7,7 +7,7 @@ import { _log } from "@/Helpers/helpersFns";
 import { revalidatePath } from "next/cache";
 import { getMasters } from "./masterService";
 import { getPlayers } from "./playerService";
-import { ticketCountMinus, ticketCountPlus, verifyPlayerTicketAmount } from "./tickets/ticketActions";
+// import { ticketCountMinus, ticketCountPlus, verifyPlayerTicketAmount } from "./tickets/ticketActions";
 import dayjs from "dayjs";
 
 export interface EventCreatePayload {
@@ -186,9 +186,9 @@ export async function deleteEvent(id: number) {
     }
 }
 export async function disconnectPlayer(playerId: number, eventId: number) {
-    const p = await prisma.player.findUnique({ where: { id: playerId }, select: { ticket: true, id: true, name: true } })
+    const p = await prisma.player.findUnique({ where: { id: playerId }, select: { id: true, name: true } })
     if (!p) return
-    const tt = await verifyPlayerTicketAmount(p)
+    // const tt = await verifyPlayerTicketAmount(p)
     try {
 
         const e = await prisma.event.update({
@@ -196,9 +196,9 @@ export async function disconnectPlayer(playerId: number, eventId: number) {
             data: { players: { disconnect: { id: playerId } } },
         });
 
-        if (tt) {
-            await ticketCountPlus({ uuid: tt.uuid }, { amount: 1, event_date: _formated_date(dayjs()) })
-        }
+        // if (tt) {
+        //     await ticketCountPlus({ uuid: tt.uuid }, { amount: 1, event_date: _formated_date(dayjs()) })
+        // }
         console.log(e);
         return e
     } catch (error) {
@@ -274,7 +274,7 @@ export async function getEventsByMonth(
                     title: true,
                     cost: true,
                     pairs: true,
-                    players: { select: { id: true, name: true, ticket: true, pair: true } },
+                    players: { select: { id: true, name: true, pair: true } },
                     _count: { select: { players: true } },
                 },
             });
@@ -295,7 +295,7 @@ export async function getEventsByMonth(
                 title: true,
                 cost: true,
                 pairs: true,
-                players: { select: { id: true, name: true, ticket: true, pair: true } },
+                players: { select: { id: true, name: true, pair: true } },
                 _count: { select: { players: true } },
             },
             orderBy: { date_formated: _order },
@@ -332,7 +332,7 @@ export async function getEventById(eventId: string) {
                 id: true,
                 date_formated: true,
                 title: true,
-                players: { select: { id: true, name: true, ticket: true, } },
+                players: { select: { id: true, name: true, } },
                 _count: { select: { players: true } },
                 isDraft: true,
                 pairs: true,

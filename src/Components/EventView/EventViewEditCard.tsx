@@ -42,7 +42,7 @@ type AcValueChangeHandler = (
     details?: AutocompleteChangeDetails<{
         id: number;
         name: string;
-        ticket?: any;
+        // ticket?: any;
     }>
 ) => void | undefined;
 export const EventViewEditCard: React.FC<EditEventCardProps> = ({
@@ -109,54 +109,54 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
         <>
             <Card>
                 <CardHeader
-                    title={ev.title}
-                    subheader={`Edit Event id: ${id}`}
+                    title={ ev.title }
+                    subheader={ `Edit Event id: ${id}` }
                 />
                 <CardActions>
                     <ButtonGroup
                         variant="contained"
                         size="small"
-                        component={Stack}
-                        direction={"row"}
+                        component={ Stack }
+                        direction={ "row" }
                         fullWidth
                     >
                         <Button
-                            onClick={handleSubmitEvent}
-                            disabled={isChanging}
+                            onClick={ handleSubmitEvent }
+                            disabled={ isChanging }
                         >
                             Сохранить
                         </Button>
                         <Button
-                            onClick={() => handleDelete(event.id)}
-                            disabled={isChanging}
+                            onClick={ () => handleDelete(event.id) }
+                            disabled={ isChanging }
                         >
                             Удалить
                         </Button>
-                        <Button color="info" href={"/avangard/events/" + id}>
+                        <Button color="info" href={ "/avangard/events/" + id }>
                             Назад
                         </Button>
                     </ButtonGroup>
                 </CardActions>
 
                 <CardContent>
-                    <Stack rowGap={1} maxWidth={300}>
+                    <Stack rowGap={ 1 } maxWidth={ 300 }>
                         <TextField
                             name="title"
-                            value={ev.title}
+                            value={ ev.title }
                             size="small"
-                            onChange={changeTitleHandler}
-                            helperText={"Изменить название"}
+                            onChange={ changeTitleHandler }
+                            helperText={ "Изменить название" }
                         />
                         <DatePicker
                             name="date"
-                            value={eventDate}
-                            onChange={setEventDate}
-                            slotProps={{
+                            value={ eventDate }
+                            onChange={ setEventDate }
+                            slotProps={ {
                                 textField: {
                                     size: "small",
                                     helperText: "изменить дату",
                                 },
-                            }}
+                            } }
                         />
 
                         <Autocomplete
@@ -165,47 +165,47 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
                             forcePopupIcon
                             filterSelectedOptions
                             autoHighlight
-                            loading={isLoading}
-                            value={ac_select}
-                            onChange={handleAcValueChange}
-                            inputValue={ac_value}
-                            onInputChange={handleInputChange}
-                            renderInput={(params) => (
+                            loading={ isLoading }
+                            value={ ac_select }
+                            onChange={ handleAcValueChange }
+                            inputValue={ ac_value }
+                            onInputChange={ handleInputChange }
+                            renderInput={ (params) => (
                                 <TextField
-                                    {...params}
-                                    helperText={"Изменить состав"}
+                                    { ...params }
+                                    helperText={ "Изменить состав" }
                                     size="small"
                                 />
-                            )}
-                            options={ac_options}
-                            getOptionLabel={(option) => option.name}
-                            isOptionEqualToValue={(option, value) =>
+                            ) }
+                            options={ ac_options }
+                            getOptionLabel={ (option) => option.name }
+                            isOptionEqualToValue={ (option, value) =>
                                 option.id === value.id
                             }
-                            renderOption={(props, option, { selected }) => {
+                            renderOption={ (props, option, { selected }) => {
                                 const p = props;
                                 return (
                                     <ListItem
-                                        {...p}
+                                        { ...p }
                                         secondaryAction={
                                             <Checkbox
-                                                style={{
+                                                style={ {
                                                     marginRight: 4,
                                                     marginLeft: 4,
-                                                }}
-                                                checked={selected}
+                                                } }
+                                                checked={ selected }
                                             />
                                         }
                                     >
                                         <ListItemButton>
-                                            {option.name}
+                                            { option.name }
                                         </ListItemButton>
                                     </ListItem>
                                 );
-                            }}
-                            limitTags={1}
+                            } }
+                            limitTags={ 1 }
                             // getLimitTagsText={ (more) => <Avatar sizes="small" sx={ { height: 25, width: 25, fontSize: 14, bgcolor: avatarColor(more) } } >+{ more }</Avatar> }
-                            renderTags={(selected, getTagProps) => {
+                            renderTags={ (selected, getTagProps) => {
                                 return selected.map((p, index) => {
                                     const { key, ...rest } = getTagProps({
                                         index,
@@ -215,13 +215,13 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
                                     return (
                                         <Chip
                                             variant="filled"
-                                            label={label}
-                                            {...rest}
-                                            key={p.name}
+                                            label={ label }
+                                            { ...rest }
+                                            key={ p.name }
                                         />
                                     );
                                 });
-                            }}
+                            } }
                         />
                     </Stack>
                 </CardContent>

@@ -27,14 +27,15 @@ model Player {
 }
 
 model Ticket {
-  uuid        String   @id @default(uuid())
-  amount      Int      @default(10)
-  limit       Int      @default(10)
-  eAt         String   @default("never")
-  event_dates String[]
+  uuid          String @id @default(uuid())
+  amount        Int    @default(0)
+  price         Int    @default(480)
+  countFromDate String @default("") @map("cfd")
 
   playerId Int    @unique
   player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("tickets")
 }
 
 model Partner {

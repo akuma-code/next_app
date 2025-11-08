@@ -1,5 +1,5 @@
 "use client";
-import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
+// import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
 import { useMRTPlayers } from "@/Hooks/useGetEventPlayers";
 import { reSyncPlayers } from "@/Services/events/db_event";
 import {
@@ -109,35 +109,35 @@ const player_columns: MRT_ColumnDef<PrismaPlayer_>[] = [
         Edit: () => null,
     },
 
-    {
-        id: "ticket",
-        accessorFn(originalRow) {
-            return originalRow.ticket ? originalRow.ticket.amount : "";
-        },
-        header: "Абонемент",
-        muiTableBodyCellProps: {
-            align: "center",
-        },
-        muiTableHeadCellProps: {
-            align: "center",
-        },
-        enableEditing: true,
-        muiEditTextFieldProps: {
-            variant: "outlined",
-            helperText: "остаток на абонементе",
-        },
-        minSize: 80,
-        grow: 1,
-        Cell({ row }) {
-            // if (!row.original.ticket?.amount) return "";
-            const { ticket } = row.original;
-            if (!ticket) return "нет";
-            const { amount, limit } = ticket;
+    // {
+    //     id: "ticket",
+    //     accessorFn(originalRow) {
+    //         return originalRow.ticket ? originalRow.ticket.amount : "";
+    //     },
+    //     header: "Абонемент",
+    //     muiTableBodyCellProps: {
+    //         align: "center",
+    //     },
+    //     muiTableHeadCellProps: {
+    //         align: "center",
+    //     },
+    //     enableEditing: true,
+    //     muiEditTextFieldProps: {
+    //         variant: "outlined",
+    //         helperText: "остаток на абонементе",
+    //     },
+    //     minSize: 80,
+    //     grow: 1,
+    //     Cell({ row }) {
+    //         // if (!row.original.ticket?.amount) return "";
+    //         const { ticket } = row.original;
+    //         if (!ticket) return "нет";
+    //         // const { amount, limit } = ticket;
 
-            return `${amount}/${limit}`;
-        },
-        // Edit: () => null,
-    },
+    //         return `${amount}/${limit}`;
+    //     },
+    // Edit: () => null,
+    // },
     // {
     //     accessorKey: "ticket",
     //     id: "status",
@@ -171,11 +171,11 @@ export function MRTPlayers() {
                         name: i.name,
                         ticket: i.ticket
                             ? {
-                                  update: {
-                                      amount: Number(i.ticket),
-                                      //   limit: { increment: Number(i.ticket) },
-                                  },
-                              }
+                                update: {
+                                    amount: Number(i.ticket),
+                                    //   limit: { increment: Number(i.ticket) },
+                                },
+                            }
                             : undefined,
                     },
                 });
@@ -227,9 +227,9 @@ export function MRTPlayers() {
         }),
         renderRowActions({ row, table }) {
             return (
-                <Box sx={{ display: "flex", gap: ".5rem" }}>
+                <Box sx={ { display: "flex", gap: ".5rem" } }>
                     <Tooltip title="Edit">
-                        <IconButton onClick={() => table.setEditingRow(row)}>
+                        <IconButton onClick={ () => table.setEditingRow(row) }>
                             <EditTwoTone />
                         </IconButton>
                     </Tooltip>
@@ -237,7 +237,7 @@ export function MRTPlayers() {
                     <Tooltip title="Delete">
                         <IconButton
                             color="warning"
-                            onClick={() => openDeleteConfirmModal(row)}
+                            onClick={ () => openDeleteConfirmModal(row) }
                         >
                             <DeleteTwoTone />
                         </IconButton>
@@ -250,20 +250,20 @@ export function MRTPlayers() {
             return (
                 <ButtonGroup
                     color="secondary"
-                    sx={{ gap: 1 }}
+                    sx={ { gap: 1 } }
                     size="small"
-                    disabled={isPending}
+                    disabled={ isPending }
                 >
                     <Button
                         variant="contained"
-                        onClick={() => table.setCreatingRow(true)}
+                        onClick={ () => table.setCreatingRow(true) }
                     >
                         Добавить игрока
                     </Button>
                     <Button
                         variant="contained"
-                        color={"warning"}
-                        onClick={handleReSync}
+                        color={ "warning" }
+                        onClick={ handleReSync }
                     >
                         Синхронизировать
                     </Button>
@@ -279,26 +279,26 @@ export function MRTPlayers() {
                 <>
                     <DialogTitle
                         variant="h5"
-                        component={"div"}
-                        textAlign={"center"}
+                        component={ "div" }
+                        textAlign={ "center" }
                     >
                         Добавить игрока
                     </DialogTitle>
                     <DialogContent
-                        sx={{
+                        sx={ {
                             display: "flex",
                             flexDirection: "column",
                             gap: "1rem",
-                        }}
+                        } }
                     >
-                        {internalEditComponents}{" "}
-                        {/* or render custom edit components here */}
+                        { internalEditComponents }{ " " }
+                        {/* or render custom edit components here */ }
                     </DialogContent>
                     <DialogActions>
                         <MRT_EditActionButtons
                             variant="text"
-                            table={table}
-                            row={row}
+                            table={ table }
+                            row={ row }
                         />
                     </DialogActions>
                 </>
@@ -329,7 +329,7 @@ export function MRTPlayers() {
         // },
     });
 
-    return <MaterialReactTable table={table} />;
+    return <MaterialReactTable table={ table } />;
 }
 
 const RowActionMenu = ({
@@ -341,45 +341,45 @@ const RowActionMenu = ({
     row: MRT_Row<PrismaPlayer_>;
     table: MRT_TableInstance<PrismaPlayer_>;
 }) => [
-    // <MenuItem divider key={0}>
-    //     <Stack direction={"row"} width={"100%"} gap={2}>
-    //         <EditTwoTone className="mx-1" />
-    //         <Box flexGrow={1}> Изменить</Box>
-    //     </Stack>
-    // </MenuItem>,
-    // <MRT_ActionMenuItem
-    //     table={table}
-    //     label="Edit"
-    //     icon={<EditTwoTone />}
-    //     key={"delete_" + row.original.name}
-    // />,
-    <MenuItem
-        key={"delete_" + row.original.name}
-        onClick={async () =>
-            await handleDeletePlayer({
-                player_id: row.original.id,
-            }).then(closeMenu)
-        }
-    >
-        <Stack direction={"row"} width={"100%"} gap={2}>
-            <DeleteTwoTone className="mx-1" />
-            <Box flexGrow={1}> Удалить</Box>
-        </Stack>
-    </MenuItem>,
+        // <MenuItem divider key={0}>
+        //     <Stack direction={"row"} width={"100%"} gap={2}>
+        //         <EditTwoTone className="mx-1" />
+        //         <Box flexGrow={1}> Изменить</Box>
+        //     </Stack>
+        // </MenuItem>,
+        // <MRT_ActionMenuItem
+        //     table={table}
+        //     label="Edit"
+        //     icon={<EditTwoTone />}
+        //     key={"delete_" + row.original.name}
+        // />,
+        <MenuItem
+            key={ "delete_" + row.original.name }
+            onClick={ async () =>
+                await handleDeletePlayer({
+                    player_id: row.original.id,
+                }).then(closeMenu)
+            }
+        >
+            <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
+                <DeleteTwoTone className="mx-1" />
+                <Box flexGrow={ 1 }> Удалить</Box>
+            </Stack>
+        </MenuItem>,
 
-    <MenuItem
-        key={"delete_" + row.original.name}
-        onClick={() => {
-            console.clear();
-            console.info("player: ", row.original);
-            closeMenu();
-        }}
-    >
-        <Stack direction={"row"} width={"100%"} gap={2}>
-            <ShareTwoTone /> Консоль
-        </Stack>
-    </MenuItem>,
-];
+        <MenuItem
+            key={ "delete_" + row.original.name }
+            onClick={ () => {
+                console.clear();
+                console.info("player: ", row.original);
+                closeMenu();
+            } }
+        >
+            <Stack direction={ "row" } width={ "100%" } gap={ 2 }>
+                <ShareTwoTone /> Консоль
+            </Stack>
+        </MenuItem>,
+    ];
 const openDeleteConfirmModal = async (row: MRT_Row<PrismaPlayer_>) => {
     if (window.confirm(`Уверены что хотите удалить ${row.original.name}`)) {
         await deletePlayer({ id: row.original.id });
@@ -400,48 +400,48 @@ export function PlayerControlDetail({
 }) {
     const { original } = row;
     // const { _count, events, profile, ticket, name } = original;
-    const tt = useTicket();
+    // const tt = useTicket();
     const [limit, setLimit] = useState(10);
     return (
         <Box
-            sx={{
+            sx={ {
                 display: "flex",
                 gap: ".5rem",
                 border: "1px solid",
                 width: "100%",
                 flexGrow: 1,
                 p: 1,
-            }}
+            } }
         >
             <ButtonGroup variant="contained">
                 <Button
                     variant="contained"
-                    onClick={async () =>
-                        await tt.openTicket(original, { limit })
-                    }
+                    // onClick={async () =>
+                    //     await tt.openTicket(original, { limit })
+                    // }
                     startIcon={
-                        <Icon path={mdiFileCertificateOutline} size={1} />
+                        <Icon path={ mdiFileCertificateOutline } size={ 1 } />
                     }
                 >
                     открыть абонемент
                 </Button>
                 <ToggleButtonGroup
-                    value={limit}
+                    value={ limit }
                     exclusive
-                    onChange={(e, value) => setLimit(value)}
-                    sx={{
+                    onChange={ (e, value) => setLimit(value) }
+                    sx={ {
                         [`& .Mui-selected`]: {
                             bgcolor: "#be470f",
                         },
-                    }}
+                    } }
                 >
-                    <ToggleButton value={2} selected={limit === 2}>
+                    <ToggleButton value={ 2 } selected={ limit === 2 }>
                         2
                     </ToggleButton>
-                    <ToggleButton value={5} selected={limit === 5}>
+                    <ToggleButton value={ 5 } selected={ limit === 5 }>
                         5
                     </ToggleButton>
-                    <ToggleButton value={10} selected={limit === 10}>
+                    <ToggleButton value={ 10 } selected={ limit === 10 }>
                         10
                     </ToggleButton>
                 </ToggleButtonGroup>
@@ -449,8 +449,8 @@ export function PlayerControlDetail({
             <Button
                 variant="contained"
                 color="error"
-                onClick={async () => await tt.removeTicket(original)}
-                endIcon={<Icon path={mdiFileRemoveOutline} size={1} />}
+                // onClick={async () => await tt.removeTicket(original)}
+                endIcon={ <Icon path={ mdiFileRemoveOutline } size={ 1 } /> }
             >
                 закрыть
             </Button>

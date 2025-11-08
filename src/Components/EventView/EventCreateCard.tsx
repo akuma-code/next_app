@@ -126,16 +126,16 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                 <CardActions>
                     <ButtonGroup
                         variant="contained"
-                        size="small"
+                        size="medium"
                         component={ Stack }
                         direction={ "row" }
-                        fullWidth
+                        width={ 300 }
                     >
-                        <Button onClick={ handleSubmitEvent } color="primary">
+                        <Button onClick={ handleSubmitEvent } color="primary" fullWidth>
                             Сохранить
                         </Button>
                         {/* <Button onClick={ () => handleDelete(event.id) } disabled={ isChanging }>Удалить</Button> */ }
-                        <Button color="info" href={ "/events/" }>
+                        <Button color="info" href={ "/events/" } fullWidth>
                             Назад
                         </Button>
                     </ButtonGroup>
@@ -167,7 +167,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                             alignItems={ "start" }
                             spacing={ 2 }
                         >
-                            <FormControl color="info">
+                            {/* <FormControl color="info">
                                 <FormLabel sx={ { gap: 1 } } component={ Stack }>
                                     <TextField
                                         InputProps={ {
@@ -222,7 +222,7 @@ export const EventCreateCard: React.FC<CreateEventCardProps> = () => {
                                         Черновик: { ev.isDraft ? "on " : "off" }
                                     </ToggleButton>
                                 </FormLabel>
-                            </FormControl>
+                            </FormControl> */}
                         </Stack>
 
                         <Autocomplete

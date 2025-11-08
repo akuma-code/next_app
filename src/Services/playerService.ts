@@ -13,7 +13,7 @@ type DeletePayload = {
 };
 
 
-export type PlayerWithTicket = Prisma.PlayerGetPayload<{ select: { id: true, name: true, ticket: true, createdAt: true } }>
+export type PlayerWithTicket = Prisma.PlayerGetPayload<{ select: { id: true, name: true, createdAt: true } }>
 export async function createPlayer(name: string) {
   try {
     const p = await prisma.player.create({ data: { name }, select: { id: true, name: true } })
@@ -120,7 +120,6 @@ export async function GET_PLAYERS(params: Prisma.PlayerFindManyArgs, config?: Pi
       id: true,
       name: true,
       pair: true,
-      ticket: true,
       profile: true,
       events: true,
       createdAt: true,
@@ -136,7 +135,7 @@ export async function getPlayers() {
     events: true,
     info: false,
     profile: false,
-    ticket: true
+
   } satisfies Prisma.PlayerInclude;
 
 
@@ -144,14 +143,12 @@ export async function getPlayers() {
     const p = await prisma.player.findMany({
       // include: {
 
-      //   ticket: true,
-      //   _count: { select: { events: true } },
+      //         //   _count: { select: { events: true } },
       // },
       select: {
         id: true,
         name: true,
         pair: true,
-        ticket: true,
         profile: true,
         events: true,
         createdAt: true,
@@ -189,7 +186,7 @@ export async function getOnePlayer(id: number) {
         profileId: true,
         name: true,
         id: true,
-        ticket: true
+
       },
     });
     return p;
@@ -206,7 +203,6 @@ export async function getPlayerEvents(id: number, config = { take: 100 }) {
       select: {
         id: true,
         name: true,
-        ticket: true,
         events: {
           select: {
             date_formated: true,
