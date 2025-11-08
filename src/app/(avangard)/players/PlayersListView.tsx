@@ -28,7 +28,7 @@ export function PlayersListView({
         id: number;
         name: string;
         _count: { events: number };
-        ticket: Prisma.TicketGetPayload<true> | null;
+        // ticket: Prisma.TicketGetPayload<true> | null;
     }[];
     selected: string | null;
 }) {
@@ -77,7 +77,7 @@ export function PlayersListView({
     }
     return (
         <Box
-            sx={{
+            sx={ {
                 borderRadius: 4,
                 border: "3px solid",
                 borderColor: "primary.dark",
@@ -86,20 +86,20 @@ export function PlayersListView({
                 maxHeight: "60vh",
                 maxWidth: 370,
                 p: 1,
-            }}
+            } }
         >
             <Autocomplete
                 autoHighlight
                 fullWidth
-                ListboxProps={{ sx: { width: 250 } }}
+                ListboxProps={ { sx: { width: 250 } } }
                 freeSolo
-                value={search}
-                onInputChange={handleSearch}
-                options={search_options}
-                renderInput={(params) => (
+                value={ search }
+                onInputChange={ handleSearch }
+                options={ search_options }
+                renderInput={ (params) => (
                     <TextField
-                        {...params}
-                        slotProps={{
+                        { ...params }
+                        slotProps={ {
                             input: {
                                 ...params.InputProps,
                                 sx: {
@@ -107,24 +107,24 @@ export function PlayersListView({
                                     borderTopRightRadius: 8,
                                 },
                             },
-                        }}
+                        } }
                         variant="filled"
                         placeholder="Введите имя игрока"
-                        sx={{ textAlign: "center" }}
-                        // sx={{ borderTopLeftRadius: 3 }}
+                        sx={ { textAlign: "center" } }
+                    // sx={{ borderTopLeftRadius: 3 }}
                     />
-                )}
-                clearIcon={<Icon path={mdiCloseOutline} size={1} />}
+                ) }
+                clearIcon={ <Icon path={ mdiCloseOutline } size={ 1 } /> }
                 clearOnEscape
-                sx={{ px: 1 }}
-                noOptionsText={"Совпадений не найдено"}
-                isOptionEqualToValue={({ name, id }, value) => id === value.id}
-                getOptionLabel={(o) => (typeof o === "string" ? o : o.name)}
-                loading={filtered_list.length === 0}
-                loadingText={"Нет совпадений"}
-                // renderOption={(props, o) => o.name}
+                sx={ { px: 1 } }
+                noOptionsText={ "Совпадений не найдено" }
+                isOptionEqualToValue={ ({ name, id }, value) => id === value.id }
+                getOptionLabel={ (o) => (typeof o === "string" ? o : o.name) }
+                loading={ filtered_list.length === 0 }
+                loadingText={ "Нет совпадений" }
+            // renderOption={(props, o) => o.name}
             />
-            <Box minWidth={330} maxHeight={"46vh"} overflow={"auto"}>
+            <Box minWidth={ 330 } maxHeight={ "46vh" } overflow={ "auto" }>
                 {/* <ListSubheader
                     // component={Typography}
                     sx={{
@@ -142,7 +142,7 @@ export function PlayersListView({
 
                 <List
                     dense
-                    sx={{
+                    sx={ {
                         mx: 1,
                         pr: 2,
                         [`& .MuiListItemButton-root.Mui-selected`]: {
@@ -152,54 +152,54 @@ export function PlayersListView({
                         bgcolor: "beige",
                         transition: "all .4s ease",
                         position: "relative",
-                    }}
+                    } }
                 >
-                    {filtered_list.map((p, idx) => (
+                    { filtered_list.map((p, idx) => (
                         <ListItemButton
-                            id={p.id.toString()}
-                            key={p.name + idx}
-                            href={getHref(p.id)}
-                            LinkComponent={Link}
-                            sx={{
+                            id={ p.id.toString() }
+                            key={ p.name + idx }
+                            href={ getHref(p.id) }
+                            LinkComponent={ Link }
+                            sx={ {
                                 gap: 1,
                                 borderRadius: 2,
-                            }}
-                            selected={p.id === Number(selected)}
+                            } }
+                            selected={ p.id === Number(selected) }
                         >
                             <ListItemText
                                 color="primary.dark"
-                                primaryTypographyProps={{
+                                primaryTypographyProps={ {
                                     variant: "body1",
                                     textAlign: "left",
-                                }}
-                                primary={p.name}
-                                secondary={
-                                    p.ticket
-                                        ? `абонемент: ${p.ticket.amount}/${p.ticket.limit}`
-                                        : "оплата по факту"
-                                }
-                                secondaryTypographyProps={{
+                                } }
+                                primary={ p.name }
+                                // secondary={
+                                //     p.ticket
+                                //         ? `абонемент: ${p.ticket.amount}/${p.ticket.limit}`
+                                //         : "оплата по факту"
+                                // }
+                                secondaryTypographyProps={ {
                                     fontWeight: "bold",
                                     // marginInlineStart: 2,
                                     color: "#000407",
                                     fontSize: 14,
                                     textAlign: "left",
-                                }}
-                                // sx={{ flexGrow: 1 }}
+                                } }
+                            // sx={{ flexGrow: 1 }}
                             />
                             <Stack
-                                direction={"row"}
-                                justifyContent={"end"}
-                                flexGrow={1}
-                                gap={1}
-                                // width={"fit-content"}
+                                direction={ "row" }
+                                justifyContent={ "end" }
+                                flexGrow={ 1 }
+                                gap={ 1 }
+                            // width={"fit-content"}
                             >
-                                {p._count.events > 0 && (
+                                { p._count.events > 0 && (
                                     <Tooltip title="Кол-во тренировок">
                                         <Avatar
                                             variant="rounded"
                                             sizes="small"
-                                            sx={{
+                                            sx={ {
                                                 maxHeight: 28,
                                                 maxWidth: 28,
                                                 // ml: 1,
@@ -208,15 +208,15 @@ export function PlayersListView({
                                                 color: "primary.dark",
                                                 boxShadow:
                                                     "0 2px 6px 0 rgba(0,0,0,0.08)",
-                                            }}
+                                            } }
                                         >
-                                            {p._count.events || ""}
+                                            { p._count.events || "" }
                                         </Avatar>
                                     </Tooltip>
-                                )}
+                                ) }
                             </Stack>
                         </ListItemButton>
-                    ))}
+                    )) }
                 </List>
             </Box>
         </Box>
