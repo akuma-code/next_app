@@ -344,35 +344,7 @@ export const EventView: React.FC<Eventinfo> = ({
                                 </SelectPairButton>
                             </Stack>
                         ) : null
-                            // (
-                            //     // p.ticket && (
-                            //     <Avatar
-                            //         variant="rounded"
-                            //         sx={ {
-                            //             bgcolor: "lightblue",
-                            //             color: "primary.dark",
-                            //             width: 72,
-                            //             height: 42,
-                            //             gap: 1,
-                            //             display: "flex",
-                            //         } }
-                            //     >
-                            //         <Icon
-                            //             className="flex-grow"
-                            //             path={ mdiCurrencyRub }
-                            //             size={ 1 }
-                            //         />
 
-                            //         {/* <Box
-                            //             flexGrow={ 1 }
-                            //             minWidth={ 18 }
-                            //             textAlign={ "center" }
-                            //         >
-                            //             { p.ticket.amount }
-                            //         </Box> */}
-                            //     </Avatar>
-                            // )
-                            // // ) 
                         }
                     </ListItem>
                 )) }

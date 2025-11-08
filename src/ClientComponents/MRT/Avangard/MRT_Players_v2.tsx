@@ -3,7 +3,7 @@
 // import { useTicket } from "@/Hooks/MRT/Ticket/useTicket";
 import { MRT_Player, useMRTPlayersSelect } from "@/Hooks/useGetEventPlayers";
 import { reSyncPlayers } from "@/Services/events/db_event";
-import { deletePlayer, EditPlayer } from "@/Services/playerService";
+import { createPlayer, deletePlayer, EditPlayer } from "@/Services/playerService";
 import { PrismaPlayer_ } from "@/Types";
 import { restorePairs, restorePlayers } from "@/app/api/backup/events/actions";
 import {
@@ -70,6 +70,12 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
         isPending,
         status,
     } = useUpdatePlayerMrt();
+
+    const { data: new_palyer,
+        isPending: isCreatingPlayer,
+        isError: isCreatingError,
+        mutateAsync: create_player
+    } = useCreatePlayer()
     const [errors, setErrors] = useState<Record<string, string | undefined>>(
         {}
     );
@@ -254,6 +260,11 @@ const MRT_Players_v2 = ({ preload }: { preload?: PrismaPlayer_[] }) => {
                 : undefined,
 
         // manualPagination: true,
+        onCreatingRowSave: ({ exitCreatingMode, row, values }) => {
+            const { name } = values
+            create_player(name)
+            exitCreatingMode()
+        },
         onEditingRowSave: (props) => {
             const { exitEditingMode, row, values } = props;
             const { name } = values;
@@ -378,6 +389,13 @@ export function useResyncPlayes() {
         mutationFn: () => update_database(),
         gcTime: 60 * 1000,
     });
+}
+
+export function useCreatePlayer() {
+    return useMutation({
+        mutationKey: ['create player'],
+        mutationFn: (name: string) => createPlayer(name)
+    })
 }
 
 export default MRT_Players_v2;

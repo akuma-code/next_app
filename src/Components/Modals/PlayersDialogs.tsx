@@ -2,7 +2,6 @@
 
 import { _log } from "@/Helpers/helpersFns";
 import { useConnectPlayer } from "@/Hooks/MRT/Events/useConnectPlayer";
-import { connectOnePlayer } from "@/Services/eventService";
 import { createPlayer, getPlayers } from "@/Services/playerService";
 import {
     mdiCheck,
@@ -22,41 +21,13 @@ import {
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 
 async function getData() {
     return await getPlayers();
 }
 
-async function connectPlayerHandler(
-    player: {
-        name: string;
-        id: number;
-        // ticket: {
-        //     uuid: string;
-        //     amount: number;
-        //     eAt: string;
-        //     event_dates: string[];
-        //     playerId: number;
-        // } | null;
-    },
-    eventId: number
-) {
-    // if (player.ticket) {
-    //     const e = await getEventById(eventId.toString());
-    //     if (!e) return;
-    //     const { cost } = e;
-    //     if (cost) {
-    //         await connectOnePlayer(eventId, player.id);
-    //         // await ticketCountMinus(
-    //         //     { uuid: player.ticket.uuid },
-    //         //     { amount: cost, event_date: e.date_formated }
-    //         // );
-    //     }
-    // } else {
-    // }
-    await connectOnePlayer(eventId, player.id);
-}
+
 
 export const ConnectDialog = ({
     event,
@@ -79,7 +50,7 @@ export const ConnectDialog = ({
 }) => {
     // const [open, { on, off }] = useToggle(show);
     const eventIds = event.players.map((p) => p.id);
-
+    const [filter, setFilter] = useState("");
     const q = useQuery({
         queryKey: ["players", "all"],
         queryFn: getData,
@@ -87,24 +58,17 @@ export const ConnectDialog = ({
         select: (data) => data.filter((d) => !eventIds.includes(d.id)),
         enabled: show,
     });
-
+    const filtered = useMemo(() => {
+        if (filter === "") return q.data
+        return q.data?.filter(d => d.name.toLowerCase().includes(filter))
+    }, [filter, q.data])
     const { mutateAsync: add, isPending } = useConnectPlayer(event.id);
-    const [isConnecting, start] = useTransition();
 
     if (q.error) {
         _log(q.error);
         return <Box>Fetch players error</Box>;
     }
-    const handleConnect =
-        (
-            p: { name: string; id: number; ticket: any | null },
-            eventId: number
-        ) =>
-            () =>
-                start(async () => {
-                    await connectPlayerHandler(p, eventId);
-                });
-    // if (q.isLoading) return <LinearProgress />;
+
     return (
         <Dialog open={ show } onClose={ onClose }>
             <DialogTitle justifyContent={ "center" } textAlign={ "center" }>
@@ -113,7 +77,7 @@ export const ConnectDialog = ({
                     alignContent={ "center" }
                     alignItems={ "center" }
                 >
-                    { isConnecting ? (
+                    { isPending ? (
                         <Icon
                             path={ mdiRadioboxIndeterminateVariant }
                             size={ 1 }
@@ -122,18 +86,20 @@ export const ConnectDialog = ({
                     ) : (
                         "Добавить"
                     ) }
+                    <TextField
+                        value={ filter }
+                        onChange={ (e) => setFilter(e.target.value) }
+                        size="small"
+                        margin="none"
+                    />
                 </Box>
             </DialogTitle>
             <DialogContent>
                 <Stack direction={ "column" } spacing={ 1 } justifyContent={ "left" }>
-                    { q.data?.map((p) => (
+                    { filtered?.map((p) => (
                         <Button
                             disabled={ isPending }
-                            // endIcon={
-                            //     p.ticket ? (
-                            //         <Icon path={ mdiBitcoin } size={ 1 } />
-                            //     ) : null
-                            // }
+
                             sx={ {
                                 textAlign: "left",
                                 justifyContent: "space-between",
@@ -174,7 +140,15 @@ export const CreatePlayerDialog = ({
     };
 
     const onCreate = () => {
+
         start(async () => {
+            const words = player.name.split(" ")
+            const name = words.map(w => w
+                .split("")
+                .map((s, idx) => idx === 0 ? s.toUpperCase() : s)
+                .join(""))
+                .join(" ")
+
             await createPlayer(player.name);
         });
         handleClose();
@@ -208,6 +182,7 @@ export const CreatePlayerDialog = ({
                         }
                         variant="outlined"
                         label={ `Введите имя` }
+                        margin="none"
                     />
                     <ButtonGroup
                         sx={ { pt: 0 } }

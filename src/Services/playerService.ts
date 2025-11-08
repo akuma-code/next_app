@@ -16,7 +16,7 @@ type DeletePayload = {
 export type PlayerWithTicket = Prisma.PlayerGetPayload<{ select: { id: true, name: true, createdAt: true } }>
 export async function createPlayer(name: string) {
   try {
-    const p = await prisma.player.create({ data: { name }, select: { id: true, name: true } })
+    const p = await prisma.player.create({ data: { name } })
     return p
 
     // return await prisma.player.create({ data: { name } })
