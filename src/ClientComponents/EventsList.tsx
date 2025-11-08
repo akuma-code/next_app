@@ -17,7 +17,7 @@ export type IEvent_Front = Prisma.EventGetPayload<{
     select: {
         id: true;
         date_formated: true;
-        players: { select: { id: true; name: true; ticket: true } };
+        players: { select: { id: true; name: true } };
         pairs: true;
         cost: true;
         title: true;
@@ -49,7 +49,7 @@ export const EventsList: React.FC<{
         select: {
             id: true;
             date_formated: true;
-            players: { select: { id: true; name: true; ticket: true } };
+            players: { select: { id: true; name: true } };
             pairs: true;
             cost: true;
             title: true;
@@ -101,41 +101,41 @@ export const EventsList: React.FC<{
 
     return (
         <Box
-            maxWidth={{ sm: 450, md: 1 }}
-            bgcolor={"background.paper"}
-            sx={{
+            maxWidth={ { sm: 450, md: 1 } }
+            bgcolor={ "background.paper" }
+            sx={ {
                 borderRadius: 6,
                 border: "2px solid black",
                 textAlign: "center",
-            }}
-            position={"relative"}
-            p={2}
+            } }
+            position={ "relative" }
+            p={ 2 }
         >
-            {canSee && <QuickEventCreate />}
+            { canSee && <QuickEventCreate /> }
 
             <Grid2
                 container
-                spacing={1}
-                maxHeight={{ sm: "60vh", md: "70vh" }}
-                sx={{
+                spacing={ 1 }
+                maxHeight={ { sm: "60vh", md: "70vh" } }
+                sx={ {
                     //      pt: 1,
                     // pr: 1,
                     overflowY: "auto",
-                }}
+                } }
                 // offset={{ md: 1, xs: 1 }}
-                size={"auto"}
-                columns={12}
+                size={ "auto" }
+                columns={ 12 }
             >
-                {filtered.map((e) => (
-                    <Grid2 key={e.id} size={{ xs: 8, md: 3 }} spacing={1}>
+                { filtered.map((e) => (
+                    <Grid2 key={ e.id } size={ { xs: 8, md: 3 } } spacing={ 1 }>
                         <EventViewCard
-                            event={e}
-                            title={dm(e.date_formated)}
-                            subtitle={dayjs().year().toString()}
-                            description={dayWeek(e.date_formated)}
+                            event={ e }
+                            title={ dm(e.date_formated) }
+                            subtitle={ dayjs().year().toString() }
+                            description={ dayWeek(e.date_formated) }
                         />
                     </Grid2>
-                ))}
+                )) }
             </Grid2>
         </Box>
     );

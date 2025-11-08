@@ -296,7 +296,7 @@ export async function fetchAndCreatePlayers() {
 function makeArgs_upsertPlayer(p: PrismaPlayer_) {
     try {
 
-        const { id, events, name, ticket, pair } = p
+        const { id, events, name, pair } = p
 
         // const connect_events = events ? events.map(e => ({ date_formated: e.date_formated })) : []
         // const connect_ticket = ticket ? { playerId: ticket.playerId } : undefined
@@ -315,17 +315,9 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
                 name,
                 events: { connectOrCreate: valid_events },
                 // pair: { connectOrCreate: validPairs },
-                ticket: ticket ? {
 
-                    create: {
-                        amount: ticket.amount,
-                        limit: ticket.limit,
-                        eAt: ticket.eAt,
-                        event_dates: { set: ticket.event_dates },
-                        uuid: ticket.uuid
-                    }
 
-                } : {}
+
 
             },
 
@@ -334,17 +326,7 @@ function makeArgs_upsertPlayer(p: PrismaPlayer_) {
                 id,
                 events: { connectOrCreate: valid_events },
                 // pair: { connectOrCreate: validPairs },
-                ticket: ticket ? {
 
-                    create: {
-                        amount: ticket.amount,
-                        limit: ticket.limit,
-                        eAt: ticket.eAt,
-                        event_dates: { set: ticket.event_dates },
-                        uuid: ticket.uuid
-                    }
-
-                } : {}
             },
             select: { id: true, name: true, ticket: true, events: { select: { date_formated: true } } }
         })

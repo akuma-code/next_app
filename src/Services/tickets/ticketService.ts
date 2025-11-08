@@ -72,3 +72,13 @@ export async function deleteTicket(args: Prisma.TicketDeleteArgs) {
 }
 
 
+export async function updateTicket(args: Prisma.TicketUpdateArgs) {
+    try {
+        const t = prisma.ticket.update(args)
+        return t
+    } catch (error) {
+        console.error(error)
+        throw new Error("Ticket update error")
+    }
+}
+

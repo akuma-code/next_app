@@ -8,10 +8,10 @@ export async function NavbarProvider(props: { children: React.ReactNode }) {
     // if (!user) return null;
     const session = await auth();
     return (
-        <SessionProvider session={session}>
+        <SessionProvider session={ session }>
             <MiniDrawer />
-            <Container maxWidth="md" sx={{ p: 1 }}>
-                {props.children}
+            <Container maxWidth="lg" sx={ { p: 1 } }>
+                { props.children }
             </Container>
         </SessionProvider>
     );

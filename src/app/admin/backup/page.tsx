@@ -5,7 +5,9 @@ import { sync_events_pairs } from "@/Services/events/db_event";
 import { readFileFn } from "@/Services/fs/data_service";
 import {
     getImportantData,
+    restoreEventsAndPlayers,
     restorePlayers,
+    saveEventsAndPlayers,
 } from "@/app/api/backup/events/actions";
 import { Box } from "@mui/material";
 const saveToDisk = process.env.DB_SAVE_TO_HDD === "1";
@@ -17,16 +19,16 @@ export default async function BackupPage({
     return (
         <MrtBoundary>
             <Box
-                display={"flex"}
-                flexDirection={"row"}
-                m={2}
+                display={ "flex" }
+                flexDirection={ "row" }
+                m={ 2 }
                 // maxWidth={800}
-                gap={2}
-                flexWrap={"wrap"}
+                gap={ 2 }
+                flexWrap={ "wrap" }
             >
                 <ClientBackup />
                 <DescriptionButtonQuery
-                    action={getImportantData.bind(null, { saveToDisk })}
+                    action={ getImportantData.bind(null, { saveToDisk }) }
                     title="RestorePlayers"
                     description="Сохранение данных по игрокам, тренировкам и парам на диск [без айдишников, только строки]"
                 />
@@ -36,22 +38,32 @@ export default async function BackupPage({
                     description="Прочитать данные из data.json"
                 /> */}
                 <DescriptionButtonQuery
-                    action={fetchServerBackup.bind(null)}
+                    action={ fetchServerBackup.bind(null) }
                     title="Вытянуть данные c сервера"
                     description="ссылка: https://akumadev-git-auth-akuma-codes-projects.vercel.app/api/backup"
                 />
                 <DescriptionButtonQuery
-                    action={sync_events_pairs.bind(null)}
+                    action={ sync_events_pairs.bind(null) }
                     title="Вытянуть events и создать их"
                 />
                 <DescriptionButtonQuery
-                    action={fetchServer.bind(null)}
+                    action={ fetchServer.bind(null) }
                     title="/api/db/events"
                 />
                 <DescriptionButtonQuery
-                    action={fetchSS}
+                    action={ fetchSS }
                     title="Fetch Google"
                     description="https://script.google.com/macros/s/AKfycbz2FrlUXh0JNFIqc9VT2OBSLUvUdGhRq-6RZ775asudiBdT8DGfS8q5hZ8QIlZCeyfVnA/exec"
+                />
+                <DescriptionButtonQuery
+                    action={ saveEventsAndPlayers.bind(null) }
+                    title="Сохранить игроков и ивенты"
+                    description="Сохраниение после миграции"
+                />
+                <DescriptionButtonQuery
+                    action={ restoreEventsAndPlayers.bind(null) }
+                    title="Восстановить игроков и ивенты"
+                    description="Восстановление после миграции"
                 />
             </Box>
         </MrtBoundary>

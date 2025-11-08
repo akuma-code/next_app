@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo } from "react";
 
-import { IEvent_Front, avatarColor } from "@/ClientComponents/EventsList";
+import { avatarColor } from "@/ClientComponents/EventsList";
 import { EventButtons } from "@/ClientComponents/SpeedButtons/EventSpeedDial";
 import SelectPairButton from "@/ClientComponents/UI/SelectPairButton";
 import { _dbDateParser } from "@/Helpers/dateFuncs";
@@ -18,11 +18,9 @@ import {
     mdiAccountMinus,
     mdiAccountPlusOutline,
     mdiCardAccountDetailsOutline,
-    mdiCash,
-    mdiCurrencyRub,
     mdiDatabaseOff,
     mdiEye,
-    mdiEyeOff,
+    mdiEyeOff
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
@@ -43,10 +41,10 @@ import {
     ToggleButton,
     Typography,
 } from "@mui/material";
-import { usePathname, useRouter } from "next/navigation";
-import { ConnectDialog, CreatePlayerDialog } from "../Modals/PlayersDialogs";
 import { Prisma } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { ConnectDialog, CreatePlayerDialog } from "../Modals/PlayersDialogs";
 
 interface Pair {
     id: number;
@@ -59,7 +57,7 @@ export type TEvent = Prisma.EventGetPayload<{
     select: {
         id: true;
         date_formated: true;
-        players: { select: { id: true; name: true; ticket: true } };
+        players: { select: { id: true; name: true } };
         pairs: true;
         cost: true;
         title: true;
@@ -137,8 +135,8 @@ export const EventView: React.FC<Eventinfo> = ({
     };
     return (
         <Box
-            {...boxProps}
-            sx={{
+            { ...boxProps }
+            sx={ {
                 borderRadius: 4,
                 minWidth: 330,
                 width: "fit-content",
@@ -149,134 +147,134 @@ export const EventView: React.FC<Eventinfo> = ({
                 bgcolor: "background.paper",
                 boxShadow: "0 2px 6px 0 rgba(0,0,0,0.08)",
                 ...boxProps?.sx,
-            }}
-            m={2}
-            p={1}
+            } }
+            m={ 2 }
+            p={ 1 }
         >
             <Box
-                sx={{
+                sx={ {
                     display: "flex",
                     p: 1,
                     alignItems: "center",
                     gap: 1,
                     justifyContent: "space-between",
                     // position: "relative",
-                }}
+                } }
             >
-                {canSee && (
+                { canSee && (
                     <EventButtons>
                         <SpeedDialAction
-                            tooltipOpen={!isMobile}
+                            tooltipOpen={ !isMobile }
                             tooltipPlacement="right"
                             icon={
-                                <Icon path={mdiAccountPlusOutline} size={0.8} />
+                                <Icon path={ mdiAccountPlusOutline } size={ 0.8 } />
                             }
-                            tooltipTitle={"Создать"}
-                            onClick={toggleCreate}
+                            tooltipTitle={ "Создать" }
+                            onClick={ toggleCreate }
                         />
 
                         <SpeedDialAction
-                            tooltipOpen={!isMobile}
+                            tooltipOpen={ !isMobile }
                             tooltipPlacement="right"
                             icon={
                                 <Icon
-                                    path={mdiCardAccountDetailsOutline}
-                                    size={0.8}
+                                    path={ mdiCardAccountDetailsOutline }
+                                    size={ 0.8 }
                                 />
                             }
-                            onClick={() => router.push(pathname + "/edit")}
-                            tooltipTitle={"Редактировать"}
+                            onClick={ () => router.push(pathname + "/edit") }
+                            tooltipTitle={ "Редактировать" }
                         />
                         <SpeedDialAction
-                            tooltipOpen={!isMobile}
+                            tooltipOpen={ !isMobile }
                             tooltipPlacement="right"
-                            icon={<Icon path={mdiDatabaseOff} size={0.8} />}
-                            onClick={handleDeleteEvent}
-                            tooltipTitle={"Удалить"}
+                            icon={ <Icon path={ mdiDatabaseOff } size={ 0.8 } /> }
+                            onClick={ handleDeleteEvent }
+                            tooltipTitle={ "Удалить" }
                         />
                     </EventButtons>
-                )}
+                ) }
                 <Box>
-                    <Typography variant="h6" component={"div"} fontSize={20}>
-                        {title}
+                    <Typography variant="h6" component={ "div" } fontSize={ 20 }>
+                        { title }
                     </Typography>
-                    <Typography variant="body1" fontSize={18}>
-                        {dd_mm_yyyy}
+                    <Typography variant="body1" fontSize={ 18 }>
+                        { dd_mm_yyyy }
                     </Typography>
                 </Box>
                 <Avatar
                     variant="rounded"
-                    sx={{
+                    sx={ {
                         mt: 0.5,
                         mb: 0,
                         bgcolor: avatarColor(_count?.players || 0),
-                    }}
+                    } }
                 >
-                    {_count?.players}
+                    { _count?.players }
                 </Avatar>
             </Box>
-            {canSee && (
+            { canSee && (
                 <Divider flexItem>
                     <ButtonGroup variant="contained" fullWidth>
                         <Button
-                            onClick={handleOpenConnect}
+                            onClick={ handleOpenConnect }
                             color="warning"
                             // size="small"
                             // variant="contained"
-                            startIcon={<SupervisorAccountIcon />}
+                            startIcon={ <SupervisorAccountIcon /> }
                         >
                             Добавить
                         </Button>
                         <ToggleButton
                             color="warning"
                             // sx={{ bgcolor: "grey" }}
-                            value={showRemove}
-                            onClick={removeControl.toggle}
-                            selected={showRemove}
+                            value={ showRemove }
+                            onClick={ removeControl.toggle }
+                            selected={ showRemove }
                         >
                             <Icon
-                                path={showRemove ? mdiEye : mdiEyeOff}
-                                size={1}
+                                path={ showRemove ? mdiEye : mdiEyeOff }
+                                size={ 1 }
                             />
                         </ToggleButton>
                     </ButtonGroup>
                 </Divider>
-            )}
+            ) }
             <List>
-                {player_pairs.map((p) => (
+                { player_pairs.map((p) => (
                     <ListItem
-                        key={p.id}
-                        sx={{
+                        key={ p.id }
+                        sx={ {
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "center",
                             minHeight: "2.5rem",
                             gap: 1,
-                        }}
+                        } }
                         divider
                         disablePadding
                     >
-                        {showRemove ? (
+                        { showRemove ? (
                             <Button
                                 aria-label="remove player"
                                 // title="remove"
-                                onClick={async () =>
+                                onClick={ async () =>
                                     await disconnectPlayer(p.id, id)
                                 }
                                 // edge="start"
                                 color="error"
-                                sx={{
+                                sx={ {
                                     bgcolor: "darkgray",
                                     flexGrow: 0,
                                     display: "flex",
                                     p: 1,
                                     fontSize: "1rem",
-                                }}
+                                } }
                             >
                                 <Icon
-                                    path={mdiAccountMinus}
-                                    size={0.8}
+                                    path={ mdiAccountMinus }
+                                    size={ 0.8 }
                                     className="flex-grow text-center"
                                 />
                             </Button>
@@ -284,55 +282,55 @@ export const EventView: React.FC<Eventinfo> = ({
                             <ListItemAvatar>
                                 <Avatar
                                     variant="rounded"
-                                    sx={{
-                                        width: 30,
+                                    sx={ {
+                                        width: 35,
                                         height: 30,
                                         bgColor: "primary.light",
                                         // p: 0.5,
                                         color: "primary.main",
                                         // fontSize: 15,
-                                    }}
+                                    } }
                                 >
-                                    {name_letters(p.name)}
+                                    { name_letters(p.name) }
                                 </Avatar>
                             </ListItemAvatar>
-                        )}
+                        ) }
                         <ListItemText
-                            primary={p.name}
-                            primaryTypographyProps={{ textAlign: "left" }}
+                            primary={ p.name }
+                            primaryTypographyProps={ { textAlign: "left" } }
                             secondary={
                                 p.pair && master_(p.pair.firstPlayerId)?.name
                             }
-                            secondaryTypographyProps={{
+                            secondaryTypographyProps={ {
                                 fontWeight: "bold",
                                 bgcolor: "primary.light",
                                 textAlign: "right",
                                 color: "primary.contrastText",
                                 // px: 1,
                                 // py: 0.3,
-                            }}
+                            } }
                         />
-                        {showRemove ? (
+                        { showRemove ? (
                             <Stack
-                                direction={"row"}
-                                spacing={1}
-                                alignSelf={"center"}
+                                direction={ "row" }
+                                spacing={ 1 }
+                                alignSelf={ "center" }
                             >
                                 <SelectPairButton>
                                     <MenuItem
-                                        onClick={() => handleDeletePair(p.pair)}
+                                        onClick={ () => handleDeletePair(p.pair) }
                                     >
                                         <Avatar
-                                            sx={{ bgcolor: "warning.light" }}
+                                            sx={ { bgcolor: "warning.light" } }
                                         >
                                             X
                                         </Avatar>
                                     </MenuItem>
 
-                                    {masters.map((m) => (
+                                    { masters.map((m) => (
                                         <MenuItem
-                                            key={m.name}
-                                            onClick={() =>
+                                            key={ m.name }
+                                            onClick={ () =>
                                                 handlePairChange(
                                                     m,
                                                     p.id,
@@ -340,49 +338,51 @@ export const EventView: React.FC<Eventinfo> = ({
                                                 )
                                             }
                                         >
-                                            {m.name}
+                                            { m.name }
                                         </MenuItem>
-                                    ))}
+                                    )) }
                                 </SelectPairButton>
                             </Stack>
-                        ) : (
-                            p.ticket && (
-                                <Avatar
-                                    variant="rounded"
-                                    sx={{
-                                        bgcolor: "lightblue",
-                                        color: "primary.dark",
-                                        width: 72,
-                                        height: 42,
-                                        gap: 1,
-                                        display: "flex",
-                                    }}
-                                >
-                                    <Icon
-                                        className="flex-grow"
-                                        path={mdiCurrencyRub}
-                                        size={1}
-                                    />
+                        ) : null
+                            // (
+                            //     // p.ticket && (
+                            //     <Avatar
+                            //         variant="rounded"
+                            //         sx={ {
+                            //             bgcolor: "lightblue",
+                            //             color: "primary.dark",
+                            //             width: 72,
+                            //             height: 42,
+                            //             gap: 1,
+                            //             display: "flex",
+                            //         } }
+                            //     >
+                            //         <Icon
+                            //             className="flex-grow"
+                            //             path={ mdiCurrencyRub }
+                            //             size={ 1 }
+                            //         />
 
-                                    <Box
-                                        flexGrow={1}
-                                        minWidth={18}
-                                        textAlign={"center"}
-                                    >
-                                        {p.ticket.amount}
-                                    </Box>
-                                </Avatar>
-                            )
-                        )}
+                            //         {/* <Box
+                            //             flexGrow={ 1 }
+                            //             minWidth={ 18 }
+                            //             textAlign={ "center" }
+                            //         >
+                            //             { p.ticket.amount }
+                            //         </Box> */}
+                            //     </Avatar>
+                            // )
+                            // // ) 
+                        }
                     </ListItem>
-                ))}
+                )) }
             </List>
             <ConnectDialog
-                show={showConnect}
-                onClose={connectAction.off}
-                event={event}
+                show={ showConnect }
+                onClose={ connectAction.off }
+                event={ event }
             />
-            <CreatePlayerDialog show={showCreate} onClose={createAction.off} />
+            <CreatePlayerDialog show={ showCreate } onClose={ createAction.off } />
         </Box>
     );
 };

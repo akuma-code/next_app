@@ -11,6 +11,7 @@ import {
     mdiMicrosoftXboxControllerMenu,
     mdiPassport,
     mdiTableTennis,
+    mdiWalletOutline
 } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
@@ -46,6 +47,11 @@ const routes = [
         text: "Управление",
         path: mdiPassport,
     },
+    {
+        to: '/tickets',
+        text: 'Абонемент',
+        path: mdiWalletOutline
+    }
 ];
 const NavBar = ({
     device,
@@ -75,14 +81,14 @@ export function NavigationBar() {
     return (
         <AppBar
             position="static"
-            color={"primary"}
-            elevation={4}
-            sx={{ mb: 1 }}
+            color={ "primary" }
+            elevation={ 4 }
+            sx={ { mb: 1 } }
         >
-            {/* <NavBar device={device} /> */}
-            {/* {NavBar({ device: device })} */}
-            <Suspense fallback={<div>loading...</div>}>
-                {/* {isMobile ? <MobileBar /> : <PcBar />} */}
+            {/* <NavBar device={device} /> */ }
+            {/* {NavBar({ device: device })} */ }
+            <Suspense fallback={ <div>loading...</div> }>
+                {/* {isMobile ? <MobileBar /> : <PcBar />} */ }
                 <NavBarSelector />
             </Suspense>
         </AppBar>
@@ -104,40 +110,40 @@ function MobileBar() {
     };
     const isOpen = Boolean(anchorEl);
     return (
-        <Toolbar variant="regular" sx={{ display: "flex" }}>
-            <IconButton onClick={handleOpen}>
+        <Toolbar variant="regular" sx={ { display: "flex" } }>
+            <IconButton onClick={ handleOpen }>
                 <Icon
-                    path={mdiMicrosoftXboxControllerMenu}
-                    size={1.5}
+                    path={ mdiMicrosoftXboxControllerMenu }
+                    size={ 1.5 }
                     color="whitesmoke"
                 />
             </IconButton>
 
             <Drawer
-                anchor={"left"}
-                open={show}
-                onClose={handleClose}
+                anchor={ "left" }
+                open={ show }
+                onClose={ handleClose }
                 closeAfterTransition
             >
                 <List>
-                    {routes.map((r) => (
+                    { routes.map((r) => (
                         <ListItem
-                            key={r.to}
+                            key={ r.to }
                             divider
                             alignItems="center"
-                            sx={{ gap: 2 }}
+                            sx={ { gap: 2 } }
                         >
-                            <NavLink href={r.to}>{r.text}</NavLink>
+                            <NavLink href={ r.to }>{ r.text }</NavLink>
                             <ListItemIcon color="warning.main">
-                                <Icon path={r.path} size={1} />
+                                <Icon path={ r.path } size={ 1 } />
                             </ListItemIcon>
                         </ListItem>
-                    ))}
+                    )) }
                 </List>
-                {session.status === "authenticated" ? (
+                { session.status === "authenticated" ? (
                     <ExitButton />
                 ) : (
-                    <Box p={1}>
+                    <Box p={ 1 }>
                         <LinkMui href="/api/auth/login" color="#0e225a">
                             Войти
                         </LinkMui>
@@ -145,13 +151,13 @@ function MobileBar() {
                             Зарегестрироваться
                         </LinkMui>
                     </Box>
-                )}
+                ) }
             </Drawer>
             <Box
-                gap={1}
-                display={"flex"}
-                flexGrow={1}
-                justifyContent={"space-between"}
+                gap={ 1 }
+                display={ "flex" }
+                flexGrow={ 1 }
+                justifyContent={ "space-between" }
             >
                 <NavMenu />
             </Box>
@@ -163,29 +169,29 @@ function PcBar() {
     const session = useSession();
 
     return (
-        <Toolbar variant="regular" sx={{ display: "flex" }}>
-            <Breadcrumbs separator={"/"} sx={{ color: "white", flexGrow: 2 }}>
-                {routes.map((r) => (
-                    <Link href={r.to} key={r.to}>
+        <Toolbar variant="regular" sx={ { display: "flex" } }>
+            <Breadcrumbs separator={ "/" } sx={ { color: "white", flexGrow: 2 } }>
+                { routes.map((r) => (
+                    <Link href={ r.to } key={ r.to }>
                         <Typography
                             variant="body2"
-                            color={"whitesmoke"}
-                            key={r.to}
+                            color={ "whitesmoke" }
+                            key={ r.to }
                         >
-                            {r.text}
+                            { r.text }
                         </Typography>
                     </Link>
-                ))}
+                )) }
             </Breadcrumbs>
-            <Box gap={1} display={"flex"} flexGrow={1} justifyContent={"end"}>
+            <Box gap={ 1 } display={ "flex" } flexGrow={ 1 } justifyContent={ "end" }>
                 <NavMenu />
-                {session.status === "authenticated" ? (
+                { session.status === "authenticated" ? (
                     <ExitButton />
                 ) : (
                     <LinkMui href="/api/auth/login" color="#00ffaa">
                         Войти
                     </LinkMui>
-                )}
+                ) }
             </Box>
         </Toolbar>
     );

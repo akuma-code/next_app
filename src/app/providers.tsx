@@ -12,7 +12,6 @@ import { NavigationItem, NavigationPageItem } from "@toolpad/core";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import weekday from "dayjs/plugin/weekday";
-import { SessionProvider, useSession } from "next-auth/react";
 import React, { useMemo, useState } from "react";
 import { getDesignTokens } from "../theme";
 dayjs.extend(weekday);
@@ -74,7 +73,7 @@ export const queryFetch: QueryFunction = async ({ queryKey }) => {
 };
 
 export const ColorModeContext = React.createContext({
-    toggleColorMode: () => {},
+    toggleColorMode: () => { },
 });
 // const T = createTheme({ ...getDesignTokens("light") }, ruRU);
 
@@ -114,17 +113,17 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     return (
         // <SessionProvider session={session.data} refetchOnWindowFocus>
         <LocalizationProvider
-            dateAdapter={AdapterDayjs}
+            dateAdapter={ AdapterDayjs }
             adapterLocale="ru"
-            localeText={locale}
+            localeText={ locale }
         >
             <AppRouterCacheProvider>
-                <ColorModeContext.Provider value={colorMode}>
-                    <ThemeProvider theme={akuTheme}>
-                        {/* <ProviderToolbar> */}
+                <ColorModeContext.Provider value={ colorMode }>
+                    <ThemeProvider theme={ akuTheme }>
+                        {/* <ProviderToolbar> */ }
                         <CssBaseline enableColorScheme />
-                        {children}
-                        {/* </ProviderToolbar> */}
+                        { children }
+                        {/* </ProviderToolbar> */ }
                     </ThemeProvider>
                 </ColorModeContext.Provider>
             </AppRouterCacheProvider>

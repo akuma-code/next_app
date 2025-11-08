@@ -1,6 +1,6 @@
 'use client'
 
-import { QueryClientProvider, HydrationBoundary, dehydrate, QueryClient, QueryFunction } from "@tanstack/react-query"
+import { QueryClientProvider, HydrationBoundary, dehydrate, QueryClient, QueryFunction, MutationCache } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 export const queryFetch: QueryFunction = async ({ queryKey }) => {
     const fetch_url = queryKey[0];
@@ -19,7 +19,10 @@ const queryClient = new QueryClient({
             // queryFn: queryFetch,
             gcTime: 5000
         }
-    }
+    },
+    mutationCache: new MutationCache({
+        onSuccess: () => { queryClient.invalidateQueries() }
+    })
 })
 export function MrtBoundary({ children }: { children: React.ReactNode }) {
 

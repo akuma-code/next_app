@@ -11,7 +11,7 @@ export default function useGetEventPlayers(date?: string) {
     const [players, setPlayers] = useState<{
         id: number;
         name: string;
-        ticket?: any
+        // ticket?: any
         createdAt: Date;
         updatedAt: Date;
     }[]>([])
@@ -68,7 +68,7 @@ export function useMRTPlayers(config?: { take?: number, skip?: number }) {
 export type MRT_Player = {
     name: string;
     id: number;
-    hasTicket: boolean;
+    // hasTicket: boolean;
     events_count: number;
 
 };
@@ -77,7 +77,7 @@ const s_filter = (data: PrismaPlayer_[]) => {
     return data.map((p) => ({
         name: p.name,
         id: p.id,
-        hasTicket: !!p.ticket,
+        // hasTicket: !!p.ticket,
         events_count: p._count.events,
     })) as MRT_Player[];
 }

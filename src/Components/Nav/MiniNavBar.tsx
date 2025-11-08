@@ -32,6 +32,7 @@ import {
     mdiSecurity,
     mdiThemeLightDark,
     mdiTrophyVariantOutline,
+    mdiWalletOutline,
 } from "@mdi/js";
 import Link from "next/link";
 import {
@@ -57,6 +58,7 @@ const SegmentIcon = {
     users: <Icon size={ 1 } path={ mdiAccountCogOutline } />,
     backup: <Icon size={ 1 } path={ mdiDatabaseCogOutline } />,
     compare: <Icon size={ 1 } path={ mdiDatabaseSyncOutline } />,
+    tickets: <Icon size={ 1 } path={ mdiWalletOutline } />,
 };
 
 type NavItem = {
@@ -69,6 +71,7 @@ const routes: NavItem[] = [
     { href: "/events", label: "Тренировки", icon: SegmentIcon.events },
     { href: "/players", label: "Игроки", icon: SegmentIcon.players },
     { href: "/charts", label: "Сводка", icon: SegmentIcon.stats },
+    { href: "/tickets", label: "Абонемент", icon: SegmentIcon.tickets },
 ];
 const admin_routes: NavItem[] = [
     {
