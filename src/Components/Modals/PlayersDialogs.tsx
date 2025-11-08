@@ -149,7 +149,7 @@ export const CreatePlayerDialog = ({
                 .join(""))
                 .join(" ")
 
-            await createPlayer(player.name);
+            await createPlayer(name);
         });
         handleClose();
     };
