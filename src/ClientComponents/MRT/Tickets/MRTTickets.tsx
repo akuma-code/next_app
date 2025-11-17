@@ -1,22 +1,21 @@
 'use client'
 
-
-import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs"
-import { DTO_PwT, useEditTicket, useGetPlayersWithTickets, useTicketActions } from "@/Hooks/MRT/Ticket/useTicket"
-import { useToggle } from "@/Hooks/useToggle"
-import { deleteTicket } from "@/Services/tickets/ticketService"
-import { Delete, EditTwoTone, ExtensionOutlined } from "@mui/icons-material"
-import { Button, ButtonGroup, darken, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormLabel, ListItemIcon, MenuItem, TextField, useTheme } from "@mui/material"
-import { DatePicker } from "@mui/x-date-pickers"
-import { Prisma } from "@prisma/client"
-import { useMutation } from "@tanstack/react-query"
-import dayjs, { Dayjs } from "dayjs"
-import { MaterialReactTable, MRT_ColumnDef, MRT_TableOptions, useMaterialReactTable } from "material-react-table"
-import { MRT_Localization_RU } from "material-react-table/locales/ru"
-import { useMemo, useState } from "react"
-import OpenTicketDialog from "./OpenTicketDialog"
-import Icon from "@mdi/react"
-import { mdiCheck, mdiClose } from "@mdi/js"
+import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs";
+import { DTO_PwT, useEditTicket, useGetPlayersWithTickets, useTicketActions } from "@/Hooks/MRT/Ticket/useTicket";
+import { useToggle } from "@/Hooks/useToggle";
+import { deleteTicket } from "@/Services/tickets/ticketService";
+import { mdiCheck, mdiClose } from "@mdi/js";
+import Icon from "@mdi/react";
+import { Delete, EditTwoTone, ExtensionOutlined } from "@mui/icons-material";
+import { Box, Button, ButtonGroup, darken, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormLabel, ListItemIcon, MenuItem, TextField, useTheme } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
+import { Prisma } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import dayjs, { Dayjs } from "dayjs";
+import { MaterialReactTable, MRT_ColumnDef, MRT_TableOptions, MRT_VisibilityState, useMaterialReactTable } from "material-react-table";
+import { MRT_Localization_RU } from "material-react-table/locales/ru";
+import { useMemo, useState } from "react";
+import OpenTicketDialog from "./OpenTicketDialog";
 export type Prisma_PlayerWithTicket = Prisma.PlayerGetPayload<{
     select: {
         id: true,
@@ -31,7 +30,15 @@ export type Prisma_PlayerWithTicket = Prisma.PlayerGetPayload<{
 export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithTicket[] }) {
     const [showExtend, ext] = useToggle(false)
     const [ticket_open, to_control] = useToggle(false);
-
+    const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>({
+        name: true,
+        status: false,
+        rest: true,
+        countFrom: true,
+        deposit: false,
+        events_count: false,
+        price: false,
+    });
     const [player, setPlayer] = useState<DTO_PwT | null>(null);
     const query = useGetPlayersWithTickets()
     const { mutate: remove } = useDeleteTicket()
@@ -49,68 +56,98 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
     const baseBackgroundColor =
         theme.palette.mode === 'dark'
             ? 'rgba(3, 44, 43, 1)'
-            : 'rgba(153, 186, 230, 1)';
+            : 'rgba(163, 238, 166, 1)';
     const COLS: MRT_ColumnDef<DTO_PwT>[] = useMemo(
         () => [
+            // {
+            //     id: 'actions',
+            //     header: 'Действия',
+            //     columnDefType: 'display', //turns off data column features like sorting, filtering, etc.
+            //     enableColumnOrdering: true, //but you can turn back any of those features on if you want like this
+            //     Cell: ({ row }) => (
+            //         <Button onClick={ () => { } }>Send Email</Button>
+            //     ),
+            // },
             {
-                // id: 1,
+                // id: '1',
                 header: 'Имя',
                 accessorKey: "name",
-                grow: 0,
+                grow: 1,
                 maxSize: 200,
-                enableEditing: false
+                enableEditing: false,
+                Cell({ row }) {
+                    return row.original.status === 'open'
+                        ? <Box sx={ { display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center' } }>
+                            { row.original.name }
+                            <Icon path={ mdiCheck } size={ 1 } color={ 'green' } />
+                        </Box>
+                        : <Box sx={ { display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center' } }>
+                            { row.original.name }
+                            <Icon path={ mdiClose } size={ 1 } color={ 'white' } />
+                        </Box>
+                }
             },
             {
-
+                // id: '2',
                 header: 'Статус',
                 accessorKey: "status",
-                grow: 0,
+                grow: 1,
                 Cell({ row }) {
                     return row.original.status === 'open'
                         ? <Icon path={ mdiCheck } size={ 1 } color={ 'green' } />
                         : <Icon path={ mdiClose } size={ 1 } color={ 'white' } />
                 },
                 enableEditing: false,
-                maxSize: 60
+                muiTableBodyCellProps: {
+                    align: 'center',
+                    sx: {
+                        borderRight: '1px solid black'
+                    }
+                },
+                muiTableHeadCellProps: {
+                    align: 'center',
+                    sx: {
+                        borderRight: '1px solid black'
+                    }
+                },
+                // maxSize: 60,
+                size: 40
             },
             {
-                // id: 3,
+                // id: '3',
                 header: 'Осталось',
                 accessorKey: "rest",
-                maxSize: 80,
-                enableEditing: false
+                maxSize: 100,
+                enableEditing: false,
+                grow: 1
             },
             {
-                // id: 6,
+                // id: '4',
                 header: 'Дата начала',
                 accessorKey: "countFrom",
-                grow: 0,
+                grow: 2,
                 Cell({ row }) {
                     return _dbDateParser(row.original.countFrom).dd_mmmm
                 },
             },
             {
-                // id: 2,
+                // id: '5',
                 header: 'Депозит',
                 accessorKey: "deposit",
                 grow: 0,
                 maxSize: 100
             },
             {
-                // id: 4,
+                // id: '6',
                 header: 'Кол-во',
                 accessorKey: "events_count",
                 maxSize: 50,
                 grow: 0,
-                // muiTableBodyCellProps: {
-                //     align: 'justify',
-                //     sx: { fontWeight: 'bold', color: 'white' }
-                // },
                 enableEditing: false,
 
             },
             {
-                // id: 5,
+                // id: '7',
                 header: 'Цена',
                 accessorKey: "price",
                 grow: 0,
@@ -131,35 +168,50 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
         {
             data: query.data || [],
             columns: COLS,
-            layoutMode: 'semantic',
+            layoutMode: 'grid',
             initialState: {
 
             },
+
             state: {
                 isLoading: query.isLoading,
+                columnVisibility
 
             },
+            onColumnVisibilityChange: setColumnVisibility,
             localization: MRT_Localization_RU,
             enableRowActions: true,
             editDisplayMode: 'modal',
+
             defaultColumn: {
                 muiTableBodyCellProps: {
                     align: 'left',
                     sx: {
                         fontWeight: 'bold',
+                        borderRight: '1px solid black'
                         // color: 'white',
                     }
                 },
                 muiTableHeadCellProps: {
-                    align: 'left'
+                    align: 'left',
+                    sx: {
+                        borderRight: '1px solid black'
+                    }
                 },
                 maxSize: 100
             },
             defaultDisplayColumn: {
                 muiTableBodyCellProps: {
-                    align: 'left',
-                    sx: { fontWeight: 'bold', color: 'white', backgroundColor: '#a1a1a1' }
+                    align: 'right',
+                    sx: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        backgroundColor: baseBackgroundColor,
+                        borderRight: '1px solid black'
+                    }
                 },
+                maxSize: 100,
+                grow: true
             },
             muiTableContainerProps: {
 
@@ -170,13 +222,16 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
                     backgroundColor: row.original.status === 'closed' ? '#d46422c5' : 'inherit',
                     color: 'white'
 
-                })
+                }),
+
 
             }),
             muiTableBodyProps: {
+
                 sx: {
                     backgroundColor: darken(baseBackgroundColor, 0.1),
                     color: darken(baseBackgroundColor, 1),
+
                 }
                 // sx: (theme) => ({
                 //     '& tr > td':
@@ -203,7 +258,9 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
             mrtTheme: (theme) => ({
                 baseBackgroundColor: baseBackgroundColor,
                 draggingBorderColor: theme.palette.secondary.main,
+                menuBackgroundColor: theme.palette.info.light
             }),
+            // icons:{},
             muiTablePaperProps: {
                 elevation: 3,
                 color: 'secondary',
@@ -270,6 +327,7 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
                     Удалить
                 </MenuItem>,
             ],
+
             renderEditRowDialogContent(props) {
 
                 const { name, price, deposit } = props.row.original;
