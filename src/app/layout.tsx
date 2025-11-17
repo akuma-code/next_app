@@ -1,12 +1,9 @@
-import { auth } from "@/auth/auth";
 import { MrtBoundary } from "@/ClientComponents/MRT/MrtBoundary";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import React from "react";
 import "./globals.css";
-import { NavbarProvider } from "./nav-provider";
 import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
@@ -21,22 +18,17 @@ const RootLayout: React.FC<{
     // modalEvent: React.ReactNode;
     // slot: React.ReactNode;
 }> = async ({ children }) => {
-    // console.clear();
-    // const session = await auth();
     return (
         <html lang="ru" data-toolpad-color-scheme="light">
-            <body className={inter.className}>
-                {/* <SessionProvider session={session} refetchOnWindowFocus={true}> */}
+            <body className={ inter.className }>
+
                 <MrtBoundary>
                     <Providers>
-                        <NavbarProvider>
-                            {children}
+                        { children }
 
-                            <SpeedInsights />
-                        </NavbarProvider>
+                        <SpeedInsights />
                     </Providers>
                 </MrtBoundary>
-                {/* </SessionProvider> */}
             </body>
         </html>
     );

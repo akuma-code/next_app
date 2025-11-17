@@ -79,6 +79,7 @@ export const ColorModeContext = React.createContext({
 
 const locale = ruRU.components.MuiLocalizationProvider.defaultProps.localeText;
 export default function Providers({ children }: { children: React.ReactNode }) {
+
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
     // const { device, isMobile, isDesktop } = useMediaDetect();
     const savedmode: PaletteMode = prefersDarkMode ? "dark" : "light";

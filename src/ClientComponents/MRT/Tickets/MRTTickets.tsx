@@ -5,8 +5,8 @@ import { _dbDateParser, _formated_date } from "@/Helpers/dateFuncs"
 import { DTO_PwT, useEditTicket, useGetPlayersWithTickets, useTicketActions } from "@/Hooks/MRT/Ticket/useTicket"
 import { useToggle } from "@/Hooks/useToggle"
 import { deleteTicket } from "@/Services/tickets/ticketService"
-import { AccountCircle, Delete, EditTwoTone, ExtensionOutlined } from "@mui/icons-material"
-import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormLabel, ListItemIcon, MenuItem, TextField } from "@mui/material"
+import { Delete, EditTwoTone, ExtensionOutlined } from "@mui/icons-material"
+import { Button, ButtonGroup, darken, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormLabel, ListItemIcon, MenuItem, TextField, useTheme } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
 import { Prisma } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
@@ -14,9 +14,9 @@ import dayjs, { Dayjs } from "dayjs"
 import { MaterialReactTable, MRT_ColumnDef, MRT_TableOptions, useMaterialReactTable } from "material-react-table"
 import { MRT_Localization_RU } from "material-react-table/locales/ru"
 import { useMemo, useState } from "react"
-import ExtendTicketDialog from "./ExtendTicketDialog"
 import OpenTicketDialog from "./OpenTicketDialog"
-import { darken, lighten, useTheme } from '@mui/material';
+import Icon from "@mdi/react"
+import { mdiCheck, mdiClose } from "@mdi/js"
 export type Prisma_PlayerWithTicket = Prisma.PlayerGetPayload<{
     select: {
         id: true,
@@ -56,16 +56,22 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
                 // id: 1,
                 header: 'Имя',
                 accessorKey: "name",
-                grow: 1,
+                grow: 0,
                 maxSize: 200,
                 enableEditing: false
             },
             {
-                // id: 2,
-                header: 'Депозит',
-                accessorKey: "deposit",
+
+                header: 'Статус',
+                accessorKey: "status",
                 grow: 0,
-                maxSize: 100
+                Cell({ row }) {
+                    return row.original.status === 'open'
+                        ? <Icon path={ mdiCheck } size={ 1 } color={ 'green' } />
+                        : <Icon path={ mdiClose } size={ 1 } color={ 'white' } />
+                },
+                enableEditing: false,
+                maxSize: 60
             },
             {
                 // id: 3,
@@ -73,6 +79,22 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
                 accessorKey: "rest",
                 maxSize: 80,
                 enableEditing: false
+            },
+            {
+                // id: 6,
+                header: 'Дата начала',
+                accessorKey: "countFrom",
+                grow: 0,
+                Cell({ row }) {
+                    return _dbDateParser(row.original.countFrom).dd_mmmm
+                },
+            },
+            {
+                // id: 2,
+                header: 'Депозит',
+                accessorKey: "deposit",
+                grow: 0,
+                maxSize: 100
             },
             {
                 // id: 4,
@@ -95,25 +117,7 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
                 maxSize: 100,
 
             },
-            {
-                // id: 6,
-                header: 'Дата начала',
-                accessorKey: "countFrom",
-                grow: 0,
-                Cell({ row }) {
-                    return _dbDateParser(row.original.countFrom).dd_mmmm
-                },
-            },
-            {
 
-                header: 'Статус',
-                accessorKey: "status",
-                grow: 0,
-                Cell({ row }) {
-                    return row.original.status === 'open' ? 'Активен' : "Закончился"
-                },
-                enableEditing: false
-            },
 
 
 
@@ -127,6 +131,7 @@ export function MRT_PlayersWithTicket({ preload }: { preload: Prisma_PlayerWithT
         {
             data: query.data || [],
             columns: COLS,
+            layoutMode: 'semantic',
             initialState: {
 
             },
@@ -361,20 +366,7 @@ function CustomExtendDialog({ player, show, onClose }: { player: DTO_PwT | null,
             <DialogTitle variant="h4"> { player?.name || "Никто не выбран" }</DialogTitle>
             <DialogContent>
                 <FormControl sx={ { display: 'flex', gap: 2, minWidth: 300 } }>
-                    {/* <FormLabel sx={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 } }>
-                        Игрок
-                        <TextField select
-                            fullWidth
-                            value={ selected } onChange={ (e) => setSelected(e.target.value) }
 
-                            variant='filled'
-                        >
-                            <MenuItem disabled>Выбрать игрока</MenuItem>
-                            { pwt.map(p =>
-                                <MenuItem value={ p.id } key={ p.id }>{ p.name }</MenuItem>
-                            ) }
-                        </TextField>
-                    </FormLabel> */}
                     <FormLabel sx={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } }>
                         Сумма
                         <TextField value={ amount } onChange={ (e) => setAmount(+e.target.value) } size='small' sx={ { maxWidth: 120 } } />

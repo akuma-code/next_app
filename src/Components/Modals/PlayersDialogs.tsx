@@ -136,12 +136,9 @@ export const CreatePlayerDialog = ({
     show: boolean;
     onClose: () => void;
 }) => {
-    // const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [player, setPlayer] = useState({ name: "" });
     const [isCreating, start] = useTransition();
-    // const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
+
 
     const handleClose = () => {
         onClose();
@@ -157,15 +154,12 @@ export const CreatePlayerDialog = ({
                 .join(""))
                 .join(" ")
 
-            await createPlayer(name);
+            await createPlayer(name).then(() => setPlayer({ name: "" }))
         });
         handleClose();
     };
 
-    // function handleReset() {
-    //     setState(prev => input)
-    // }
-    // const show = Boolean(anchorEl);
+
     return (
         <Dialog open={ show } onClose={ handleClose }>
             <DialogTitle>Создать игрока</DialogTitle>

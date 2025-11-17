@@ -16,10 +16,12 @@ type DeletePayload = {
 export type PlayerWithTicket = Prisma.PlayerGetPayload<{ select: { id: true, name: true, createdAt: true } }>
 export async function createPlayer(name: string) {
   try {
-    const p = await prisma.player.create({ data: { name } })
+    const [lastPlayer] = await prisma.player.findMany({ take: -1, select: { id: true } })
+    const lastId = lastPlayer.id || 0
+    const p = await prisma.player.create({ data: { name, id: lastId + 1 } })
     return p
 
-    // return await prisma.player.create({ data: { name } })
+
   } catch (error) {
     _log("___Create error: \n", error);
     throw error
