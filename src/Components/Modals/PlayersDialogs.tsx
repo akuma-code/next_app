@@ -60,7 +60,7 @@ export const ConnectDialog = ({
     });
     const filtered = useMemo(() => {
         if (filter === "") return q.data
-        return q.data?.filter(d => d.name.toLowerCase().includes(filter))
+        return q.data?.filter(d => d.name.toLowerCase().includes(filter.toLowerCase()))
     }, [filter, q.data])
     const { mutateAsync: add, isPending } = useConnectPlayer(event.id);
 
@@ -76,16 +76,24 @@ export const ConnectDialog = ({
                     component={ Stack }
                     alignContent={ "center" }
                     alignItems={ "center" }
+
                 >
-                    { isPending ? (
-                        <Icon
-                            path={ mdiRadioboxIndeterminateVariant }
-                            size={ 1 }
-                            spin={ 1 }
-                        />
-                    ) : (
-                        "Добавить"
-                    ) }
+                    <Box
+                        component={ Stack }
+                        alignContent={ "center" }
+                        alignItems={ "center" }
+                        direction={ 'row' }
+                    >
+
+                        Добавить { isPending ? (
+                            <Icon
+                                path={ mdiRadioboxIndeterminateVariant }
+                                size={ 1 }
+                                spin={ 1 }
+                            />
+                        ) : null
+                        }
+                    </Box>
                     <TextField
                         value={ filter }
                         onChange={ (e) => setFilter(e.target.value) }
