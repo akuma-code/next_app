@@ -6,6 +6,7 @@ import { createPlayer, getPlayers } from "@/Services/playerService";
 import {
     mdiCheck,
     mdiClose,
+    mdiPlusCircleOutline,
     mdiRadioboxIndeterminateVariant
 } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -18,6 +19,7 @@ import {
     DialogTitle,
     Stack,
     TextField,
+    Typography,
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -83,17 +85,21 @@ export const ConnectDialog = ({
                         alignContent={ "center" }
                         alignItems={ "center" }
                         direction={ 'row' }
-                    >
+                        gap={ 2 }
 
-                        Добавить { isPending ? (
-                            <Icon
-                                path={ mdiRadioboxIndeterminateVariant }
-                                size={ 1 }
-                                spin={ 1 }
-                            />
-                        ) : null
-                        }
+                    >
+                        <Typography variant="button" fontWeight={ 'bold' }>
+
+                            Добавить
+                        </Typography>
+                        <Icon
+                            path={ mdiPlusCircleOutline }
+                            size={ 1 }
+                            spin={ isPending ? 1 : 0 }
+                        />
+
                     </Box>
+
                     <TextField
                         value={ filter }
                         onChange={ (e) => setFilter(e.target.value) }

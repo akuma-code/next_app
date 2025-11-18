@@ -10,12 +10,13 @@ export default async function tollbarLayout({
     return (
         <Container
             // slots={{ toolbar: EventsPagePageToolbar }}
-            maxWidth={"md"}
+            maxWidth={ "md" }
             suppressHydrationWarning
-            sx={{ pl: "2rem" }}
+            sx={ { p: "1rem" } }
+
         >
-            {children}
-            {/* <Box maxWidth={{ md: "lg", xs: 350 }}></Box> */}
+            { children }
+            {/* <Box maxWidth={{ md: "lg", xs: 350 }}></Box> */ }
         </Container>
     );
 }

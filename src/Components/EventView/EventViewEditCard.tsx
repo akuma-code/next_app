@@ -118,7 +118,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
                         size="small"
                         component={ Stack }
                         direction={ "row" }
-                        fullWidth
+
                     >
                         <Button
                             onClick={ handleSubmitEvent }
@@ -132,7 +132,7 @@ export const EventViewEditCard: React.FC<EditEventCardProps> = ({
                         >
                             Удалить
                         </Button>
-                        <Button color="info" href={ "/avangard/events/" + id }>
+                        <Button color="info" href={ "/events/" + id }>
                             Назад
                         </Button>
                     </ButtonGroup>

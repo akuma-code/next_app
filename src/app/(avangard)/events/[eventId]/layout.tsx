@@ -2,7 +2,7 @@ import { getEvents } from "@/Services/events/eventActions";
 import { Metadata } from "next";
 
 export default function Layout(c: { children: React.ReactNode }) {
-    return <div>{c.children}</div>;
+    return <>{ c.children }</>;
 }
 export async function generateStaticParams() {
     const events = await getEvents({ select: { id: true } });

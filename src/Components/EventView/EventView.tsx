@@ -241,7 +241,7 @@ export const EventView: React.FC<Eventinfo> = ({
                 </Divider>
             ) }
             <List>
-                { player_pairs.map((p) => (
+                { player_pairs.sort((a, b) => a.name.localeCompare(b.name)).map((p) => (
                     <ListItem
                         key={ p.id }
                         sx={ {

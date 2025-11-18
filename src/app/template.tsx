@@ -10,7 +10,7 @@ async function RootTemplate({
 }) {
     const session = await auth()
     return (
-        <SessionProvider session={ session } refetchOnWindowFocus={ true }>
+        <SessionProvider session={ session } >
 
             <MiniDrawer />
             <Container maxWidth="lg" sx={ { p: 1 } }>
